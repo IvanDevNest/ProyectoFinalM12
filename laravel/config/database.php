@@ -92,6 +92,11 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'options' => extension_loaded('pdo_mysql') ? [
+            PDO::MYSQL_ATTR_SSL_KEY => env('MYSQL_ATTR_SSL_KEY', '/var/lib/mysql/client-key.pem'),
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
+         ] : [],
+         
 
     ],
 
