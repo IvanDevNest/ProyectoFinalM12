@@ -18,10 +18,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 // Rutas para ReviewController
-Route::apiResource('reviews', 'App\Http\Controllers\ReviewController');
+Route::apiResource('reviews', 'App\Http\Controllers\Api\ReviewController');
 
 // Rutas para RouteController
-Route::apiResource('routes', 'App\Http\Controllers\RouteController');
+Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 
 // Rutas para MessageController
-Route::apiResource('messages', 'App\Http\Controllers\MessageController');
+Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');

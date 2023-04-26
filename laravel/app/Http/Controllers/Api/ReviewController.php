@@ -33,8 +33,8 @@ class ReviewController extends Controller
     {
         $validatedData = $request->validate([
             'score' => 'required|integer|between:1,5',
-            'id_reviewed' => 'required|unique:reviews',
-            'id_author' => 'required|unique:reviews',
+            'id_reviewed' => 'required',
+            'id_author' => 'required',
         ]);
 
         $review = Review::create($validatedData);
