@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class RouteStyle extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'type',
     ];

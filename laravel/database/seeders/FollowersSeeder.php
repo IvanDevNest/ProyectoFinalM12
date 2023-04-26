@@ -21,8 +21,8 @@ class FollowersSeeder extends Seeder
 
         // Crear seguidores aleatorios para cada usuario
         foreach ($users as $user) {
-            // Seleccionar 5 usuarios aleatorios que no sean el usuario actual
-            $followed_users = $users->whereNotIn('id', [$user->id])->random(5);
+            // Seleccionar 3 usuarios aleatorios que no sean el usuario actual
+            $followed_users = $users->whereNotIn('id', [$user->id])->random(3);
 
             // Seguir a cada usuario seleccionado
             foreach ($followed_users as $followed_user) {
