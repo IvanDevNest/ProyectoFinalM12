@@ -25,3 +25,6 @@ Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 
 // Rutas para MessageController
 Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');
+
+// Rutas para RegisterController
+Route::apiResource('register', 'App\Http\Controllers\Api\RegisterController');
