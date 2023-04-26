@@ -13,6 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
+
+
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_reviewed');
@@ -21,6 +23,7 @@ return new class extends Migration
             $table->foreign('id_author')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedTinyInteger('score')->unsigned()->check('score >= 1 and score <= 5');
             $table->timestamps();
+            $table->unique(['id_reviewed', 'id_author']);
 
         });
     }
