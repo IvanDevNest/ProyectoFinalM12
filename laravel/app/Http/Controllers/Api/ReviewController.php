@@ -31,11 +31,17 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validatedData = $request->validate([
             'score' => 'required|integer|between:1,5',
             'id_reviewed' => 'required',
             'id_author' => 'required',
         ]);
+
+        // Verificar si el usuario está tratando de evaluarse a sí mismo
+        if ($validatedData['id_reviewed'] == $validatedData['id_author']) {
+            return response()->json(['error' => 'No puedes evaluarte a ti mismo'], 400);
+        }
 
         $review = Review::create($validatedData);
 
