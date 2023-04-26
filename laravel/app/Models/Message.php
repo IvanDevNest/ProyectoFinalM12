@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $fillable = [
-        'name',
-        'hora',
+        'date',
         'text',
-        'data',
-        'archivo'
+        'attached_file',
     ];
     public function user()
     {
