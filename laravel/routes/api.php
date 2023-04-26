@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+// Rutas para ReviewController
+Route::apiResource('reviews', 'App\Http\Controllers\ReviewController');
+
+// Rutas para RouteController
+Route::apiResource('routes', 'App\Http\Controllers\RouteController');
+
+// Rutas para MessageController
+Route::apiResource('messages', 'App\Http\Controllers\MessageController');
