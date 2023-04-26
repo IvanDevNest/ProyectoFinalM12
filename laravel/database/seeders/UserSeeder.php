@@ -48,10 +48,7 @@ class UserSeeder extends Seeder
        $admin = new User([
            'name'      => config('admin.name'),
            'email'     => config('admin.email'),
-           'id_role' => 4,
            'password'  => Hash::make(config('admin.password')),
-           'lastname' => 'leonador',
-           'second_surname' => 'astrador',
            'created_at' => now(),
            'updated_at' => now(),
        ]);
