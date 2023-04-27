@@ -26,5 +26,19 @@ Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 // Rutas para MessageController
 Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');
 
-// Rutas para RegisterController
-Route::apiResource('register', 'App\Http\Controllers\Api\RegisterController');
+// Rutas para UsersController
+// Route::apiResource('users', 'App\Http\Controllers\Api\UserController');
+
+// // Rutas para RegisterController
+// Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');
+
+
+Route::post('register', 'App\Http\Controllers\Api\TokenController@register');
+Route::post('login', 'App\Http\Controllers\Api\TokenController@login');
+Route::post('logout', 'App\Http\Controllers\Api\TokenController@logout');
+// Route::get('user/{email}', 'App\Http\Controllers\Api\TokenController@user');
+Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
+Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
+
+
+
