@@ -76,8 +76,8 @@ class TokenController extends Controller
 
         $user = User::create([
             'name' => $validacion['name'],
-            'lastname'=> $validacion['lastname'],
-            'second_surname'=> $validacion['second_surname'],
+            // 'lastname'=> $validacion['lastname'],
+            // 'second_surname'=> $validacion['second_surname'],
             'email' => $validacion['email'],
             'password' => Hash::make($validacion['password']),
         ]);
