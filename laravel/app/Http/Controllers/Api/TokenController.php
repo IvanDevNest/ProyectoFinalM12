@@ -68,8 +68,8 @@ class TokenController extends Controller
     {
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'lastname' => ['nullable', 'string', 'max:255'],
-            'second_surname' => ['nullable', 'string', 'max:255'],
+            'lastname' => ['string', 'max:255'],
+            'second_surname' => ['string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -77,7 +77,7 @@ class TokenController extends Controller
         $user = User::create([
             'name' => $validacion['name'],
             'lastname'=> $validacion['lastname'],
-            'second_surname'=> $validacion['second_surname'],
+            'second_surname'=> ['second_surname'],
             'email' => $validacion['email'],
             'password' => Hash::make($validacion['password']),
         ]);
