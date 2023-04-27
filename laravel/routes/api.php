@@ -27,4 +27,8 @@ Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');
 
 // Rutas para RegisterController
-Route::apiResource('register', 'App\Http\Controllers\Api\RegisterController');
+Route::post('register', 'App\Http\Controllers\Api\RegisterController@register');
+
+
+// Rutas para FollowerController
+Route::apiResource('followers', 'App\Http\Controllers\Api\FollowerController');
