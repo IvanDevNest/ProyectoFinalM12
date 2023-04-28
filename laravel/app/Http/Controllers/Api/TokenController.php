@@ -16,16 +16,16 @@ use Illuminate\Support\Facades\Auth;
 
 class TokenController extends Controller
 {
-    // public function user(Request $request)
-    // {
-    //     $user = User::where('email', $request->user()->email)->first();
+    public function user(Request $request)
+    {
+        $user = User::where('email', $request->user()->email)->first();
        
-    //     return response()->json([
-    //         "success" => true,
-    //         "user"    => $request->user(),
-    //         "roles"   => $user->getRoleNames(),
-    //     ]);
-    // }
+        return response()->json([
+            "success" => true,
+            "user"    => $request->user(),
+            "roles"   => $user->getRoleNames(),
+        ]);
+    }
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -68,16 +68,20 @@ class TokenController extends Controller
     {
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'lastname' => ['string', 'max:255'],
-            'second_surname' => ['string', 'max:255'],
+            'lastname' => ['nullable', 'string', 'max:255'],
+            'second_surname' => ['nullable', 'string', 'max:255'],           
+            'img_profile' => ['file', 'image'],
+
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
 
         $user = User::create([
             'name' => $validacion['name'],
-            'lastname'=> $validacion['lastname'],
-            'second_surname'=> ['second_surname'],
+            // 'lastname'=> $validacion['lastname'],
+            // 'second_surname'=> $validacion['second_surname'],
+            'img_profile' => $validacion,
+
             'email' => $validacion['email'],
             'password' => Hash::make($validacion['password']),
         ]);
