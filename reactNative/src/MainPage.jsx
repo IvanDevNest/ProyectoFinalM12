@@ -1,7 +1,14 @@
 import React from 'react'
 
+import Header from './Layout/Header'
+import { Footer } from './Layout/Footer'
+
 export const MainPage = () => {
   return (
-    <div>MainPage</div>
+    <>
+    <Header></Header>
+    {/* <Footer></Footer> */}
+    </>
+    
   )
 }

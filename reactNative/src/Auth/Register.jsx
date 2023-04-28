@@ -1,15 +1,53 @@
 import React from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,Button,TextInput
+} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
-
+import DocumentPicker from 'react-native-document-picker';
+import { useState } from 'react';
 const Register = ({ setLogin }) => {
   const { control, handleSubmit, formState: { errors } } = useForm();
   let { authToken, setAuthToken } = useContext(UserContext);
-
+  const [singleFile, setSingleFile] = useState(null);
   const onSubmit = data => handleRegister(data)
 
+  const selectFile = async () => {
+    // Opening Document Picker to select one file
+    try {
+      const res = await DocumentPicker.pick({
+        // Provide which type of file you want user to pick
+        type: [DocumentPicker.types.allFiles],
+        // There can me more options as well
+        // DocumentPicker.types.allFiles
+        // DocumentPicker.types.images
+        // DocumentPicker.types.plainText
+        // DocumentPicker.types.audio
+        // DocumentPicker.types.pdf
+      });
+      // Printing the log realted to the file
+      console.log('res : ' + JSON.stringify(res));
+      // Setting the state to show single file attributes
+      setSingleFile(res);
+    } catch (err) {
+      setSingleFile(null);
+      // Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        // If user canceled the document selection
+        alert('Canceled');
+      } else {
+        // For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err.message));
+        throw err;
+      }
+    }
+  };
+
+  
   const handleRegister = async (formState) => {
     let { name, password, password2, email } = formState;
 
@@ -97,12 +135,20 @@ const Register = ({ setLogin }) => {
         defaultValue=""
       />
       {errors.password && <Text style={styles.error}>This field is required</Text>}
+
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        activeOpacity={0.5}
+        onPress={selectFile}>
+        <Text style={styles.buttonTextStyle}>Select File</Text>
+      </TouchableOpacity>
+
       <Button title="Register" onPress={handleSubmit(onSubmit)} />
       <Button title="Ja estas registrat?"
-          onPress={() => {
-            setLogin(true);
-          }}
-        />
+        onPress={() => {
+          setLogin(true);
+        }}
+      />
     </View>
   );
 }
@@ -125,6 +171,26 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 10,
+  },
+  fileInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  fileInputButton: {
+    backgroundColor: "#ccc",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  fileInputText: {
+    color: "#333",
+    fontWeight: "bold",
+  },
+  fileInputName: {
+    flex: 1,
+    color: "#333",
   },
 });
 
