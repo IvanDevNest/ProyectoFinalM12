@@ -3,20 +3,23 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginRegister from './src/Auth/LoginRegister';
 import { UserContext } from './src/userContext';
+import { MainPage } from './src/MainPage';
 export default function App() {
   let [authToken, setAuthToken] = useState("")
-  let [usuariId, setUsuariId]=useState("")
+  let [usuariId, setUsuariId] = useState("")
   return (
-    
-    <UserContext.Provider value={{authToken,setAuthToken, usuariId,setUsuariId}}>
-    <View style={styles.container}>
-      {authToken ? <>
-      </>:
-      <LoginRegister/>}
-      {/* <StatusBar style="auto" /> */}
-    </View>
+
+    <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId }}>
+      <View style={styles.container}>
+        {authToken ?
+          <>
+            <MainPage />
+          </> :
+          <LoginRegister />}
+        {/* <StatusBar style="auto" /> */}
+      </View>
     </UserContext.Provider>
-    
+
 
   );
 }
