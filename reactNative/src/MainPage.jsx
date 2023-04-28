@@ -1,7 +1,16 @@
 import React from 'react'
-
+import { useContext } from 'react';
+import { UserContext } from './userContext';
+import { Button } from 'react-native';
 export const MainPage = () => {
+    let { authToken, setAuthToken } = useContext(UserContext);
+
   return (
-    <div>MainPage</div>
+      <>
+        <div>MAIN</div>
+        <Button title="Logout" onPress={()=>setAuthToken("")} />
+
+      </>
+    
   )
 }
