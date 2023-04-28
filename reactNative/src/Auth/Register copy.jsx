@@ -77,8 +77,6 @@ export default function Register({ setLogin }) {
         console.log(data);
         alert("Catchch");
       });
-
-    alert("He enviat les Dades:  " + email + "/" + password);
   };
 
   return (
