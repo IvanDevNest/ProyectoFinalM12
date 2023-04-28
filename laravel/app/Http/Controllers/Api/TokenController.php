@@ -69,7 +69,9 @@ class TokenController extends Controller
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
-            'second_surname' => ['nullable', 'string', 'max:255'],
+            'second_surname' => ['nullable', 'string', 'max:255'],           
+            'img_profile' => ['file', 'image'],
+
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -78,6 +80,8 @@ class TokenController extends Controller
             'name' => $validacion['name'],
             // 'lastname'=> $validacion['lastname'],
             // 'second_surname'=> $validacion['second_surname'],
+            'img_profile' => $validacion,
+
             'email' => $validacion['email'],
             'password' => Hash::make($validacion['password']),
         ]);
