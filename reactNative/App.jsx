@@ -4,6 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import LoginRegister from './src/Auth/LoginRegister';
 import { UserContext } from './src/userContext';
 import { MainPage } from './src/MainPage';
+import {Footer} from './src/Layout/Footer';
+import {Header} from './src/Layout/Header';
+
 export default function App() {
   let [authToken, setAuthToken] = useState("")
   let [usuariId, setUsuariId] = useState("")
@@ -13,7 +16,11 @@ export default function App() {
       <View style={styles.container}>
         {authToken ?
           <>
+
+            <Header/>
             <MainPage />
+            <Footer/>
+
           </> :
           <LoginRegister />}
         {/* <StatusBar style="auto" /> */}
