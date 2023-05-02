@@ -1,24 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'; // Importa el icono que deseas utilizar
+import React from 'react'
+import { View, Image, StyleSheet, Text } from 'react-native';
 
 export const Footer = () => {
   return (
-    <View style={styles.footerContainer}>
-      <View style={styles.border}></View> {/*Agrega una vista con un borde negro en la parte superior*/}
-      <View style={styles.leftIcons}>
-        <MaterialIcons name="notifications" size={30} color="#000000" />
-        <MaterialIcons name="home" size={30} color="#000000" style={styles.iconMargin} />
-      </View>
-      <View style={styles.centerIcons}>
-        <Text style={styles.plus}>+</Text>
-      </View>
-      <View style={styles.rightIcons}>
-        <MaterialIcons name="message" size={30} color="#000000" />
-        <MaterialIcons name="stars" size={30} color="#000000" style={styles.iconMargin} />
-      </View>
-    </View>
-  );
+    <Text>FOOTER</Text>
+  )
 }
 
 const styles = StyleSheet.create({

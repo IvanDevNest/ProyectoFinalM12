@@ -5,19 +5,16 @@ import { Button } from 'react-native';
 
 import Header from './Layout/Header'
 import { Footer } from './Layout/Footer'
+import RutasList from './RutasList'
 
 export const MainPage = () => {
-    let { authToken, setAuthToken } = useContext(UserContext);
 
   return (
-      <>
-        <Button title="Logout" onPress={()=>setAuthToken("")} />
-
-      </>
-    // <>
-    // <Header></Header>
-    // {/* <Footer></Footer> */}
-    // </>
+    <>
+    <Header></Header>
+    <RutasList></RutasList>
+    <Footer></Footer>
+    </>
     
   )
 }
