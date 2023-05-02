@@ -3,6 +3,7 @@ import React from "react";
 import Register from "./Register";
 import Login from "./Login";
 import { View} from 'react-native';
+import { useForm } from 'react-hook-form';
 
 
 
