@@ -12,7 +12,7 @@ export const useLogin = () => {
     async function checkAuthToken() {
         try {
             let localAuthToken = localStorage.getItem("authToken")
-            console.log(localAuthToken)
+            console.log("LocalAuthToken: "+ localAuthToken)
             if (localAuthToken) {
 
                 const data = await fetch("http://127.0.0.1:8000/api/user", {
@@ -20,13 +20,13 @@ export const useLogin = () => {
                         Accept: "application/json",
                         "Content-Type": "application/json",
                         'Authorization': 'Bearer ' + localAuthToken,
-                    },
+                    },  
                     method: "GET",
                 });
                 const resposta =  await data.json();
-                console.log(resposta)
+                console.log("Resposta token:"+resposta)
 
-                if (resposta.success) {
+                if (resposta.id) {
                     setAuthToken(localAuthToken)
                     console.log(resposta.user.id)
                     setUsuariId(resposta.user.id)
@@ -54,7 +54,9 @@ export const useLogin = () => {
             });
             const resposta =  await data.json();
             if (resposta.success === true) {
-                console.log(resposta)
+                console.log("RESPOSTA:"+resposta)
+                console.log("TOKEN:"+resposta.authToken)
+
                 setAuthToken(resposta.authToken);
                 localStorage.setItem("authToken",resposta.authToken)
                 checkAuthToken();

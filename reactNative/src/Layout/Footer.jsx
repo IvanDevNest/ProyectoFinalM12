@@ -1,7 +1,8 @@
 import React from 'react'
+import { View, Image, StyleSheet, Text } from 'react-native';
 
 export const Footer = () => {
   return (
-    <div>FOOTER</div>
+    <Text>FOOTER</Text>
   )
 }

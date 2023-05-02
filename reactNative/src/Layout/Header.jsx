@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import logo from '/home/jododi/ProyectoFinalM12/reactNative/src/logo.png';
+// import logo from 'reactNative/src/logo.png';
 
 const Header = () => {
   let [userImage, setUserImage] = useState("");
@@ -24,15 +24,7 @@ const Header = () => {
         setUserImage(resposta.img_profile)
         console.log("entra")
         setIsLoading(false)
-        {
-          isLoading ?
-            <></>
-            :
-            <View style={styles.container}>
-              <Image source={logo} style={styles.logo} />
-              <Image source={userImage} style={styles.userImage} />
-            </View>
-        }
+      
       })
 
       .catch((data) => {
@@ -47,7 +39,7 @@ const Header = () => {
         <><Text>cargando...</Text></>
         :
         <View style={styles.container}>
-          <Image source={logo} style={styles.logo} />
+          {/* <Image source={logo} style={styles.logo} /> */}
           <Image source={userImage} style={styles.userImage} />
         </View>
       }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLogin } from '../Hooks/useLogin';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet,Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
@@ -8,47 +8,47 @@ import { UserContext } from '../userContext';
 
 
 export default function Login({ setLogin }) {
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  //  const { control, handleSubmit, formState: { errors } } = useForm();
 
-  let { authToken, setAuthToken } = useContext(UserContext);
-  // let [error, setError] = useState("");
-  // const { formState, onTextInputChange } = useForm({
+  // let { authToken, setAuthToken } = useContext(UserContext);
+  // // let [error, setError] = useState("");
+  // // const { formState, onTextInputChange } = useForm({
 
-  // email: "",
-  // password: "",
+  // // email: "",
+  // // password: "",
 
-  // });
+  // // });
 
-  // const {email,password} = formState
+  // // const {email,password} = formState
 
-  const { doLogin, error, setError } = useLogin();
-  const onSubmit = data => doLogin(data)
+  //  const { doLogin, error, setError } = useLogin();
+  //  const onSubmit = data => doLogin(data)
 
-  // const sendLogin = async (e) => {
-  //   e.preventDefault();
+  // // const sendLogin = async (e) => {
+  // //   e.preventDefault();
 
-  //   // Enviam dades a l'aPI i recollim resultat
-  //   try {
-  //     const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json"
-  //       },
-  //       method: "POST",
-  //       body: JSON.stringify({ email, password })
-  //     });
-
-
-  //     const resposta = await data.json();
-  //     if (resposta.success === true)       setAuthToken(resposta.authToken) ;
-  //     else alert("La resposta no ha triomfat");
+  // //   // Enviam dades a l'aPI i recollim resultat
+  // //   try {
+  // //     const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
+  // //       headers: {
+  // //         Accept: "application/json",
+  // //         "Content-Type": "application/json"
+  // //       },
+  // //       method: "POST",
+  // //       body: JSON.stringify({ email, password })
+  // //     });
 
 
-  //   } catch {
-  //     console.log("Error");
-  //     alert("catch");
-  //   }
-  // };
+  // //     const resposta = await data.json();
+  // //     if (resposta.success === true)       setAuthToken(resposta.authToken) ;
+  // //     else alert("La resposta no ha triomfat");
+
+
+  // //   } catch {
+  // //     console.log("Error");
+  // //     alert("catch");
+  // //   }
+  // // };
 
 
 
@@ -62,36 +62,38 @@ export default function Login({ setLogin }) {
 
           <Text class="fa fa-user"></Text>
           <View class="form-group ">
-            <TextInput {...register("email")} 
+            {/* <TextInput {...register("email")} 
             // name="email"
             placeholder="Email " 
             //  onChange={onTextInputChange} 
-             />
+             /> */}
           </View>
 
         <View class="form-group log-status">
-          <TextInput {...register("password")} 
+          {/* <TextInput {...register("password")} 
           // name="password"
          placeholder="Password"
           //  onChange={onTextInputChange}
-          />
+          /> */}
           <Text class="fa fa-lock"></Text>
         </View>
 
-        <Button title="Login" onPress ={ handleSubmit(onSubmit)}></Button>
+        <Button title="Login" 
+        // onPress ={ handleSubmit(onSubmit)}
+        ></Button>
         
-        {error ? <View>{error}</View> : <></>}
+        {/* {error ? <View>{error}</View> : <></>} */}
 
       <Button title="Ya tengo una cuenta"
-         onPress={() => {
-            setLogin(false);
-          }}
+        //  onPress={() => {
+        //     setLogin(false);
+        //   }}
            >
          
         </Button>
 
       </View>
-    </>
+  
   );
 }
 
