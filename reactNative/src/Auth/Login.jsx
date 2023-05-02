@@ -57,56 +57,41 @@ export default function Login({ setLogin }) {
 
   return (
 
-    <View style={styles.container}>
-        <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value}
+      <View class="login-form">
+        <Text>Login</Text>
+
+          <Text class="fa fa-user"></Text>
+          <View class="form-group ">
+            <TextInput {...register("email")} 
+            // name="email"
+            placeholder="Email " 
+            //  onChange={onTextInputChange} 
+             />
+          </View>
+
+        <View class="form-group log-status">
+          <TextInput {...register("password")} 
+          // name="password"
+         placeholder="Password"
+          //  onChange={onTextInputChange}
           />
-        )}
-        name="email"
-        defaultValue=""
-      />
-      {errors.email && <Text style={styles.error}>This field is required</Text>}
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value}
-          />
-        )}
-        name="password"
-        defaultValue=""
-      />
-      {errors.password && <Text style={styles.error}>This field is required</Text>}
-      <Button title="Login" onPress={handleSubmit(onSubmit)} />
+          <Text class="fa fa-lock"></Text>
+        </View>
 
-      {error ? <div>{error}</div> : <></>}
+        <Button title="Login" onPress ={ handleSubmit(onSubmit)}></Button>
+        
+        {error ? <View>{error}</View> : <></>}
 
-      <Button title="Crea una conta"
-        onPress={() => {
-          setLogin(false);
-        }}
-        type="Button" class="log-btn" />
-    </View>
+      <Button title="Ya tengo una cuenta"
+         onPress={() => {
+            setLogin(false);
+          }}
+           >
+         
+        </Button>
 
-  )
-
+      </View>
+  );
 }
 
 const styles = StyleSheet.create({
