@@ -14,7 +14,6 @@ const LoginRegister = () => {
 
   
   return (
-    <div>
       <View>
         {login ? 
             <Login setLogin={setLogin}/>
@@ -22,7 +21,6 @@ const LoginRegister = () => {
             <Register setLogin={setLogin}/>        
         }
         </View>
-      </div>
   );
 }
 export default LoginRegister;

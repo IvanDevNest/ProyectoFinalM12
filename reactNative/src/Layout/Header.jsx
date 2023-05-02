@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import logo from '/home/jododi/ProyectoFinalM12/reactNative/src/logo.png';
+// import logo from '/home/jododi/ProyectoFinalM12/reactNative/src/logo.png';
 
 const Header = () => {
   let [userImage, setUserImage] = useState("");

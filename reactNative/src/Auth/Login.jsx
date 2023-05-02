@@ -98,7 +98,7 @@ export default function Login({ setLogin }) {
 
       {error ? <div>{error}</div> : <></>}
 
-      <br></br><Button title="Crea una conta"
+      <Button title="Crea una conta"
         onPress={() => {
           setLogin(false);
         }}

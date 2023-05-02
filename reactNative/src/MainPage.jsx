@@ -11,7 +11,6 @@ export const MainPage = () => {
 
   return (
       <>
-        <div>MAIN</div>
         <Button title="Logout" onPress={()=>setAuthToken("")} />
 
       </>
