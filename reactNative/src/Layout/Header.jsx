@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
+import Constants from 'expo-constants'
 import { useState } from 'react';
 import { useEffect } from 'react';
 // import logo from 'reactNative/src/logo.png';
@@ -34,7 +35,7 @@ const Header = () => {
   }, []);
 
   return (
-    <>
+    <View style={{marginTop: Constants.statusBarHeight}}>
       {isLoading ?
         <><Text>cargando...</Text></>
         :
@@ -43,7 +44,7 @@ const Header = () => {
           <Image source={userImage} style={styles.userImage} />
         </View>
       }
-    </>
+    </View>
 
 
   );

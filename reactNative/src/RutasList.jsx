@@ -35,13 +35,7 @@ const RutasList = () => {
   return (
     <FlatList data={rutas}
     renderItem={({item:ruta})=>(
-        <View key={(ruta.id)}>
-        <Text>{ruta.id}</Text>
-        <Text>{ruta.name}</Text>
-        <Text>{ruta.timetable}</Text>
-        <Text>{ruta.url}</Text>
-
-        </View>
+        <RutasList {...ruta}/>
     )}>
     </FlatList>
 
