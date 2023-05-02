@@ -59,40 +59,40 @@ const onSubmit = data => doLogin(data)
   return (
     <>
 
-      <div class="login-form">
-        <h1>Login</h1>
+      <View class="login-form">
+        <Text>Login</Text>
 
-          <i class="fa fa-user"></i>
-          <div class="form-group ">
+          <Text class="fa fa-user"></Text>
+          <View class="form-group ">
             <TextInput {...register("email")} 
             // name="email"
-             type="text" class="form-control" placeholder="Email " id="UserName" 
+            placeholder="Email " 
             //  onChange={onTextInputChange} 
              />
-          </div>
+          </View>
 
-        <div class="form-group log-status">
+        <View class="form-group log-status">
           <TextInput {...register("password")} 
           // name="password"
-           type="password" class="form-control" placeholder="Password" id="Password" 
+         placeholder="Password"
           //  onChange={onTextInputChange}
           />
-          <i class="fa fa-lock"></i>
-        </div>
+          <Text class="fa fa-lock"></Text>
+        </View>
 
-        <Button onPress ={ handleSubmit(onSubmit)}> Login </Button>
+        <Button title="Login" onPress ={ handleSubmit(onSubmit)}></Button>
         
-        {error ? <div>{error}</div> : <></>}
+        {error ? <View>{error}</View> : <></>}
 
-        <br></br><Button
+      <Button title="Ya tengo una cuenta"
          onPress={() => {
             setLogin(false);
           }}
-          type="Button" class="log-btn" >
-          Crea una conta
+           >
+         
         </Button>
 
-      </div>
+      </View>
     </>
   );
 }
