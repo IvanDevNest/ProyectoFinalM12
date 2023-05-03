@@ -1,8 +1,10 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { View,Text } from 'react-native';
+import RutaList from './RutaList';
+import StyleText from './StyledText';
 const RutasList = () => {
     let [rutas, setRutas] = useState("");
     let [isLoading, setIsLoading] = useState(true);
@@ -35,11 +37,12 @@ const RutasList = () => {
   return (
     <FlatList data={rutas}
     renderItem={({item:ruta})=>(
-        <RutasList {...ruta}/>
+        <RutaList {...ruta}/>
     )}>
     </FlatList>
 
   )
 }
+
 
 export default RutasList
