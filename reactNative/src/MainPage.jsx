@@ -6,15 +6,17 @@ import { Button } from 'react-native';
 import Header from './Layout/Header'
 import { Footer } from './Layout/Footer'
 import RutasList from './RutasList'
+import AppBar from './AppBar';
+import { View } from 'react-native';
 
 export const MainPage = () => {
 
   return (
-    <>
-    <Header></Header>
+    <View>
+    <AppBar></AppBar>
     <RutasList></RutasList>
     <Footer></Footer>
-    </>
+    </View>
     
   )
 }

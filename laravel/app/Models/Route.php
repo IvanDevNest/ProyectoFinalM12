@@ -19,4 +19,28 @@ class Route extends Model
         'id_user',
         'id_route_style',
     ];
+    
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function inscriptions()
+    {
+        return $this->hasMany(Inscription::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'inscriptions');
+    }
 }

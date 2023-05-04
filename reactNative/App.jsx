@@ -16,14 +16,16 @@ export default function App() {
 
     <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId }}>
       <View style={styles.container}>
-        {authToken ?
+        {/* {authToken ?
           <>
 
             
-            {/* <MainPage /> */}
+             <MainPage /> 
             <CreateRoute></CreateRoute>
           </> :
-          <LoginRegister />} 
+          <LoginRegister />}  */}
+            <CreateRoute></CreateRoute>
+
         <StatusBar style="auto" />
       </View>
     </UserContext.Provider>

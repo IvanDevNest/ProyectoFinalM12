@@ -6,8 +6,9 @@ import { View,Text ,Button} from 'react-native';
 import RutaList from './RutaList';
 import { UserContext } from './userContext';
 import StyleText from './StyledText';
+import Routes from './Routes.js'
 const RutasList = () => {
-    let [rutas, setRutas] = useState("");
+    let [rutas, setRutas] = useState(""); 
     let [isLoading, setIsLoading] = useState(true);
     let { authToken, setAuthToken } = useContext(UserContext);
 
@@ -36,30 +37,31 @@ const RutasList = () => {
   };
 }
 ///////////////////////////////////////////////////////
-    useEffect(() => {
+    //useEffect(() => {
 
-        fetch("http://127.0.0.1:8000/api/routes", {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "GET",
+    //     fetch("http://127.0.0.1:8000/api/routes", {
+    //       headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json"
+    //       },
+    //       method: "GET",
     
-        })
-          .then((data) => data.json())
-          .then((resposta) => {
-            console.log(resposta)
-            setRutas(resposta.data)
-            console.log("entra")
-            setIsLoading(false)
+    //     })
+    //       .then((data) => data.json())
+    //       .then((resposta) => {
+    //         console.log(resposta)
+    //         setRutas(resposta.data)
+    //         console.log("entra")
+    //         setIsLoading(false)
           
-          })
+    //       })
     
-          .catch((data) => {
-            console.log(data);
-            alert("Catchch");
-          });
-      }, []);
+    //       .catch((data) => {
+    //         console.log(data);
+    //         alert("Catchch");
+    //       });
+    //   }, []);
+
     
   return (
     <>

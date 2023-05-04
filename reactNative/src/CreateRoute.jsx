@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import CustomInput from '../CustomInput';
-import { useState } from 'react';
+import CustomInput from './CustomInput';
 const CreateRoute = () => {
     const[rutas,setRutas]=useState([]);
 

@@ -12,15 +12,17 @@ class CreateRoutesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('timetable');
-            $table->string('cord_x');
-            $table->string('cord_y');
+            $table->string('start_time');
+            $table->string('estimated_duration');
+            $table->string('type_vehicle');
+
+            // $table->string('cord_x');
+            // $table->string('cord_y');
             $table->string('URL_maps');
             $table->integer('num_stops');
             $table->integer('max_users');
-            $table->unsignedBigInteger('id_user');
+            
             $table->unsignedBigInteger('id_route_style');
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_route_style')->references('id')->on('route_styles')->onDelete('cascade');
             $table->timestamps();
 
