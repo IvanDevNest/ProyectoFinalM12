@@ -10,13 +10,14 @@ class Route extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'timetable',
-        'cord_x',
-        'cord_y',
+        'description',
+        'start_time',
+        'estimated_duration',
+        'type_vehicle',
+        'distance',
         'URL_maps',
         'num_stops',
         'max_users',
-        'id_user',
         'id_route_style',
     ];
     

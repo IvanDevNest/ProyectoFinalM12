@@ -15,6 +15,7 @@ class CreateRoutesTable extends Migration
             $table->string('start_time');
             $table->string('estimated_duration');
             $table->string('type_vehicle');
+            $table->integer('distance');
 
             // $table->string('cord_x');
             // $table->string('cord_y');

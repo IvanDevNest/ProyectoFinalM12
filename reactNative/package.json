@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^18.0.1",
+    "@react-native-picker/picker": "2.4.8",
     "expo": "^48.0.15",
     "expo-cli": "^6.3.7",
     "expo-status-bar": "~1.4.4",
@@ -20,6 +21,7 @@
     "react-native": "^0.71.7",
     "react-native-document-picker": "^8.2.0",
     "react-native-image-picker": "^5.3.1",
+    "react-native-picker-select": "^8.0.4",
     "react-native-web": "~0.18.10"
   },
   "devDependencies": {
@@ -36,7 +38,11 @@
   },
   "private": true,
   "eslintConfig": {
-    "parser":"babel-eslint",
-    "extends":["standard","standard-jsx","standard-react"]
+    "parser": "babel-eslint",
+    "extends": [
+      "standard",
+      "standard-jsx",
+      "standard-react"
+    ]
   }
 }

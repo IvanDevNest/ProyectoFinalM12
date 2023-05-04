@@ -28,6 +28,8 @@ class RoutesSeeder extends Seeder
                 'description' => 'Route de pruebaa',
                 'start_time' => '10:30',
                 'estimated_duration' => '1:30',
+                'distance' => '50',
+
                 'type_vehicle' => 'moto',
                 'URL_maps' => 'https://maps.google.com/route' . ($i + 1),
                 'num_stops' => rand(1, 10),
