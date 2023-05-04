@@ -67,7 +67,7 @@ export const useLogin = () => {
             else setError(resposta.message);
         } catch(e) {
             console.log(e.err);
-            alert("Catchch");
+            alert(e.err);
         };
     }
     useEffect(() => {

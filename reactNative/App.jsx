@@ -14,8 +14,6 @@ export default function App() {
 
     <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId }}>
       <View style={styles.container}>
-       
-  
         {authToken ?
           <>
 

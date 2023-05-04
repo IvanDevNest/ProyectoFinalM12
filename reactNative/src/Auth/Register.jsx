@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Platform, PermissionsAndroid, ImagePickerIOS,Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
 import { useContext } from 'react';
@@ -40,24 +40,7 @@ const Register = ({setLogin}) => {
     };
   }
 
-  const [imageUri, setImageUri] = useState(null);
-
-  const handleChooseImage = async () => {
-    if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
-
-      if (!granted) {
-        console.log('Permiso denegado');
-        return;
-      }
-    }
-
-    ImagePickerIOS.openSelectDialog({}, (imageUri) => {
-      if (imageUri) {
-        setImageUri(imageUri);
-      }
-    }, () => console.log('Error al seleccionar imagen'));
-  };
+  
   return (
     <View>
       <Text>Nombre:*</Text>
@@ -82,19 +65,16 @@ const Register = ({setLogin}) => {
 
       />
       <Text>img_profile:</Text>
-      <TouchableOpacity onPress={handleChooseImage}>
-        <Text>Seleccionar imagen</Text>
-      </TouchableOpacity>
-      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+    
    
    
-{/* 
+
       <CustomInput
         name="img_profile"
         placeholder="img_profile"
         control={control}
 
-      /> */}
+      /> 
       <Text>Email:*</Text>
       <CustomInput
         name="email"
