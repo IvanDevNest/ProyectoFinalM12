@@ -4,8 +4,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import LoginRegister from './src/Auth/LoginRegister';
 import { UserContext } from './src/userContext';
 import { MainPage } from './src/MainPage';
+import { Header } from './src/Layout/Header';
 import {Footer} from './src/Layout/Footer';
-import {Header} from './src/Layout/Header';
+import CreateRoute from './src/CreateRoute';
+
 
 export default function App() {
   let [authToken, setAuthToken] = useState("")
@@ -18,8 +20,8 @@ export default function App() {
           <>
 
             
-            <MainPage />
-
+            {/* <MainPage /> */}
+            <CreateRoute></CreateRoute>
           </> :
           <LoginRegister />} 
         <StatusBar style="auto" />

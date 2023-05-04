@@ -38,7 +38,7 @@ Route::apiResource('followers', 'App\Http\Controllers\Api\FollowerController');
 Route::post('register', 'App\Http\Controllers\Api\TokenController@register');
 Route::post('login', 'App\Http\Controllers\Api\TokenController@login');
 Route::post('logout', 'App\Http\Controllers\Api\TokenController@logout');
-// Route::get('user/{email}', 'App\Http\Controllers\Api\TokenController@user');
+// Route::get('user', 'App\Http\Controllers\Api\TokenController@user');
 Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
 Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
 

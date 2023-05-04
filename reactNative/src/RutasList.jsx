@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
-import { FlatList } from 'react-native';
+import React,{useContext} from 'react'
+import { FlatList, StyleSheet } from 'react-native'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { View,Text,Button } from 'react-native';
+import { View,Text ,Button} from 'react-native';
+import RutaList from './RutaList';
 import { UserContext } from './userContext';
-
+import StyleText from './StyledText';
 const RutasList = () => {
     let [rutas, setRutas] = useState("");
     let [isLoading, setIsLoading] = useState(true);
@@ -65,17 +66,12 @@ const RutasList = () => {
     <Button title="Logout" onPress={(e)=>sendLogout(e)}></Button>
     <FlatList data={rutas}
     renderItem={({item:ruta})=>(
-        <View key={(ruta.id)}>
-        <Text>{ruta.id}</Text>
-        <Text>{ruta.name}</Text>
-        <Text>{ruta.timetable}</Text>
-        <Text>{ruta.url}</Text>
-
-        </View>
+        <RutaList {...ruta}/>
     )}>
     </FlatList>
     </>
   )
 }
+
 
 export default RutasList

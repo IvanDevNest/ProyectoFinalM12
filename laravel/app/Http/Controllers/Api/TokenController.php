@@ -12,21 +12,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
     
 
-
-
-
 class TokenController extends Controller
 {
-    // public function user(Request $request)
-    // {
-    //     $user = User::where('email', $request->user()->email)->first();
+    public function user(Request $request)
+    {
+        $user = User::where('email', $request->user()->email)->first();
        
-    //     return response()->json([
-    //         "success" => true,
-    //         "user"    => $request->user(),
-    //         "roles"   => $user->getRoleNames(),
-    //     ]);
-    // }
+        return response()->json([
+            "success" => true,
+            "user"    => $request->user(),
+            "roles"   => $user->getRoleNames(),
+        ]);
+    }
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -97,21 +94,15 @@ class TokenController extends Controller
         ], 200);
         
     }
-    protected function logout(Request $request){
-        Log::debug($request);
-        $user = User::where('email', $request->user()->email)->first();
+    public function logout(Request $request) 
+    {
+        // Revoke token used to authenticate current request...
+        $request->user()->currentAccessToken()->delete();
 
-        $ok=$user->tokens()->delete();
-
-        
         return response()->json([
-            "success"   => true,
-            "message" => "Logout succesfully"
-        ], 200);
-
-
-
+            "success" => true,
+            "message" => "Current token revoked",
+        ]);
     }
-
 
 }
