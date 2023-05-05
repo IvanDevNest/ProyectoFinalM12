@@ -5,7 +5,7 @@ import CustomInput from '../CustomInput';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
   
-
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const Register = ({setLogin}) => {
   let { authToken, setAuthToken } = useContext(UserContext);
@@ -39,8 +39,27 @@ const Register = ({setLogin}) => {
       alert("Catchch");
     };
   }
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  
+  const handleSelectImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+      },
+      (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          setSelectedImage(response.uri);
+        }
+      },
+    );
+  };
   return (
     <View>
       <Text>Nombre:*</Text>
@@ -65,8 +84,10 @@ const Register = ({setLogin}) => {
 
       />
       <Text>img_profile:</Text>
-    
-   
+      {selectedImage && (
+        <Image source={{ uri: selectedImage }} style={styles.image} />
+      )}
+      <Button title="Select Image" onPress={handleSelectImage} />   
    
 
       <CustomInput

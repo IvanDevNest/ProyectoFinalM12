@@ -7,13 +7,17 @@ import { Footer } from './Layout/Footer'
 import RutasList from './RutasList'
 import AppBar from './AppBar';
 import { View } from 'react-native';
+import ShowRoute from './ShowRoute';
 
 export const MainPage = () => {
 
   return (
     <View>
+
       <AppBar></AppBar>
-      <RutasList></RutasList>
+      <Header />
+
+      <ShowRoute />
       <Footer></Footer>
     </View>
 

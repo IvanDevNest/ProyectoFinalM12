@@ -20,8 +20,9 @@ class CreateUsersTable extends Migration
             $table->string('remember_token')->nullable();
             $table->unsignedBigInteger('id_role')->default(1);
             $table->foreign('id_role')->references('id')->on('roles')->onDelete('cascade');
+            $table->unsignedBigInteger('id_route')->nullable();
+            $table->foreign('id_route')->references('id')->on('routes')->onDelete('cascade');
             $table->timestamps();
-            
         });
     }
 

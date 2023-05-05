@@ -1,11 +1,12 @@
-import React from 'react'
+import React,{ useState,useEffect,useContext}  from 'react'
+import { UserContext } from './userContext';
 
-import { useState } from 'react';
-import { View,Button,Text } from 'react-native';
-import { useEffect } from 'react';
+import { View, Button, Text } from 'react-native';
+
 const ShowRoute = (route) => {
     const [ruta, setRuta] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    let { usuari,authToken} = useContext(UserContext);
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/api/routes/1", {
@@ -28,33 +29,72 @@ const ShowRoute = (route) => {
             });
     }, []);
 
-
-
-
+    const unirseRuta = async ()=> {
+        try {
+          const data = await fetch("http://127.0.0.1:8000/api/routes/1/inscribirse", {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer '  + authToken, 
+            },
+            method: "POST",
+          });
+          const resposta = await data.json();
+          if (resposta.success === true) {
+            console.log(JSON.stringify(resposta))
+           
+            setIsLoading(false)
+          }        
+          else setError(resposta.message);
+        } catch(e){
+          console.log(e.message);
+          // alert("Catchch");
+        }; 
+    }
     return (
         <View>
             {isLoading ?
                 <Text>Cargando...</Text>
                 :
                 <View>
-                    <Text>{route.name}</Text>
+                    <Text>Nombre de la ruta</Text>
+                    <Text>{ruta.name}</Text>
+
                     <View style={{ flexDirection: 'row' }}>
-                        <Text>user.img_profile</Text>
-                        <Text>user.name</Text>
+                        <Text>{usuari.img_profile}</Text>
+                        <Text>{usuari.name}</Text>
+                        <Text>{usuari.id_role}</Text>
+
                     </View>
-                    <View>{route.URL_maps}</View>
-                    <Text>{route.description}</Text>
+                    <Text>URL maps</Text>
+                    <View>{ruta.URL_maps}</View>
+            
+                    <Text>Descripcion</Text>
+                    <Text>{ruta.description}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <View>
-                            <Text>Falta saber como cojo los usuarios que hay inscritos</Text>
-                            <Text>{route.start_time}</Text>
+                            <View>
+
+                                <Text>n de usuarios</Text>
+                                <Text>Falta saber como cojo los usuarios que hay inscritos</Text>
+
+                            </View>
+                            <View>
+                                <Text>Hora de inicio</Text>
+                                <Text>{ruta.start_time}</Text>
+
+                            </View>
                         </View>
                         <View>
-                            <Text>{route.start_time}</Text>
-                            <Text>{route.estimated_duration}</Text>
+                            <Text>Duracion estimada</Text>
+                            <Text>{ruta.estimated_duration}</Text>
+                        </View>
+                        <View>
+                            <Text>Km</Text>
+                            <Text>{ruta.distance}</Text>
                         </View>
                     </View>
-                    <Button title="Unirme" />
+                    <Button title="Unirme" onPress={()=>unirseRuta()} />
 
                 </View>
             }

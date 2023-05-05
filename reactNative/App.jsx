@@ -5,7 +5,7 @@ import LoginRegister from './src/Auth/LoginRegister';
 import { UserContext } from './src/userContext';
 import { MainPage } from './src/MainPage';
 import { Header } from './src/Layout/Header';
-import {Footer} from './src/Layout/Footer';
+import { Footer } from './src/Layout/Footer';
 import CreateRoute from './src/CreateRoute';
 import ShowRoute from './src/ShowRoute';
 
@@ -13,21 +13,20 @@ import ShowRoute from './src/ShowRoute';
 export default function App() {
   let [authToken, setAuthToken] = useState("")
   let [usuariId, setUsuariId] = useState("")
+  let [usuari, setUsuari] = useState([])
+
   return (
 
-    <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId }}>
+    <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari }}>
       <View style={styles.container}>
-        {/* {authToken ?
+        {authToken ?
           <>
-
-            
-             <MainPage /> 
-            <CreateRoute></CreateRoute>
+            <MainPage />
           </> :
-          <LoginRegister />}  */}
-            {/* <CreateRoute></CreateRoute> */}
-            <ShowRoute></ShowRoute>
-{/* 
+          <LoginRegister />}
+        {/* <CreateRoute></CreateRoute> */}
+        {/* <ShowRoute></ShowRoute> */}
+        {/* 
         <StatusBar style="auto" /> */}
       </View>
     </UserContext.Provider>

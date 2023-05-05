@@ -1,38 +1,46 @@
-import React from 'react';
+import React,{ useState ,useContext,useEffect} from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import Constants from 'expo-constants'
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { UserContext } from '../userContext';
 // import logo from 'reactNative/src/logo.png';
 
 const Header = () => {
   let [userImage, setUserImage] = useState("");
+  let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
+  let { setUsuari,authToken} = useContext(UserContext);
 
-    fetch("http://127.0.0.1:8000/api/user/4", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "GET",
-
-    })
-      .then((data) => data.json())
-      .then((resposta) => {
-        console.log(resposta);
-
-        setUserImage(resposta.img_profile)
-        console.log("entra")
-        setIsLoading(false)
-      
-      })
-
-      .catch((data) => {
-        console.log(data);
-        alert("Catchch");
+  const getUser = async ()=> {
+    try {
+      const data = await fetch("http://127.0.0.1:8000/api/user", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer '  + authToken, 
+        },
+        method: "GET",
       });
-  }, []);
+      const resposta = await data.json();
+      if (resposta.success === true) {
+        console.log(JSON.stringify(resposta))
+        // setUsername(resposta.user.name);
+        // setRoles(resposta.roles);
+         setUsuari(resposta.user)
+        // setUsuariId(resposta.user.id)
+        // // console.log(usuari);
+        setIsLoading(false)
+      }        
+      else setError(resposta.message);
+    } catch(e){
+      console.log(e.message);
+      // alert("Catchch");
+    }; 
+       
+}
+useEffect(() => {
+  getUser();
+},[]);
+
 
   return (
     <View style={{marginTop: Constants.statusBarHeight}}>
