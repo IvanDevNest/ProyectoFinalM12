@@ -9,7 +9,10 @@ const styles =StyleSheet.create({
         paddingTop: Constants.statusBarHeight + 5,
         backgroundColor:"grey",
         paddingBottom: 5,
-        paddingLeft: 5,
+        flexDirection:'row',
+        paddingHorizontal:40,
+        justifyContent:"space-between"
+
     }
 
 })
@@ -17,8 +20,14 @@ const styles =StyleSheet.create({
 const AppBar = ()=>{
     return (
         <View style={styles.container}>
-            <StyledText ></StyledText>
-            Routes
+            <StyledText fontSize='subheading' >Routes</StyledText>
+            <StyledText fontSize='subheading' >|</StyledText>
+            <StyledText fontSize='subheading' >Create</StyledText>
+            <StyledText fontSize='subheading' >|</StyledText>
+            <StyledText fontSize='subheading' >Routes</StyledText>
+            <StyledText fontSize='subheading' >|</StyledText>
+            <StyledText fontSize='subheading' >Create</StyledText>
+
 
         </View>
     )

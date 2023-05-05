@@ -13,9 +13,9 @@ export const MainPage = () => {
 
   return (
     <View>
-    <AppBar></AppBar>
-    <RutasList></RutasList>
-    <Footer></Footer>
+      <AppBar></AppBar>
+      <RutasList></RutasList>
+      <Footer></Footer>
     </View>
     
   )

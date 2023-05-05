@@ -6,15 +6,17 @@ import { UserContext } from './src/userContext';
 import { MainPage } from './src/MainPage';
 import { Header } from './src/Layout/Header';
 import {Footer} from './src/Layout/Footer';
+import { NativeRouter } from 'react-router-native';
 
 
 export default function App() {
   let [authToken, setAuthToken] = useState("")
   let [usuariId, setUsuariId] = useState("")
   return (
+    <NativeRouter>
 
     <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId }}>
-      <View style={styles.container}>
+      <View>
         <MainPage />
   
         {/* {authToken ?
@@ -25,20 +27,11 @@ export default function App() {
 
           </> :
           <LoginRegister />} */}
-        <StatusBar style="auto" />
+        <StatusBar/>
       </View>
     </UserContext.Provider>
+    </NativeRouter>
 
 
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

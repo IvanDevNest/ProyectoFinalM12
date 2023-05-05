@@ -19,7 +19,8 @@
     "react-native": "^0.71.7",
     "react-native-document-picker": "^8.2.0",
     "react-native-image-picker": "^5.3.1",
-    "react-native-web": "~0.18.10"
+    "react-native-web": "~0.18.10",
+    "react-router-native": "^6.11.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -35,7 +36,11 @@
   },
   "private": true,
   "eslintConfig": {
-    "parser":"babel-eslint",
-    "extends":["standard","standard-jsx","standard-react"]
+    "parser": "babel-eslint",
+    "extends": [
+      "standard",
+      "standard-jsx",
+      "standard-react"
+    ]
   }
 }
