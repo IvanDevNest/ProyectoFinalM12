@@ -42,18 +42,21 @@ export const useLogin = () => {
         }
     }
     const doLogin = async (formState) => {
+        console.log(JSON.stringify(formState))
         //setError("");   
         try {
             const data = await fetch("http://127.0.0.1:8000/api/login", {
                 headers: {
                     Accept: "application/json",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 method: "POST",
-                body: JSON.stringify( formState )
+                body: JSON.stringify( formState ),
+                
             });
             const resposta =  await data.json();
             if (resposta.success === true) {
+
                 console.log("RESPOSTA:"+resposta)
                 console.log("TOKEN:"+resposta.authToken)
 
@@ -64,7 +67,7 @@ export const useLogin = () => {
             else setError(resposta.message);
         } catch(e) {
             console.log(e.err);
-            alert("Catchch");
+            alert(e.err);
         };
     }
     useEffect(() => {

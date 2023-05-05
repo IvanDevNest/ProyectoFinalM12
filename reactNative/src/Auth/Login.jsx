@@ -1,99 +1,51 @@
 import React from 'react'
-import { useLogin } from '../Hooks/useLogin';
-import { View, TextInput, Button, StyleSheet,Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { useContext } from 'react';
-import { UserContext } from '../userContext';
-
-
+import CustomInput from '../CustomInput';
+import { useLogin } from '../Hooks/useLogin';
 
 export default function Login({ setLogin }) {
-  //  const { control, handleSubmit, formState: { errors } } = useForm();
+  const { control, handleSubmit, formState: { errors }, } = useForm();
 
-  // let { authToken, setAuthToken } = useContext(UserContext);
-  // // let [error, setError] = useState("");
-  // // const { formState, onTextInputChange } = useForm({
-
-  // // email: "",
-  // // password: "",
-
-  // // });
-
-  // // const {email,password} = formState
-
-  //  const { doLogin, error, setError } = useLogin();
-  //  const onSubmit = data => doLogin(data)
-
-  // // const sendLogin = async (e) => {
-  // //   e.preventDefault();
-
-  // //   // Enviam dades a l'aPI i recollim resultat
-  // //   try {
-  // //     const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-  // //       headers: {
-  // //         Accept: "application/json",
-  // //         "Content-Type": "application/json"
-  // //       },
-  // //       method: "POST",
-  // //       body: JSON.stringify({ email, password })
-  // //     });
-
-
-  // //     const resposta = await data.json();
-  // //     if (resposta.success === true)       setAuthToken(resposta.authToken) ;
-  // //     else alert("La resposta no ha triomfat");
-
-
-  // //   } catch {
-  // //     console.log("Error");
-  // //     alert("catch");
-  // //   }
-  // // };
-
-
-
-
-
-
+  const { doLogin, error, setError } = useLogin()
+  const onSubmit = data => doLogin(data)
   return (
 
-      <View class="login-form">
-        <Text>Login</Text>
+    <View class="login-form">
+      <Text>Login</Text>
 
-          <Text class="fa fa-user"></Text>
-          <View class="form-group ">
-            {/* <TextInput {...register("email")} 
-            // name="email"
-            placeholder="Email " 
-            //  onChange={onTextInputChange} 
-             /> */}
-          </View>
+      <Text>Email:*</Text>
+      <CustomInput
+        name="email"
+        placeholder="Email"
+        control={control}
+        rules={{ required: 'Email is required' }}
+      />
 
-        <View class="form-group log-status">
-          {/* <TextInput {...register("password")} 
-          // name="password"
-         placeholder="Password"
-          //  onChange={onTextInputChange}
-          /> */}
-          <Text class="fa fa-lock"></Text>
-        </View>
+      <Text>Contraseña:*</Text>
+      <CustomInput
+        name="password"
+        placeholder="Password"
+        secureTextEntry
+        control={control}
+        rules={{
+          required: 'Password is required',
+          minLength: {
+            value: 3,
+            message: 'Password should be minimum 3 characters long',
+          },
+        }}
+      />
+      <Button title="Login"
+        onPress={handleSubmit(onSubmit)}
+      ></Button>
 
-        <Button title="Login" 
-        // onPress ={ handleSubmit(onSubmit)}
-        ></Button>
-        
-        {/* {error ? <View>{error}</View> : <></>} */}
 
-      <Button title="Ya tengo una cuenta"
-        //  onPress={() => {
-        //     setLogin(false);
-        //   }}
-           >
-         
-        </Button>
+      <Button title="Crear una cuenta"
+        onPress={() => setLogin(false)} />
 
-      </View>
-  
+    </View>
+
   );
 }
 

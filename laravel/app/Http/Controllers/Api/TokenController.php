@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
-
-
-
+use Illuminate\Support\Facades\Log;
+    
 
 class TokenController extends Controller
 {
@@ -66,12 +64,12 @@ class TokenController extends Controller
     }
     protected function register(Request $request)
     {
+        Log::debug($request);
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],           
             'img_profile' => ['file', 'image'],
-
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -81,15 +79,13 @@ class TokenController extends Controller
             // 'lastname'=> $validacion['lastname'],
             // 'second_surname'=> $validacion['second_surname'],
             'img_profile' => $validacion,
-
             'email' => $validacion['email'],
             'password' => Hash::make($validacion['password']),
         ]);
 
 
         $token = $user->createToken("authToken")->plainTextToken;
-
-
+        
         return response()->json([
             "success"   => true,
             "authToken" => $token,
@@ -97,18 +93,15 @@ class TokenController extends Controller
         ], 200);
         
     }
-    protected function logout(Request $request){
-        $user = User::where('email', $request->user()->email)->first();
+    public function logout(Request $request) 
+    {
+        // Revoke token used to authenticate current request...
+        $request->user()->currentAccessToken()->delete();
 
-        $ok=$user->tokens()->delete();
         return response()->json([
-            "success"   => true,
-            "message" => "Logout succesfully"
-        ], 200);
-
-
-
+            "success" => true,
+            "message" => "Current token revoked",
+        ]);
     }
-
 
 }

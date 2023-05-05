@@ -1,83 +1,105 @@
-import React from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import React,{useState} from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
+import CustomInput from '../CustomInput';
+import { useContext } from 'react';
+import { UserContext } from '../userContext';
+  
 
-const Register = () => {
-  const { control, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+const Register = ({setLogin}) => {
+  let { authToken, setAuthToken } = useContext(UserContext);
 
+  const { control, handleSubmit, formState: { errors }, } = useForm();
+
+  const onSubmit = data => handleRegister(data)
+
+  const handleRegister = async (formState) => {
+    console.log(formState)
+    try{
+      
+      const data = await fetch("http://127.0.0.1:8000/api/register", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        // Si els noms i les variables coincideix, podem simplificar
+        body: JSON.stringify(formState)
+      });
+      const resposta = await data.json();
+      if (resposta.success === true) {
+        setAuthToken(resposta.authToken);
+      }
+      else {
+        console.log(resposta.message)
+        setError(resposta.message);}
+    }catch{
+      console.log("Error");
+      alert("Catchch");
+    };
+  }
+
+  
   return (
     <View>
-      <Text>Nombre:</Text>
-      <Controller
+      <Text>Nombre:*</Text>
+      <CustomInput
+        name="name"
+        placeholder="Name"
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            onChangeText={(value) => onChange(value)}
-            onBlur={onBlur}
-            value={value}
-          />
-        )}
-        name="nombre"
-        rules={{ required: true }}
-        defaultValue="a"
+        rules={{ required: 'Name is required' }}
       />
-      {errors.nombre && <Text>El nombre es requerido.</Text>}
-
-      <Text>Apellido:</Text>
-      <Controller
+      <Text>lastname:</Text>
+      <CustomInput
+        name="lastname"
+        placeholder="lastname"
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            onChangeText={(value) => onChange(value)}
-            onBlur={onBlur}
-            value={value}
-          />
-        )}
-        name="apellido"
-        rules={{ required: true }}
-        defaultValue="a"
+
       />
-      {errors.apellido && <Text>El apellido es requerido.</Text>}
-
-      <Text>Correo electrónico:</Text>
-      <Controller
+      <Text>second_surname:</Text>
+      <CustomInput
+        name="second_surname"
+        placeholder="second_surname"
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            onChangeText={(value) => onChange(value)}
-            onBlur={onBlur}
-            value={value}
-            keyboardType="email-address"
-          />
-        )}
+
+      />
+      <Text>img_profile:</Text>
+    
+   
+   
+
+      <CustomInput
+        name="img_profile"
+        placeholder="img_profile"
+        control={control}
+
+      /> 
+      <Text>Email:*</Text>
+      <CustomInput
         name="email"
-        rules={{ required: true }}
-        defaultValue="a"
-      />
-      {errors.email && <Text>El correo electrónico es requerido.</Text>}
-
-      <Text>Contraseña:</Text>
-      <Controller
+        placeholder="Email"
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            onChangeText={(value) => onChange(value)}
-            onBlur={onBlur}
-            value={value}
-            secureTextEntry
-          />
-        )}
-        name="password"
-        rules={{ required: true }}
-        defaultValue="a"
+        rules={{ required: 'Email is required' }}
       />
-      {errors.password && <Text>La contraseña es requerida.</Text>}
+      <Text>Contraseña:*</Text>
+      <CustomInput
+        name="password"
+        placeholder="Password"
+        secureTextEntry
+        control={control}
+        rules={{
+          required: 'Password is required',
+          minLength: {
+            value: 3,
+            message: 'Password should be minimum 3 characters long',
+          },
+        }}
+      />
 
-      <Button title="Registrarse" onPress={()=>{handleSubmit(onSubmit)}} />
+      <Button title="Registrarse" onPress={handleSubmit(onSubmit)} />
+      <Button title="Ya tengo cuenta" onPress={() => { setLogin(true) }} />
+
     </View>
   );
 };

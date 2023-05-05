@@ -10,12 +10,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
-{
+{   
+     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+
     use HasApiTokens, HasFactory, Notifiable;
     protected $fillable = [
         'name',
         'email',
-        'password',
         'lastname',
         'secound_sourname',
         'id_role',
@@ -25,4 +26,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function inscriptions()
+    {
+        return $this->hasMany(Inscription::class);
+    }
+
+    public function routes()
+    {
+        return $this->belongsToMany(Route::class, 'inscriptions');
+    }
 }

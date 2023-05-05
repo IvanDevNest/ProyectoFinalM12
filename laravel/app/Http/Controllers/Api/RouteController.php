@@ -33,13 +33,14 @@ class RouteController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'timetable' => 'required|max:255',
-            'cord_x' => 'required|numeric',
-            'cord_y' => 'required|numeric',
+            'description' => 'required|max:255',
+            'start_time' => 'required|numeric',
+            'distance' => 'required|numeric',
+            'estimated_duration' => 'required|numeric',
             'URL_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
+            'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
-            'id_user' => 'required|exists:users,id',
             'id_route_style' => 'required|exists:route_styles,id'
         ]);
 

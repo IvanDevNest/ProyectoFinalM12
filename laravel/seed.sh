@@ -1,6 +1,7 @@
 #!/bin/bash
 
 php artisan db:seed --class=RolesSeeder
+php artisan db:seed --class=FileSeeder
 php artisan db:seed --class=UserSeeder
 php artisan db:seed --class=RouteStyleSeeder
 php artisan db:seed --class=RoutesSeeder

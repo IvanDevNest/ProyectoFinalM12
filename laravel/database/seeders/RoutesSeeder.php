@@ -25,13 +25,15 @@ class RoutesSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $routes[] = [
                 'name' => 'Route ' . ($i + 1),
-                'timetable' => '9:00 AM - 5:00 PM',
-                'cord_x' => rand(1, 100),
-                'cord_y' => rand(1, 100),
+                'description' => 'Route de pruebaa',
+                'start_time' => '10:30',
+                'estimated_duration' => '1:30',
+                'distance' => '50',
+
+                'type_vehicle' => 'moto',
                 'URL_maps' => 'https://maps.google.com/route' . ($i + 1),
                 'num_stops' => rand(1, 10),
-                'max_users' => rand(10, 50),
-                'id_user' => $userIds[array_rand($userIds)],
+                'max_users' => rand(1, 10),
                 'id_route_style' => $routeStyleIds[array_rand($routeStyleIds)],
                 'created_at' => now(),
                 'updated_at' => now(),

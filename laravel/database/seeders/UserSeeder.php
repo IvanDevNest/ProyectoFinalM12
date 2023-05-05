@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
            'name'      => config('admin.name'),
            'email'     => config('admin.email'),
            'password'  => Hash::make(config('admin.password')),
-           'img_profile'=>'ProyectoFinalM12/laravel/resources/img/img_perfil.jpeg',
+           'file_id'=>'1',
            'created_at' => now(),
            'updated_at' => now(),
        ]);

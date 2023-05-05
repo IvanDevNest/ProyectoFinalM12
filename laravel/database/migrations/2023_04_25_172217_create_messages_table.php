@@ -21,7 +21,8 @@ return new class extends Migration
             $table->foreign('id_route')->references('id')->on('routes')->onDelete('cascade');
             $table->dateTime('date');
             $table->text('text');
-            $table->string('attached_file')->nullable();
+            $table->unsignedBigInteger('file_id')->nullable();
+            $table->foreign('file_id')->references('id')->on('files');
             $table->timestamps();
             
         });
