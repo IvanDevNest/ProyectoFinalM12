@@ -45,7 +45,7 @@ const CreateRoute = () => {
             <Text style={styles.label}>Nombre de la ruta</Text>
             <CustomInput
                 name="name"
-                 placeholder="Nombre de la ruta"
+                placeholder="Nombre de la ruta"
                 control={control}
                 rules={{ required: 'duracion is required' }}
                 style={styles.input}
@@ -69,28 +69,7 @@ const CreateRoute = () => {
                         rules={{ required: 'duracion is required' }}
                         style={styles.halfInput}
                     />
-                    {/* <RNPickerSelect
-                        placeholder={{ label: 'Selecciona una opción...', value: null }}
-                        onValueChange={(value) => setSelectedValue(value)}
-                        items={[
-                            { label: 'Motiko', value: '1' },
-                            { label: 'Cochesitu', value: '2' },
-                        ]}
-                        value={selectedValue}
-                        style={{ ...pickerSelectStyles }}
-                        useNativeAndroidPickerStyle={false}
-                    /> */}
-
-
-                    {/* <CustomInput
-                name="Vehiculo"
-                secureTextEntry
-                placeholder="Seleccionar vehiculo.."
-                control={control}
-                rules={{
-                    required: 'Vehiculo is required',
-                }}
-            /> */} </View>
+                    </View>
             </View>
 
             <View style={styles.row}>
@@ -233,28 +212,28 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
-// const pickerSelectStyles = StyleSheet.create({
-//     inputIOS: {
-//         fontSize: 16,
-//         paddingVertical: 12,
-//         paddingHorizontal: 10,
-//         borderWidth: 1,
-//         borderColor: 'gray',
-//         borderRadius: 4,
-//         color: 'black',
-//         paddingRight: 30, // to ensure the text is never behind the icon
-//     },
-//     inputAndroid: {
-//         fontSize: 16,
-//         paddingHorizontal: 10,
-//         paddingVertical: 8,
-//         borderWidth: 0.5,
-//         borderColor: 'purple',
-//         borderRadius: 8,
-//         color: 'black',
-//         paddingRight: 30, // to ensure the text is never behind the icon
-//     },
-// });
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,    
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'purple',
+        borderRadius: 8,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
+});
 
 
 export default CreateRoute;
