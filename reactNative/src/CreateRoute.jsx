@@ -64,33 +64,11 @@ const CreateRoute = () => {
                     <Text style={styles.label}>Vehículo</Text>
                     <CustomInput
                         name="type_vehicle"
-                        
                         control={control}
                         rules={{ required: 'duracion is required' }}
                         style={styles.halfInput}
                     />
-                    {/* <RNPickerSelect
-                        placeholder={{ label: 'Selecciona una opción...', value: null }}
-                        onValueChange={(value) => setSelectedValue(value)}
-                        items={[
-                            { label: 'Motiko', value: '1' },
-                            { label: 'Cochesitu', value: '2' },
-                        ]}
-                        value={selectedValue}
-                        style={{ ...pickerSelectStyles }}
-                        useNativeAndroidPickerStyle={false}
-                    /> */}
-
-
-                    {/* <CustomInput
-                name="Vehiculo"
-                secureTextEntry
-                placeholder="Seleccionar vehiculo.."
-                control={control}
-                rules={{
-                    required: 'Vehiculo is required',
-                }}
-            /> */} </View>
+                </View>
             </View>
 
             <View style={styles.row}>
