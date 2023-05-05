@@ -35,6 +35,7 @@ class RouteController extends Controller
             'name' => 'required|max:255',
             'description' => 'required|max:255',
             'start_time' => 'required|numeric',
+            'distance' => 'required|numeric',
             'estimated_duration' => 'required|numeric',
             'URL_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
