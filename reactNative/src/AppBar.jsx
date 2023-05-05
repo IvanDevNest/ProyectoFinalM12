@@ -3,6 +3,8 @@ import {StyleSheet} from "react-native"
 import StyledText from "./StyledText"
 import Constants from "expo-constants";
 import { View } from "react-native";
+import { Link } from "react-router-native";
+
 
 const styles =StyleSheet.create({
     container:{
