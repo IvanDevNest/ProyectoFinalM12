@@ -8,13 +8,24 @@ import { Footer } from './Layout/Footer'
 import RutasList from './RutasList'
 import AppBar from './AppBar';
 import { View } from 'react-native';
+import { Switch, Route } from 'react-native';
+import Routes from './Routes';
 
 export const MainPage = () => {
 
   return (
     <View>
       <AppBar></AppBar>
-      <RutasList></RutasList>
+        <Switch>
+          <Route path='/routes' exact>
+            <RutasList></RutasList>
+
+          </Route>
+          <Route path='/create' exact>
+            
+          </Route>
+          <Redirect to='/'/>
+        </Switch>
       <Footer></Footer>
     </View>
     
