@@ -66,7 +66,7 @@ const RutasList = () => {
   return (
     <>
     <Button title="Logout" onPress={(e)=>sendLogout(e)}></Button>
-    <FlatList data={rutas}
+    <FlatList data={Routes}
     renderItem={({item:ruta})=>(
         <RutaList {...ruta}/>
     )}>

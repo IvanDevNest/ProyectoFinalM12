@@ -14,14 +14,12 @@ export default function App() {
   let [authToken, setAuthToken] = useState("")
   let [usuariId, setUsuariId] = useState("")
   return (
-    <NativeRouter>
 
     <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId }}>
       <View>
         <MainPage></MainPage>
       </View>
     </UserContext.Provider>
-  </NativeRouter>
 
 
   );
