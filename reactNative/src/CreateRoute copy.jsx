@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { View,  Button, StyleSheet, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
 import RNPickerSelect from 'react-native-picker-select';
@@ -13,12 +13,13 @@ const CreateRoute = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+
     const onSubmit = (data) => createRoute(data);
     const createRoute = async (formState) => {
         console.log(JSON.stringify(formState));
-        setError('');
+        // setError('');
         try {
-            const data = await fetch('http://127.0.0.1:8000/routes/', {
+            const data = await fetch('http://127.0.0.1:8000/api/routes', {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
@@ -29,7 +30,9 @@ const CreateRoute = () => {
             const resposta = await data.json();
             if (resposta.success === true) {
                 setRutas(resposta);
-            } else setError(resposta.message);
+                console.log("okey")
+         } 
+        // else setError(resposta.message);
         } catch (e) {
             console.log(e.err);
             alert(e.err);
@@ -42,7 +45,7 @@ const CreateRoute = () => {
             <Text style={styles.label}>Nombre de la ruta</Text>
             <CustomInput
                 name="name"
-                placeholder="30m-1h"
+                placeholder="Nombre de la ruta"
                 control={control}
                 rules={{ required: 'duracion is required' }}
                 style={styles.input}
@@ -60,7 +63,14 @@ const CreateRoute = () => {
                 </View>
                 <View style={styles.col}>
                     <Text style={styles.label}>Vehículo</Text>
-                    <RNPickerSelect
+                    <CustomInput
+                        name="type_vehicle"
+                        placeholder=""
+                        control={control}
+                        rules={{ required: 'duracion is required' }}
+                        style={styles.halfInput}
+                    />
+                    {/* <RNPickerSelect
                         placeholder={{ label: 'Selecciona una opción...', value: null }}
                         onValueChange={(value) => setSelectedValue(value)}
                         items={[
@@ -70,7 +80,7 @@ const CreateRoute = () => {
                         value={selectedValue}
                         style={{ ...pickerSelectStyles }}
                         useNativeAndroidPickerStyle={false}
-                    />
+                    /> */}
 
 
                     {/* <CustomInput
@@ -89,7 +99,7 @@ const CreateRoute = () => {
                     <Text style={styles.label}>Distancia aproximada</Text>
                     <CustomInput
                         name="distance"
-                        secureTextEntry
+                        
                         placeholder="30km-35km"
                         control={control}
                         rules={{
@@ -102,7 +112,6 @@ const CreateRoute = () => {
                     <Text style={styles.label}>Duración</Text>
                     <CustomInput
                         name="estimated_duration"
-                        secureTextEntry
                         control={control}
                         rules={{
                             required: 'Duración es requerida',
@@ -112,16 +121,52 @@ const CreateRoute = () => {
                 </View>
             </View>
             <Text style={styles.label}>
-                URL de Google Maps (con símbolo de ayuda para enseñar cómo coger la URL)
+                URL de Google Maps (con símbolo de ayuda para enseñar cómo coger la URL
             </Text>
             <CustomInput
-                name="google_maps_url"
+                name="URL_maps"
                 placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
                 control={control}
                 rules={{ required: 'URL de Google Maps is required' }}
                 style={styles.input}
             />
-
+            <View style={styles.row}>
+                <View style={[styles.col, { marginRight: 5 }]}>
+                    <Text style={styles.label}>Velocidad de la ruta</Text>
+                    <CustomInput
+                        name="id_route_style"
+                        placeholder="lento.."
+                        control={control}
+                        rules={{
+                            required: 'Velocidad de la ruta es requerida',
+                        }}
+                        style={styles.halfInput}
+                    />
+                </View>
+                <View style={styles.col}>
+                    <Text style={styles.label}>Numero de paradas</Text>
+                    <CustomInput
+                        name="num_stops"
+                        
+                        control={control}
+                        rules={{
+                            required: 'Numero de paradas es requerida',
+                        }}
+                        style={styles.halfInput}
+                    />
+                </View>
+           
+                  
+            </View>
+            <Text style={styles.label}>Maximo de personas</Text>
+                    <CustomInput
+                        name="max_users"
+                        control={control}
+                        rules={{
+                            required: 'Maximo de personas es requerida',
+                        }}
+                        style={styles.halfInput}
+                    />
             <Text style={styles.label}>Descripción</Text>
             <CustomInput
                 name="description"
@@ -133,7 +178,7 @@ const CreateRoute = () => {
 
             <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
 
-            {errors && (
+            {/* {errors && (
                 <Text style={styles.errorText}>
                     {errors.name && errors.name.message}
                     {errors.start_time && errors.start_time.message}
@@ -142,17 +187,20 @@ const CreateRoute = () => {
                     {errors.google_maps_url && errors.google_maps_url.message}
                     {errors.description && errors.description.message}
                 </Text>
-            )}
+            )} */}
         </View>
     )
 }
 const styles = StyleSheet.create({
-    
+    row: {
+        flexDirection: 'row'
+    },
+
     container: {
+        backgroundColor:'gray',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
         paddingHorizontal: 20,
     },
     title: {
@@ -195,29 +243,29 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
-const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-      fontSize: 16,
-      paddingVertical: 12,
-      paddingHorizontal: 10,
-      borderWidth: 1,
-      borderColor: 'gray',
-      borderRadius: 4,
-      color: 'black',
-      paddingRight: 30, // to ensure the text is never behind the icon
-    },
-    inputAndroid: {
-      fontSize: 16,
-      paddingHorizontal: 10,
-      paddingVertical: 8,
-      borderWidth: 0.5,
-      borderColor: 'purple',
-      borderRadius: 8,
-      color: 'black',
-      paddingRight: 30, // to ensure the text is never behind the icon
-    },
-  });
-  
+// const pickerSelectStyles = StyleSheet.create({
+//     inputIOS: {
+//         fontSize: 16,
+//         paddingVertical: 12,
+//         paddingHorizontal: 10,
+//         borderWidth: 1,
+//         borderColor: 'gray',
+//         borderRadius: 4,
+//         color: 'black',
+//         paddingRight: 30, // to ensure the text is never behind the icon
+//     },
+//     inputAndroid: {
+//         fontSize: 16,
+//         paddingHorizontal: 10,
+//         paddingVertical: 8,
+//         borderWidth: 0.5,
+//         borderColor: 'purple',
+//         borderRadius: 8,
+//         color: 'black',
+//         paddingRight: 30, // to ensure the text is never behind the icon
+//     },
+// });
+
 
 export default CreateRoute;
 
@@ -230,7 +278,8 @@ import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
 import RNPickerSelect from 'react-native-picker-select';
-
+import React from 'react';
+import { useState } from 'react';
 const CreateRoute = () => {
     const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);

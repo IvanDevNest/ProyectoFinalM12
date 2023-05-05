@@ -19,7 +19,7 @@ const CreateRoute = () => {
         console.log(JSON.stringify(formState));
         // setError('');
         try {
-            const data = await fetch('http://127.0.0.1:8000/routes', {
+            const data = await fetch('http://127.0.0.1:8000/api/routes', {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
@@ -30,6 +30,7 @@ const CreateRoute = () => {
             const resposta = await data.json();
             if (resposta.success === true) {
                 setRutas(resposta);
+                console.log("okey")
          } 
         // else setError(resposta.message);
         } catch (e) {
@@ -44,7 +45,7 @@ const CreateRoute = () => {
             <Text style={styles.label}>Nombre de la ruta</Text>
             <CustomInput
                 name="name"
-                placeholder="Nombre de la ruta"
+                 placeholder="Nombre de la ruta"
                 control={control}
                 rules={{ required: 'duracion is required' }}
                 style={styles.input}
@@ -54,7 +55,6 @@ const CreateRoute = () => {
                     <Text style={styles.label}>Hora inicio</Text>
                     <CustomInput
                         name="start_time"
-                        placeholder=""
                         control={control}
                         rules={{ required: 'duracion is required' }}
                         style={styles.halfInput}
@@ -64,7 +64,7 @@ const CreateRoute = () => {
                     <Text style={styles.label}>Vehículo</Text>
                     <CustomInput
                         name="type_vehicle"
-                        placeholder=""
+                        
                         control={control}
                         rules={{ required: 'duracion is required' }}
                         style={styles.halfInput}
@@ -99,7 +99,7 @@ const CreateRoute = () => {
                     <CustomInput
                         name="distance"
                         
-                        placeholder="30km-35km"
+                         placeholder="30km-35km"
                         control={control}
                         rules={{
                             required: 'Distancia es requerida',
@@ -120,11 +120,11 @@ const CreateRoute = () => {
                 </View>
             </View>
             <Text style={styles.label}>
-                URL de Google Maps (con símbolo de ayuda para enseñar cómo coger la URL)
+                URL de Google Maps con símbolo de ayuda para enseñar cómo coger la URL
             </Text>
             <CustomInput
                 name="URL_maps"
-                placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
+                 placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
                 control={control}
                 rules={{ required: 'URL de Google Maps is required' }}
                 style={styles.input}
@@ -134,7 +134,7 @@ const CreateRoute = () => {
                     <Text style={styles.label}>Velocidad de la ruta</Text>
                     <CustomInput
                         name="id_route_style"
-                        placeholder="lento.."
+                         placeholder="lento.."
                         control={control}
                         rules={{
                             required: 'Velocidad de la ruta es requerida',
@@ -169,7 +169,7 @@ const CreateRoute = () => {
             <Text style={styles.label}>Descripción</Text>
             <CustomInput
                 name="description"
-                placeholder="Descripción de la ruta"
+                 placeholder="Descripción de la ruta"
                 control={control}
                 rules={{ required: 'Descripción is required' }}
                 style={styles.input}
@@ -177,16 +177,7 @@ const CreateRoute = () => {
 
             <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
 
-            {/* {errors && (
-                <Text style={styles.errorText}>
-                    {errors.name && errors.name.message}
-                    {errors.start_time && errors.start_time.message}
-                    {errors.distance && errors.distance.message}
-                    {errors.estimated_duration && errors.estimated_duration.message}
-                    {errors.google_maps_url && errors.google_maps_url.message}
-                    {errors.description && errors.description.message}
-                </Text>
-            )} */}
+    
         </View>
     )
 }
@@ -196,10 +187,10 @@ const styles = StyleSheet.create({
     },
 
     container: {
+        backgroundColor:'gray',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
         paddingHorizontal: 20,
     },
     title: {
@@ -242,28 +233,28 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
-const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-        fontSize: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 4,
-        color: 'black',
-        paddingRight: 30, // to ensure the text is never behind the icon
-    },
-    inputAndroid: {
-        fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderWidth: 0.5,
-        borderColor: 'purple',
-        borderRadius: 8,
-        color: 'black',
-        paddingRight: 30, // to ensure the text is never behind the icon
-    },
-});
+// const pickerSelectStyles = StyleSheet.create({
+//     inputIOS: {
+//         fontSize: 16,
+//         paddingVertical: 12,
+//         paddingHorizontal: 10,
+//         borderWidth: 1,
+//         borderColor: 'gray',
+//         borderRadius: 4,
+//         color: 'black',
+//         paddingRight: 30, // to ensure the text is never behind the icon
+//     },
+//     inputAndroid: {
+//         fontSize: 16,
+//         paddingHorizontal: 10,
+//         paddingVertical: 8,
+//         borderWidth: 0.5,
+//         borderColor: 'purple',
+//         borderRadius: 8,
+//         color: 'black',
+//         paddingRight: 30, // to ensure the text is never behind the icon
+//     },
+// });
 
 
 export default CreateRoute;

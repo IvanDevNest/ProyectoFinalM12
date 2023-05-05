@@ -25,8 +25,8 @@ export default function App() {
           </> :
           <LoginRegister />}  */}
             <CreateRoute></CreateRoute>
-
-        <StatusBar style="auto" />
+{/* 
+        <StatusBar style="auto" /> */}
       </View>
     </UserContext.Provider>
 
