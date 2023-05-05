@@ -30,7 +30,7 @@ const CreateRoute = () => {
             const resposta = await data.json();
             if (resposta.success === true) {
                 setRutas(resposta);
-                console.log("okey")
+                console.log("resposta: "+ JSON.stringify(resposta))
          } 
         // else setError(resposta.message);
         } catch (e) {
@@ -45,7 +45,7 @@ const CreateRoute = () => {
             <Text style={styles.label}>Nombre de la ruta</Text>
             <CustomInput
                 name="name"
-                 placeholder="Nombre de la ruta"
+                placeholder="Nombre de la ruta"
                 control={control}
                 rules={{ required: 'duracion is required' }}
                 style={styles.input}
@@ -68,7 +68,7 @@ const CreateRoute = () => {
                         rules={{ required: 'duracion is required' }}
                         style={styles.halfInput}
                     />
-                </View>
+                    </View>
             </View>
 
             <View style={styles.row}>
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },
-
     container: {
         backgroundColor:'gray',
         flex: 1,
@@ -211,28 +210,28 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
-// const pickerSelectStyles = StyleSheet.create({
-//     inputIOS: {
-//         fontSize: 16,
-//         paddingVertical: 12,
-//         paddingHorizontal: 10,
-//         borderWidth: 1,
-//         borderColor: 'gray',
-//         borderRadius: 4,
-//         color: 'black',
-//         paddingRight: 30, // to ensure the text is never behind the icon
-//     },
-//     inputAndroid: {
-//         fontSize: 16,
-//         paddingHorizontal: 10,
-//         paddingVertical: 8,
-//         borderWidth: 0.5,
-//         borderColor: 'purple',
-//         borderRadius: 8,
-//         color: 'black',
-//         paddingRight: 30, // to ensure the text is never behind the icon
-//     },
-// });
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,    
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'purple',
+        borderRadius: 8,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
+});
 
 
 export default CreateRoute;

@@ -7,6 +7,7 @@ import { MainPage } from './src/MainPage';
 import { Header } from './src/Layout/Header';
 import {Footer} from './src/Layout/Footer';
 import CreateRoute from './src/CreateRoute';
+import ShowRoute from './src/ShowRoute';
 
 
 export default function App() {
@@ -24,7 +25,8 @@ export default function App() {
             <CreateRoute></CreateRoute>
           </> :
           <LoginRegister />}  */}
-            <CreateRoute></CreateRoute>
+            {/* <CreateRoute></CreateRoute> */}
+            <ShowRoute></ShowRoute>
 {/* 
         <StatusBar style="auto" /> */}
       </View>
