@@ -7,6 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 const CreateRoute = () => {
     const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
+    let {usuari,authToken} = useContext(UserContext);
 
     const {
         control,

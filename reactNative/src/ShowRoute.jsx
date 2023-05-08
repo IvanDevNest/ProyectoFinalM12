@@ -94,7 +94,14 @@ const ShowRoute = (route) => {
                             <Text>{ruta.distance}</Text>
                         </View>
                     </View>
+                    {usuari.id_route?
+                    <>
+                    {usuari.is_auhtor}
+                    </>
+                    :
                     <Button title="Unirme" onPress={()=>unirseRuta()} />
+                    }
+                   
 
                 </View>
             }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Route;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class RouteController extends Controller
 {
@@ -45,8 +47,12 @@ class RouteController extends Controller
             'id_route_style' => 'required|exists:route_styles,id'
         ]);
 
+       
+    
+    
         $route = Route::create($validatedData);
 
+       
         return response()->json([
             'success' => true,
             'data' => $route,
@@ -85,7 +91,6 @@ class RouteController extends Controller
             'URL_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
             'max_users' => 'required|integer',
-            'id_user' => 'required|exists:users,id',
             'id_route_style' => 'required|exists:route_styles,id'
         ]);
     

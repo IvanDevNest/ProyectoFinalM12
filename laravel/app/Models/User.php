@@ -23,6 +23,7 @@ class User extends Authenticatable
         'secound_sourname',
         'id_role',
         'id_route',
+        'is_author'
     ];
     protected $hidden = [
         'password',
@@ -38,4 +39,5 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Route::class, 'inscriptions');
     }
+    
 }

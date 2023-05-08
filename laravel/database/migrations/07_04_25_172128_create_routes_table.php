@@ -23,15 +23,26 @@ class CreateRoutesTable extends Migration
             $table->integer('num_stops');
             $table->integer('max_users');
             
+            // $table->unsignedBigInteger('id_author')->nullable();
+            // $table->foreign('id_author')->references('id')->on('users');
+            
             $table->unsignedBigInteger('id_route_style');
             $table->foreign('id_route_style')->references('id')->on('route_styles')->onDelete('cascade');
             $table->timestamps();
+            $table->unsignedBigInteger('author_id');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+        });
 
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('route_id')->nullable();
+            $table->foreign('route_id')->references('id')->on('routes')->onDelete('cascade');
         });
     }
 
     public function down()
     {
+        // Drop users route_id column 
+
         Schema::dropIfExists('routes');
     }
 }

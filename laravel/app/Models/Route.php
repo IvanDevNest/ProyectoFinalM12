@@ -18,7 +18,9 @@ class Route extends Model
         'URL_maps',
         'num_stops',
         'max_users',
+        // 'id_author',
         'id_route_style',
+
     ];
     
     public function file()
