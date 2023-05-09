@@ -7,6 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 const CreateRoute = () => {
     const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
+    let {usuari,authToken} = useContext(UserContext);
 
     const {
         control,
@@ -30,7 +31,7 @@ const CreateRoute = () => {
             const resposta = await data.json();
             if (resposta.success === true) {
                 setRutas(resposta);
-                console.log("okey")
+                console.log("resposta: "+ JSON.stringify(resposta))
          } 
         // else setError(resposta.message);
         } catch (e) {
@@ -64,7 +65,6 @@ const CreateRoute = () => {
                     <Text style={styles.label}>Vehículo</Text>
                     <CustomInput
                         name="type_vehicle"
-                        
                         control={control}
                         rules={{ required: 'duracion is required' }}
                         style={styles.halfInput}
@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },
-
     container: {
         backgroundColor:'gray',
         flex: 1,

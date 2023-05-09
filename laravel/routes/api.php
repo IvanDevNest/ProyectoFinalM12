@@ -48,10 +48,18 @@ Route::apiResource('followers', 'App\Http\Controllers\Api\FollowerController');
 
 Route::post('register', 'App\Http\Controllers\Api\TokenController@register');
 Route::post('login', 'App\Http\Controllers\Api\TokenController@login');
-Route::post('logout', 'App\Http\Controllers\Api\TokenController@logout');
-// Route::get('user', 'App\Http\Controllers\Api\TokenController@user');
+Route::post('logout', 'App\Http\Controllers\Api\TokenController@logout')
+->middleware('auth:sanctum');
+
+Route::get('user', 'App\Http\Controllers\Api\TokenController@user')
+->middleware('auth:sanctum');
+
 Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
 Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
+
+
+Route::post('/routes/{route}/inscribirse', 'App\Http\Controllers\Api\RouteController@inscribirseRuta')
+->middleware('auth:sanctum');
 
 
 

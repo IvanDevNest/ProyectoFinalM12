@@ -17,9 +17,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'password',
+
         'lastname',
         'secound_sourname',
         'id_role',
+        'id_route',
+        'is_author'
     ];
     protected $hidden = [
         'password',
@@ -35,4 +39,5 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Route::class, 'inscriptions');
     }
+    
 }

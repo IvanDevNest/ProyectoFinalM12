@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Route;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class RouteController extends Controller
 {
@@ -44,8 +47,12 @@ class RouteController extends Controller
             'id_route_style' => 'required|exists:route_styles,id'
         ]);
 
+       
+    
+    
         $route = Route::create($validatedData);
 
+       
         return response()->json([
             'success' => true,
             'data' => $route,
@@ -84,7 +91,6 @@ class RouteController extends Controller
             'URL_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
             'max_users' => 'required|integer',
-            'id_user' => 'required|exists:users,id',
             'id_route_style' => 'required|exists:route_styles,id'
         ]);
     
@@ -112,4 +118,31 @@ class RouteController extends Controller
             'message' => 'Route deleted successfully.'
         ]);
     }
+    public function inscribirseRuta(Request $request,$id) 
+    {
+        Log::debug($request);
+        // Validar datos del usuario
+        $usuario = $request->user();
+        $usuario_id = $usuario->id;
+    
+        // Validar datos de la ruta
+        
+        $ruta = Route::find($id);
+        if (!$ruta) {
+            return response()->json([
+                "success" => false,
+                "message" => "La ruta no existe"
+            ], 404);
+        }
+    
+        // Actualizar campo id_route del usuario
+        $usuario->id_route = $id;
+        $usuario->save();
+    
+        return response()->json([
+            "success" => true,
+            "message" => "Usuario inscrito en la ruta",
+        ]);
+    }    
 }
+

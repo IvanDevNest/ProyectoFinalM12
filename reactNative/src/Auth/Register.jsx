@@ -1,23 +1,26 @@
-import React,{useState} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
-  
 
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
-const Register = ({setLogin}) => {
+const Register = ({ setLogin }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   let { authToken, setAuthToken } = useContext(UserContext);
 
   const { control, handleSubmit, formState: { errors }, } = useForm();
 
-  const onSubmit = data => handleRegister(data)
+  const onSubmit = data => handleRegister(data, selectedImage)
 
-  const handleRegister = async (formState) => {
-    console.log(formState)
-    try{
-      
+  const handleRegister = async (dataa, selectedImage) => {
+    console.log(JSON.stringify(dataa, selectedImage))
+   
+    try {
+
       const data = await fetch("http://127.0.0.1:8000/api/register", {
         headers: {
           Accept: "application/json",
@@ -25,7 +28,9 @@ const Register = ({setLogin}) => {
         },
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
-        body: JSON.stringify(formState)
+        body: formData
+        // body: JSON.stringify(dataa)
+
       });
       const resposta = await data.json();
       if (resposta.success === true) {
@@ -33,14 +38,34 @@ const Register = ({setLogin}) => {
       }
       else {
         console.log(resposta.message)
-        setError(resposta.message);}
-    }catch{
+        setError(resposta.message);
+      }
+    } catch {
       console.log("Error");
       alert("Catchch");
     };
   }
 
-  
+  const handleSelectImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+      },
+      (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          setSelectedImage(response.uri);
+
+        }
+      },
+    );
+  };
   return (
     <View>
       <Text>Nombre:*</Text>
@@ -65,16 +90,26 @@ const Register = ({setLogin}) => {
 
       />
       <Text>img_profile:</Text>
-    
-   
-   
+      {selectedImage && (
+        <Image source={{ uri: selectedImage }} style={styles.image} />
+      )}
+      <Button title="Select Image" onPress={handleSelectImage} />
 
       <CustomInput
         name="img_profile"
-        placeholder="img_profile"
+        placeholder="img"
         control={control}
-
-      /> 
+        render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+            <View>
+              <TextInput
+                value={selectedImage}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder={placeholder}
+                />
+            </View>
+        )}  
+      />
       <Text>Email:*</Text>
       <CustomInput
         name="email"

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
     
@@ -21,7 +22,7 @@ class TokenController extends Controller
         return response()->json([
             "success" => true,
             "user"    => $request->user(),
-            "roles"   => $user->getRoleNames(),
+            // "roles"   => $user->getRoleNames(),
         ]);
     }
     public function login(Request $request)
@@ -72,6 +73,7 @@ class TokenController extends Controller
             'img_profile' => ['file', 'image'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
+            'is_author'=>['nullable', 'string', 'max:255']
         ]);
 
         $user = User::create([
@@ -95,6 +97,7 @@ class TokenController extends Controller
     }
     public function logout(Request $request) 
     {
+        Log::debug($request);
         // Revoke token used to authenticate current request...
         $request->user()->currentAccessToken()->delete();
 
@@ -103,5 +106,6 @@ class TokenController extends Controller
             "message" => "Current token revoked",
         ]);
     }
+   
 
 }
