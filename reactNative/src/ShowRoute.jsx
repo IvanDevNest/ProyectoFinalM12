@@ -1,12 +1,19 @@
-import React,{ useState,useEffect,useContext}  from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
+import { useRoute } from '@react-navigation/native';
 
 import { View, Button, Text } from 'react-native';
 
 const ShowRoute = (route) => {
     const [ruta, setRuta] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    let { usuari,authToken} = useContext(UserContext);
+    let { usuari, authToken } = useContext(UserContext);
+
+
+
+     const route = useRoute();
+     const objectId = route.params.objectId;
+    
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/api/routes/1", {
@@ -29,27 +36,27 @@ const ShowRoute = (route) => {
             });
     }, []);
 
-    const unirseRuta = async ()=> {
+    const unirseRuta = async () => {
         try {
-          const data = await fetch("http://127.0.0.1:8000/api/routes/1/inscribirse", {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              'Authorization': 'Bearer '  + authToken, 
-            },
-            method: "POST",
-          });
-          const resposta = await data.json();
-          if (resposta.success === true) {
-            console.log(JSON.stringify(resposta))
-           
-            setIsLoading(false)
-          }        
-          else setError(resposta.message);
-        } catch(e){
-          console.log(e.message);
-          // alert("Catchch");
-        }; 
+            const data = await fetch("http://127.0.0.1:8000/api/routes/1/inscribirse", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "POST",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log(JSON.stringify(resposta))
+
+                setIsLoading(false)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
     }
     return (
         <View>
@@ -68,7 +75,7 @@ const ShowRoute = (route) => {
                     </View>
                     <Text>URL maps</Text>
                     <View>{ruta.URL_maps}</View>
-            
+
                     <Text>Descripcion</Text>
                     <Text>{ruta.description}</Text>
                     <View style={{ flexDirection: 'row' }}>
@@ -94,14 +101,21 @@ const ShowRoute = (route) => {
                             <Text>{ruta.distance}</Text>
                         </View>
                     </View>
-                    {usuari.id_route?
-                    <>
-                    {usuari.is_auhtor}
-                    </>
-                    :
-                    <Button title="Unirme" onPress={()=>unirseRuta()} />
+                    {usuari.id_route ?
+                        <>
+                            {ruta.id_author == usuari.id ?
+                                <>
+                                    <Button title="Editar"></Button>
+                                    <Button style={styles.buttonEliminar} title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
+                                </>
+                                :
+                                <></>
+                            }
+                        </>
+                        :
+                        <Button title="Unirme" onPress={() => unirseRuta()} />
                     }
-                   
+
 
                 </View>
             }

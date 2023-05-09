@@ -54,7 +54,7 @@ const RutasList = () => {
              console.log("entra")
              setIsLoading(false)
           
-           })
+           }) 
     
            .catch((data) => {
              console.log(data);
