@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginRegister from './src/Auth/LoginRegister';
 import { UserContext } from './src/userContext';
-import { MainPage } from './src/MainPage';
 import { Header } from './src/Layout/Header';
-import { Footer } from './src/Layout/Footer';
+import {Footer} from './src/Layout/Footer';
+import { NativeRouter } from 'react-router-native';
 import CreateRoute from './src/CreateRoute';
+import Navigation from './src/Navigation';
 import ShowRoute from './src/ShowRoute';
 
 
@@ -21,7 +22,7 @@ export default function App() {
       <View style={styles.container}>
         {authToken ?
           <>
-            <MainPage />
+            <Navigation/>
           </> :
           <LoginRegister />}
         {/* <CreateRoute></CreateRoute> */}
@@ -31,16 +32,13 @@ export default function App() {
       </View>
     </UserContext.Provider>
 
-
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  container:{
+    flex:1,
+    backgroundColor:"white",
+    justifyContent:"center",
+  }
+})

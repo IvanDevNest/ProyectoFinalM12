@@ -1,4 +1,9 @@
 const theme = {
+    appBar:{
+        primary: 'black',
+        rextPrimary: 'black',
+
+    },
     colors:{
         textPrimary: 'black',
         textSecondary: 'blue',
@@ -6,7 +11,7 @@ const theme = {
     },
     fontSizes:{
         body:14,
-        sebheading:16,
+        sebheading:18,
     },
     fonts:{
         main:'System'

@@ -6,7 +6,7 @@ import { View,Text ,Button} from 'react-native';
 import RutaList from './RutaList';
 import { UserContext } from './userContext';
 import StyleText from './StyledText';
-import Routes from './Routes.js'
+// import Routes from './Routes.js'
 const RutasList = () => {
     let [rutas, setRutas] = useState(""); 
     let [isLoading, setIsLoading] = useState(true);

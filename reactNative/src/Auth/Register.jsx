@@ -28,8 +28,8 @@ const Register = ({ setLogin }) => {
         },
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
-        body: formData
-        // body: JSON.stringify(dataa)
+        // body: formData
+        body: JSON.stringify(dataa)
 
       });
       const resposta = await data.json();
