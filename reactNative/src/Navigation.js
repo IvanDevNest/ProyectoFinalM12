@@ -11,8 +11,9 @@ const Tab = createBottomTabNavigator();
 function MyTabs(){
     return(
         <Tab.Navigator>
-            <Tab.Screen name="create" component={CreateRoute}/>
             <Tab.Screen name="listar" component={RutasList}/>
+            <Tab.Screen name="create" component={CreateRoute}/>
+        
 
         </Tab.Navigator>
     );
