@@ -13,8 +13,6 @@ function MyTabs(){
         <Tab.Navigator>
             <Tab.Screen name="listar" component={RutasList}/>
             <Tab.Screen name="create" component={CreateRoute}/>
-        
-
         </Tab.Navigator>
     );
 }

@@ -41,7 +41,7 @@ const RutaList = (ruta) => (
             </View>
         </View>
         <View style={{ flexDirection: 'row' }}>
-            <View style={{ alignItems: "center", flex:1 }}>
+            <View style={{ alignItems: "center"}}>
                 <StyledText>MaxUsers</StyledText>
                 <StyledText>{ruta.max_users}/10</StyledText>
             </View>
@@ -52,7 +52,7 @@ const RutaList = (ruta) => (
 
         </View>
         <View style={{ flexDirection: 'row'}}>
-            <View style={{ alignItems: "center", flex:1}}>
+            <View style={{ alignItems: "center"}}>
                 <StyledText fontWeight='bold'>MaxUsers</StyledText>
                 <StyledText>{ruta.max_users}/10</StyledText>
             </View>

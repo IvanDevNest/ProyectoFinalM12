@@ -24,10 +24,12 @@ export const useLogin = () => {
                     method: "GET",
                 });
                 const resposta =  await data.json();
-                console.log("Resposta token:"+resposta)
+                console.log("Resposta token:")
+                console.log(JSON.stringify(resposta))
 
-                if (resposta.id) {
+                if (resposta.success) {
                     setAuthToken(localAuthToken)
+                    console.log("token guardado")
                     console.log(resposta.user.id)
                     setUsuariId(resposta.user.id)
                 } else {
