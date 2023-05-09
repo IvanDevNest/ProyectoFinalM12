@@ -73,7 +73,6 @@ class TokenController extends Controller
             'img_profile' => ['file', 'image'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'is_author'=>['nullable', 'string', 'max:255']
         ]);
 
         $user = User::create([
@@ -106,6 +105,8 @@ class TokenController extends Controller
             "message" => "Current token revoked",
         ]);
     }
+    
+    
    
 
 }

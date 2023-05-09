@@ -29,7 +29,7 @@ class CreateRoutesTable extends Migration
             $table->unsignedBigInteger('id_route_style');
             $table->foreign('id_route_style')->references('id')->on('route_styles')->onDelete('cascade');
             $table->timestamps();
-            
+
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
         });

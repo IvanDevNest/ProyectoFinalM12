@@ -58,8 +58,11 @@ Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
 Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
 
 
-Route::post('/routes/{route}/inscribirse', 'App\Http\Controllers\Api\RouteController@inscribirseRuta')
+Route::post('/routes/{route}/inscription', 'App\Http\Controllers\Api\RouteController@inscription')
 ->middleware('auth:sanctum');
+Route::delete('/routes/{route}/uninscription', 'App\Http\Controllers\Api\RouteController@uninscription')
+->middleware('auth:sanctum');
+Route::get('/inscriptions', 'App\Http\Controllers\Api\RouteController@inscriptions');
 
 
 

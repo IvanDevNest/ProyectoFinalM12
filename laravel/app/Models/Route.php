@@ -18,7 +18,7 @@ class Route extends Model
         'URL_maps',
         'num_stops',
         'max_users',
-        // 'id_author',
+        'id_author',
         'id_route_style',
 
     ];
@@ -37,10 +37,10 @@ class Route extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function inscriptions()
-    {
-        return $this->hasMany(Inscription::class);
-    }
+    // public function inscriptions()
+    // {
+    //     return $this->hasMany(Inscription::class);
+    // }
 
     public function users()
     {
