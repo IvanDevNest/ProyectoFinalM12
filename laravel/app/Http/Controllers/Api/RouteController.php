@@ -133,7 +133,7 @@ class RouteController extends Controller
         ]);
     }
 
-    /**
+    /** 
      * Add inscription
      *
      * @param  int  $id
@@ -149,9 +149,10 @@ class RouteController extends Controller
                 'message' => 'User already has a route assigned.'
             ], 422);
         }
+        $userId = auth()->user()->id;
 
         $inscription = Inscription::create([
-            'author_id' => $user,
+            'author_id' => $userId,
             'route_id' => $id
         ]);
 
