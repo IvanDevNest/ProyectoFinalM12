@@ -156,7 +156,7 @@ class RouteController extends Controller
             'route_id' => $id
         ]);
 
-        // Actualiza el registro del usuario correspondiente con la ID de la ruta creada
+        // Actualiza el registro del usuario correspondiente con la ID de la unida
         User::where('id', $userId)->update(['route_id' => $id]);
 
         return response()->json([
@@ -174,10 +174,15 @@ class RouteController extends Controller
      */
     public function uninscription($id)
     {
+        
         $inscription = Inscription::where([
             ['author_id', '=', auth()->user()->id],
             ['route_id', '=', $id],
         ])->first();
+
+        $userId = auth()->user()->id;
+        // Actualiza el registro del usuario correspondiente con la ID de la unida
+        User::where('id', $userId)->update(['route_id' => null]);
 
         if ($inscription) {
             $inscription->delete();
