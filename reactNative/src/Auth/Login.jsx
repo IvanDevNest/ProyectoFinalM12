@@ -3,16 +3,22 @@ import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
 import { useLogin } from '../Hooks/useLogin';
+// import { useContext } from 'react';
+// import { AuthContext } from '../AuthContext';
+// import { UserContext } from '../userContext';
 
 export default function Login({ setLogin }) {
+  // const {test} = useContext(AuthContext)
   const { control, handleSubmit, formState: { errors }, } = useForm();
 
   const { doLogin, error, setError } = useLogin()
   const onSubmit = data => doLogin(data)
+  // const {login} = useContext(AuthContext);
   return (
 
     <View class="login-form">
       <Text>Login</Text>
+      {/* <Text>{test}</Text> */}
 
       <Text>Email:*</Text>
       <CustomInput
@@ -39,6 +45,7 @@ export default function Login({ setLogin }) {
       <Button title="Login"
         onPress={handleSubmit(onSubmit)}
       ></Button>
+      
 
 
       <Button title="Crear una cuenta"
