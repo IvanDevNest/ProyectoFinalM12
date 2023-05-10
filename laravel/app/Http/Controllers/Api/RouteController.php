@@ -45,7 +45,8 @@ class RouteController extends Controller
             'num_stops' => 'required|integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
-            'id_route_style' => 'required|exists:route_styles,id'
+            'id_route_style' => 'required|exists:route_styles,id',
+            'author_id'=>'required|exists:users,id'
         ]);
 
        
