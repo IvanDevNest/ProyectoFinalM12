@@ -34,7 +34,7 @@ const Eliminar = async (e, id) => {
 
 
 const RutaList = (ruta) => {
-    let { usuari, setUsuari, authToken,setReload } = useContext(UserContext);
+    let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
     const navigation = useNavigation();
 
     function onPressObject(id) {
@@ -73,7 +73,7 @@ const RutaList = (ruta) => {
 
     useEffect(() => {
         getUser();
-    }, []);
+    }, [reload]);
 
 
 
@@ -89,7 +89,7 @@ const RutaList = (ruta) => {
                 method: "POST",
             });
             const resposta = await data.json();
-            console.log("resposta unirse ruta"+JSON.stringify(resposta))
+            console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
             if (resposta.success === true) {
                 // setIsLoading(false)
@@ -97,7 +97,31 @@ const RutaList = (ruta) => {
             }
             // else setError(resposta.message);
         } catch (e) {
-            console.log("catch: "+e.message);
+            console.log("catch: " + e.message);
+            // alert("Catchch");
+        };
+    }
+    const salirseRuta = async (id) => {
+        console.log(id)
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/uninscription", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            console.log("resposta unirse ruta" + JSON.stringify(resposta))
+
+            if (resposta.success === true) {
+                // setIsLoading(false)
+                setReload(!reload)
+            }
+            // else setError(resposta.message);
+        } catch (e) {
+            console.log("catch: " + e.message);
             // alert("Catchch");
         };
     }
@@ -136,7 +160,12 @@ const RutaList = (ruta) => {
                 </View>
 
                 <View>
-                    {usuari.id_route == null ?
+                    {usuari.route_id == ruta.id ?
+                        <Button title="Salir de la ruta" onPress={() => salirseRuta(ruta.id)} />
+                        :
+                        <></>
+                    }
+                    {usuari.route_id == null ?
                         <Button title="Unirme" onPress={() => unirseRuta(ruta.id)} />
                         :
                         <></>
