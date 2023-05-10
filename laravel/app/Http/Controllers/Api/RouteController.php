@@ -48,9 +48,6 @@ class RouteController extends Controller
             'id_route_style' => 'required|exists:route_styles,id',
             'author_id'=>'required|exists:users,id'
         ]);
-
-       
-    
     
         $route = Route::create($validatedData);
 

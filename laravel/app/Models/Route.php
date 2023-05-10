@@ -18,7 +18,7 @@ class Route extends Model
         'URL_maps',
         'num_stops',
         'max_users',
-        'id_author',
+        'auhtor_id',
         'id_route_style',
 
     ];
