@@ -141,9 +141,9 @@ class RouteController extends Controller
      */
     public function inscription($id)
     {
-        $userId = auth()->user()->id;
+        $user = auth()->user();
         // Validar si el usuario ya tiene una ruta asignada
-        if ($userId->route_id != null) {
+        if ($user->route_id != null) {
             return response()->json([
                 'success' => false,
                 'message' => 'User already has a route assigned.'
@@ -151,7 +151,7 @@ class RouteController extends Controller
         }
 
         $inscription = Inscription::create([
-            'author_id' => $userId,
+            'author_id' => $user,
             'route_id' => $id
         ]);
 
