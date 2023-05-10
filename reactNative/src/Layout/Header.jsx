@@ -12,7 +12,7 @@ const Header = () => {
 
   const getUser = async ()=> {
     try {
-      const data = await fetch("http://127.0.0.1:8000/api/user", {
+      const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

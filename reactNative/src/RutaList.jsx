@@ -12,7 +12,7 @@ const Eliminar = async (e, id) => {
     e.preventDefault();
 
     try {
-        const data = await fetch("http://127.0.0.1:8000/api/routes/" + id, {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"

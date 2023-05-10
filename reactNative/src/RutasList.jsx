@@ -17,7 +17,7 @@ const RutasList = () => {
     e.preventDefault();
 
     try {
-    const data = await fetch("http://127.0.0.1:8000/api/logout", {
+    const data = await fetch("http://equip04.insjoaquimmir.cat/api/logout", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const RutasList = () => {
 
     useEffect(() => {
 
-    fetch("http://127.0.0.1:8000/api/routes", {
+    fetch("http://equip04.insjoaquimmir.cat/api/routes", {
            headers: {
              Accept: "application/json",
              "Content-Type": "application/json"

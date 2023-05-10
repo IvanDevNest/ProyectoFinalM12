@@ -16,7 +16,7 @@ const ShowRoute = (route) => {
     
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/routes/1", {
+        fetch("http://equip04.insjoaquimmir.cat/api/routes/1", {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
@@ -38,7 +38,7 @@ const ShowRoute = (route) => {
 
     const unirseRuta = async () => {
         try {
-            const data = await fetch("http://127.0.0.1:8000/api/routes/1/inscribirse", {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/1/inscribirse", {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
