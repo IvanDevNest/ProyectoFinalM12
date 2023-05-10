@@ -46,12 +46,27 @@ class RouteController extends Controller
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
             'id_route_style' => 'required|exists:route_styles,id',
-            'author_id'=>'required|exists:users,id'
+            'author_id' => 'required|exists:users,id'
         ]);
-    
+
+        // Obtén el ID del usuario que creó la ruta
+        $author_id = $validatedData['author_id'];
+
+        // Validar si el usuario ya tiene una ruta asignada
+        $user = User::find($author_id);
+        if ($user->route_id != null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User already has a route assigned.'
+            ], 422);
+        }
+
         $route = Route::create($validatedData);
 
-       
+        // Actualiza el registro del usuario correspondiente con la ID de la ruta creada
+        User::where('id', $author_id)->update(['route_id' => $route->id]);
+
+
         return response()->json([
             'success' => true,
             'data' => $route,
@@ -92,9 +107,9 @@ class RouteController extends Controller
             'max_users' => 'required|integer',
             'id_route_style' => 'required|exists:route_styles,id'
         ]);
-    
+
         $route->update($validatedData);
-    
+
         return response()->json([
             'success' => true,
             'data' => $route,
@@ -117,14 +132,14 @@ class RouteController extends Controller
             'message' => 'Route deleted successfully.'
         ]);
     }
-  
- /**
+
+    /**
      * Add inscription
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function inscription($id) 
+    public function inscription($id)
     {
         $userId = auth()->user()->id;
         $inscriptionExists = Inscription::where('route_id', $id)
@@ -136,12 +151,12 @@ class RouteController extends Controller
                 'message' => "Inscription already exists"
             ], 500);
         }
-      
-            $inscription = Inscription::create([
-                'author_id' => $userId,
-                'route_id' => $id
-            ]);
-       
+
+        $inscription = Inscription::create([
+            'author_id' => $userId,
+            'route_id' => $id
+        ]);
+
         return response()->json([
             'success' => true,
             'data' => $inscription
@@ -166,16 +181,16 @@ class RouteController extends Controller
             $inscription->delete();
             return response()->json([
                 'success' => true,
-                'data'    => $inscription
+                'data' => $inscription
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => "inscription not exists"
-            ], 404); 
+            ], 404);
         }
     }
-    public function inscriptions() 
+    public function inscriptions()
     {
         $inscriptions = Inscription::all();
 
@@ -185,4 +200,3 @@ class RouteController extends Controller
         ]);
     }
 }
-
