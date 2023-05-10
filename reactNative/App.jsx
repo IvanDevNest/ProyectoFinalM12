@@ -15,18 +15,18 @@ export default function App() {
   let [authToken, setAuthToken] = useState("")
   let [usuariId, setUsuariId] = useState("")
   let [usuari, setUsuari] = useState([])
+  let [reload, setReload] = useState(true);
 
   return (
 
-    <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari }}>
+    <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari ,reload, setReload}}>
       <View style={styles.container}>
-        {/* {authToken ?
+        {authToken ?
           <>
-          <Header></Header>
             <Navigation/>
           </> :
-          <LoginRegister />}  */}
-            <Navigation/>
+          <LoginRegister />} 
+            {/* <Navigation/> */}
            
         
         <StatusBar style="auto" />

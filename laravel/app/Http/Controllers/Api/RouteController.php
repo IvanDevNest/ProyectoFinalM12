@@ -142,14 +142,12 @@ class RouteController extends Controller
     public function inscription($id)
     {
         $userId = auth()->user()->id;
-        $inscriptionExists = Inscription::where('route_id', $id)
-            ->where('author_id', $userId)
-            ->exists();
-        if ($inscriptionExists) {
+        // Validar si el usuario ya tiene una ruta asignada
+        if ($userId->route_id != null) {
             return response()->json([
                 'success' => false,
-                'message' => "Inscription already exists"
-            ], 500);
+                'message' => 'User already has a route assigned.'
+            ], 422);
         }
 
         $inscription = Inscription::create([

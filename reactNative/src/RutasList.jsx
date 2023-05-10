@@ -10,8 +10,8 @@ import StyleText from './StyledText';
 const RutasList = () => {
     let [rutas, setRutas] = useState(""); 
     let [isLoading, setIsLoading] = useState(true);
-    let { authToken, setAuthToken } = useContext(UserContext);
-
+    let { authToken, setAuthToken,reload } = useContext(UserContext);
+console.log(authToken)
   const sendLogout = async (e) => {
     
     e.preventDefault();
@@ -51,7 +51,6 @@ const RutasList = () => {
            .then((resposta) => {
              console.log(resposta)
              setRutas(resposta.data)
-             console.log("entra")
              setIsLoading(false)
           
            }) 
@@ -60,7 +59,7 @@ const RutasList = () => {
              console.log(data);
              alert("Catchch");
            });
-       }, []);
+       }, [reload]);
 
     
   return (

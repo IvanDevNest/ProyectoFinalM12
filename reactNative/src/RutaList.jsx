@@ -34,47 +34,73 @@ const Eliminar = async (e, id) => {
 
 
 const RutaList = (ruta) => {
-    let { usuari,setUsuari, authToken } = useContext(UserContext);
-
+    let { usuari, setUsuari, authToken,setReload } = useContext(UserContext);
     const navigation = useNavigation();
 
     function onPressObject(id) {
         navigation.navigate('ShowRoute', { objectId: id });
     }
-    console.log("ruta"+ruta.id+"usu"+usuari)
+    // console.log("ruta"+ruta.id+"usu"+JSON.stringify(usuari))
 
-
-    const getUser = async ()=> {
+    // console.log("ruta"+ruta.author_id+"usu"+JSON.stringify(usuari.id))
+    const getUser = async () => {
         try {
-          const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              'Authorization': 'Bearer '  + authToken, 
-            },
-            method: "GET",
-          });
-          const resposta = await data.json();
-          if (resposta.success === true) {
-            console.log(JSON.stringify(resposta))
-            // setUsername(resposta.user.name);
-            // setRoles(resposta.roles);
-             setUsuari(resposta.user)
-            // setUsuariId(resposta.user.id)
-            // // console.log(usuari);
-            setIsLoading(false)
-          }        
-        //   else setError(resposta.message);
-        } catch(e){
-          console.log(e.message);
-          // alert("Catchch");
-        }; 
-           
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+                // setUsername(resposta.user.name);
+                // setRoles(resposta.roles);
+                setUsuari(resposta.user)
+                // setUsuariId(resposta.user.id)
+                // // console.log(usuari);
+                // setIsLoading(false)
+            }
+            //   else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
+
     }
-    
+
     useEffect(() => {
         getUser();
-      },[]);
+    }, []);
+
+
+
+    const unirseRuta = async (id) => {
+        console.log(id)
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "POST",
+            });
+            const resposta = await data.json();
+            console.log("resposta unirse ruta"+JSON.stringify(resposta))
+
+            if (resposta.success === true) {
+                // setIsLoading(false)
+                setReload(!reload)
+            }
+            // else setError(resposta.message);
+        } catch (e) {
+            console.log("catch: "+e.message);
+            // alert("Catchch");
+        };
+    }
     return (
         <View key={(ruta.id)} style={styles.containerPadre}>
 
@@ -110,11 +136,15 @@ const RutaList = (ruta) => {
                 </View>
 
                 <View>
-                    <Button title="Unirme"></Button>
-                    {ruta.id_author == usuari.id ?
+                    {usuari.id_route == null ?
+                        <Button title="Unirme" onPress={() => unirseRuta(ruta.id)} />
+                        :
+                        <></>
+                    }
+                    {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar"></Button>
-                            <Button  title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
+                            <Button title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
                         </>
                         :
                         <></>
