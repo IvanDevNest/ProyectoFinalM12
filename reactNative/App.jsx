@@ -20,11 +20,13 @@ export default function App() {
 
     <UserContext.Provider value={{ authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari }}>
       <View style={styles.container}>
-        {authToken ?
+        {/* {authToken ?
           <>
             <Navigation/>
           </> :
-          <LoginRegister />}
+          <LoginRegister />} */}
+            <Navigation/>
+
         {/* <CreateRoute></CreateRoute> */}
         {/* <ShowRoute></ShowRoute> */}
         {/* 

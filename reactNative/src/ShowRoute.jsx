@@ -4,16 +4,16 @@ import { useRoute } from '@react-navigation/native';
 
 import { View, Button, Text } from 'react-native';
 
-const ShowRoute = (route) => {
+const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     let { usuari, authToken } = useContext(UserContext);
 
 
 
-     const route = useRoute();
-     const objectId = route.params.objectId;
-    
+    const route = useRoute();
+    const objectId = route.params.objectId;
+
 
     useEffect(() => {
         fetch("http://equip04.insjoaquimmir.cat/api/routes/1", {
@@ -101,20 +101,19 @@ const ShowRoute = (route) => {
                             <Text>{ruta.distance}</Text>
                         </View>
                     </View>
-                    {usuari.id_route ?
+
+                    {ruta.id_author == usuari.id ?
                         <>
-                            {ruta.id_author == usuari.id ?
-                                <>
-                                    <Button title="Editar"></Button>
-                                    <Button style={styles.buttonEliminar} title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
-                                </>
-                                :
-                                <></>
-                            }
+                            <Button title="Editar"></Button>
+                            <Button  title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
                         </>
                         :
-                        <Button title="Unirme" onPress={() => unirseRuta()} />
+                        <></>
                     }
+
+
+                    <Button title="Unirme" onPress={() => unirseRuta()} />
+
 
 
                 </View>
