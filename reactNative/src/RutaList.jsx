@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import StyledText from "./StyledText";
 import Constants from "expo-constants";
 import { useNavigation } from '@react-navigation/native';
-
-
+import { UserContext } from "./userContext";
+import { useEffect } from "react";
 
 
 const Eliminar = async (e, id) => {
@@ -32,12 +32,49 @@ const Eliminar = async (e, id) => {
 
 
 
+
 const RutaList = (ruta) => {
+    let { usuari,setUsuari, authToken } = useContext(UserContext);
+
     const navigation = useNavigation();
 
     function onPressObject(id) {
         navigation.navigate('ShowRoute', { objectId: id });
     }
+    console.log("ruta"+ruta.id+"usu"+usuari)
+
+
+    const getUser = async ()=> {
+        try {
+          const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer '  + authToken, 
+            },
+            method: "GET",
+          });
+          const resposta = await data.json();
+          if (resposta.success === true) {
+            console.log(JSON.stringify(resposta))
+            // setUsername(resposta.user.name);
+            // setRoles(resposta.roles);
+             setUsuari(resposta.user)
+            // setUsuariId(resposta.user.id)
+            // // console.log(usuari);
+            setIsLoading(false)
+          }        
+        //   else setError(resposta.message);
+        } catch(e){
+          console.log(e.message);
+          // alert("Catchch");
+        }; 
+           
+    }
+    
+    useEffect(() => {
+        getUser();
+      },[]);
     return (
         <View key={(ruta.id)} style={styles.containerPadre}>
 
@@ -74,7 +111,15 @@ const RutaList = (ruta) => {
 
                 <View>
                     <Button title="Unirme"></Button>
-                    <Button style={styles.buttonEliminar} title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
+                    {ruta.id_author == usuari.id ?
+                        <>
+                            <Button title="Editar"></Button>
+                            <Button  title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
+                        </>
+                        :
+                        <></>
+                    }
+                    {/* <Button style={styles.buttonEliminar} title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button> */}
                     <Button title="Ver" onPress={() => onPressObject(ruta.id)}></Button>
 
                 </View>

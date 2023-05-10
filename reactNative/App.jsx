@@ -22,15 +22,14 @@ export default function App() {
       <View style={styles.container}>
         {/* {authToken ?
           <>
+          <Header></Header>
             <Navigation/>
           </> :
-          <LoginRegister />} */}
+          <LoginRegister />}  */}
             <Navigation/>
-
-        {/* <CreateRoute></CreateRoute> */}
-        {/* <ShowRoute></ShowRoute> */}
-        {/* 
-        <StatusBar style="auto" /> */}
+           
+        
+        <StatusBar style="auto" />
       </View>
     </UserContext.Provider>
 
