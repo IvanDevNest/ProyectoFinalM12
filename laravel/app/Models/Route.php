@@ -18,7 +18,7 @@ class Route extends Model
         'URL_maps',
         'num_stops',
         'max_users',
-        'auhtor_id',
+        'author_id',
         'id_route_style',
 
     ];
@@ -28,22 +28,22 @@ class Route extends Model
         return $this->belongsTo(File::class);
     }
     
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user');
-    }
-
-    public function author()
-    {
-        return $this->belongsTo(User::class);
-    }
-    // public function inscriptions()
+    // public function user()
     // {
-    //     return $this->hasMany(Inscription::class);
+    //     return $this->belongsTo(User::class, 'id_user');
     // }
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'inscriptions');
-    }
+    // public function author()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+    // // public function inscriptions()
+    // // {
+    // //     return $this->hasMany(Inscription::class);
+    // // }
+
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class, 'inscriptions');
+    // }
 }
