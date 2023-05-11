@@ -69,7 +69,7 @@ const ShowRoute = () => {
 
     const unirseRuta = async (objectId) => {
         try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/routes/${objectId}/inscribirse`, {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/routes/${objectId}/inscription`, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -145,7 +145,7 @@ const ShowRoute = () => {
                         <></>
                     }
                     {usuari.route_id == null ?
-                        <Button title="Unirme" onPress={() => unirseRuta()} />
+                        <Button title="Unirme" onPress={() => unirseRuta(objectId)} />
                         :
                         <></>
                     }
