@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Inscription extends Model
 {
     use HasFactory;
-    
+    public $incrementing = false;
+    protected $primaryKey = ['author_id', 'route_id'];
+
     protected $fillable = [
         'author_id',
         'route_id'

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useLogin = () => {
     const [error, setError] = useState("");
@@ -11,7 +12,8 @@ export const useLogin = () => {
 
     async function checkAuthToken() {
         try {
-            let localAuthToken = localStorage.getItem("authToken")
+            let localAuthToken =  await AsyncStorage.getItem('authToken');
+
             console.log("LocalAuthToken: "+ localAuthToken)
             if (localAuthToken) {
 
@@ -63,7 +65,7 @@ export const useLogin = () => {
                 console.log("TOKEN:"+resposta.authToken)
 
                 setAuthToken(resposta.authToken);
-                localStorage.setItem("authToken",resposta.authToken)
+                await AsyncStorage.setItem('authToken', resposta.authToken);
                 checkAuthToken();
             }
             else setError(resposta.message);

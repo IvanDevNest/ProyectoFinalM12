@@ -16,7 +16,7 @@ const ShowRoute = () => {
 
 
     useEffect(() => {
-        fetch("http://equip04.insjoaquimmir.cat/api/routes/1", {
+        fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
@@ -74,7 +74,7 @@ const ShowRoute = () => {
 
                     </View>
                     <Text>URL maps</Text>
-                    <View>{ruta.URL_maps}</View>
+                    <Text>{ruta.URL_maps}</Text>
 
                     <Text>Descripcion</Text>
                     <Text>{ruta.description}</Text>
@@ -102,17 +102,20 @@ const ShowRoute = () => {
                         </View>
                     </View>
 
-                    {ruta.id_author == usuari.id ?
+                    {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar"></Button>
-                            <Button  title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
+                            <Button title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
                         </>
                         :
                         <></>
                     }
+                    {usuari.id_route == null ?
+                        <Button title="Unirme" onPress={() => unirseRuta()} />
+                        :
+                        <></>
+                    }
 
-
-                    <Button title="Unirme" onPress={() => unirseRuta()} />
 
 
 

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+// import { View, ActivityIndicator } from "react-native";
+
 
 
 
@@ -11,6 +13,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CreateRoute from "./CreateRoute";
 import RutasList from "./RutasList";
 import ShowRoute from "./ShowRoute";
+// import { AuthContext } from "./AuthContext";
+// import LoginRegister from "./Auth/LoginRegister";
 const HomeStackNavigator = createNativeStackNavigator();
 function MyStack() {
     return (
@@ -31,6 +35,7 @@ function MyStack() {
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+
     return (
         <Tab.Navigator
             initialRouteName="listar"
@@ -51,14 +56,21 @@ function MyTabs() {
 
                 }}
             />
-            <Tab.Screen name="ShowRoute" component={ShowRoute} />
         </Tab.Navigator>
     );
 }
 export default function Navigation() {
+
+    // const {isLoading, authToken} = useContext(AuthContext)
+    // if (isLoading){
+    //     <View style={{flex:1,justifyContent:"center",alignItems:"center" }}>
+    //         <ActivityIndicator sieze={'large'}/>
+    //     </View>
+    // }
     return (
         <NavigationContainer>
-            <MyTabs />
+            {/* {authToken !== null ? <MyTabs/> : <LoginRegister/>} */}
+            <MyTabs/>
         </NavigationContainer>
     )
 }

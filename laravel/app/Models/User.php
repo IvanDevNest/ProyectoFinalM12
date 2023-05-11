@@ -24,7 +24,7 @@ class User extends Authenticatable
         'lastname',
         'secound_sourname',
         'id_role',
-        'id_route',
+        'route_id',
         'author_id'
     ];
     protected $hidden = [
