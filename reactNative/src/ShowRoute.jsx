@@ -144,7 +144,7 @@ const ShowRoute = () => {
                         :
                         <></>
                     }
-                    {usuari.id_route == null ?
+                    {usuari.route_id == null ?
                         <Button title="Unirme" onPress={() => unirseRuta()} />
                         :
                         <></>
