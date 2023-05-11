@@ -82,7 +82,7 @@ const RutasList = () => {
   return (
     <>
     <Button title="Logout" onPress={(e)=>sendLogout(e)}></Button>
-    {isLoading?<View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Image source={require('./blue-man-1.gif')} style={{width:200,height:230}}></Image></View>:<View>
+    {isLoading?<View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Image source={require('./Loader.gif')} style={{width:150,height:75}}></Image></View>:<View>
     <FlatList data={rutas}
     renderItem={({item:ruta})=>(
         <RutaList {...ruta}/>
