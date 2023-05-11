@@ -68,7 +68,7 @@ class TokenController extends Controller
     }
     protected function register(Request $request)
     {
-        Log::debug($request->input('imageUri'));
+        Log::debug($request);
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
@@ -77,6 +77,7 @@ class TokenController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
+        Log::debug($request->input('imageUri'));
 
         $imageUri = $request->input('imageUri');
     
