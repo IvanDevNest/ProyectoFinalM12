@@ -14,12 +14,13 @@ const Register = ({ setLogin }) => {
 
   const { control, handleSubmit, formState: { errors }, } = useForm();
 
-  const onSubmit = data => handleRegister(data, selectedImage)
+  const onSubmit = data => handleRegister(data, image)
 
   const handleRegister = async (dataa, image) => {
-    console.log(JSON.stringify(dataa, image))
-    dataa.file_id = image
-   
+    let imageUri = image.uri;
+
+    dataa.imageUri = image
+    console.log(JSON.stringify(dataa))
     try {
 
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
@@ -34,6 +35,7 @@ const Register = ({ setLogin }) => {
 
       });
       const resposta = await data.json();
+      console.log("Resposta register"+ JSON.stringify(resposta))
       if (resposta.success === true) {
         setAuthToken(resposta.authToken);
       }
