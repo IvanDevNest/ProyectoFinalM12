@@ -2,7 +2,7 @@ import React,{useContext} from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { View,Text ,Button} from 'react-native';
+import { View,Text ,Button, Image} from 'react-native';
 import RutaList from './RutaList';
 import { UserContext } from './userContext';
 import StyleText from './StyledText';
@@ -11,7 +11,21 @@ const RutasList = () => {
     let [rutas, setRutas] = useState(""); 
     let [isLoading, setIsLoading] = useState(true);
     let { authToken, setAuthToken,reload } = useContext(UserContext);
-console.log(authToken)
+    let [page, setPage] = useState(1);
+    let[lastpage,setLastPage] = useState("");
+
+    console.log(authToken)
+  
+
+    const pasarPagina = async (page) => {
+      
+      setPage(page+1);
+    }
+    const retrocederPagina = async (page) => {
+      
+      setPage(page-1);
+    }
+    
   const sendLogout = async (e) => {
     
     e.preventDefault();
@@ -36,10 +50,10 @@ console.log(authToken)
     alert("Catchch");
   };
 }
-
     useEffect(() => {
+      setIsLoading(true)
 
-    fetch("http://equip04.insjoaquimmir.cat/api/routes", {
+    fetch("http://127.0.0.1:8000/api/routes?page="+page, {
            headers: {
              Accept: "application/json",
              "Content-Type": "application/json"
@@ -50,7 +64,10 @@ console.log(authToken)
            .then((data) => data.json())
            .then((resposta) => {
              console.log(resposta)
-             setRutas(resposta.data)
+             setRutas(resposta.data.data)
+             setLastPage(resposta.data.last_page)
+             console.log(resposta.data.last_page)
+
              setIsLoading(false)
           
            }) 
@@ -59,17 +76,33 @@ console.log(authToken)
              console.log(data);
              alert("Catchch");
            });
-       }, [reload]);
+       }, [reload,page]);
 
     
   return (
     <>
     <Button title="Logout" onPress={(e)=>sendLogout(e)}></Button>
+    {isLoading?<View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Image source={require('./progress.gif')} style={{width:100,height:100}}></Image></View>:<View>
     <FlatList data={rutas}
     renderItem={({item:ruta})=>(
         <RutaList {...ruta}/>
+        
     )}>
     </FlatList>
+    {page==lastpage?
+    <Button title="Anterior" onPress={()=>retrocederPagina(page)} ></Button>:
+    <View>
+      {page ==1? <Button title="Siguiente" onPress={()=>pasarPagina(page)}></Button>
+      :
+      <View style={{flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}><Button title="Anterior" onPress={()=>retrocederPagina(page)} ></Button>
+      <Button title="Siguiente" onPress={()=>pasarPagina(page,lastpage)}></Button> </View>}
+      
+    </View>
+
+    }
+
+</View>}
+    
     </>
   )
 }
