@@ -174,21 +174,21 @@ class RouteController extends Controller
      */
     public function uninscription($id)
     {
-        
-        $inscription = Inscription::where([
-            ['author_id', '=', auth()->user()->id],
-            ['route_id', '=', $id],
-        ])->first();
-
         $userId = auth()->user()->id;
-        // Actualiza el registro del usuario correspondiente con la ID de la unida
-        User::where('id', $userId)->update(['route_id' => null]);
+        Log::debug($userId);
+        $inscription = Inscription::where('author_id', $userId)->where('route_id', $id)->first();
 
         if ($inscription) {
-            $inscription->delete();
+
+            Inscription::where('author_id', $userId)->where('route_id', $id)->delete();
+
+            // Actualiza el registro del usuario correspondiente con la ID de la unida
+            User::where('id', $userId)->update(['route_id' => null]);
+
             return response()->json([
                 'success' => true,
-                'data' => $inscription
+                'message' => "deletd inscription"
+                // 'data' => $inscription
             ], 200);
         } else {
             return response()->json([
