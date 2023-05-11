@@ -66,7 +66,7 @@ class RouteController extends Controller
 
         // Actualiza el registro del usuario correspondiente con la ID de la ruta creada
         User::where('id', $author_id)->update(['route_id' => $route->id]);
-        $this->inscription($route->id);
+        // $this->inscription($route->id);
 
         return response()->json([
             'success' => true,
