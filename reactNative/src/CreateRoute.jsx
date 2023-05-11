@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View, Button, StyleSheet, Text, TextInput, KeyboardAvoidingView, SafeAreaView, Platform } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
 import RNPickerSelect from 'react-native-picker-select';
 import { UserContext } from './userContext';
-import { useContext } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 const CreateRoute = () => {
     // const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
     let { usuari, authToken, setReload, reload } = useContext(UserContext);
     const [error, setError] = useState(null);
+    const navigation = useNavigation();
 
     const { control, handleSubmit, formState: { errors } } = useForm();
     function onPressObject(id) {
@@ -42,7 +44,7 @@ const CreateRoute = () => {
             else setError(resposta.message);
         } catch (e) {
             console.log(e.err);
-            alert(e.err);
+            
         }
     };
 

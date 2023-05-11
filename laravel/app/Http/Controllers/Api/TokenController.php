@@ -8,28 +8,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\File;
 use App\Models\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-    
+
 
 class TokenController extends Controller
 {
     public function user(Request $request)
     {
         $user = User::where('email', $request->user()->email)->first();
-       
+
         return response()->json([
             "success" => true,
-            "user"    => $request->user(),
+            "user" => $request->user(),
             // "roles"   => $user->getRoleNames(),
         ]);
     }
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email'     => 'required|email',
-            'password'  => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
         if (Auth::attempt($credentials)) {
             // Get user
@@ -42,7 +43,7 @@ class TokenController extends Controller
             $token = $user->createToken("authToken")->plainTextToken;
             // Token response
             return response()->json([
-                "success"   => true,
+                "success" => true,
                 "authToken" => $token,
                 "tokenType" => "Bearer"
             ], 200);
@@ -69,32 +70,43 @@ class TokenController extends Controller
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
-            'second_surname' => ['nullable', 'string', 'max:255'],           
+            'second_surname' => ['nullable', 'string', 'max:255'],
             'img_profile' => ['file', 'image'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
-
-        $user = User::create([
-            'name' => $validacion['name'],
-            // 'lastname'=> $validacion['lastname'],
-            // 'second_surname'=> $validacion['second_surname'],
-            'img_profile' => $validacion,
-            'email' => $validacion['email'],
-            'password' => Hash::make($validacion['password']),
-        ]);
+        // Desar fitxer al disc i inserir dades a BD
+        $upload = $request->file('img_profile');
+        $file = new File();
+        $ok = $file->diskSave($upload);
+        
+        if ($ok) {
+            $user = User::create([
+                'name' => $validacion['name'],
+                // 'lastname'=> $validacion['lastname'],
+                // 'second_surname'=> $validacion['second_surname'],
+                'file_id' => $file->id,
+                'email' => $validacion['email'],
+                'password' => Hash::make($validacion['password']),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error uploading file'
+            ], 421);
+        }
 
 
         $token = $user->createToken("authToken")->plainTextToken;
-        
+
         return response()->json([
-            "success"   => true,
+            "success" => true,
             "authToken" => $token,
             "tokenType" => "Bearer"
         ], 200);
-        
+
     }
-    public function logout(Request $request) 
+    public function logout(Request $request)
     {
         Log::debug($request);
         // Revoke token used to authenticate current request...
@@ -105,8 +117,8 @@ class TokenController extends Controller
             "message" => "Current token revoked",
         ]);
     }
-    
-    
-   
+
+
+
 
 }

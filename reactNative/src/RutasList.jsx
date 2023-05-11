@@ -25,11 +25,8 @@ const RutasList = () => {
 
     setPage(page - 1);
   }
-
-  const sendLogout = async (e) => {
-
-    e.preventDefault();
-
+  
+  const sendLogout = async () => {
     try {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/logout", {
         headers: {
@@ -81,10 +78,11 @@ const RutasList = () => {
 
   return (
     <>
-      <Button title="Logout" onPress={(e) => sendLogout(e)}></Button>
+      <Button title="Logout" onPress={() => sendLogout()}></Button>
       {isLoading ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Image source={require('./Loader.gif')} style={{ width: 200, height: 230 }}></Image></View> : <View>
         <FlatList data={rutas}
           renderItem={({ item: ruta }) => (
+            
             <RutaList {...ruta} />
 
           )}>

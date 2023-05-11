@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, PermissionsAndroid } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
 
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 const Register = ({ setLogin }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [image, setImage] = useState(null);
 
   let { authToken, setAuthToken } = useContext(UserContext);
 
@@ -16,8 +16,9 @@ const Register = ({ setLogin }) => {
 
   const onSubmit = data => handleRegister(data, selectedImage)
 
-  const handleRegister = async (dataa, selectedImage) => {
-    console.log(JSON.stringify(dataa, selectedImage))
+  const handleRegister = async (dataa, image) => {
+    console.log(JSON.stringify(dataa, image))
+    dataa.file_id = image
    
     try {
 
@@ -45,26 +46,20 @@ const Register = ({ setLogin }) => {
       alert("Catchch");
     };
   }
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-  const handleSelectImage = () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        includeBase64: false,
-      },
-      (response) => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        } else {
-          setSelectedImage(response.uri);
+    console.log(result);
 
-        }
-      },
-    );
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
   };
   return (
     <View>
@@ -90,12 +85,11 @@ const Register = ({ setLogin }) => {
 
       />
       <Text>img_profile:</Text>
-      {selectedImage && (
-        <Image source={{ uri: selectedImage }} style={styles.image} />
-      )}
-      <Button title="Select Image" onPress={handleSelectImage} />
+      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      
 
-      <CustomInput
+      {/* <CustomInput
         name="img_profile"
         placeholder="img"
         control={control}
@@ -109,7 +103,7 @@ const Register = ({ setLogin }) => {
                 />
             </View>
         )}  
-      />
+      /> */}
       <Text>Email:*</Text>
       <CustomInput
         name="email"

@@ -8,14 +8,15 @@ const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
     const [error, setError] = useState([]);
     const [inscripciones, setInscripciones] = useState([])
+
     const [isLoading, setIsLoading] = useState(true);
-    let { usuari, authToken,reload,setReload } = useContext(UserContext);
+    let { usuari, authToken, reload, setReload } = useContext(UserContext);
 
 
     const route = useRoute();
     const objectId = route.params.objectId;
 
-console.log("usuariu"+JSON.stringify(usuari))
+    console.log("usuariu" + JSON.stringify(usuari))
 
     const getRoute = async (objectId) => {
 
@@ -51,7 +52,7 @@ console.log("usuariu"+JSON.stringify(usuari))
             });
             const resposta = await data.json();
             if (resposta.success === true) {
-                console.log("Inscripciones: "+JSON.stringify(resposta))
+                console.log("Inscripciones: " + JSON.stringify(resposta))
                 setInscripciones(resposta.data)
 
             }
@@ -106,7 +107,7 @@ console.log("usuariu"+JSON.stringify(usuari))
                 // setIsLoading(false)
                 setReload(!reload)
             }
-             else setError(resposta.message);
+            else setError(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
             // alert("Catchch");
@@ -128,7 +129,7 @@ console.log("usuariu"+JSON.stringify(usuari))
 
                     </View>
                     <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
-
+                
                     <TouchableOpacity onPress={() => Linking.openURL(ruta.URL_maps)}>
                         <Text style={{ color: 'blue' }}>{ruta.URL_maps}</Text>
                     </TouchableOpacity>
@@ -159,7 +160,7 @@ console.log("usuariu"+JSON.stringify(usuari))
                         </View>
                     </View>
 
-                    {usuari.route_id == ruta.id ?
+                    {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
                         <Button title="Salir de la ruta" onPress={() => salirseRuta(objectId)} />
                         :
                         <></>
@@ -173,9 +174,9 @@ console.log("usuariu"+JSON.stringify(usuari))
                         <>
                             <Button title="Editar"></Button>
                             <Button title="Eliminar" onPress={(e) => Eliminar(e, objectId)}></Button>
-                        </>:<></>
+                        </> : <></>
                     }
-                    {error ?<Text>{error}</Text>:<></>}
+                    {error ? <Text>{error}</Text> : <></>}
 
 
 

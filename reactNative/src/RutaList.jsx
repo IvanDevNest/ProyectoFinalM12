@@ -1,4 +1,4 @@
-import React, { useContext,useEffect ,useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import StyledText from "./StyledText";
 import Constants from "expo-constants";
@@ -10,6 +10,8 @@ const RutaList = (ruta) => {
     let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
     const navigation = useNavigation();
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [inscripciones, setInscripciones] = useState([])
 
     function onPressObject(id) {
         navigation.navigate('ShowRoute', { objectId: id });
@@ -36,7 +38,7 @@ const RutaList = (ruta) => {
             else setError("La resposta no ha triomfat");
         } catch (e) {
             console.log("Catch: " + e.message);
-    
+
         };
     }
     const getUser = async () => {
@@ -52,26 +54,38 @@ const RutaList = (ruta) => {
             const resposta = await data.json();
             if (resposta.success === true) {
                 console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-                // setUsername(resposta.user.name);
-                // setRoles(resposta.roles);
                 setUsuari(resposta.user)
-                // setUsuariId(resposta.user.id)
-                // // console.log(usuari);
-                // setIsLoading(false)
             }
-            //   else setError(resposta.message);
+            else setError(resposta.message);
         } catch (e) {
             console.log(e.message);
-            // alert("Catchch");
         };
 
     }
 
-    useEffect(() => {
-        getUser();
-    }, [reload]);
+    const obtenerInscripciones = async (id) => {
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${id}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("Inscripciones: " + JSON.stringify(resposta))
+                setInscripciones(resposta.data)
+                setIsLoading(false)
 
-
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
+    }
 
     const unirseRuta = async (id) => {
         console.log(id)
@@ -91,7 +105,7 @@ const RutaList = (ruta) => {
                 // setIsLoading(false)
                 setReload(!reload)
             }
-             else setError(resposta.message);
+            else setError(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
             // alert("Catchch");
@@ -112,76 +126,91 @@ const RutaList = (ruta) => {
             console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
             if (resposta.success === true) {
-                // setIsLoading(false)
                 setReload(!reload)
             }
-            // else setError(resposta.message);
+            else setError(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
-            // alert("Catchch");
         };
     }
+
+    useEffect(() => {
+        getUser();
+        obtenerInscripciones(ruta.id)
+    }, [reload]);
+
+    const numeroInscripciones = inscripciones.length;
+    const maximoUsers = ruta.max_users;
     return (
-        <View key={(ruta.id)} style={styles.containerPadre}>
+        <>
+            {isLoading ? <></>
+                :
 
-            <View key={(ruta.id)} style={{ flexDirection: 'row', paddingBottom: 10 }}>
+                numeroInscripciones < maximoUsers ?
+                    <View key={(ruta.id)} style={styles.containerPadre}>
 
-                <View style={{ backgroundColor: 'red', paddingHorizontal: 60, paddingVertical: 35, borderColor: 'black', borderWidth: 2 }}>
+                        <View key={(ruta.id)} style={{ flexDirection: 'row', paddingBottom: 10 }}>
 
-                </View>
-                <View style={{ flex: 1, paddingLeft: 15 }}>
-                    <StyledText>{ruta.name}</StyledText>
-                    <StyledText>{ruta.description}</StyledText>
-                </View>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-                <View style={{ alignItems: "center" }}>
-                    <StyledText>MaxUsers</StyledText>
-                    <StyledText>{ruta.max_users}/10</StyledText>
-                </View>
-                <View style={{ alignItems: "center" }}>
-                    <StyledText>  NumStops</StyledText>
-                    <StyledText>  {ruta.num_stops}</StyledText>
-                </View>
+                            <View style={{ backgroundColor: 'red', paddingHorizontal: 60, paddingVertical: 35, borderColor: 'black', borderWidth: 2 }}>
 
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-                <View style={{ alignItems: "center" }}>
-                    <StyledText fontWeight='bold'>MaxUsers</StyledText>
-                    <StyledText>{ruta.max_users}/10</StyledText>
-                </View>
-                <View style={{ alignItems: "center" }}>
-                    <StyledText>  NumStops</StyledText>
-                    <StyledText>  {ruta.num_stops}</StyledText>
-                </View>
+                            </View>
+                            <View style={{ flex: 1, paddingLeft: 15 }}>
+                                <StyledText>{ruta.name}</StyledText>
+                                <StyledText>{ruta.description}</StyledText>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ alignItems: "center" }}>
+                                <StyledText>MaxUsers</StyledText>
+                                <StyledText>{ruta.max_users}/10</StyledText>
+                            </View>
+                            <View style={{ alignItems: "center" }}>
+                                <StyledText>NumStops</StyledText>
+                                <StyledText>{ruta.num_stops}</StyledText>
+                            </View>
 
-                <View>
-                    {usuari.route_id == ruta.id ?
-                        <Button title="Salir de la ruta" onPress={() => salirseRuta(ruta.id)} />
-                        :
-                        <></>
-                    }
-                    {usuari.route_id == null ?
-                        <Button title="Unirme" onPress={() => unirseRuta(ruta.id)} />
-                        :
-                        <></>
-                    }
-                    {ruta.author_id == usuari.id ?
-                        <>
-                            <Button title="Editar"></Button>
-                            <Button title="Eliminar" onPress={() => eliminarRuta(ruta.id)}></Button>
-                        </>
-                        :
-                        <></>
-                    }
-                    {/* <Button style={styles.buttonEliminar} title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button> */}
-                    <Button title="Ver" onPress={() => onPressObject(ruta.id)}></Button>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ alignItems: "center" }}>
+                                <StyledText fontWeight='bold'>MaxUsers</StyledText>
+                                <StyledText>{ruta.max_users}/10</StyledText>
+                            </View>
+                            <View style={{ alignItems: "center" }}>
+                                <StyledText>NumStops</StyledText>
+                                <StyledText>{ruta.num_stops}</StyledText>
+                            </View>
 
-                </View>
-            </View>
+                            <View>
+                                {usuari.route_id == ruta.id ?
+                                    <Button title="Salir de la ruta" onPress={() => salirseRuta(ruta.id)} />
+                                    :
+                                    <></>
+                                }
+                                {usuari.route_id == null ?
+                                    <Button title="Unirme" onPress={() => unirseRuta(ruta.id)} />
+                                    :
+                                    <></>
+                                }
+                                {ruta.author_id == usuari.id ?
+                                    <>
+                                        <Button title="Editar"></Button>
+                                        <Button title="Eliminar" onPress={() => eliminarRuta(ruta.id)}></Button>
+                                    </>
+                                    :
+                                    <></>
+                                }
+                                <Button title="Ver" onPress={() => onPressObject(ruta.id)}></Button>
+
+                            </View>
+                        </View>
 
 
-        </View>
+                    </View>
+                    : <></>
+
+            }
+        </>
+
 
     )
 

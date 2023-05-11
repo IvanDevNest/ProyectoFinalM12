@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'lastname',
         'secound_sourname',
+        'file_id',
         'id_role',
         'route_id',
         'author_id'
