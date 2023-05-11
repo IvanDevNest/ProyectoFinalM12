@@ -1,41 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect ,useState} from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import StyledText from "./StyledText";
 import Constants from "expo-constants";
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from "./userContext";
-import { useEffect } from "react";
-
-
-const Eliminar = async (e, id) => {
-
-    e.preventDefault();
-
-    try {
-        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            method: "DELETE",
-        });
-        const resposta = await data.json();
-        console.log(resposta)
-        if (resposta.success === true)
-            console.log("Ruta eliminada correctament")
-        else alert("La resposta no ha triomfat");
-    } catch {
-        console.log("Error");
-        alert("Catchch");
-    };
-}
-
-
 
 
 const RutaList = (ruta) => {
     let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
     const navigation = useNavigation();
+    const [error, setError] = useState("");
 
     function onPressObject(id) {
         navigation.navigate('ShowRoute', { objectId: id });
@@ -43,6 +17,28 @@ const RutaList = (ruta) => {
     // console.log("ruta"+ruta.id+"usu"+JSON.stringify(usuari))
 
     // console.log("ruta"+ruta.author_id+"usu"+JSON.stringify(usuari.id))
+    const eliminarRuta = async (id) => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            console.log(resposta)
+            if (resposta.success === true) {
+                console.log("Ruta eliminada correctament")
+                setReload(!reload)
+            }
+            else setError("La resposta no ha triomfat");
+        } catch (e) {
+            console.log("Catch: " + e.message);
+    
+        };
+    }
     const getUser = async () => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
@@ -95,7 +91,7 @@ const RutaList = (ruta) => {
                 // setIsLoading(false)
                 setReload(!reload)
             }
-            // else setError(resposta.message);
+             else setError(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
             // alert("Catchch");
@@ -173,7 +169,7 @@ const RutaList = (ruta) => {
                     {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar"></Button>
-                            <Button title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
+                            <Button title="Eliminar" onPress={() => eliminarRuta(ruta.id)}></Button>
                         </>
                         :
                         <></>

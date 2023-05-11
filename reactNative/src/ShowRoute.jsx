@@ -2,19 +2,20 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 
-import { View, Button, Text, TouchableOpacity,Linking  } from 'react-native';
+import { View, Button, Text, TouchableOpacity, Linking } from 'react-native';
 
 const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    let { usuari, authToken } = useContext(UserContext);
+    const [error, setError] = useState([]);
     const [inscripciones, setInscripciones] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+    let { usuari, authToken,reload,setReload } = useContext(UserContext);
 
 
     const route = useRoute();
     const objectId = route.params.objectId;
 
-
+console.log("usuariu"+JSON.stringify(usuari))
 
     const getRoute = async (objectId) => {
 
@@ -36,9 +37,7 @@ const ShowRoute = () => {
                 console.log(data);
                 alert("Catchch");
             });
-
     }
-
 
     const obtenerInscripciones = async (objectId) => {
         try {
@@ -52,7 +51,7 @@ const ShowRoute = () => {
             });
             const resposta = await data.json();
             if (resposta.success === true) {
-                console.log(JSON.stringify(resposta))
+                console.log("Inscripciones: "+JSON.stringify(resposta))
                 setInscripciones(resposta.data)
 
             }
@@ -65,7 +64,7 @@ const ShowRoute = () => {
     useEffect(() => {
         getRoute(objectId);
         obtenerInscripciones(objectId);
-    }, []);
+    }, [reload]);
 
     const unirseRuta = async (objectId) => {
         try {
@@ -81,11 +80,35 @@ const ShowRoute = () => {
             if (resposta.success === true) {
                 console.log(JSON.stringify(resposta))
 
-                setIsLoading(false)
+                // setIsLoading(false)
+                setReload(!reload)
             }
             else setError(resposta.message);
         } catch (e) {
             console.log(e.message);
+            // alert("Catchch");
+        };
+    }
+    const salirseRuta = async (objectId) => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId + "/uninscription", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            console.log("resposta unirse ruta" + JSON.stringify(resposta))
+
+            if (resposta.success === true) {
+                // setIsLoading(false)
+                setReload(!reload)
+            }
+             else setError(resposta.message);
+        } catch (e) {
+            console.log("catch: " + e.message);
             // alert("Catchch");
         };
     }
@@ -136,11 +159,8 @@ const ShowRoute = () => {
                         </View>
                     </View>
 
-                    {ruta.author_id == usuari.id ?
-                        <>
-                            <Button title="Editar"></Button>
-                            <Button title="Eliminar" onPress={(e) => Eliminar(e, ruta.id)}></Button>
-                        </>
+                    {usuari.route_id == ruta.id ?
+                        <Button title="Salir de la ruta" onPress={() => salirseRuta(objectId)} />
                         :
                         <></>
                     }
@@ -149,7 +169,13 @@ const ShowRoute = () => {
                         :
                         <></>
                     }
-
+                    {ruta.author_id == usuari.id ?
+                        <>
+                            <Button title="Editar"></Button>
+                            <Button title="Eliminar" onPress={(e) => Eliminar(e, objectId)}></Button>
+                        </>:<></>
+                    }
+                    {error ?<Text>{error}</Text>:<></>}
 
 
 

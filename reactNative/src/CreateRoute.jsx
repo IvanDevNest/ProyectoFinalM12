@@ -1,40 +1,45 @@
 import React, { useState } from 'react';
-import { View,  Button, StyleSheet, Text } from 'react-native';
+import { View, Button, StyleSheet, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
 import RNPickerSelect from 'react-native-picker-select';
 import { UserContext } from './userContext';
 import { useContext } from 'react';
 const CreateRoute = () => {
-    const [rutas, setRutas] = useState([]);
+    // const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
-    let {usuari,authToken} = useContext(UserContext);
+    let { usuari, authToken,setReload,reload } = useContext(UserContext);
+    const [error, setError] = useState(null);
 
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-
+    const { control, handleSubmit, formState: { errors } } = useForm();
+    function onPressObject(id) {
+        navigation.navigate('ShowRoute', { objectId: id });
+    }
     const onSubmit = (data) => createRoute(data);
     const createRoute = async (formState) => {
+        formState.author_id = usuari.id
         console.log(JSON.stringify(formState));
-        // setError('');
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes', {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authToken,
                 },
                 method: 'POST',
                 body: JSON.stringify(formState),
             });
             const resposta = await data.json();
             if (resposta.success === true) {
-                setRutas(resposta);
-                console.log("resposta: "+ JSON.stringify(resposta))
-         } 
-        // else setError(resposta.message);
+                // setRutas(resposta);
+                console.log("resposta: " + JSON.stringify(resposta))
+                console.log("resposta route id: " + (resposta.data.id))
+
+                onPressObject(resposta.data.id)
+                setReload(!reload)
+
+            }
+            else setError(resposta.message);
         } catch (e) {
             console.log(e.err);
             alert(e.err);
@@ -50,7 +55,7 @@ const CreateRoute = () => {
                 placeholder="Nombre de la ruta"
                 control={control}
                 rules={{ required: 'duracion is required' }}
-                
+
             />
             <View >
                 <View>
@@ -59,17 +64,18 @@ const CreateRoute = () => {
                         name="start_time"
                         control={control}
                         rules={{ required: 'duracion is required' }}
-                       
+
                     />
                 </View>
                 <View>
                     <Text>Vehículo</Text>
+                    
                     <CustomInput
                         name="type_vehicle"
                         control={control}
                         rules={{ required: 'duracion is required' }}
                     />
-                    </View>
+                </View>
             </View>
 
             <View>
@@ -77,8 +83,8 @@ const CreateRoute = () => {
                     <Text>Distancia aproximada</Text>
                     <CustomInput
                         name="distance"
-                        
-                         placeholder="30km-35km"
+
+                        placeholder="30km-35km"
                         control={control}
                         rules={{
                             required: 'Distancia es requerida',
@@ -101,7 +107,7 @@ const CreateRoute = () => {
             </Text>
             <CustomInput
                 name="URL_maps"
-                 placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
+                placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
                 control={control}
                 rules={{ required: 'URL de Google Maps is required' }}
             />
@@ -110,7 +116,7 @@ const CreateRoute = () => {
                     <Text>Velocidad de la ruta</Text>
                     <CustomInput
                         name="id_route_style"
-                         placeholder="lento.."
+                        placeholder="lento.."
                         control={control}
                         rules={{
                             required: 'Velocidad de la ruta es requerida',
@@ -121,36 +127,36 @@ const CreateRoute = () => {
                     <Text>Numero de paradas</Text>
                     <CustomInput
                         name="num_stops"
-                        
+
                         control={control}
                         rules={{
                             required: 'Numero de paradas es requerida',
                         }}
                     />
                 </View>
-           
-                  
+
+
             </View>
             <Text>Maximo de personas</Text>
-                    <CustomInput
-                        name="max_users"
-                        control={control}
-                        rules={{
-                            required: 'Maximo de personas es requerida',
-                        }}
-                    />
+            <CustomInput
+                name="max_users"
+                control={control}
+                rules={{
+                    required: 'Maximo de personas es requerida',
+                }}
+            />
             <Text>Descripción</Text>
             <CustomInput
                 name="description"
-                 placeholder="Descripción de la ruta"
+                placeholder="Descripción de la ruta"
                 control={control}
                 rules={{ required: 'Descripción is required' }}
-               
-            />
 
+            />
+            {error ? <Text>{error}</Text> : <></>}
             <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
 
-    
+
         </View>
     )
 }
