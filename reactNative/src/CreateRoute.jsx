@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View,  Button, StyleSheet, Text } from 'react-native';
+import { View,  Button, StyleSheet, Text, TextInput,KeyboardAvoidingView,SafeAreaView,Platform } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
 import RNPickerSelect from 'react-native-picker-select';
@@ -42,7 +42,9 @@ const CreateRoute = () => {
     };
 
     return (
-        <View>
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView style={styles.container}
+>
             <Text>Información de la ruta</Text>
             <Text>Nombre de la ruta</Text>
             <CustomInput
@@ -130,7 +132,8 @@ const CreateRoute = () => {
                 </View>
            
                   
-            </View>
+            </View >
+            <View style={{ marginBottom: 20 }}>
             <Text>Maximo de personas</Text>
                     <CustomInput
                         name="max_users"
@@ -149,11 +152,21 @@ const CreateRoute = () => {
             />
 
             <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
+            </View>
+            </KeyboardAvoidingView>
 
     
-        </View>
+        </SafeAreaView>
     )
 }
 
 
 export default CreateRoute;
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        backgroundColor:"#fff",
+        alignItems:'center',
+        justifyContent:'center'
+    }
+})
