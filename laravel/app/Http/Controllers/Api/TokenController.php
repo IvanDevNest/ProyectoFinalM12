@@ -13,6 +13,8 @@ use App\Models\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 class TokenController extends Controller
 {
@@ -66,7 +68,7 @@ class TokenController extends Controller
     }
     protected function register(Request $request)
     {
-        Log::debug($request->file('imageUri'));
+        Log::debug($request);
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
@@ -75,11 +77,26 @@ class TokenController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
-        // Desar fitxer al disc i inserir dades a BD
-        $upload = $request->file('imageUri');
-        $file = new File();
-        $ok = $file->diskSave($upload);
 
+        $imageUri = $request->input('imageUri');
+    
+        // Descargar la imagen de la URL y guardarla en una ruta temporal
+        $tempImagePath = tempnam(sys_get_temp_dir(), 'image');
+        file_put_contents($tempImagePath, file_get_contents($imageUri));
+        
+        // Crear una instancia de UploadedFile a partir de la ruta temporal
+        $uploadedFile = new UploadedFile(
+            $tempImagePath,
+            Str::random(16) . '.jpg', // nombre aleatorio para el archivo
+            mime_content_type($tempImagePath),
+            null,
+            true // $test = true para evitar que se mueva el archivo a la ruta de almacenamiento
+        );
+
+        // Desar fitxer al disc i inserir dades a BD
+        $file = new File();
+        $ok = $file->diskSave($uploadedFile);
+        unlink($tempImagePath);
         if ($ok) {
             $user = User::create([
                 'name' => $validacion['name'],
