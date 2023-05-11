@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet, Text } from 'react-native';
+import { View, Button, StyleSheet, Text, TextInput, KeyboardAvoidingView, SafeAreaView, Platform } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
 import RNPickerSelect from 'react-native-picker-select';
@@ -8,7 +8,7 @@ import { useContext } from 'react';
 const CreateRoute = () => {
     // const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
-    let { usuari, authToken,setReload,reload } = useContext(UserContext);
+    let { usuari, authToken, setReload, reload } = useContext(UserContext);
     const [error, setError] = useState(null);
 
     const { control, handleSubmit, formState: { errors } } = useForm();
@@ -69,7 +69,7 @@ const CreateRoute = () => {
                 </View>
                 <View>
                     <Text>Vehículo</Text>
-                    
+
                     <CustomInput
                         name="type_vehicle"
                         control={control}
@@ -156,10 +156,17 @@ const CreateRoute = () => {
             {error ? <Text>{error}</Text> : <></>}
             <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
 
-
         </View>
     )
 }
 
 
 export default CreateRoute;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})

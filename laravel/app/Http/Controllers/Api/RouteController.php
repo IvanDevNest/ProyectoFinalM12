@@ -18,14 +18,15 @@ class RouteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $routes = Route::all();
+{
+    $routes = Route::paginate(2);
 
-        return response()->json([
-            'success' => true,
-            'data' => $routes
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'data' => $routes
+    ], 200);
+}
+
 
     /**
      * Store a newly created resource in storage.
