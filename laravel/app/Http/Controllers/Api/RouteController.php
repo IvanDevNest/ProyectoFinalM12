@@ -69,7 +69,11 @@ class RouteController extends Controller
 
         $routeId=$route->id;
         Log::debug($routeId);
-        $this->inscription($routeId);
+        //Crear inscripcion
+        Inscription::create([
+            'author_id' => $author_id,
+            'route_id' => $routeId
+        ]);
 
         return response()->json([
             'success' => true,
