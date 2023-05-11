@@ -2,20 +2,22 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 
-import { View, Button, Text } from 'react-native';
+import { View, Button, Text, TouchableOpacity,Linking  } from 'react-native';
 
 const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     let { usuari, authToken } = useContext(UserContext);
-
+    const [inscripciones, setInscripciones] = useState([])
 
 
     const route = useRoute();
     const objectId = route.params.objectId;
 
 
-    useEffect(() => {
+
+    const getRoute = async (objectId) => {
+
         fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
             headers: {
                 Accept: "application/json",
@@ -34,11 +36,40 @@ const ShowRoute = () => {
                 console.log(data);
                 alert("Catchch");
             });
+
+    }
+
+
+    const obtenerInscripciones = async (objectId) => {
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${objectId}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log(JSON.stringify(resposta))
+                setInscripciones(resposta.data)
+
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
+    }
+    useEffect(() => {
+        getRoute(objectId);
+        obtenerInscripciones(objectId);
     }, []);
 
-    const unirseRuta = async () => {
+    const unirseRuta = async (objectId) => {
         try {
-            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/1/inscribirse", {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/routes/${objectId}/inscribirse`, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -64,7 +95,7 @@ const ShowRoute = () => {
                 <Text>Cargando...</Text>
                 :
                 <View>
-                    <Text>Nombre de la ruta</Text>
+                    <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
                     <Text>{ruta.name}</Text>
 
                     <View style={{ flexDirection: 'row' }}>
@@ -73,31 +104,34 @@ const ShowRoute = () => {
                         <Text>{usuari.id_role}</Text>
 
                     </View>
-                    <Text>URL maps</Text>
-                    <Text>{ruta.URL_maps}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
 
-                    <Text>Descripcion</Text>
+                    <TouchableOpacity onPress={() => Linking.openURL(ruta.URL_maps)}>
+                        <Text style={{ color: 'blue' }}>{ruta.URL_maps}</Text>
+                    </TouchableOpacity>
+
+                    <Text style={{ fontWeight: 'bold' }}>Descripcion</Text>
                     <Text>{ruta.description}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <View>
                             <View>
 
-                                <Text>n de usuarios</Text>
-                                <Text>Falta saber como cojo los usuarios que hay inscritos</Text>
+                                <Text style={{ fontWeight: 'bold' }}>Usuarios inscritos</Text>
+                                <Text>{inscripciones.length}</Text>
 
                             </View>
                             <View>
-                                <Text>Hora de inicio</Text>
+                                <Text style={{ fontWeight: 'bold' }}>Hora de inicio</Text>
                                 <Text>{ruta.start_time}</Text>
 
                             </View>
                         </View>
                         <View>
-                            <Text>Duracion estimada</Text>
+                            <Text style={{ fontWeight: 'bold' }}>Duracion estimada</Text>
                             <Text>{ruta.estimated_duration}</Text>
                         </View>
                         <View>
-                            <Text>Km</Text>
+                            <Text style={{ fontWeight: 'bold' }}>Distancia en Km</Text>
                             <Text>{ruta.distance}</Text>
                         </View>
                     </View>
@@ -110,7 +144,7 @@ const ShowRoute = () => {
                         :
                         <></>
                     }
-                    {usuari.id_route == null ?
+                    {usuari.route_id == null ?
                         <Button title="Unirme" onPress={() => unirseRuta()} />
                         :
                         <></>
