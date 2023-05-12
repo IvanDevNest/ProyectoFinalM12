@@ -23,11 +23,10 @@ const Register = ({ setLogin }) => {
     console.log("imagen: " +image)
 
 
-    formData.append('imageUri', {
-      name: imageUri.fileName,
-      type: imageUri.type,
-      uri: Platform.OS === 'ios' ? imageUri.uri.replace('file://', '') : imageUri.uri,
-    });
+    formData.append('imageUri', imageUri);
+    formData.append('name', dataa.name);
+    formData.append('email', dataa.email);
+    formData.append('password', dataa.password);
    
     console.log(JSON.stringify(dataa))
     try {
@@ -39,7 +38,7 @@ const Register = ({ setLogin }) => {
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
         // body: formData
-        body: formData
+        body: createFormData(image, { userId: '123' }),
 
       });
       const resposta = await data.json();
