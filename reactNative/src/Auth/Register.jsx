@@ -19,13 +19,13 @@ const Register = ({ setLogin }) => {
   const handleRegister = async (dataa, image) => {
     const formData=new FormData();
 
-    var imageUri= image.replace('file://','')
+    // var imageUri= image.replace('file://','')
     console.log("imagen: " +image)
-    console.log("imagenurl: " +imageUri)
+    // console.log("imagenurl: " +imageUri)
 
 
     formData.append('imageUri', {
-      uri: imageUri,
+      uri: image.uri,
       name:"image",
       type: image.type
     });

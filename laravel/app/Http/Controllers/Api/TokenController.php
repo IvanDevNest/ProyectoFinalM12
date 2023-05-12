@@ -80,6 +80,7 @@ class TokenController extends Controller
         Log::debug($request->input('imageUri'));
 
         $imageUri = $request->file('imageUri');
+        Log::debug($imageUri);
     
 
         // Desar fitxer al disc i inserir dades a BD
