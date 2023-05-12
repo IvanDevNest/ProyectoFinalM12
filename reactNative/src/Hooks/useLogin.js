@@ -36,13 +36,13 @@ export const useLogin = () => {
                     setUsuariId(resposta.user.id)
                 } else {
                     console.log("INVALID local storage auth token")
-                    localStorage.removeItem("authToken")
+                    AsyncStorage.removeItem("authToken")
                 }
             } else {
                 console.log("No auth token at local storage")
             }
         } catch (e) {
-            setError(e);
+            console.log(e.message);
         }
     }
     const doLogin = async (formState) => {
@@ -71,7 +71,6 @@ export const useLogin = () => {
             else setError(resposta.message);
         } catch(e) {
             console.log(e.err);
-            alert(e.err);
         };
     }
     useEffect(() => {
