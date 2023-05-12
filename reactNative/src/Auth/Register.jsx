@@ -19,12 +19,14 @@ const Register = ({ setLogin }) => {
   const handleRegister = async (dataa, image) => {
     const formData=new FormData();
 
-     var imageUri= image.uri.replace('file://','')
+    var imageUri= image.replace('file://','')
     console.log("imagen: " +image)
+    console.log("imagenurl: " +imageUri)
 
 
     formData.append('imageUri', {
       uri: imageUri,
+      name:"image",
       type: image.type
     });
     formData.append('name', dataa.name);
@@ -71,7 +73,7 @@ const Register = ({ setLogin }) => {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0]);
+      setImage(result.assets[0].uri);
     }
   };
   return (
