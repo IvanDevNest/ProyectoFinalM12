@@ -17,8 +17,8 @@ const Register = ({ setLogin }) => {
   const onSubmit = data => handleRegister(data, image)
 
   const handleRegister = async (dataa, image) => {
-    console.log(image.uri)
-    let imageUri = image.uri;
+    console.log("imagen: " +image)
+    let imageUri = image;
 
     dataa.imageUri = imageUri
     console.log(JSON.stringify(dataa))

@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Button, StyleSheet, Text, TextInput, KeyboardAvoidingView, SafeAreaView, Platform } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
@@ -10,7 +10,7 @@ const CreateRoute = () => {
     // const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
     let { usuari, authToken, setReload, reload } = useContext(UserContext);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("null");
     const navigation = useNavigation();
 
     const { control, handleSubmit, formState: { errors } } = useForm();
@@ -44,7 +44,7 @@ const CreateRoute = () => {
             else setError(resposta.message);
         } catch (e) {
             console.log(e.err);
-            
+
         }
     };
 
@@ -71,12 +71,26 @@ const CreateRoute = () => {
                 </View>
                 <View>
                     <Text>Vehículo</Text>
-
-                    <CustomInput
-                        name="type_vehicle"
+                    <Controller
                         control={control}
-                        rules={{ required: 'duracion is required' }}
+                        name="type_vehicle"
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <RNPickerSelect
+                                placeholder={{ label: 'Selecciona una opción...', value: null }}
+                                onValueChange={onChange}
+                                onBlur={onBlur}
+                                items={[
+                                    { label: 'Moto', value: 'Moto' },
+                                    { label: 'Coche', value: 'Coche' }
+                                ]}
+                                value={value}
+                            />
+                        )}
                     />
+
+
                 </View>
             </View>
 
@@ -116,14 +130,26 @@ const CreateRoute = () => {
             <View>
                 <View>
                     <Text>Velocidad de la ruta</Text>
-                    <CustomInput
-                        name="id_route_style"
-                        placeholder="lento.."
+                    <Controller
                         control={control}
-                        rules={{
-                            required: 'Velocidad de la ruta es requerida',
-                        }}
+                        name="id_route_style"
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <RNPickerSelect
+                                placeholder={{ label: 'Selecciona una opción...', value: null }}
+                                onValueChange={onChange}
+                                onBlur={onBlur}
+                                items={[
+                                    { label: 'Del chill', value: '1' },
+                                    { label: 'Animado', value: '2' },
+                                    { label: 'A gas', value: '3' },
+                                ]}
+                                value={value}
+                            />
+                        )}
                     />
+
                 </View>
                 <View>
                     <Text>Numero de paradas</Text>
@@ -140,13 +166,34 @@ const CreateRoute = () => {
 
             </View>
             <Text>Maximo de personas</Text>
-            <CustomInput
-                name="max_users"
+            <Controller
                 control={control}
-                rules={{
-                    required: 'Maximo de personas es requerida',
-                }}
+                name="max_users"
+                defaultValue="10"
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <RNPickerSelect
+                        placeholder={{ label: 'Selecciona una opción...', value: null }}
+                        onValueChange={onChange}
+                        onBlur={onBlur}
+                        items={[
+                            { label: '1', value: '1' },
+                            { label: '2', value: '2' },
+                            { label: '3', value: '3' },
+                            { label: '4', value: '4' },
+                            { label: '5', value: '5' },
+                            { label: '6', value: '6' },
+                            { label: '7', value: '7' },
+                            { label: '8', value: '8' },
+                            { label: '9', value: '9' },
+                            { label: '10', value: '10' },
+                        ]}
+                        value={value}
+                    />
+                )}
             />
+          
+
             <Text>Descripción</Text>
             <CustomInput
                 name="description"
@@ -158,7 +205,7 @@ const CreateRoute = () => {
             {error ? <Text>{error}</Text> : <></>}
             <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
 
-        </View>
+        </View >
     )
 }
 

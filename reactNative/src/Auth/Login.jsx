@@ -42,6 +42,7 @@ export default function Login({ setLogin }) {
           },
         }}
       />
+      {error?<Text>{error}</Text>:<></>}
       <Button title="Login"
         onPress={handleSubmit(onSubmit)}
       ></Button>
