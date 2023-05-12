@@ -31,7 +31,9 @@ const Register = ({ setLogin }) => {
     formData.append('imageUri', {
       uri: image.uri,
       name:fileName,
-      type: image.type
+      type: image.type,
+      fileSize: image.fileSize
+
     });
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());
