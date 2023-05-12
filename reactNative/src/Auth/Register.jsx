@@ -34,11 +34,12 @@ const Register = ({ setLogin }) => {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
         headers: {
           Accept: "application/json",
+          "Content-Type":"multipart/form-data"
         },
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
         // body: formData
-        body: createFormData(image, { userId: '123' }),
+        body: formData
 
       });
       const resposta = await data.json();
@@ -67,7 +68,7 @@ const Register = ({ setLogin }) => {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0]);
+      setImage(result.assets[0].uri);
     }
   };
   return (
