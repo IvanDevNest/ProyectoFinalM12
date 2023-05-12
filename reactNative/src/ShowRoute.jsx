@@ -113,6 +113,29 @@ const ShowRoute = () => {
             // alert("Catchch");
         };
     }
+
+    const eliminarRuta = async (id) => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            console.log(resposta)
+            if (resposta.success === true) {
+                console.log("Ruta eliminada correctament")
+                setReload(!reload)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log("Catch: " + e.message);
+
+        };
+    }
     return (
         <View>
             {isLoading ?
@@ -173,7 +196,7 @@ const ShowRoute = () => {
                     {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar"></Button>
-                            <Button title="Eliminar" onPress={(e) => Eliminar(e, objectId)}></Button>
+                            <Button title="Eliminar" onPress={() => eliminarRuta(objectId)}></Button>
                         </> : <></>
                     }
                     {error ? <Text>{error}</Text> : <></>}
