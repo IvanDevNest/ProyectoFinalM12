@@ -19,7 +19,7 @@ class RouteController extends Controller
      */
     public function index()
     {
-        $routes = Route::paginate(10);
+        $routes = Route::paginate(6);
 
         return response()->json([
             'success' => true,
