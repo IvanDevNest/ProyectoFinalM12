@@ -69,9 +69,11 @@ const ShowRoute = () => {
     }
     const fetchAvatar = async () => {
         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
-        const response = await data.text();
-        setAvatarUrl(response);
-      };
+        const response = await data.json();
+        console.log("fetchavatar: "+JSON.stringify(response))
+        setAvatarUrl();
+    };
+    
   
     useEffect(() => {
         getRoute(objectId);

@@ -134,7 +134,8 @@ class TokenController extends Controller
     
         // Construir la URL de la imagen
         $imagePath = $user->file->file_path;
-        $imageUrl = url('storage/' . $imagePath);
+        Log::debug($imagePath);
+        $imageUrl = url('storage/app/public/' . $imagePath);
     
         return response()->json(['image_url' => $imageUrl]);
     }
