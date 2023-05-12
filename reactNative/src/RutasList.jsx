@@ -17,13 +17,24 @@ const RutasList = () => {
   console.log(authToken)
 
 
-  const pasarPagina = async (page) => {
+  const pasarPagina = async (page,lastpage) => {
 
-    setPage(page + 1);
+    if(page !== lastpage){
+      setPage(page + 1);
+
+    }
+   
+    
+
+    
   }
   const retrocederPagina = async (page) => {
+    
+    if(page !== 1){
+      setPage(page - 1);
 
-    setPage(page - 1);
+    }
+
   }
 
   const sendLogout = async () => {
@@ -103,31 +114,30 @@ const RutasList = () => {
 
   return (
     <>
-      <Button title="Logout" onPress={() => sendLogout()}></Button>
-      {isLoading ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Image source={require('./Loader.gif')} style={{ width: 200, height: 100 }}></Image></View> : <View style={{marginBottom:100}}>
-        <FlatList data={rutas}
+    <Button title='Logout' onPress={() => sendLogout()}></Button>
+      {isLoading? <View style={{justifyContent:'center', alignItems:'center',flex:1}}>
+        <Image source={require("./Loader.gif")} style={{width:200, height:100}}></Image>
+        </View>:<>
+      <FlatList data={rutas}
           renderItem={({ item: ruta }) => (
                 <RutaList {...ruta} />
           )}>
         </FlatList>
-        {lastpage == 1 ?
-          <></> :
-          page == lastpage ?
-          
-            <Button title="Anterior" onPress={() => retrocederPagina(page)} ></Button> :
-            <View>
-              {page == 1 ? <Button title="Siguiente" onPress={() => pasarPagina(page)}></Button>
-                :
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}><Button title="Anterior" onPress={() => retrocederPagina(page)} ></Button>
-                  <Button title="Siguiente" onPress={() => pasarPagina(page, lastpage)}></Button> </View>}
+        <View style={{flexDirection:'row', alignContent:'center', alignItems:'center', justifyContent:'space-around', paddingBottom:5}}>
 
-            </View>
-
-
+        {page==1?<></>
+        :
+        <Button title='Anterior' onPress={() => retrocederPagina(page)}></Button>
+        }
+        {page==lastpage?<></>
+        :        
+        <Button title='Siguiente' onPress={() => pasarPagina(page,lastpage)}></Button>
         }
 
-
-      </View>}
+        
+      </View></>}
+        
+       
 
     </>
   )
