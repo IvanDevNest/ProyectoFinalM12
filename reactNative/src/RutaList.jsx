@@ -139,12 +139,12 @@ const RutaList = (ruta) => {
         obtenerInscripciones(ruta.id)
     }, [reload]);
 
-  
+    const numeroInscripciones = inscripciones.length;
     return (
         <>
             {isLoading ? <></>
                 :
-               
+                numeroInscripciones < ruta.max_users ?
                     <View key={(ruta.id)} style={styles.containerPadre}>
 
                         <View key={(ruta.id)} style={{ flexDirection: 'row', paddingBottom: 10 }}>
@@ -204,7 +204,7 @@ const RutaList = (ruta) => {
 
 
                     </View>
-                    
+                    : <></>
 
             }
         </>

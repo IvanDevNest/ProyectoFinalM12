@@ -70,50 +70,44 @@ const RutasList = () => {
             // alert("Catchch");
         };
     }
+    const getRoutes = async (page) => {
+      setIsLoading(true)
 
-  useEffect(() => {
-    setIsLoading(true)
-
-    fetch("http://equip04.insjoaquimmir.cat/api/routes?page=" + page, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "GET",
-
-    })
-      .then((data) => data.json())
-      .then((resposta) => {
-        console.log("resposta pages" + JSON.stringify(resposta))
-        setRutas(resposta.data.data)
-        setLastPage(resposta.data.last_page)
-        console.log(resposta.data.last_page)
-
-        setIsLoading(false)
-
+      fetch("http://equip04.insjoaquimmir.cat/api/routes?page=" + page, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "GET",
+  
       })
-
-      .catch((data) => {
-        console.log(data);
-        alert("Catchch");
-      });
+        .then((data) => data.json())
+        .then((resposta) => {
+          console.log("resposta pages" + JSON.stringify(resposta))
+          setRutas(resposta.data.data)
+          setLastPage(resposta.data.last_page)
+          console.log(resposta.data.last_page)
+  
+          setIsLoading(false)
+  
+        })
+  
+        .catch((data) => {
+          console.log(data);
+          alert("Catchch");
+        });
+    }
+  useEffect(() => {
+   getRoutes(page)
   }, [reload, page]);
 
-  const numeroInscripciones = inscripciones.length;
   return (
     <>
       <Button title="Logout" onPress={() => sendLogout()}></Button>
       {isLoading ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Image source={require('./Loader.gif')} style={{ width: 200, height: 100 }}></Image></View> : <View>
         <FlatList data={rutas}
           renderItem={({ item: ruta }) => (
-            <View>
-              {numeroInscripciones < ruta.max_users ?
                 <RutaList {...ruta} />
-
-                : <></>}
-
-            </View>
-
           )}>
         </FlatList>
         {lastpage == 1 ?

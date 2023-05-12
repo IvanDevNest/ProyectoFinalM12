@@ -17,8 +17,10 @@ const Register = ({ setLogin }) => {
   const onSubmit = data => handleRegister(data, image)
 
   const handleRegister = async (dataa, image) => {
+    var ll= image.replace('file://','')
+    image=ll 
     console.log("imagen: " +image)
-    image.replace('file://','')
+
     let imageUri = image;
 
     dataa.imageUri = imageUri
@@ -28,7 +30,6 @@ const Register = ({ setLogin }) => {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
         },
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
