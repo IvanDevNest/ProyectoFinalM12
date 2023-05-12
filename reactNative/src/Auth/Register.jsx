@@ -32,9 +32,9 @@ const Register = ({ setLogin }) => {
       uri: image.uri,
       name:fileName,
       type: image.type,
-      fileSize: image.fileSize
 
     });
+    formData.append('fileSize',image.fileSize)
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);

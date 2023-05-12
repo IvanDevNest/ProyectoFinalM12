@@ -34,11 +34,12 @@ class File extends Model
      * @param UploadedFile $upload
      * @return bool
      */
-    public function diskSave(UploadedFile $upload)
+    public function diskSave(UploadedFile $upload,$fileSize)
     {
         Log::debug("Que trae el upload '{$upload}'");
         $fileName = $upload->getClientOriginalName();
-        $fileSize = $upload->getSize();
+        // $fileSize = $upload->getSize();
+
         Log::debug("Storing file '{$fileName}' ($fileSize)...");
         
         // Store file at disk

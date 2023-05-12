@@ -74,34 +74,25 @@ class TokenController extends Controller
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
                 'imageUri' => ['nullable'],
+                'fileSize'=> ['nullable'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
         ///
-        if ($request->hasFile('imageUri') && $request->file('imageUri')->isValid()) {
-            $imageUri = $request->file('imageUri')->getSize();
-            Log::debug($imageUri);
-
-            // Resto del código aquí
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error uploading file'
-            ], 400);
-        }
-        ///
+       
         Log::debug($request->input('imageUri'));
         // $imageUri = $request->file('imageUri')->getSize();
         $imageUri = $request->file('imageUri');
         Log::debug($imageUri);
 
-        $fileSize = $imageUri->getSize();
+        // $fileSize = $imageUri->getSize();
+        $fileSize = $request->input('fileSize');
         Log::debug($fileSize);
     
 
         // Desar fitxer al disc i inserir dades a BD
         $file = new File();
-        $ok = $file->diskSave($imageUri);
+        $ok = $file->diskSave($imageUri,$fileSize);
         if ($ok) {
             $user = User::create([
                 'name' => $validacion['name'],
