@@ -41,6 +41,7 @@ function MyTabs() {
             initialRouteName="listar"
             screenOptions={{
                 tabBarActiveTintColor: 'skyblue',
+                tabBarInactiveTintColor:'black'
 
 
             }}>

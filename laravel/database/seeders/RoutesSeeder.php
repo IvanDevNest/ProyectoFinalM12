@@ -22,7 +22,7 @@ class RoutesSeeder extends Seeder
 
         // Generar algunos datos aleatorios para la tabla "routes"
         $routes = [];
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $routes[] = [
                 'name' => 'Route ' . ($i + 1),
                 'description' => 'Route de pruebaa',
@@ -34,7 +34,7 @@ class RoutesSeeder extends Seeder
                 'URL_maps' => 'https://maps.google.com/route' . ($i + 1),
                 'num_stops' => rand(1, 10),
                 'max_users' => rand(1, 10),
-                'author_id'=> rand(1,4),
+                'author_id'=> rand(1,3),
                 'id_route_style' => $routeStyleIds[array_rand($routeStyleIds)],
                 'created_at' => now(),
                 'updated_at' => now(),
