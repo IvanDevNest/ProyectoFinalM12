@@ -34,7 +34,7 @@ class File extends Model
      * @param UploadedFile $upload
      * @return bool
      */
-    public function diskSave(UploadedFile $upload,$fileSize)
+    public function diskSave(UploadedFile $upload)
     {
         Log::debug("Que trae el upload '{$upload}'");
         $fileName = $upload->getClientOriginalName();

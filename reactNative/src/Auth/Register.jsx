@@ -20,10 +20,11 @@ const Register = ({ setLogin }) => {
     const formData=new FormData();
     console.log("imagen: " +image)
 
-    const fileName = image.split("/").pop();
+    const fileName = image.uri.split("/").pop();
     // var imageUri= image.replace('file://','')
     console.log("imagen: " +image)
     console.log("nombre: " +fileName)
+    console.log("tamaño: " +image.fileSize)
 
     // console.log("imagenurl: " +imageUri)
 
@@ -34,7 +35,7 @@ const Register = ({ setLogin }) => {
       type: image.type,
 
     });
-    formData.append('fileSize',image.fileSize)
+    // formData.append('fileSize',image.fileSize)
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);
@@ -79,7 +80,7 @@ const Register = ({ setLogin }) => {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0]);
     }
   };
   return (
