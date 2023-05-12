@@ -57,7 +57,7 @@ Route::get('user', 'App\Http\Controllers\Api\TokenController@user')
 
 Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
 Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
-Route::get('users/{userId}/avatar', 'TokenController@getUserAvatar');
+Route::get('users/{userId}/avatar', 'App\Http\Controllers\Api\TokenController@getUserAvatar');
 
 
 Route::post('/routes/{route}/inscription', 'App\Http\Controllers\Api\RouteController@inscription')

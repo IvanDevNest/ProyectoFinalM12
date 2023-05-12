@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Button, Text, TouchableOpacity, Linking } from 'react-native';
+import { View, Button, Text, TouchableOpacity, Linking,Image,StyleSheet  } from 'react-native';
 
 const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
@@ -68,8 +68,8 @@ const ShowRoute = () => {
         };
     }
     const fetchAvatar = async () => {
-        const response = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
-        const response = await response.text();
+        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
+        const response = await data.text();
         setAvatarUrl(response);
       };
   
@@ -160,7 +160,7 @@ const ShowRoute = () => {
                     <Text>{ruta.name}</Text>
 
                     <View style={{ flexDirection: 'row' }}>
-                        <Text>{usuari.file_id}</Text>
+                        <Image style={styles.avatar} source={avatarUrl}></Image>
                         <Text>{usuari.name}</Text>
                         <Text>{usuari.id_role}</Text>
 
@@ -225,4 +225,12 @@ const ShowRoute = () => {
     )
 
 }
+const styles = StyleSheet.create({
+    avatar: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+    },
+  });
+  
 export default ShowRoute
