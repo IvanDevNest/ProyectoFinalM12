@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
-
+import { useNavigation } from '@react-navigation/native';
 import { View, Button, Text, TouchableOpacity, Linking } from 'react-native';
 
 const ShowRoute = () => {
@@ -15,6 +15,11 @@ const ShowRoute = () => {
 
     const route = useRoute();
     const objectId = route.params.objectId;
+
+    const navigation = useNavigation();
+    function onPressObject() {
+        navigation.navigate('RutasList');
+    }
 
     console.log("usuariu" + JSON.stringify(usuari))
 
@@ -128,7 +133,8 @@ const ShowRoute = () => {
             console.log(resposta)
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
-                setReload(!reload)
+                onPressObject()
+                // setReload(!reload)
             }
             else setError(resposta.message);
         } catch (e) {

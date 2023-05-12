@@ -25,7 +25,7 @@ const RutasList = () => {
 
     setPage(page - 1);
   }
-  
+
   const sendLogout = async () => {
     try {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/logout", {
@@ -47,6 +47,30 @@ const RutasList = () => {
       alert("Catchch");
     };
   }
+  const obtenerInscripciones = async (id) => {
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${id}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("Inscripciones: " + JSON.stringify(resposta))
+                setInscripciones(resposta.data)
+                setIsLoading(false)
+
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
+    }
+
   useEffect(() => {
     setIsLoading(true)
 
@@ -75,15 +99,20 @@ const RutasList = () => {
       });
   }, [reload, page]);
 
-
+  const numeroInscripciones = inscripciones.length;
   return (
     <>
       <Button title="Logout" onPress={() => sendLogout()}></Button>
       {isLoading ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Image source={require('./Loader.gif')} style={{ width: 200, height: 100 }}></Image></View> : <View>
         <FlatList data={rutas}
           renderItem={({ item: ruta }) => (
-            
-            <RutaList {...ruta} />
+            <View>
+              {numeroInscripciones < ruta.max_users ?
+                <RutaList {...ruta} />
+
+                : <></>}
+
+            </View>
 
           )}>
         </FlatList>

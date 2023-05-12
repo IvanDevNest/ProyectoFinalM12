@@ -79,25 +79,12 @@ class TokenController extends Controller
         ]);
         Log::debug($request->input('imageUri'));
 
-        $imageUri = $request->input('imageUri');
+        $imageUri = $request->file('imageUri');
     
-        // Descargar la imagen de la URL y guardarla en una ruta temporal
-        $tempImagePath = tempnam(sys_get_temp_dir(), 'image');
-        file_put_contents($tempImagePath, file_get_contents($imageUri));
-        
-        // Crear una instancia de UploadedFile a partir de la ruta temporal
-        $uploadedFile = new UploadedFile(
-            $tempImagePath,
-            Str::random(16) . '.jpg', // nombre aleatorio para el archivo
-            mime_content_type($tempImagePath),
-            null,
-            true // $test = true para evitar que se mueva el archivo a la ruta de almacenamiento
-        );
 
         // Desar fitxer al disc i inserir dades a BD
         $file = new File();
-        $ok = $file->diskSave($uploadedFile);
-        unlink($tempImagePath);
+        $ok = $file->diskSave($imageUri);
         if ($ok) {
             $user = User::create([
                 'name' => $validacion['name'],
