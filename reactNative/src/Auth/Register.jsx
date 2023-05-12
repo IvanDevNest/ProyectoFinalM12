@@ -25,7 +25,6 @@ const Register = ({ setLogin }) => {
 
     formData.append('imageUri', {
       uri: image.uri,
-      name: 'image.fileName',
       type: image.type
     });
     formData.append('name', dataa.name);

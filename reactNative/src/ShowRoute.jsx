@@ -70,8 +70,8 @@ const ShowRoute = () => {
     const fetchAvatar = async () => {
         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
         const response = await data.json();
-        console.log("fetchavatar: "+JSON.stringify(response))
-        setAvatarUrl();
+        console.log("fetchavatar: "+ response.image_url)
+        setAvatarUrl(response.image_url);
     };
     
   
@@ -162,7 +162,7 @@ const ShowRoute = () => {
                     <Text>{ruta.name}</Text>
 
                     <View style={{ flexDirection: 'row' }}>
-                        <Image style={styles.avatar} source={avatarUrl}></Image>
+                        <Image style={styles.avatar} source={{uri:avatarUrl}}></Image>
                         <Text>{usuari.name}</Text>
                         <Text>{usuari.id_role}</Text>
 
