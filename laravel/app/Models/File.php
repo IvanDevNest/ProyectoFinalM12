@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use Illuminate\Http\UploadedFile;
+// use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 class File extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
