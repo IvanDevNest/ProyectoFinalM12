@@ -18,7 +18,7 @@ const Register = ({ setLogin }) => {
 
   const handleRegister = async (dataa, image) => {
     const formData=new FormData();
-
+    const fileName = extractFileName(image.uri);
     // var imageUri= image.replace('file://','')
     console.log("imagen: " +image)
     // console.log("imagenurl: " +imageUri)
@@ -26,7 +26,7 @@ const Register = ({ setLogin }) => {
 
     formData.append('imageUri', {
       uri: image.uri,
-      name:"image",
+      name:fileName,
       type: image.type
     });
     formData.append('name', dataa.name);

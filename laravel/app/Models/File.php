@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-// use Illuminate\Http\UploadedFile;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 class File extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -38,7 +38,7 @@ class File extends Model
     {
         Log::debug("Que trae el upload '{$upload}'");
         $fileName = $upload->getClientOriginalName();
-        $fileSize = $upload->getClientSize();
+        $fileSize = $upload->getSize();
         Log::debug("Storing file '{$fileName}' ($fileSize)...");
         
         // Store file at disk
