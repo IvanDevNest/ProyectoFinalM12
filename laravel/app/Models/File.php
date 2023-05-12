@@ -38,7 +38,7 @@ class File extends Model
     {
         Log::debug("Que trae el upload '{$upload}'");
         $fileName = $upload->getClientOriginalName();
-        $fileSize = $upload->getSize();
+        $fileSize = filesize($upload);
         Log::debug("Storing file '{$fileName}' ($fileSize)...");
         
         // Store file at disk
