@@ -31,7 +31,7 @@ class CreateRoutesTable extends Migration
             $table->timestamps();
 
             $table->unsignedBigInteger('author_id');
-            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('users');
         });
 
         Schema::table('users', function (Blueprint $table) {

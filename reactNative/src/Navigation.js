@@ -19,9 +19,9 @@ const HomeStackNavigator = createNativeStackNavigator();
 function MyStack() {
     return (
         <HomeStackNavigator.Navigator
-        initialRouteName="listarScreen">
+        initialRouteName="RutasList">
             <HomeStackNavigator.Screen
-                name="listarScreen"
+                name="RutasList"
                 component={RutasList}
             />
             <HomeStackNavigator.Screen

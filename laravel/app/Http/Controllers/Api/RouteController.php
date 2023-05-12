@@ -18,14 +18,14 @@ class RouteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-{
-    $routes = Route::paginate(2);
+    {
+        $routes = Route::paginate(2);
 
-    return response()->json([
-        'success' => true,
-        'data' => $routes
-    ], 200);
-}
+        return response()->json([
+            'success' => true,
+            'data' => $routes
+        ], 200);
+    }
 
 
     /**
@@ -67,7 +67,7 @@ class RouteController extends Controller
         // Actualiza el registro del usuario correspondiente con la ID de la ruta creada
         User::where('id', $author_id)->update(['route_id' => $route->id]);
 
-        $routeId=$route->id;
+        $routeId = $route->id;
         Log::debug($routeId);
         //Crear inscripcion
         Inscription::create([
@@ -133,6 +133,11 @@ class RouteController extends Controller
      */
     public function destroy(Route $route)
     {
+        $userId = $route->author_id;
+        Log::debug($userId);
+        User::where('id', $userId)->update(['route_id' => null]);
+
+
         $route->delete();
 
         return response()->json([
@@ -172,7 +177,6 @@ class RouteController extends Controller
             'success' => true,
             'data' => $inscription
         ], 200);
-
     }
 
     /**

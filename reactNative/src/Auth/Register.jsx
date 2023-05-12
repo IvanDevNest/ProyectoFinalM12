@@ -18,6 +18,7 @@ const Register = ({ setLogin }) => {
 
   const handleRegister = async (dataa, image) => {
     console.log("imagen: " +image)
+    image.replace('file://','')
     let imageUri = image;
 
     dataa.imageUri = imageUri

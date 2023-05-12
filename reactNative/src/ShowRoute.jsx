@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
-
+import { useNavigation } from '@react-navigation/native';
 import { View, Button, Text, TouchableOpacity, Linking } from 'react-native';
 
 const ShowRoute = () => {
@@ -15,6 +15,11 @@ const ShowRoute = () => {
 
     const route = useRoute();
     const objectId = route.params.objectId;
+
+    const navigation = useNavigation();
+    function onPressObject() {
+        navigation.navigate('RutasList');
+    }
 
     console.log("usuariu" + JSON.stringify(usuari))
 
@@ -113,6 +118,30 @@ const ShowRoute = () => {
             // alert("Catchch");
         };
     }
+
+    const eliminarRuta = async (id) => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            console.log(resposta)
+            if (resposta.success === true) {
+                console.log("Ruta eliminada correctament")
+                onPressObject()
+                // setReload(!reload)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log("Catch: " + e.message);
+
+        };
+    }
     return (
         <View>
             {isLoading ?
@@ -173,7 +202,7 @@ const ShowRoute = () => {
                     {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar"></Button>
-                            <Button title="Eliminar" onPress={(e) => Eliminar(e, objectId)}></Button>
+                            <Button title="Eliminar" onPress={() => eliminarRuta(objectId)}></Button>
                         </> : <></>
                     }
                     {error ? <Text>{error}</Text> : <></>}
