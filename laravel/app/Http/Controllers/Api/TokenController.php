@@ -79,8 +79,8 @@ class TokenController extends Controller
         ]);
         Log::debug($request->input('imageUri'));
 
-        $imageUri = $request->file('imageUri')->getSize();
-        // $imageUri = $request->file('imageUri');
+        // $imageUri = $request->file('imageUri')->getSize();
+        $imageUri = $request->file('imageUri');
         Log::debug($imageUri);
     
 
