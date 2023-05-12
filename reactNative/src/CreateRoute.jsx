@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Button, StyleSheet, Text, TextInput, KeyboardAvoidingView, SafeAreaView, Platform } from 'react-native';
+import { View, Button, StyleSheet, Text, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, FlatList, ScrollView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
 import RNPickerSelect from 'react-native-picker-select';
@@ -49,7 +49,7 @@ const CreateRoute = () => {
     };
 
     return (
-        <View>
+        <ScrollView>
             <Text>Información de la ruta</Text>
             <Text>Nombre de la ruta</Text>
             <CustomInput
@@ -192,7 +192,7 @@ const CreateRoute = () => {
                     />
                 )}
             />
-          
+
 
             <Text>Descripción</Text>
             <CustomInput
@@ -205,7 +205,8 @@ const CreateRoute = () => {
             {error ? <Text>{error}</Text> : <></>}
             <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
 
-        </View >
+        </ScrollView >
+
     )
 }
 
