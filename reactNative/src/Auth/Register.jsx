@@ -17,13 +17,18 @@ const Register = ({ setLogin }) => {
   const onSubmit = data => handleRegister(data, image)
 
   const handleRegister = async (dataa, image) => {
-    var ll= image.replace('file://','')
-    image=ll 
+    const formData=new FormData();
+
+    var imageUri= image.replace('file://','')
     console.log("imagen: " +image)
 
-    let imageUri = image;
 
-    dataa.imageUri = imageUri
+    formData.append('imageUri', {
+      name: imageUri.fileName,
+      type: imageUri.type,
+      uri: Platform.OS === 'ios' ? imageUri.uri.replace('file://', '') : imageUri.uri,
+    });
+   
     console.log(JSON.stringify(dataa))
     try {
 
@@ -34,7 +39,7 @@ const Register = ({ setLogin }) => {
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
         // body: formData
-        body: JSON.stringify(dataa)
+        body: formData
 
       });
       const resposta = await data.json();
@@ -63,7 +68,7 @@ const Register = ({ setLogin }) => {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0]);
     }
   };
   return (
