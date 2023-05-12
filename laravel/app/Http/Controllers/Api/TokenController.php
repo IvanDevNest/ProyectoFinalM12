@@ -122,7 +122,23 @@ class TokenController extends Controller
             "message" => "Current token revoked",
         ]);
     }
-
+    public function getUserAvatar($userId)
+    {
+        // Recuperar el usuario con la file_id
+        $user = User::with('file')->findOrFail($userId);
+    
+        // Comprobar si el usuario tiene una imagen asignada
+        if (!$user->file) {
+            return response()->json(['error' => 'User does not have an avatar'], 404);
+        }
+    
+        // Construir la URL de la imagen
+        $imagePath = $user->file->file_path;
+        $imageUrl = url('storage/' . $imagePath);
+    
+        return response()->json(['image_url' => $imageUrl]);
+    }
+    
 
 
 

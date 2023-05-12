@@ -8,9 +8,9 @@ const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
     const [error, setError] = useState([]);
     const [inscripciones, setInscripciones] = useState([])
-
     const [isLoading, setIsLoading] = useState(true);
     let { usuari, authToken, reload, setReload } = useContext(UserContext);
+    const [avatarUrl, setAvatarUrl] = useState(null);
 
 
     const route = useRoute();
@@ -67,9 +67,17 @@ const ShowRoute = () => {
             // alert("Catchch");
         };
     }
+    const fetchAvatar = async () => {
+        const response = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
+        const response = await response.text();
+        setAvatarUrl(response);
+      };
+  
     useEffect(() => {
         getRoute(objectId);
         obtenerInscripciones(objectId);
+        fetchAvatar();
+
     }, [reload]);
 
     const unirseRuta = async (objectId) => {
@@ -152,7 +160,7 @@ const ShowRoute = () => {
                     <Text>{ruta.name}</Text>
 
                     <View style={{ flexDirection: 'row' }}>
-                        <Text>{usuari.img_profile}</Text>
+                        <Text>{usuari.file_id}</Text>
                         <Text>{usuari.name}</Text>
                         <Text>{usuari.id_role}</Text>
 

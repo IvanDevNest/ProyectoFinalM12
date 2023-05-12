@@ -10,10 +10,10 @@ const CreateRoute = () => {
     // const [rutas, setRutas] = useState([]);
     const [selectedValue, setSelectedValue] = useState(null);
     let { usuari, authToken, setReload, reload } = useContext(UserContext);
-    const [error, setError] = useState("null");
+    const [error, setError] = useState("");
     const navigation = useNavigation();
 
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, formState: { errors }, } = useForm();
     function onPressObject(id) {
         navigation.navigate('ShowRoute', { objectId: id });
     }
