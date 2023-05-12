@@ -77,11 +77,24 @@ class TokenController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
+        ///
+        if ($request->hasFile('imageUri') && $request->file('imageUri')->isValid()) {
+            $imageUri = $request->file('imageUri')->getSize();
+            Log::debug($imageUri);
+
+            // Resto del código aquí
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error uploading file'
+            ], 400);
+        }
+        ///
         Log::debug($request->input('imageUri'));
         // $imageUri = $request->file('imageUri')->getSize();
         $imageUri = $request->file('imageUri');
         Log::debug($imageUri);
-        
+
         $fileSize = $imageUri->getSize();
         Log::debug($fileSize);
     
