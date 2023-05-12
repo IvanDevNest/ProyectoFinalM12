@@ -133,6 +133,9 @@ class RouteController extends Controller
      */
     public function destroy(Route $route)
     {
+        $userId = auth()->user()->id;
+        User::where('id', $userId)->update(['route_id' => null]);
+
         $route->delete();
 
         return response()->json([
