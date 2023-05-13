@@ -48,6 +48,7 @@ class UserSeeder extends Seeder
        $admin = new User([
            'name'      => 'joel',
            'email'     => 'jododi@fp.insjoaquimmir.cat',
+           'file_id'   => '1',
            'password'  => Hash::make('12345678'),
            'created_at' => now(),
            'updated_at' => now(),
