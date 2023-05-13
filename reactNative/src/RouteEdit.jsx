@@ -16,7 +16,7 @@ const RouteEdit = () => {
   const navigation = useNavigation();
 
   const handleChange = (value, name) => {
-    if (name === 'distance' || name === 'id_route_style'||name === 'num_stops'||name === 'estimated_duration') {
+    if (name === 'distance' || name === 'id_route_style'||name === 'num_stops'||name === 'estimated_duration'||name==='author_id') {
       value = Number(value);
     }
     setFormulari(prevState => ({
@@ -30,7 +30,7 @@ const RouteEdit = () => {
   }
 
   const updateRoute = async (formState, id) => {
-    console.log(JSON.stringify(formState));
+    console.log("formulari"+JSON.stringify(formState));
     try {
       const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes/' + id, {
         headers: {
@@ -70,7 +70,7 @@ const RouteEdit = () => {
       })
       const resposta = await data.json();
       if (resposta.success === true) {
-        console.log("resposta" + JSON.stringify(resposta))
+        console.log("resposta getRoute" + JSON.stringify(resposta))
         setRuta(resposta.data)
         setIsLoading(false)
 
@@ -85,6 +85,7 @@ const RouteEdit = () => {
           num_stops: resposta.data.num_stops,
           max_users: resposta.data.max_users,
           id_route_style: resposta.data.id_route_style,
+          author_id:resposta.data.author_id
         })
 
       }
@@ -92,8 +93,7 @@ const RouteEdit = () => {
         setError(resposta.message);
       }
     } catch (err) {
-      console.log(err.message);
-      alert("Catchch" + err.message);
+      console.log("catch"+err.message);
     };
   }
 
@@ -102,7 +102,8 @@ const RouteEdit = () => {
     getRoute(objectId)
   }, []);
   useEffect(() => {
-    console.log(ruta)
+    console.log("variable ruta"+JSON.stringify(ruta))
+
     setFormulari({
       name: ruta.name,
       description: ruta.description,
@@ -114,9 +115,11 @@ const RouteEdit = () => {
       num_stops: ruta.num_stops,
       max_users: ruta.max_users,
       id_route_style: ruta.id_route_style,
+      author_id:ruta.author_id
     })
   }, [ruta])
-  console.log("formulari" + formulari.distance)
+  console.log("local formulari"+JSON.stringify(formulari))
+
   return (
     <ScrollView>
       {isLoading ?
@@ -129,7 +132,7 @@ const RouteEdit = () => {
           <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
           <TextInput
             name="name"
-            onChangeText={text => handleChange(text, 'distance')}
+            onChangeText={text => handleChange(text, 'name')}
             value={formulari.name}
           />
 
@@ -195,7 +198,7 @@ const RouteEdit = () => {
               <Text style={{ fontWeight: 'bold' }}>Numero de paradas</Text>
               <TextInput
                 name="num_stops"
-                // onChangeText={text => handleChange(text, 'num_stops')}
+               onChangeText={text => handleChange(text, 'num_stops')}
                 value={formulari.num_stops.toString()}
               />
             </View>
@@ -209,8 +212,8 @@ const RouteEdit = () => {
             onChangeText={text => handleChange(text, 'description')}
             value={formulari.description}
           />
-          {error ? <Text>{error}</Text> : <></>}
-          <Button title="Actualizar Ruta" onPress={updateRoute(formulari, ruta.id)} />
+          {error ? <Text style={{color:'red'}}>{error}</Text> : <></>}
+          <Button title="Actualizar Ruta" onPress={()=>updateRoute(formulari, ruta.id)} />
         </ScrollView>
 
       }
