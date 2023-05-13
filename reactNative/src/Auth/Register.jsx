@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
-
+import { Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 const Register = ({ setLogin }) => {
@@ -22,9 +22,9 @@ const Register = ({ setLogin }) => {
     if (image){
       console.log("imagen: " +JSON.stringify(image.assets[0]))
 
-      const fileName = image.uri.split("/").pop();
-      // var imageUri= image.replace('file://','')
-      console.log("imagenurl: " +image.assets[0].uri)
+      const fileName = image.assets[0].uri.split("/").pop();
+      // var imageUri= image.assets[0].uri.replace('file://','')
+      console.log("imagen url: " +image.uri)
       console.log("nombre: " +fileName)
       // console.log("tamaño: " +image.assets[0].fileSize)
   
@@ -34,7 +34,7 @@ const Register = ({ setLogin }) => {
       formData.append('imageUri', {
         uri: image.assets[0].uri,
         name:fileName,
-        type: image.assets[0].type,
+        type: Platform === "ios" ? image.assets[0].uri.split(".").pop() :  "image/"+image.assets[0].uri.split(".").pop(),
   
       });
     }
@@ -46,7 +46,7 @@ const Register = ({ setLogin }) => {
     formData.append('password', dataa.password);
    
     console.log("Data antes de enviar"+JSON.stringify(dataa))
-    console.log("FormData antes de enviar"+JSON.stringify(dataa))
+    console.log("FormData antes de enviar"+JSON.stringify(formData))
 
     try {
 
@@ -72,7 +72,7 @@ const Register = ({ setLogin }) => {
       }
     } catch(e) {
       console.log("Error" +e.message);
-      alert("Catchch");
+      alert(e.message);
     };
   }
   const pickImage = async () => {
