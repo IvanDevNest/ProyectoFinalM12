@@ -29,7 +29,7 @@ class ReviewSeeder extends Seeder
           Review::create([
               'reviewed_id' => $reviewed_user->id,
               'author_review_id' => $user->id,
-              'score' => rand(1, 5),
+              'stars' => rand(1, 5),
           ]);
       }
     }

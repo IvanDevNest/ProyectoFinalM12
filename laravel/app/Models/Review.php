@@ -10,7 +10,7 @@ class Review extends Model
     protected $fillable = [
         'reviewed_id',
         'author_review_id',
-        'score'
+        'stars'
     ];
     public function reviewed()
     {

@@ -33,7 +33,7 @@ class ReviewController extends Controller
     {
         
         $validatedData = $request->validate([
-            'score' => 'required|integer|between:1,5',
+            'stars' => 'required|integer|between:1,5',
             'reviewed_id' => 'required',
             'author_review_id' => 'required',
         ]);
@@ -76,7 +76,7 @@ class ReviewController extends Controller
     public function update(Request $request, Review $review)
     {
         $validatedData = $request->validate([
-            'score' => 'required|integer|between:1,5',
+            'stars' => 'required|integer|between:1,5',
         ]);
 
         $review->update($validatedData);
