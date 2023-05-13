@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
 // import { View, ActivityIndicator } from "react-native";
 
 
@@ -13,6 +15,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CreateRoute from "./CreateRoute";
 import RutasList from "./RutasList";
 import ShowRoute from "./ShowRoute";
+import User from "./ShowUser";
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
 const HomeStackNavigator = createNativeStackNavigator();
@@ -28,6 +31,7 @@ function MyStack() {
                 name="ShowRoute"
                 component={ShowRoute}
             />
+            
         </HomeStackNavigator.Navigator>
     )
 }
@@ -57,6 +61,14 @@ function MyTabs() {
 
                 }}
             />
+            <Tab.Screen name="user" component={User}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome5 name="user-circle" size={size} color={color} />)
+
+                }}
+            />
+            
         </Tab.Navigator>
     );
 }
