@@ -42,7 +42,7 @@ class RouteController extends Controller
             'start_time' => 'required|numeric',
             'distance' => 'required|numeric',
             'estimated_duration' => 'required|numeric',
-            'URL_maps' => 'required|max:255',
+            'url_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
@@ -110,7 +110,7 @@ class RouteController extends Controller
             'timetable' => 'required|max:255',
             'cord_x' => 'required|numeric',
             'cord_y' => 'required|numeric',
-            'URL_maps' => 'required|max:255',
+            'url_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
             'max_users' => 'required|integer',
             'id_route_style' => 'required|exists:route_styles,id'

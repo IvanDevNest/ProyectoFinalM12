@@ -14,7 +14,7 @@ const RutaList = (ruta) => {
     const [inscripciones, setInscripciones] = useState([])
 
     function onPressObject(id) {
-        navigation.navigate('ShowRoute', { objectId: id });
+        navigation.navigate('RouteEdit', { objectId: id });
     }
     // console.log("ruta"+ruta.id+"usu"+JSON.stringify(usuari))
 
@@ -191,7 +191,7 @@ const RutaList = (ruta) => {
                                 }
                                 {ruta.author_id == usuari.id ?
                                     <>
-                                        <Button title="Editar"></Button>
+                                        <Button title="Editar" onPress={() => onPressObject(ruta.id)}></Button>
                                         <Button title="Eliminar" onPress={() => eliminarRuta(ruta.id)}></Button>
                                     </>
                                     :

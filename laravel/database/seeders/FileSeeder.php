@@ -17,7 +17,7 @@ class FileSeeder extends Seeder
     {
         DB::table('files')->insert([
         [
-            'filepath' => 'upoads\descarga.jpeg',
+            'filepath' => 'uploads\descarga.jpeg',
             'filesize' => '12',
           
         ]]);

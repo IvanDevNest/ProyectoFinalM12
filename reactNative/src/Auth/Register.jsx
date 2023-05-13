@@ -108,7 +108,7 @@ const Register = ({ setLogin }) => {
       />
       <Text>img_profile:</Text>
       <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
       
 
       {/* <CustomInput
