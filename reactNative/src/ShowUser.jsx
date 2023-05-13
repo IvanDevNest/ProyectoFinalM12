@@ -36,8 +36,6 @@ const ShowUser = () => {
         <StyledText>{usuari.name}</StyledText>
         <View style={{ flexDirection: 'row' }}>
                         <Image style={styles.avatar} source={{uri:avatarUrl}}></Image>
-                        <Text>{usuari.name}</Text>
-                        <Text>{usuari.id_role}</Text>
 
                     </View>
     </>
