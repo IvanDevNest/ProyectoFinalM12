@@ -2,15 +2,16 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet } from 'react-native';
-
+import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet,ScrollView } from 'react-native';
+import CustomInput from './CustomInput';
 const RouteEdit = () => {
   const route = useRoute();
   const objectId = route.params.objectId;
   let [formulari, setFormulari] = useState({});
   let { authToken, setAuthToken } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [ruta, setRuta] = useState([]);
+    const [error, setError] = useState([]);
   const handleChange = (e) => {
     e.preventDefault();
     setFormulari({

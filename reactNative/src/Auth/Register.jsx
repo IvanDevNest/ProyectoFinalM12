@@ -4,11 +4,12 @@ import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
-
+import { Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 const Register = ({ setLogin }) => {
   const [image, setImage] = useState(null);
+  const [error, setError] = useState([]);
 
   let { authToken, setAuthToken } = useContext(UserContext);
 
@@ -18,29 +19,35 @@ const Register = ({ setLogin }) => {
 
   const handleRegister = async (dataa, image) => {
     const formData=new FormData();
-    console.log("imagen: " +image)
+    if (image){
+      console.log("imagen: " +JSON.stringify(image.assets[0]))
 
-    const fileName = image.uri.split("/").pop();
-    // var imageUri= image.replace('file://','')
-    console.log("imagen: " +image)
-    console.log("nombre: " +fileName)
-    console.log("tamaño: " +image.fileSize)
-
-    // console.log("imagenurl: " +imageUri)
-
-
-    formData.append('imageUri', {
-      uri: image.uri,
-      name:fileName,
-      type: image.type,
-
-    });
+      const fileName = image.assets[0].uri.split("/").pop();
+      // var imageUri= image.assets[0].uri.replace('file://','')
+      console.log("imagen url: " +image.uri)
+      console.log("nombre: " +fileName)
+      // console.log("tamaño: " +image.assets[0].fileSize)
+  
+      // console.log("imagenurl: " +imageUri)
+  
+  
+      formData.append('imageUri', {
+        uri: image.assets[0].uri,
+        name:fileName,
+        type: Platform === "ios" ? image.assets[0].uri.split(".").pop() :  "image/"+image.assets[0].uri.split(".").pop(),
+  
+      });
+    }
+    
+   
     // formData.append('fileSize',image.fileSize)
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);
    
-    console.log(JSON.stringify(dataa))
+    console.log("Data antes de enviar"+JSON.stringify(dataa))
+    console.log("FormData antes de enviar"+JSON.stringify(formData))
+
     try {
 
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
@@ -63,9 +70,9 @@ const Register = ({ setLogin }) => {
         console.log(resposta.message)
         setError(resposta.message);
       }
-    } catch {
-      console.log("Error");
-      alert("Catchch");
+    } catch(e) {
+      console.log("Error" +e.message);
+      alert(e.message);
     };
   }
   const pickImage = async () => {
@@ -77,7 +84,7 @@ const Register = ({ setLogin }) => {
       quality: 1,
     });
 
-    console.log("result:" + JSON.stringify(result));
+    console.log("result: "+JSON.stringify(result));
 
     if (!result.canceled) {
       setImage(result);

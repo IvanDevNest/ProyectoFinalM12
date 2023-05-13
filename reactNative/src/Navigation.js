@@ -15,7 +15,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import CreateRoute from "./CreateRoute";
 import RutasList from "./RutasList";
 import ShowRoute from "./ShowRoute";
-import User from "./ShowUser";
+import RouteEdit from "./RouteEdit";
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
 const HomeStackNavigator = createNativeStackNavigator();
@@ -30,8 +30,11 @@ function MyStack() {
             <HomeStackNavigator.Screen
                 name="ShowRoute"
                 component={ShowRoute}
-            />
-            
+            />  
+            <HomeStackNavigator.Screen
+            name="RouteEdit"
+            component={RouteEdit}
+        />
         </HomeStackNavigator.Navigator>
     )
 }
