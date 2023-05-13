@@ -21,7 +21,7 @@ const CreateRoute = () => {
     const createRoute = async (formState) => {
         let dateToSend = date.toISOString();
         console.log(dateToSend)
-        formState.date=dateToSend
+        formState.date = dateToSend
         formState.author_id = usuari.id
         console.log(JSON.stringify(formState));
         try {
@@ -59,12 +59,12 @@ const CreateRoute = () => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
-        let tempDate=new Date(currentDate);
-        let fDate ="Dia "+tempDate.getDate()+'/'+(tempDate.getMonth()+1) +'/'+tempDate.getFullYear();
-        let fTime ="Hora "+tempDate.getHours()+':' +tempDate.getMinutes();
-        setText(fDate+ ' ' + fTime)
-        console.log(fDate+ '(' + fTime+')')
-        
+        let tempDate = new Date(currentDate);
+        let fDate = "Dia " + tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+        let fTime = "Hora " + tempDate.getHours() + ':' + tempDate.getMinutes();
+        setText(fDate + ' ' + fTime)
+        console.log(fDate + '(' + fTime + ')')
+
     };
 
     const showMode = (currentMode) => {
@@ -72,7 +72,11 @@ const CreateRoute = () => {
         setMode(currentMode);
 
     };
-console.log(JSON.stringify(date))
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+    const minimumDate = new Date(currentYear, 0, 1); // 1st January of the current year
+    const maximumDate = new Date(nextYear, 0, 1); // 1st January of the next year
+    console.log(JSON.stringify(date))
     return (
         <ScrollView>
             <Text>Información de la ruta</Text>
@@ -89,9 +93,9 @@ console.log(JSON.stringify(date))
                     <Text>Fecha</Text>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text>{text}</Text>
-                        <View style={{ flex: 2,flexDirection: 'row' }}>
-                            <Button title='Seleccionar dia' onPress={()=>showMode('date')}/>
-                            <Button title='Seleccionar hora' onPress={()=>showMode('time')}/>
+                        <View style={{ flex: 2, flexDirection: 'row' }}>
+                            <Button title='Seleccionar dia' onPress={() => showMode('date')} />
+                            <Button title='Seleccionar hora' onPress={() => showMode('time')} />
                         </View>
                         {show && (
                             <DateTimePicker
@@ -100,10 +104,12 @@ console.log(JSON.stringify(date))
                                 mode={mode}
                                 is24Hour={true}
                                 display="default"
+                                minimumDate={minimumDate}
+                                maximumDate={maximumDate}
                                 onChange={onChange}
                             />
                         )}
-                       
+
                     </View>
                     {/* <CustomInput
                         name="start_time"

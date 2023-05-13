@@ -26,7 +26,7 @@ class RoutesSeeder extends Seeder
             $routes[] = [
                 'name' => 'Route ' . ($i + 1),
                 'description' => 'Route de pruebaa',
-                'start_time' => '10:30',
+                'date' => '2023-05-17 18:20:56',
                 'estimated_duration' => '1:30',
                 'distance' => '50',
 
