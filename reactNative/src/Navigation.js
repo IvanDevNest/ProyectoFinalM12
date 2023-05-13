@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
 // import { View, ActivityIndicator } from "react-native";
 
 
@@ -62,6 +64,14 @@ function MyTabs() {
 
                 }}
             />
+            <Tab.Screen name="user" component={User}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome5 name="user-circle" size={size} color={color} />)
+
+                }}
+            />
+            
         </Tab.Navigator>
     );
 }

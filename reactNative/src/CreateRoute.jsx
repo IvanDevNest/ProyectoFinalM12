@@ -173,6 +173,7 @@ const CreateRoute = () => {
                 rules={{ required: true }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <RNPickerSelect
+
                         placeholder={{ label: 'Selecciona una opción...', value: null }}
                         onValueChange={onChange}
                         onBlur={onBlur}

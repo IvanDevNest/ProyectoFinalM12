@@ -1,4 +1,5 @@
 import React from 'react';
+import Constants from 'expo-constants';
 import { View, Text, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native';
 
 const Header = () => {
@@ -6,7 +7,8 @@ const Header = () => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <Image source={require('./blue-man-1.gif')} style={styles.logo} />
-        <Text style={styles.title}>Hola</Text>
+        <Text style={styles.title}></Text>
+
         <TextInput
           placeholder="Buscar"
           style={styles.searchInput}
@@ -20,6 +22,7 @@ const Header = () => {
 const styles = StyleSheet.create({
   safeArea: {
     backgroundColor: '#eaf2ff',
+    paddingTop: Constants.statusBarHeight +10
   },
   header: {
     flexDirection: 'row',
@@ -30,8 +33,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
   },
   logo: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     marginRight: 10,
   },
   title: {
