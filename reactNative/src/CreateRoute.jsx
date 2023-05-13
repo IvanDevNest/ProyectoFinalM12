@@ -71,7 +71,7 @@ const CreateRoute = () => {
                 </View>
                 <View>
                     <Text>Vehículo</Text>
-                    <Controller
+                    {/* <Controller
                         control={control}
                         name="type_vehicle"
                         defaultValue=""
@@ -88,7 +88,7 @@ const CreateRoute = () => {
                                 value={value}
                             />
                         )}
-                    />
+                    /> */}
 
 
                 </View>
@@ -130,7 +130,7 @@ const CreateRoute = () => {
             <View>
                 <View>
                     <Text>Velocidad de la ruta</Text>
-                    <Controller
+                    {/* <Controller
                         control={control}
                         name="id_route_style"
                         defaultValue=""
@@ -148,7 +148,7 @@ const CreateRoute = () => {
                                 value={value}
                             />
                         )}
-                    />
+                    /> */}
 
                 </View>
                 <View>
@@ -166,7 +166,7 @@ const CreateRoute = () => {
 
             </View>
             <Text>Maximo de personas</Text>
-            <Controller
+            {/* <Controller
                 control={control}
                 name="max_users"
                 defaultValue="10"
@@ -191,7 +191,7 @@ const CreateRoute = () => {
                         value={value}
                     />
                 )}
-            />
+            /> */}
 
 
             <Text>Descripción</Text>
