@@ -1,0 +1,4 @@
+[Thu May 11 17:46:26.365289 2023] [php:error] [pid 143743] [client 109.205.132.156:49737] PHP Fatal error:  Trait "Spatie\\Permission\\Traits\\HasRoles" not found in /var/www/ProyectoFinalM12/laravel/app/Models/User.php on line 13
+[Thu May 11 17:46:42.917919 2023] [php:error] [pid 139555] [client 109.205.132.156:49743] PHP Fatal error:  Trait "Spatie\\Permission\\Traits\\HasRoles" not found in /var/www/ProyectoFinalM12/laravel/app/Models/User.php on line 13
+[Thu May 11 17:47:07.619208 2023] [php:error] [pid 139559] [client 109.205.132.156:49746] PHP Fatal error:  Trait "Spatie\\Permission\\Traits\\HasRoles" not found in /var/www/ProyectoFinalM12/laravel/app/Models/User.php on line 13
+[Thu May 11 17:47:35.617608 2023] [php:error] [pid 143745] [client 109.205.132.156:49747] PHP Fatal error:  Trait "Spatie\\Permission\\Traits\\HasRoles" not found in /var/www/ProyectoFinalM12/laravel/app/Models/User.php on line 13
