@@ -34,12 +34,12 @@ class ReviewController extends Controller
         
         $validatedData = $request->validate([
             'score' => 'required|integer|between:1,5',
-            'id_reviewed' => 'required',
-            'id_author' => 'required',
+            'reviewed_id' => 'required',
+            'author_review_id' => 'required',
         ]);
 
         // Verificar si el usuario está tratando de evaluarse a sí mismo
-        if ($validatedData['id_reviewed'] == $validatedData['id_author']) {
+        if ($validatedData['reviewed_id'] == $validatedData['author_review_id']) {
             return response()->json(['error' => 'No puedes evaluarte a ti mismo'], 400);
         }
 
@@ -77,8 +77,6 @@ class ReviewController extends Controller
     {
         $validatedData = $request->validate([
             'score' => 'required|integer|between:1,5',
-            'id_reviewed' => 'required|unique:reviews,id_reviewed,'.$review->id,
-            'id_author' => 'required|unique:reviews,id_author,'.$review->id,
         ]);
 
         $review->update($validatedData);
