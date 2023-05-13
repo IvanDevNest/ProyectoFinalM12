@@ -41,7 +41,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Route::class);
     }
-    
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
+
     // public function routes()
     // {
     //     return $this->belongsToMany(Route::class, 'inscriptions');

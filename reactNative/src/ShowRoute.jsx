@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Button, Text, TouchableOpacity, Linking } from 'react-native';
+import { View, Button, Text, TouchableOpacity, Linking,Image,StyleSheet  } from 'react-native';
 
 const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
     const [error, setError] = useState([]);
     const [inscripciones, setInscripciones] = useState([])
-
     const [isLoading, setIsLoading] = useState(true);
     let { usuari, authToken, reload, setReload } = useContext(UserContext);
+    const [avatarUrl, setAvatarUrl] = useState(null);
 
 
     const route = useRoute();
@@ -67,9 +67,19 @@ const ShowRoute = () => {
             // alert("Catchch");
         };
     }
+    const fetchAvatar = async () => {
+        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
+        const response = await data.json();
+        console.log("fetchavatar: "+ response.image_url)
+        setAvatarUrl(response.image_url);
+    };
+    
+  
     useEffect(() => {
         getRoute(objectId);
         obtenerInscripciones(objectId);
+        fetchAvatar();
+
     }, [reload]);
 
     const unirseRuta = async (objectId) => {
@@ -152,7 +162,7 @@ const ShowRoute = () => {
                     <Text>{ruta.name}</Text>
 
                     <View style={{ flexDirection: 'row' }}>
-                        <Text>{usuari.img_profile}</Text>
+                        <Image style={styles.avatar} source={{uri:avatarUrl}}></Image>
                         <Text>{usuari.name}</Text>
                         <Text>{usuari.id_role}</Text>
 
@@ -217,4 +227,12 @@ const ShowRoute = () => {
     )
 
 }
+const styles = StyleSheet.create({
+    avatar: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+    },
+  });
+  
 export default ShowRoute

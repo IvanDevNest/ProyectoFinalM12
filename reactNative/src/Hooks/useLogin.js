@@ -47,6 +47,9 @@ export const useLogin = () => {
     }
     const doLogin = async (formState) => {
         console.log(JSON.stringify(formState))
+        formState.email.toLowerCase()
+        console.log(JSON.stringify(formState))
+
         //setError("");   
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/login", {

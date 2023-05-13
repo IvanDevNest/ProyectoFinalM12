@@ -18,14 +18,26 @@ const Register = ({ setLogin }) => {
 
   const handleRegister = async (dataa, image) => {
     const formData=new FormData();
-
-    var imageUri= image.replace('file://','')
     console.log("imagen: " +image)
 
+    const fileName = image.uri.split("/").pop();
+    // var imageUri= image.replace('file://','')
+    console.log("imagen: " +image)
+    console.log("nombre: " +fileName)
+    console.log("tamaño: " +image.fileSize)
 
-    formData.append('imageUri', imageUri);
+    // console.log("imagenurl: " +imageUri)
+
+
+    formData.append('imageUri', {
+      uri: image.uri,
+      name:fileName,
+      type: image.type,
+
+    });
+    // formData.append('fileSize',image.fileSize)
     formData.append('name', dataa.name);
-    formData.append('email', dataa.email);
+    formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);
    
     console.log(JSON.stringify(dataa))
@@ -34,12 +46,12 @@ const Register = ({ setLogin }) => {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
         headers: {
           Accept: "application/json",
-          "Content-Type":"multipart/form-data"
+          "content-type":"multipart/form-data"
         },
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
         // body: formData
-        body: formData
+        body: formData,
 
       });
       const resposta = await data.json();
@@ -59,7 +71,7 @@ const Register = ({ setLogin }) => {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -68,7 +80,7 @@ const Register = ({ setLogin }) => {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0]);
     }
   };
   return (

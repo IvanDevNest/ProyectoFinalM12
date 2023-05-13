@@ -73,13 +73,21 @@ class TokenController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
-            'imageUri' => ['nullable'],
+                'imageUri' => ['nullable'],
+                // 'fileSize'=> ['nullable'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
+        ///
+       
         Log::debug($request->input('imageUri'));
-
+        // $imageUri = $request->file('imageUri')->getSize();
         $imageUri = $request->file('imageUri');
+        Log::debug($imageUri);
+
+         $fileSize = $imageUri->getSize();
+        // $fileSize = $request->input('fileSize');
+        Log::debug($fileSize);
     
 
         // Desar fitxer al disc i inserir dades a BD
@@ -122,7 +130,26 @@ class TokenController extends Controller
             "message" => "Current token revoked",
         ]);
     }
+    public function getUserAvatar($userId)
+    {
+        // Recuperar el usuario con la file_id
+        $user = User::with('file')->findOrFail($userId);
+    
+        // Comprobar si el usuario tiene una imagen asignada
+        if (!$user->file) {
+            return response()->json(['error' => 'User does not have an avatar'], 404);
+        }
+    
+        // Construir la URL de la imagen
+        $imagePath = $user->file->filepath;
+        Log::debug($user->file);
 
+        Log::debug($imagePath);
+        $imageUrl = url('storage/' . $imagePath);
+    
+        return response()->json(['image_url' => $imageUrl]);
+    }
+    
 
 
 
