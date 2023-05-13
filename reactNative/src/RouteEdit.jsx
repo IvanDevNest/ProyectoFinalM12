@@ -15,44 +15,47 @@ const RouteEdit = () => {
   const [error, setError] = useState([]);
   const navigation = useNavigation();
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setFormulari({
-      ...formulari,
-      [e.target.name]: e.target.value
-    })
-  };
+  const handleChange = (value, name) => {
+    if (name === 'distance' || name === 'id_route_style'||name === 'num_stops'||name === 'estimated_duration') {
+      value = Number(value);
+    }
+    setFormulari(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  }
+
   function onPressObject(id) {
     navigation.navigate('ShowRoute', { objectId: id });
-}
+  }
 
-  const createRoute = async (formState,id) => {
+  const updateRoute = async (formState, id) => {
     console.log(JSON.stringify(formState));
     try {
-        const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes/'+id, {
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authToken,
-            },
-            method: 'PUT',
-            body: JSON.stringify(formState),
-        });
-        const resposta = await data.json();
-        if (resposta.success === true) {
-            // setRutas(resposta);
-            console.log("resposta: " + JSON.stringify(resposta))
+      const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes/' + id, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + authToken,
+        },
+        method: 'PUT',
+        body: JSON.stringify(formState),
+      });
+      const resposta = await data.json();
+      if (resposta.success === true) {
+        // setRutas(resposta);
+        console.log("resposta: " + JSON.stringify(resposta))
 
-            onPressObject(resposta.data.id)
-            setReload(!reload)
+        onPressObject(resposta.data.id)
+        setReload(!reload)
 
-        }
-        else setError(resposta.message);
+      }
+      else setError(resposta.message);
     } catch (e) {
-        console.log(e.err);
+      console.log(e.err);
 
     }
-};
+  };
   const getRoute = async (objectId) => {
     try {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
@@ -105,14 +108,15 @@ const RouteEdit = () => {
       description: ruta.description,
       start_time: ruta.start_time,
       estimated_duration: ruta.estimated_duration,
-      // type_vehicle: ruta.type_vehicle,
+      type_vehicle: ruta.type_vehicle,
       distance: ruta.distance,
-      // url_maps: ruta.url_maps,
+      url_maps: ruta.url_maps,
       num_stops: ruta.num_stops,
-      // max_users:ruta.max_users,
+      max_users: ruta.max_users,
       id_route_style: ruta.id_route_style,
     })
   }, [ruta])
+  console.log("formulari" + formulari.distance)
   return (
     <ScrollView>
       {isLoading ?
@@ -120,52 +124,50 @@ const RouteEdit = () => {
         :
         <ScrollView>
 
-          <Text>Editar Ruta</Text>
-          <Text>Información de la ruta</Text>
-          <Text>Nombre de la ruta</Text>
+          <Text style={{ fontWeight: 'bold' }}>Editar Ruta</Text>
+          <Text style={{ fontWeight: 'bold' }}>Información de la ruta</Text>
+          <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
           <TextInput
             name="name"
-            onChangeText={handleChange}
+            onChangeText={text => handleChange(text, 'distance')}
             value={formulari.name}
           />
 
           <View >
             <View>
-              <Text>Hora inicio</Text>
+              <Text style={{ fontWeight: 'bold' }}>Hora inicio</Text>
               <TextInput
                 name="start_time"
-                onChangeText={handleChange}
+                onChangeText={text => handleChange(text, 'start_time')}
                 value={formulari.start_time}
               />
-
             </View>
             <View>
-              <Text>Vehículo</Text>
-
+              <Text style={{ fontWeight: 'bold' }}>Vehículo</Text>
               <Text>{formulari.type_vehicle}</Text>
-          </View>
+            </View>
           </View>
 
           <View>
             <View>
-              <Text>Distancia aproximada</Text>
+              <Text style={{ fontWeight: 'bold' }}>Distancia aproximada</Text>
               <TextInput
                 name="distance"
-                onChangeText={handleChange}
-                value={formulari.distance}
+                onChangeText={text => handleChange(text, 'distance')}
+                value={formulari.distance.toString()}
               />
 
             </View>
             <View>
-              <Text>Duración</Text>
+              <Text style={{ fontWeight: 'bold' }}>Duración</Text>
               <TextInput
                 name="estimated_duration"
-                onChangeText={handleChange}
+                onChangeText={text => handleChange(text, 'estimated_duration')}
                 value={formulari.estimated_duration}
               />
             </View>
           </View>
-          <Text>
+          <Text style={{ fontWeight: 'bold' }}>
             URL de Google Maps con símbolo de ayuda para enseñar cómo coger la URL
           </Text>
           <Text>{formulari.url_maps}</Text>
@@ -173,43 +175,42 @@ const RouteEdit = () => {
 
           <View>
             <View>
-              <Text>Velocidad de la ruta</Text>
-
+              <Text style={{ fontWeight: 'bold' }}>Velocidad de la ruta</Text>
               <RNPickerSelect
-                placeholder={{ label: 'Selecciona una opción...', value: formulari.id_route_style }}
-                onValueChange={handleChange}
+                placeholder={{ label: 'Selecciona una opción...', value: formulari.id_route_style}}
+                onValueChange={text => handleChange(text, 'id_route_style')}
 
                 items={[
                   { label: 'Del chill', value: '1' },
                   { label: 'Animado', value: '2' },
                   { label: 'A gas', value: '3' },
                 ]}
-                value={formulari.id_route_style}
+                value={formulari.id_route_style.toString()}
               />
 
 
 
             </View>
             <View>
-              <Text>Numero de paradas</Text>
+              <Text style={{ fontWeight: 'bold' }}>Numero de paradas</Text>
               <TextInput
                 name="num_stops"
-                onChangeText={handleChange}
-                value={formulari.num_stops}
+                // onChangeText={text => handleChange(text, 'num_stops')}
+                value={formulari.num_stops.toString()}
               />
             </View>
-            <Text>Maximo de personas</Text>
+            <Text style={{ fontWeight: 'bold' }}>Maximo de personas</Text>
             <Text>{formulari.max_users}</Text>
 
           </View>
-          <Text>Descripción</Text>
+          <Text style={{ fontWeight: 'bold' }}>Descripción</Text>
           <TextInput
             name="description"
-            onChangeText={handleChange}
+            onChangeText={text => handleChange(text, 'description')}
             value={formulari.description}
           />
           {error ? <Text>{error}</Text> : <></>}
-          <Button title="Crear Ruta" onPress={createRoute(formulari,ruta.id)} />
+          <Button title="Actualizar Ruta" onPress={updateRoute(formulari, ruta.id)} />
         </ScrollView>
 
       }

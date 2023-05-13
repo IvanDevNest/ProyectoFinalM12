@@ -172,8 +172,8 @@ const ShowRoute = () => {
                     </View>
                     <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
                 
-                    <TouchableOpacity onPress={() => Linking.openURL(ruta.URL_maps)}>
-                        <Text style={{ color: 'blue' }}>{ruta.URL_maps}</Text>
+                    <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
+                        <Text style={{ color: 'blue' }}>{ruta.url_maps}</Text>
                     </TouchableOpacity>
                 
                     <Text style={{ fontWeight: 'bold' }}>Descripcion</Text>

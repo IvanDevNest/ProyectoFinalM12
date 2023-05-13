@@ -12,7 +12,7 @@ class CreateRoutesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('start_time');
+            $table->datetime('date');
             $table->string('estimated_duration');
             $table->string('type_vehicle');
             $table->integer('distance');

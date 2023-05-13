@@ -85,29 +85,33 @@ const RutasList = () => {
   return (
     <>
       <Button title='Logout' onPress={() => sendLogout()}></Button>
-      {isLoading ? <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-        <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }}></Image>
-      </View> : <>
-        <FlatList data={rutas}
-          renderItem={({ item: ruta }) => (
-            <RutaList {...ruta} />
-          )}>
-        </FlatList>
-        <View style={{ flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'space-around', paddingVertical: 5 }}>
+      {isLoading ?
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }}></Image>
+        </View> 
+        :
+        <>
+          <FlatList data={rutas}
+            renderItem={({ item: ruta }) => (
+              <RutaList {...ruta} />
+            )}>
+          </FlatList>
+          <View style={{ flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'space-around', paddingVertical: 5 }}>
 
-          {page == 1 ? <Button title='Anterior' disabled onPress={() => retrocederPagina(page)}></Button>
+            {page == 1 ? <Button title='Anterior' disabled onPress={() => retrocederPagina(page)}></Button>
 
-            :
-            <Button title='Anterior' onPress={() => retrocederPagina(page)} color={'#00ACFF'}></Button>
-          }
-          {page == lastpage ? <Button title='Siguiente' disabled onPress={() => pasarPagina(page, lastpage)}></Button>
+              :
+              <Button title='Anterior' onPress={() => retrocederPagina(page)} color={'#00ACFF'}></Button>
+            }
+            {page == lastpage ? <Button title='Siguiente' disabled onPress={() => pasarPagina(page, lastpage)}></Button>
 
-            :
-            <Button title='Siguiente' onPress={() => pasarPagina(page, lastpage)}></Button>
-          }
+              :
+              <Button title='Siguiente' onPress={() => pasarPagina(page, lastpage)}></Button>
+            }
 
 
-        </View></>}
+          </View>
+        </>}
 
 
 
