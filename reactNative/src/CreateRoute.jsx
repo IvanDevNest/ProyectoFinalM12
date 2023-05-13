@@ -71,7 +71,7 @@ const CreateRoute = () => {
                 </View>
                 <View>
                     <Text>Vehículo</Text>
-                    <Controller
+                     <Controller
                         control={control}
                         name="type_vehicle"
                         defaultValue=""
@@ -88,7 +88,7 @@ const CreateRoute = () => {
                                 value={value}
                             />
                         )}
-                    />
+                    /> 
 
 
                 </View>
@@ -122,7 +122,7 @@ const CreateRoute = () => {
                 URL de Google Maps con símbolo de ayuda para enseñar cómo coger la URL
             </Text>
             <CustomInput
-                name="URL_maps"
+                name="url_maps"
                 placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
                 control={control}
                 rules={{ required: 'URL de Google Maps is required' }}
@@ -148,7 +148,7 @@ const CreateRoute = () => {
                                 value={value}
                             />
                         )}
-                    />
+                    /> 
 
                 </View>
                 <View>
@@ -192,7 +192,7 @@ const CreateRoute = () => {
                         value={value}
                     />
                 )}
-            />
+            /> 
 
 
             <Text>Descripción</Text>

@@ -19,7 +19,7 @@ class CreateRoutesTable extends Migration
 
             // $table->string('cord_x');
             // $table->string('cord_y');
-            $table->string('URL_maps');
+            $table->string('url_maps');
             $table->integer('num_stops');
             $table->integer('max_users');
             

@@ -164,13 +164,16 @@ const ShowRoute = () => {
                     <View style={{ flexDirection: 'row' }}>
                         <Image style={styles.avatar} source={{uri:avatarUrl}}></Image>
                         <Text>{usuari.name}</Text>
-                        <Text>{usuari.id_role}</Text>
+                        {usuari.id_role==4?
+                        <Image source={require("./vip.png")} style={{width:50, height:50}}></Image>
+                        :<></>
+                        }
 
                     </View>
                     <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
                 
-                    <TouchableOpacity onPress={() => Linking.openURL(ruta.URL_maps)}>
-                        <Text style={{ color: 'blue' }}>{ruta.URL_maps}</Text>
+                    <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
+                        <Text style={{ color: 'blue' }}>{ruta.url_maps}</Text>
                     </TouchableOpacity>
                 
                     <Text style={{ fontWeight: 'bold' }}>Descripcion</Text>
@@ -229,8 +232,8 @@ const ShowRoute = () => {
 }
 const styles = StyleSheet.create({
     avatar: {
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       borderRadius: 50,
     },
   });

@@ -17,8 +17,8 @@ class FileSeeder extends Seeder
     {
         DB::table('files')->insert([
         [
-            'filepath' => 'laravel\public\images\logo.png',
-            'filesize' => '108',
+            'filepath' => 'uploads\descarga.jpeg',
+            'filesize' => '12',
           
         ]]);
     }

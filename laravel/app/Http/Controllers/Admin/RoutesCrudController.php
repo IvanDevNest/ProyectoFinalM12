@@ -43,7 +43,7 @@ class RoutesCrudController extends CrudController
         CRUD::column('timetable');
         CRUD::column('cord_x');
         CRUD::column('cord_y');
-        CRUD::column('URL_maps');
+        CRUD::column('url_maps');
         CRUD::column('num_stops');
         CRUD::column('max_users');
         CRUD::column('id_user');
@@ -72,7 +72,7 @@ class RoutesCrudController extends CrudController
         CRUD::field('timetable');
         CRUD::field('cord_x');
         CRUD::field('cord_y');
-        CRUD::field('URL_maps');
+        CRUD::field('url_maps');
         CRUD::field('num_stops');
         CRUD::field('max_users');
         CRUD::field('id_user');

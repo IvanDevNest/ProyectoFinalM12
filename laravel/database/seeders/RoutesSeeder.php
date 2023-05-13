@@ -31,7 +31,7 @@ class RoutesSeeder extends Seeder
                 'distance' => '50',
 
                 'type_vehicle' => 'moto',
-                'URL_maps' => 'https://maps.google.com/route' . ($i + 1),
+                'url_maps' => 'https://maps.google.com/route' . ($i + 1),
                 'num_stops' => rand(1, 10),
                 'max_users' => rand(1, 10),
                 'author_id'=> rand(1,3),

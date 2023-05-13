@@ -15,7 +15,7 @@ class Route extends Model
         'estimated_duration',
         'type_vehicle',
         'distance',
-        'URL_maps',
+        'url_maps',
         'num_stops',
         'max_users',
         'author_id',
