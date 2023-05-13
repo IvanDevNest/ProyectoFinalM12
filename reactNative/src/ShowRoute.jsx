@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Button, Text, TouchableOpacity, Linking,Image,StyleSheet  } from 'react-native';
+import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet } from 'react-native';
 
 const ShowRoute = () => {
     const [ruta, setRuta] = useState([]);
@@ -17,10 +17,13 @@ const ShowRoute = () => {
     const objectId = route.params.objectId;
 
     const navigation = useNavigation();
-    function onPressObject() {
+    function RutasList() {
         navigation.navigate('RutasList');
     }
 
+    function RouteEdit(id) {
+        navigation.navigate('RouteEdit', { objectId: id });
+    }
     console.log("usuariu" + JSON.stringify(usuari))
 
     const getRoute = async (objectId) => {
@@ -70,11 +73,11 @@ const ShowRoute = () => {
     const fetchAvatar = async () => {
         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
         const response = await data.json();
-        console.log("fetchavatar: "+ response.image_url)
+        console.log("fetchavatar: " + response.image_url)
         setAvatarUrl(response.image_url);
     };
-    
-  
+
+
     useEffect(() => {
         getRoute(objectId);
         obtenerInscripciones(objectId);
@@ -143,7 +146,7 @@ const ShowRoute = () => {
             console.log(resposta)
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
-                onPressObject()
+                RutasList()
                 // setReload(!reload)
             }
             else setError(resposta.message);
@@ -162,7 +165,7 @@ const ShowRoute = () => {
                     <Text>{ruta.name}</Text>
 
                     <View style={{ flexDirection: 'row' }}>
-                        <Image style={styles.avatar} source={{uri:avatarUrl}}></Image>
+                        <Image style={styles.avatar} source={{ uri: avatarUrl }}></Image>
                         <Text>{usuari.name}</Text>
                         <Text>{usuari.id_role}</Text>
 
@@ -211,7 +214,7 @@ const ShowRoute = () => {
                     }
                     {ruta.author_id == usuari.id ?
                         <>
-                            <Button title="Editar"></Button>
+                            <Button title="Editar" onPress={() => RouteEdit(objectId)}></Button>
                             <Button title="Eliminar" onPress={() => eliminarRuta(objectId)}></Button>
                         </> : <></>
                     }
@@ -233,6 +236,6 @@ const styles = StyleSheet.create({
       height: 100,
       borderRadius: 50,
     },
-  });
-  
+});
+
 export default ShowRoute
