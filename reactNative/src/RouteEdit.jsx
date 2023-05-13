@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet,ScrollView } from 'react-native';
-import CustomInput from './CustomInput';
+import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet, ScrollView, Controller, TextInput } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
+
 const RouteEdit = () => {
   const route = useRoute();
   const objectId = route.params.objectId;
@@ -11,7 +12,9 @@ const RouteEdit = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [ruta, setRuta] = useState([]);
-    const [error, setError] = useState([]);
+  const [error, setError] = useState([]);
+  const navigation = useNavigation();
+
   const handleChange = (e) => {
     e.preventDefault();
     setFormulari({
@@ -19,7 +22,37 @@ const RouteEdit = () => {
       [e.target.name]: e.target.value
     })
   };
+  function onPressObject(id) {
+    navigation.navigate('ShowRoute', { objectId: id });
+}
 
+  const createRoute = async (formState,id) => {
+    console.log(JSON.stringify(formState));
+    try {
+        const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes/'+id, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: 'PUT',
+            body: JSON.stringify(formState),
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            // setRutas(resposta);
+            console.log("resposta: " + JSON.stringify(resposta))
+
+            onPressObject(resposta.data.id)
+            setReload(!reload)
+
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log(e.err);
+
+    }
+};
   const getRoute = async (objectId) => {
     try {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
@@ -90,157 +123,93 @@ const RouteEdit = () => {
           <Text>Editar Ruta</Text>
           <Text>Información de la ruta</Text>
           <Text>Nombre de la ruta</Text>
-          <CustomInput
+          <TextInput
             name="name"
-            placeholder="Nombre de la ruta"
-            control={control}
-            rules={{ required: 'duracion is required' }}
-
+            onChangeText={handleChange}
+            value={formulari.name}
           />
+
           <View >
             <View>
               <Text>Hora inicio</Text>
-              <CustomInput
+              <TextInput
                 name="start_time"
-                control={control}
-                rules={{ required: 'duracion is required' }}
-
+                onChangeText={handleChange}
+                value={formulari.start_time}
               />
+
             </View>
             <View>
               <Text>Vehículo</Text>
-              <Controller
-                        control={control}
-                        name="type_vehicle"
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <RNPickerSelect
-                                placeholder={{ label: 'Selecciona una opción...', value: null }}
-                                onValueChange={onChange}
-                                onBlur={onBlur}
-                                items={[
-                                    { label: 'Moto', value: 'Moto' },
-                                    { label: 'Coche', value: 'Coche' }
-                                ]}
-                                value={value}
-                            />
-                        )}
-                    /> 
 
-
-            </View>
+              <Text>{formulari.type_vehicle}</Text>
+          </View>
           </View>
 
           <View>
             <View>
               <Text>Distancia aproximada</Text>
-              <CustomInput
+              <TextInput
                 name="distance"
-                placeholder="30km-35km"
-                control={control}
-                rules={{
-                  required: 'Distancia es requerida',
-                }}
+                onChangeText={handleChange}
+                value={formulari.distance}
               />
+
             </View>
             <View>
               <Text>Duración</Text>
-              <CustomInput
+              <TextInput
                 name="estimated_duration"
-                control={control}
-                rules={{
-                  required: 'Duración es requerida',
-                }}
+                onChangeText={handleChange}
+                value={formulari.estimated_duration}
               />
             </View>
           </View>
           <Text>
             URL de Google Maps con símbolo de ayuda para enseñar cómo coger la URL
           </Text>
-          <CustomInput
-            name="url_maps"
-            placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
-            control={control}
-            rules={{ required: 'URL de Google Maps is required' }}
-          />
+          <Text>{formulari.url_maps}</Text>
+
+
           <View>
             <View>
               <Text>Velocidad de la ruta</Text>
-               <Controller
-                        control={control}
-                        name="id_route_style"
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <RNPickerSelect
-                                placeholder={{ label: 'Selecciona una opción...', value: null }}
-                                onValueChange={onChange}
-                                onBlur={onBlur}
-                                items={[
-                                    { label: 'Del chill', value: '1' },
-                                    { label: 'Animado', value: '2' },
-                                    { label: 'A gas', value: '3' },
-                                ]}
-                                value={value}
-                            />
-                        )}
-                    /> 
+
+              <RNPickerSelect
+                placeholder={{ label: 'Selecciona una opción...', value: formulari.id_route_style }}
+                onValueChange={handleChange}
+
+                items={[
+                  { label: 'Del chill', value: '1' },
+                  { label: 'Animado', value: '2' },
+                  { label: 'A gas', value: '3' },
+                ]}
+                value={formulari.id_route_style}
+              />
+
+
 
             </View>
             <View>
               <Text>Numero de paradas</Text>
-              <CustomInput
+              <TextInput
                 name="num_stops"
-
-                control={control}
-                rules={{
-                  required: 'Numero de paradas es requerida',
-                }}
+                onChangeText={handleChange}
+                value={formulari.num_stops}
               />
             </View>
-
+            <Text>Maximo de personas</Text>
+            <Text>{formulari.max_users}</Text>
 
           </View>
-          <Text>Maximo de personas</Text>
-         <Controller
-                control={control}
-                name="max_users"
-                defaultValue="10"
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <RNPickerSelect
-                        placeholder={{ label: 'Selecciona una opción...', value: null }}
-                        onValueChange={onChange}
-                        onBlur={onBlur}
-                        items={[
-                            { label: '1', value: '1' },
-                            { label: '2', value: '2' },
-                            { label: '3', value: '3' },
-                            { label: '4', value: '4' },
-                            { label: '5', value: '5' },
-                            { label: '6', value: '6' },
-                            { label: '7', value: '7' },
-                            { label: '8', value: '8' },
-                            { label: '9', value: '9' },
-                            { label: '10', value: '10' },
-                        ]}
-                        value={value}
-                    />
-                )}
-            />
-
-
           <Text>Descripción</Text>
-          <CustomInput
+          <TextInput
             name="description"
-            placeholder="Descripción de la ruta"
-            control={control}
-            rules={{ required: 'Descripción is required' }}
-
+            onChangeText={handleChange}
+            value={formulari.description}
           />
           {error ? <Text>{error}</Text> : <></>}
-          <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
+          <Button title="Crear Ruta" onPress={createRoute(formulari,ruta.id)} />
         </ScrollView>
 
       }
