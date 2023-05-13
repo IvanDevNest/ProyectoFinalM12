@@ -27,8 +27,8 @@ class ReviewSeeder extends Seeder
 
           // Crear una review para el usuario actual
           Review::create([
-              'id_reviewed' => $reviewed_user->id,
-              'id_author' => $user->id,
+              'reviewed_id' => $reviewed_user->id,
+              'author_review_id' => $user->id,
               'score' => rand(1, 5),
           ]);
       }
