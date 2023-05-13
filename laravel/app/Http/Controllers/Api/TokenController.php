@@ -73,13 +73,13 @@ class TokenController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
-                'imageUri' => ['nullable'],
-                // 'fileSize'=> ['nullable'],
+            'imageUri' => ['nullable'],
+            // 'fileSize'=> ['nullable'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
         ///
-       
+       if($request->file('imageUri')){
         Log::debug($request->input('imageUri'));
         // $imageUri = $request->file('imageUri')->getSize();
         $imageUri = $request->file('imageUri');
@@ -88,27 +88,36 @@ class TokenController extends Controller
          $fileSize = $imageUri->getSize();
         // $fileSize = $request->input('fileSize');
         Log::debug($fileSize);
-    
+     // Desar fitxer al disc i inserir dades a BD
+     $file = new File();
+     $ok = $file->diskSave($imageUri);
+     if ($ok) {
+         $user = User::create([
+             'name' => $validacion['name'],
+             // 'lastname'=> $validacion['lastname'],
+             // 'second_surname'=> $validacion['second_surname'],
+             'file_id' => $file->id,
+             'email' => $validacion['email'],
+             'password' => Hash::make($validacion['password']),
+         ]);
+     } else {
+         return response()->json([
+             'success' => false,
+             'message' => 'Error uploading file'
+         ], 421);
+     }
 
-        // Desar fitxer al disc i inserir dades a BD
-        $file = new File();
-        $ok = $file->diskSave($imageUri);
-        if ($ok) {
-            $user = User::create([
-                'name' => $validacion['name'],
-                // 'lastname'=> $validacion['lastname'],
-                // 'second_surname'=> $validacion['second_surname'],
-                'file_id' => $file->id,
-                'email' => $validacion['email'],
-                'password' => Hash::make($validacion['password']),
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error uploading file'
-            ], 421);
-        }
+       }
+       $user = User::create([
+        'name' => $validacion['name'],
+        // 'lastname'=> $validacion['lastname'],
+        // 'second_surname'=> $validacion['second_surname'],
+        'email' => $validacion['email'],
+        'password' => Hash::make($validacion['password']),
+    ]);
 
+
+       
 
         $token = $user->createToken("authToken")->plainTextToken;
 
