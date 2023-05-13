@@ -187,8 +187,8 @@ const ShowRoute = () => {
 
                             </View>
                             <View>
-                                <Text style={{ fontWeight: 'bold' }}>Hora de inicio</Text>
-                                <Text>{ruta.start_time}</Text>
+                                <Text style={{ fontWeight: 'bold' }}>Fecha</Text>
+                                <Text>{ruta.date}</Text>
 
                             </View>
                         </View>

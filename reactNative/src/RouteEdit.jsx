@@ -77,7 +77,7 @@ const RouteEdit = () => {
         setFormulari({
           name: resposta.data.name,
           description: resposta.data.description,
-          start_time: resposta.data.start_time,
+          date: resposta.data.date,
           estimated_duration: resposta.data.estimated_duration,
           type_vehicle: resposta.data.type_vehicle,
           distance: resposta.data.distance,
@@ -106,7 +106,7 @@ const RouteEdit = () => {
     setFormulari({
       name: ruta.name,
       description: ruta.description,
-      start_time: ruta.start_time,
+      date: ruta.date,
       estimated_duration: ruta.estimated_duration,
       type_vehicle: ruta.type_vehicle,
       distance: ruta.distance,
@@ -137,9 +137,9 @@ const RouteEdit = () => {
             <View>
               <Text style={{ fontWeight: 'bold' }}>Hora inicio</Text>
               <TextInput
-                name="start_time"
-                onChangeText={text => handleChange(text, 'start_time')}
-                value={formulari.start_time}
+                name="date"
+                onChangeText={text => handleChange(text, 'date')}
+                value={formulari.date}
               />
             </View>
             <View>

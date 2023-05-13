@@ -108,7 +108,7 @@ class RouteController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required|max:255',
-            'start_time' => 'required|numeric',
+            'date' => 'required',
             'distance' => 'required|numeric',
             'estimated_duration' => 'required|numeric',
             'url_maps' => 'required|max:255',

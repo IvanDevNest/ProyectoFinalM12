@@ -19,8 +19,10 @@ const CreateRoute = () => {
     }
     const onSubmit = (data) => createRoute(data);
     const createRoute = async (formState) => {
-        let dateToSend = date.toISOString();
-        console.log(dateToSend)
+        console.log("date"+JSON.stringify(date))
+
+        let dateToSend = JSON.stringify(date).split('.')[0].replace('T', ' ').replace('"','');
+        console.log("modificada"+dateToSend)
         formState.date = dateToSend
         formState.author_id = usuari.id
         console.log(JSON.stringify(formState));
@@ -74,8 +76,8 @@ const CreateRoute = () => {
     };
     const currentYear = new Date().getFullYear();
     const nextYear = currentYear + 1;
-    const minimumDate = new Date(currentYear, 0, 1); // 1st January of the current year
-    const maximumDate = new Date(nextYear, 0, 1); // 1st January of the next year
+    const minDate = new Date(currentYear, new Date().getMonth());
+    const maxDate = new Date(nextYear, new Date().getMonth());
     console.log(JSON.stringify(date))
     return (
         <ScrollView>
@@ -104,19 +106,14 @@ const CreateRoute = () => {
                                 mode={mode}
                                 is24Hour={true}
                                 display="default"
-                                minimumDate={minimumDate}
-                                maximumDate={maximumDate}
+                                minimumDate={minDate}
+                                maximumDate={maxDate}
                                 onChange={onChange}
                             />
                         )}
 
                     </View>
-                    {/* <CustomInput
-                        name="start_time"
-                        control={control}
-                        rules={{ required: 'duracion is required' }}
-
-                    /> */}
+                   
                 </View>
                 <View>
                     <Text>Vehículo</Text>
