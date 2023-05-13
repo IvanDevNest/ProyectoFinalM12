@@ -128,7 +128,7 @@ const RutasList = () => {
         {page==1? <Button title='Anterior' disabled onPress={() => retrocederPagina(page)}></Button>
 
         :
-        <Button title='Anterior' onPress={() => retrocederPagina(page)} color={'#00ACFF'}></Button>
+        <Button title='Anterior' onPress={() => retrocederPagina(page)  }></Button>
         }
         {page==lastpage? <Button title='Siguiente' disabled onPress={() => pasarPagina(page,lastpage)}></Button>
 

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import ShowUser from "./ShowUser";
 
 // import { View, ActivityIndicator } from "react-native";
 
@@ -64,7 +65,7 @@ function MyTabs() {
 
                 }}
             />
-            <Tab.Screen name="user" component={User}
+            <Tab.Screen name="user" component={ShowUser}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user-circle" size={size} color={color} />)

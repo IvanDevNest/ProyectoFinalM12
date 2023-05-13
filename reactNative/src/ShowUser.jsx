@@ -6,6 +6,9 @@ import { View, Text, Button, Image } from 'react-native';
 import RutaList from './RutaList';
 import { UserContext } from './userContext';
 import StyledText from './StyledText';
+import Rutas from './Routes'
+import FotosUser from './FotosUser';
+import FotoUser from './FotoUser'
 // import Routes from './Routes.js'
 
 
@@ -18,7 +21,7 @@ const ShowUser = () => {
     console.log(usuari)
 
     const fetchAvatar = async () => {
-      const data = await fetch('http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar');
+      const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
       const response = await data.json();
       console.log("fetchavatar: "+ response.image_url)
       setAvatarUrl(response.image_url);
@@ -32,13 +35,32 @@ const ShowUser = () => {
 
 
   return (
-    <>
-        <StyledText>{usuari.name}</StyledText>
-        <View style={{ flexDirection: 'row' }}>
-                        <Image style={styles.avatar} source={{uri:avatarUrl}}></Image>
+    <View>
+    <View style={{alignItems:'center' , paddingVertical:10}}>
+                        {usuari.id_role==4?
+                        <View style={{flexDirection:'row'}}>
+                        <Image style={styles.avatarVIP} source={{uri:avatarUrl}}></Image>
+                        <Image source={require("./vip.png")} style={{width:30, height:30, position:'absolute'}}></Image>
+                        </View>:
 
-                    </View>
-    </>
+                        <Image style={styles.avatar} source={{uri:avatarUrl}}></Image>}
+
+                        
+                        <Text>Nombre: {usuari.name}</Text>
+                        <Text>Apellido: {usuari.lastname}</Text>
+                        <Text>Segundo apellido: {usuari.second_surname}</Text>
+
+
+                        
+
+      
+    </View>
+    <View style={{alignItems:'center'}}>
+      <FotosUser/>
+
+    </View>
+    </View>
+    
   )
 }
 
@@ -49,5 +71,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+    borderColor:'grey',
+    borderWidth:2
   },
+  avatarVIP: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderColor:'yellow',
+    borderWidth:2
+  }
 });
