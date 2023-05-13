@@ -123,13 +123,15 @@ const RutasList = () => {
                 <RutaList {...ruta} />
           )}>
         </FlatList>
-        <View style={{flexDirection:'row', alignContent:'center', alignItems:'center', justifyContent:'space-around', paddingBottom:5}}>
+        <View style={{flexDirection:'row', alignContent:'center', alignItems:'center', justifyContent:'space-around', paddingVertical:5}}>
 
-        {page==1?<></>
+        {page==1? <Button title='Anterior' disabled onPress={() => retrocederPagina(page)}></Button>
+
         :
-        <Button title='Anterior' onPress={() => retrocederPagina(page)}></Button>
+        <Button title='Anterior' onPress={() => retrocederPagina(page)} color={'#00ACFF'}></Button>
         }
-        {page==lastpage?<></>
+        {page==lastpage? <Button title='Siguiente' disabled onPress={() => pasarPagina(page,lastpage)}></Button>
+
         :        
         <Button title='Siguiente' onPress={() => pasarPagina(page,lastpage)}></Button>
         }

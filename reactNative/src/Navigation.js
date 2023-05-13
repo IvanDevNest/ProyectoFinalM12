@@ -19,7 +19,7 @@ const HomeStackNavigator = createNativeStackNavigator();
 function MyStack() {
     return (
         <HomeStackNavigator.Navigator
-        initialRouteName="RutasList">
+        initialRouteName="RutasList" screenOptions={{headerShown:false}}>
             <HomeStackNavigator.Screen
                 name="RutasList"
                 component={RutasList}
@@ -41,11 +41,11 @@ function MyTabs() {
             initialRouteName="listar"
             screenOptions={{
                 tabBarActiveTintColor: 'skyblue',
-                tabBarInactiveTintColor:'black'
-
-
+                tabBarInactiveTintColor:'black',
+                headerShown:false
+               
             }}>
-            <Tab.Screen name="listar" component={MyStack}
+            <Tab.Screen name="Lista de las rutas" component={MyStack}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="format-list-bulleted" size={size} color={color} />)
