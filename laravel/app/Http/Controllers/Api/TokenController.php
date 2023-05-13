@@ -59,7 +59,19 @@ class TokenController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return response()->json($user);
+        if($user){
+            return response()->json([
+                "success" => true,
+                "data" => $user
+            ], 200);
+        }else{
+            return response()->json([
+                "success" => false,
+                "message" => "User not found"
+            ], 404);
+        }
+    
+       
     }
     public function index()
     {
