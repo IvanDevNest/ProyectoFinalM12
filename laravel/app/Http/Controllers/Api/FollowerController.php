@@ -105,7 +105,6 @@ class FollowerController extends Controller
 
             Follower::where('id_followed', $userId)->where('id_follower', $id)->delete();
 
-        
             return response()->json([
                 'success' => true,
                 'message' => "deletd follow"

@@ -147,7 +147,7 @@ const RutaList = (ruta) => {
         <>
             {isLoading ? <></>
                 :
-                numeroInscripciones < ruta.max_users ?
+                // numeroInscripciones < ruta.max_users ?
                     <View key={(ruta.id)} style={styles.containerPadre}>
 
                         <View key={(ruta.id)} style={{ flexDirection: 'row', paddingBottom: 10 }}>
@@ -207,7 +207,7 @@ const RutaList = (ruta) => {
 
 
                     </View>
-                    : <></>
+                    // : <></>
 
             }
         </>

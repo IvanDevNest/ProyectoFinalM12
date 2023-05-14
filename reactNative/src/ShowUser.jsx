@@ -29,6 +29,9 @@ const ShowUser = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [reload, setReload] = useState(false);
 
+  const [follower, setFollower] = useState(null);
+  const [followers, setFollowers] = useState(0);
+
   const [reviews, setReviews] = useState([]);
   const [average, setAverage] = useState(null);
 
@@ -38,16 +41,18 @@ const ShowUser = () => {
 
   let roundedNum = Math.round(average)
 
+  console.log("author de la ruta" + authorRuta.id)
+
   const fetchAvatar = async () => {
     try {
-      const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${authorRuta}/avatar`);
+      const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${authorRuta.id}/avatar`);
       const resposta = await data.json();
       if (resposta.success === true) {
         console.log("fetchavatar: " + resposta)
         setAvatarUrl(resposta.image_url);
       } else setError(resposta.message);
     } catch (e) {
-      console.log("catch fetch Avatar: "+e.error);
+      console.log("catch fetch Avatar: " + e.error);
     };
   }
 
@@ -83,7 +88,7 @@ const ShowUser = () => {
       }
       else setError(resposta.message);
     } catch (err) {
-      console.log("catch getReviews: "+err.message);
+      console.log("catch getReviews: " + err.message);
       alert("Catchch");
     };
   }
@@ -99,7 +104,7 @@ const ShowUser = () => {
     formData.append('stars', stars);
     formData.append('reviewed_id', authorRuta.id);
     formData.append('author_review_id', usuari.id);
-    console.log("FormData review antes de enviar: "+JSON.stringify(formData))
+    console.log("FormData review antes de enviar: " + JSON.stringify(formData))
     try {
       const data = await fetch('http://equip04.insjoaquimmir.cat/api/reviews', {
         headers: {
@@ -112,7 +117,6 @@ const ShowUser = () => {
       });
       const resposta = await data.json();
       console.log("resposta: " + JSON.stringify(resposta))
-
       if (resposta.success === true) {
         setReload(!reload)
       }
@@ -122,16 +126,98 @@ const ShowUser = () => {
 
     }
   };
+  const comprovarSeguidor = async () => {
+    try {
+      const data = await fetch('http://equip04.insjoaquimmir.cat/api/followers', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + authToken,
+        },
+        method: 'GET',
+      });
+      const resposta = await data.json();
+      console.log("resposta: " + JSON.stringify(resposta))
+      if (resposta.success === true) {
+        let followerCount = 0;
+        resposta.data.map((seguidores) => {
+          seguidores.id_followed == authorRuta.id ?
+          followerCount++
+          :
+            <></>
+        })
+        setFollowers(followerCount);
+        resposta.data.map((seguidores) => {
+          seguidores.id_follower == usuari.id && seguidores.id_followed == authorRuta.id ?
+
+          // console.log("id de los seguidpres en la tabla"+seguidores.id_follower+"mi id del usuario logeado"+usuari.id+"="+"id de los q siguen en la tabla"+seguidores.id_followed+"id del usuario q estoy viend"+authorRuta.id)
+             setFollower(true)
+            :<></>
+        })
+        // setReload(!reload)
+      } else setError(resposta.error);
+    } catch (e) {
+      console.log("catch seguir a alguien: " + e.err);
+
+    }
+  }
+  const seguirUsuario = async () => {
+    const formData = new FormData();
+    formData.append('id_followed', authorRuta.id);
+    formData.append('id_follower', usuari.id);
+    console.log("FormData antes de seguir a alguien: " + JSON.stringify(formData))
+    try {
+      const data = await fetch('http://equip04.insjoaquimmir.cat/api/followers', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + authToken,
+        },
+        method: 'POST',
+        body: formData,
+      });
+      const resposta = await data.json();
+      console.log("resposta seguir usuario: " + JSON.stringify(resposta))
+      if (resposta.success === true) {
+        setFollower(true)
+        setReload(!reload)
+      } else setError(resposta.error);
+    } catch (e) {
+      console.log("catch seguir a alguien: " + e.err);
+
+    }
+  };
+  const unfollowUsuario = async () => {
+    try {
+      const data = await fetch('http://equip04.insjoaquimmir.cat/api/followers/'+authorRuta.id, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + authToken,
+        },
+        method: 'DELETE',
+      });
+      const resposta = await data.json();
+      console.log("resposta dejar de seguir usuario: " + JSON.stringify(resposta))
+      if (resposta.success === true) {
+        setFollower(false)
+        setReload(!reload)
+      } else setError(resposta.error);
+    } catch (e) {
+      console.log("catch seguir a alguien: " + e.err);
+
+    }
+  };
   useEffect(() => {
     getReviews()
-  }, [!reload]);
+    comprovarSeguidor()
+  }, [reload]);
   useEffect(() => {
     fetchAvatar()
   }, []);
   useEffect(() => {
     obtenerValoracionMedia();
   }, [reviews]);
-
   return (
     <>
       {isLoading ?
@@ -154,27 +240,29 @@ const ShowUser = () => {
             </View>
 
 
-           {reviewCreada ?
+            {reviewCreada ?
               <></> :
-            <>
-              <Text>Valora las rutas del usuario:</Text>
-              <StarRating
-                disabled={false}
-                maxStars={5}
-                starSize={20}
-                rating={stars}
-                fullStarColor={"gold"}
-                emptyStarColor='gray'
-                selectedStar={rating => setStars(rating)}
-              />
-              <Button title="Enviar Review" onPress={() => enviarReview(stars)} />
-              {error ? <Text>{error}</Text> : <></>}
+              <>
+                <Text>Valora las rutas del usuario:</Text>
+                <StarRating
+                  disabled={false}
+                  maxStars={5}
+                  starSize={20}
+                  rating={stars}
+                  fullStarColor={"gold"}
+                  emptyStarColor='gray'
+                  selectedStar={rating => setStars(rating)}
+                />
+                <Button title="Enviar Review" onPress={() => enviarReview(stars)} />
+                {error ? <Text>{error}</Text> : <></>}
 
-            </>
-             } 
+              </>
+            }
+            <Text>Seguidores: {followers}</Text>
+            {follower ? <Button title="Dejar de seguir" onPress={() => unfollowUsuario()} /> : <Button title="Seguir" onPress={() => seguirUsuario()} />}
 
-            <Text>Apellido: {authorRuta.lastname}</Text>
-            <Text>Segundo apellido: {authorRuta.second_surname}</Text>
+            {/* <Text>Apellido: {authorRuta.lastname}</Text>
+            <Text>Segundo apellido: {authorRuta.second_surname}</Text> */}
 
           </View>
           <View style={{ alignItems: 'center' }}>
