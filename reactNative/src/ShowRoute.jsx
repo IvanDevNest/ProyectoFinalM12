@@ -12,11 +12,16 @@ const ShowRoute = () => {
     let { usuari, authToken, reload, setReload } = useContext(UserContext);
     const [avatarUrl, setAvatarUrl] = useState(null);
 
+    const [authorRuta, setAuthorRuta] = useState([]);
 
     const route = useRoute();
     const objectId = route.params.objectId;
 
     const navigation = useNavigation();
+
+    function ShowUser(id) {
+        navigation.navigate('ShowUser', { objectId: id, authorRuta:authorRuta});
+    }
     function RutasList() {
         navigation.navigate('RutasList');
     }
@@ -41,13 +46,15 @@ const ShowRoute = () => {
                 console.log("resposta" + JSON.stringify(resposta))
                 setRuta(resposta.data)
                 setIsLoading(false)
+
+                
             })
             .catch((data) => {
                 console.log(data);
                 alert("Catchch");
             });
     }
-
+   
     const obtenerInscripciones = async (objectId) => {
         try {
             const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${objectId}`, {
@@ -70,19 +77,42 @@ const ShowRoute = () => {
             // alert("Catchch");
         };
     }
-    const fetchAvatar = async () => {
-        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
+    const fetchAvatar = async (id) => {
+        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${id}/avatar`);
         const response = await data.json();
         console.log("fetchavatar: " + response.image_url)
         setAvatarUrl(response.image_url);
     };
 
+    const getUserLooking = async (id) => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/user/" + id, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("RESPOSTA GETAUTHORUSER" + JSON.stringify(resposta))
+                // setUsuari(resposta.user)
+                setAuthorRuta(resposta.data)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+        };
 
+    }
+    setTimeout(() => {
+        fetchAvatar(ruta.author_id);
+        getUserLooking(ruta.author_id)
+      }, 1000); // espera 1 segundo antes de llamar a getUserLooking
     useEffect(() => {
         getRoute(objectId);
         obtenerInscripciones(objectId);
-        fetchAvatar();
-
     }, [reload]);
 
     const unirseRuta = async (objectId) => {
@@ -165,17 +195,24 @@ const ShowRoute = () => {
                     <Text>{ruta.name}</Text>
 
                     <View style={{ flexDirection: 'row' }}>
-                        <Image style={styles.avatar} source={{ uri: avatarUrl }}></Image>
-                        <Text>{usuari.name}</Text>
-                        <Text>{usuari.id_role}</Text>
+                        <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
+                            <Image style={styles.avatar} source={{ uri: avatarUrl }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
+                            <Text>{authorRuta.name}</Text>
+                        </TouchableOpacity>
+                        {authorRuta.id_role == 4 ?
+                            <Image source={require("./vip.png")} style={{ width: 30, height: 30, position: 'absolute' }}></Image>
+                            :
+                            <></>}
 
                     </View>
                     <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
-                
+
                     <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
                         <Text style={{ color: 'blue' }}>{ruta.url_maps}</Text>
                     </TouchableOpacity>
-                
+
                     <Text style={{ fontWeight: 'bold' }}>Descripcion</Text>
                     <Text>{ruta.description}</Text>
                     <View style={{ flexDirection: 'row' }}>
@@ -232,9 +269,9 @@ const ShowRoute = () => {
 }
 const styles = StyleSheet.create({
     avatar: {
-      width: 100,
-      height: 100,
-      borderRadius: 50,
+        width: 100,
+        height: 100,
+        borderRadius: 50,
     },
 });
 
