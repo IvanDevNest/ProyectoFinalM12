@@ -182,7 +182,7 @@ const RutaList = (ruta) => {
                             </View>
 
                             <View>
-                                {usuari.route_id == ruta.id ?
+                                {usuari.route_id == ruta.id && ruta.author_id != usuari.id?
                                     <Button title="Salir de la ruta" onPress={() => salirseRuta(ruta.id)} />
                                     :
                                     <></>

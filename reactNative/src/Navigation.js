@@ -4,8 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import ShowUser from "./ShowUser";
+import { FontAwesome5 } from '@expo/vector-icons';
+
 
 // import { View, ActivityIndicator } from "react-native";
 
@@ -17,13 +17,15 @@ import CreateRoute from "./CreateRoute";
 import RutasList from "./RutasList";
 import ShowRoute from "./ShowRoute";
 import RouteEdit from "./RouteEdit";
+import ShowUser from "./ShowUser";
+import ShowMyUser from "./ShowMyUser";
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
 const HomeStackNavigator = createNativeStackNavigator();
 function MyStack() {
     return (
         <HomeStackNavigator.Navigator
-        initialRouteName="RutasList" screenOptions={{headerShown:false}}>
+            initialRouteName="RutasList" screenOptions={{ headerShown: false }}>
             <HomeStackNavigator.Screen
                 name="RutasList"
                 component={RutasList}
@@ -31,11 +33,15 @@ function MyStack() {
             <HomeStackNavigator.Screen
                 name="ShowRoute"
                 component={ShowRoute}
-            />  
+            />
             <HomeStackNavigator.Screen
-            name="RouteEdit"
-            component={RouteEdit}
-        />
+                name="RouteEdit"
+                component={RouteEdit}
+            />
+            <HomeStackNavigator.Screen
+                name="ShowUser"
+                component={ShowUser}
+            />
         </HomeStackNavigator.Navigator>
     )
 }
@@ -49,9 +55,9 @@ function MyTabs() {
             initialRouteName="listar"
             screenOptions={{
                 tabBarActiveTintColor: 'skyblue',
-                tabBarInactiveTintColor:'black',
-                headerShown:false
-               
+                tabBarInactiveTintColor: 'black',
+                headerShown: false
+
             }}>
             <Tab.Screen name="Lista de las rutas" component={MyStack}
                 options={{
@@ -65,14 +71,14 @@ function MyTabs() {
 
                 }}
             />
-            <Tab.Screen name="user" component={ShowUser}
+            <Tab.Screen name="user" component={ShowMyUser}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user-circle" size={size} color={color} />)
 
                 }}
             />
-            
+
         </Tab.Navigator>
     );
 }
@@ -87,7 +93,7 @@ export default function Navigation() {
     return (
         <NavigationContainer>
             {/* {authToken !== null ? <MyTabs/> : <LoginRegister/>} */}
-            <MyTabs/>
+            <MyTabs />
         </NavigationContainer>
     )
 }

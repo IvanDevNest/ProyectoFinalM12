@@ -11,7 +11,7 @@ class Route extends Model
     protected $fillable = [
         'name',
         'description',
-        'start_time',
+        'date',
         'estimated_duration',
         'type_vehicle',
         'distance',

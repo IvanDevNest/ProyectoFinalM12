@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     protected $fillable = [
-        'id_reviewed',
-        'id_author',
-        'score'
+        'reviewed_id',
+        'author_review_id',
+        'stars'
     ];
     public function reviewed()
     {
-        return $this->belongsTo(User::class, 'id_reviewed');
+        return $this->belongsTo(User::class, 'reviewed_id');
     }
 
     public function author()
     {
-        return $this->belongsTo(User::class, 'id_author');
+        return $this->belongsTo(User::class, 'author_review_id');
     }
 }
