@@ -9,8 +9,9 @@ const ShowRoute = () => {
     const [error, setError] = useState([]);
     const [inscripciones, setInscripciones] = useState([])
     const [isLoading, setIsLoading] = useState(true);
-    let { usuari, authToken, reload, setReload } = useContext(UserContext);
+    let { usuari, authToken } = useContext(UserContext);
     const [avatarUrl, setAvatarUrl] = useState(null);
+    const [reload, setReload] = useState(false);
 
     const [authorRuta, setAuthorRuta] = useState([]);
 
@@ -20,7 +21,7 @@ const ShowRoute = () => {
     const navigation = useNavigation();
 
     function ShowUser(id) {
-        navigation.navigate('ShowUser', { objectId: id, authorRuta:authorRuta});
+        navigation.navigate('ShowUser', { objectId: id, authorRuta: authorRuta });
     }
     function RutasList() {
         navigation.navigate('RutasList');
@@ -29,60 +30,57 @@ const ShowRoute = () => {
     function RouteEdit(id) {
         navigation.navigate('RouteEdit', { objectId: id });
     }
-    console.log("usuariu" + JSON.stringify(usuari))
+    // console.log("usuariu" + JSON.stringify(usuari))
 
     const getRoute = async (objectId) => {
-
-        fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            method: "GET",
-
-        })
-            .then((data) => data.json())
-            .then((resposta) => {
-                console.log("resposta" + JSON.stringify(resposta))
-                setRuta(resposta.data)
-                setIsLoading(false)
-
-                
-            })
-            .catch((data) => {
-                console.log(data);
-                alert("Catchch");
-            });
-    }
-   
-    const obtenerInscripciones = async (objectId) => {
         try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${objectId}`, {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
                 headers: {
                     Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
+                    "Content-Type": "application/json"
                 },
                 method: "GET",
-            });
+            })
             const resposta = await data.json();
             if (resposta.success === true) {
-                console.log("Inscripciones: " + JSON.stringify(resposta))
-                setInscripciones(resposta.data)
-
+                console.log("resposta" + JSON.stringify(resposta))
+                setRuta(resposta.data)
+                await obtenerDatosAuthorRuta(resposta.data.author_id)
+                setIsLoading(false)
+            } else {
+                setError(resposta.message);
             }
-            else setError(resposta.message);
         } catch (e) {
             console.log(e.message);
             // alert("Catchch");
         };
     }
-    const fetchAvatar = async (id) => {
-        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${id}/avatar`);
-        const response = await data.json();
-        console.log("fetchavatar: " + response.image_url)
-        setAvatarUrl(response.image_url);
+
+    const obtenerDatosAuthorRuta = async (id) => {
+        try {
+            console.log("authorid_ruta:" + id)
+            await getUserLooking(id);
+            await fetchAvatar(id);
+
+        } catch (error) {
+            console.log(error);
+            setError(error.message);
+        }
     };
+
+
+    const fetchAvatar = async (id) => {
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${id}/avatar`);
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("fetchavatar: " + resposta)
+                setAvatarUrl(resposta.image_url);
+            } else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+        };
+    }
 
     const getUserLooking = async (id) => {
         try {
@@ -97,23 +95,40 @@ const ShowRoute = () => {
             const resposta = await data.json();
             if (resposta.success === true) {
                 console.log("RESPOSTA GETAUTHORUSER" + JSON.stringify(resposta))
-                // setUsuari(resposta.user)
                 setAuthorRuta(resposta.data)
             }
-            else setError(resposta.message);
+            else console.log("mensage error getuserlooking:"+resposta.message);
         } catch (e) {
             console.log(e.message);
         };
 
     }
-   
+    const obtenerInscripciones = async (objectId) => {
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${objectId}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                // console.log("Inscripciones: " + JSON.stringify(resposta))
+                setInscripciones(resposta.data)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
+    }
+
+
     useEffect(() => {
         getRoute(objectId);
         obtenerInscripciones(objectId);
-        setTimeout(() => {
-            fetchAvatar(ruta.author_id);
-            getUserLooking(ruta.author_id)
-          }, 1000); // espera 1 segundo antes de llamar a getUserLooking
     }, [reload]);
 
     const unirseRuta = async (objectId) => {
@@ -128,8 +143,7 @@ const ShowRoute = () => {
             });
             const resposta = await data.json();
             if (resposta.success === true) {
-                console.log(JSON.stringify(resposta))
-
+                // console.log(JSON.stringify(resposta))
                 // setIsLoading(false)
                 setReload(!reload)
             }
@@ -150,7 +164,7 @@ const ShowRoute = () => {
                 method: "DELETE",
             });
             const resposta = await data.json();
-            console.log("resposta unirse ruta" + JSON.stringify(resposta))
+            // console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
             if (resposta.success === true) {
                 // setIsLoading(false)
@@ -178,7 +192,6 @@ const ShowRoute = () => {
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
                 RutasList()
-                // setReload(!reload)
             }
             else setError(resposta.message);
         } catch (e) {
@@ -197,7 +210,11 @@ const ShowRoute = () => {
 
                     <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
-                            <Image style={styles.avatar} source={{ uri: avatarUrl }} />
+                            {avatarUrl ?
+                                <Image style={styles.avatar} source={{ uri: avatarUrl }} />
+                                :
+                                <Image style={styles.avatar} source={require("./user_default.png")} />
+                            }
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
                             <Text>{authorRuta.name}</Text>

@@ -43,7 +43,7 @@ const CreateRoute = () => {
                 console.log("resposta route id: " + (resposta.data.id))
 
                 onPressObject(resposta.data.id)
-                setReload(!reload)
+                // setReload(!reload)
 
             }
             else setError(resposta.message);
