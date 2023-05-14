@@ -22,7 +22,7 @@ class RoutesSeeder extends Seeder
 
         // Generar algunos datos aleatorios para la tabla "routes"
         $routes = [];
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $routes[] = [
                 'name' => 'Route ' . ($i + 1),
                 'description' => 'Route de pruebaa',

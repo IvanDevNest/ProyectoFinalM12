@@ -48,7 +48,7 @@ class ReviewController extends Controller
             ->first();
 
         if ($existingReview) {
-            return response()->json(['error' => 'Ya existe una evaluación para este usuario'], 400);
+            return response()->json(['error' => 'Ya existe una review para este usuario'], 400);
         }
         $review = Review::create($validatedData);
 
