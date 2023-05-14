@@ -128,10 +128,6 @@ class TokenController extends Controller
             'password' => Hash::make($validacion['password']),
         ]);
         }
-      
-
-
-
 
         $token = $user->createToken("authToken")->plainTextToken;
 
@@ -160,7 +156,10 @@ class TokenController extends Controller
 
         // Comprobar si el usuario tiene una imagen asignada
         if (!$user->file) {
-            return response()->json(['error' => 'User does not have an avatar'], 404);
+            return response()->json([
+                "success" => false,
+                'message' => 'User does not have an avatar'
+            ], 404);
         }
 
         // Construir la URL de la imagen
@@ -170,7 +169,10 @@ class TokenController extends Controller
         Log::debug($imagePath);
         $imageUrl = url('storage/' . $imagePath);
 
-        return response()->json(['image_url' => $imageUrl]);
+        return response()->json([
+        "success" => true,
+        'image_url' => $imageUrl
+    ]);
     }
 
 
