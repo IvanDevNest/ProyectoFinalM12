@@ -21,14 +21,12 @@ class RouteController extends Controller
     public function index()
     {
 
-        $routes = DB::table('routes')
-            ->select('routes.*')
-            ->leftJoin('inscriptions', 'routes.id', '=', 'inscriptions.route_id')
+            $routes = DB::table('routes')
+            ->leftJoin('users', 'routes.id', '=', 'users.route_id')
+            ->select('routes.*', DB::raw('SUM(users.id) as user_sum'))
             ->groupBy('routes.id')
-            ->havingRaw('routes.max_users > SUM(inscriptions.number_of_people)')
-            ->paginate(10); // especificamos que queremos 10 resultados por página
-
-
+            ->havingRaw('user_sum <= max_users')
+            ->paginate(10);
         // $routes = Route::paginate(6);
 
         return response()->json([
