@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Follower;
+use Illuminate\Support\Facades\Log;
 
 class FollowerController extends Controller
 {
@@ -97,6 +98,7 @@ class FollowerController extends Controller
     {
         //$id dejar de seguir
         $userId = auth()->user()->id;
+        Log::debug($userId);
         $unfollow = Follower::where('id_followed', $userId)->where('id_follower', $id)->first();
 
         if ($unfollow) {
