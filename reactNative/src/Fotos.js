@@ -1,27 +1,27 @@
 export default [
     {
         "id": 1,
-        "foto": ""
+        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
     },
     {
         "id": 2,
-        "foto": ""
+        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
     },
     {
         "id": 3,
-        "foto": ""
+        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
     },
     {
         "id": 4,
-        "foto": ""
+        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
     },
     {
         "id": 5,
-        "foto": ""
+        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
     },
     {
         "id": 6,
-        "foto": ""
+        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
     },
 
 ]
