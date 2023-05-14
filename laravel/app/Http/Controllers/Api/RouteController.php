@@ -20,15 +20,15 @@ class RouteController extends Controller
      */
     public function index()
     {
+        //no tiene sentido porque si tu estas unido en una ruta tienes q poder verla
+        // $routes = DB::table('routes')
+        // ->leftJoin('users', 'routes.id', '=', 'users.route_id')
+        // ->select('routes.*', DB::raw('COUNT(users.id) as user_sum'))
+        // ->groupBy('routes.id')
+        // ->havingRaw('user_sum <= max_users')
+        // ->paginate(6);
 
-        $routes = DB::table('routes')
-        ->leftJoin('users', 'routes.id', '=', 'users.route_id')
-        ->select('routes.*', DB::raw('COUNT(users.id) as user_sum'))
-        ->groupBy('routes.id')
-        ->havingRaw('user_sum <= max_users')
-        ->paginate(6);
-
-        // $routes = Route::paginate(6);
+    $routes = Route::paginate(6);
 
         return response()->json([
             'success' => true,
