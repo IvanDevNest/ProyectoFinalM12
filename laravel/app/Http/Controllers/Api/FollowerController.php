@@ -44,7 +44,7 @@ class FollowerController extends Controller
         }
         //comprovar si ya le sigue
         $existingFollow = Follower::where('id_follower', $validatedData['id_follower'])
-            ->where('id_follower', $validatedData['id_follower'])
+            ->where('id_followed', $validatedData['id_followed'])
             ->first();
         if ($existingFollow) {
             return response()->json([
