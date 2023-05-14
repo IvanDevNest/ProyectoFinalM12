@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Follower extends Model
 {
     use HasFactory;
-
+    public $incrementing = false;
+    protected $primaryKey = ['id_follower', 'id_followed'];
     protected $fillable = [
         'id_follower',
         'id_followed'

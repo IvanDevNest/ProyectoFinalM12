@@ -112,7 +112,7 @@ class FollowerController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => "inscription not exists"
+                'message' => "follow not exists"
             ], 404);
         }
     }
