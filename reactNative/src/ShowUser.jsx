@@ -144,14 +144,9 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-<<<<<<< HEAD
     borderColor:'#ffd700',
     borderWidth:4
 
     
-=======
-    borderColor: 'yellow',
-    borderWidth: 2
->>>>>>> a3af236ce144da783d402e1080e0334cb52ba5ae
   }
 });
