@@ -99,6 +99,8 @@ class FollowerController extends Controller
         //$id dejar de seguir
         $userId = auth()->user()->id;
         Log::debug($userId);
+        Log::debug($id);
+
         $unfollow = Follower::where('id_follower', $userId)->where('id_followed', $id)->first();
 
         if ($unfollow) {
