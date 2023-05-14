@@ -1,19 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Constants from 'expo-constants';
 import { View, Text, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
+import RNPickerSelect from 'react-native-picker-select';
+import { useState } from 'react';
+
+
 
 const Header = () => {
+  const { control, handleSubmit, formState: { errors }, } = useForm();
+  let [filter, setFilter] = useState("");
+
+  const applyFilter = ()=>{
+    setFilter(value)
+  }
+  useEffect(() => {
+    console.log(filter)
+  }, [filter]);
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <Image source={require('./blue-man-1.gif')} style={styles.logo} />
-        <Text style={styles.title}></Text>
+        <View>
+                    <Text>Filtrar por:</Text>
+                    <Controller
+                        control={control}
+                        name="type_vehicle"
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field: { onChange, onBlur, value, setFilter } }) => (
+                            <RNPickerSelect
+                                placeholder={{ label: 'Selecciona una opción...', value: null }}
+                                onValueChange={onChange}
+                                onBlur={onChange}
+                                items={[
+                                    { label: 'Moto', value: 'Moto' },
+                                    { label: 'Coche', value: 'Coche' }
+                                ]}
+                                value={value}
+                            />
+                        )}
+                        
+                    />
 
-        <TextInput
-          placeholder="Buscar"
-          style={styles.searchInput}
-          underlineColorAndroid="transparent"
-        />
+
+                </View>
+        
+
       </View>
     </SafeAreaView>
   );
@@ -31,6 +64,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
+    justifyContent:'space-between'
   },
   logo: {
     width: 40,
