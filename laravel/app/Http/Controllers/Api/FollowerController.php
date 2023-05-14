@@ -96,12 +96,17 @@ class FollowerController extends Controller
      */
     public function destroy($id)
     {
+        Log::debug("id dejar de seguir"+$id);
+
         //$id dejar de seguir
         $userId = auth()->user()->id;
-        Log::debug($userId);
-        Log::debug($id);
+        Log::debug("id author"+$userId);
 
         $unfollow = Follower::where('id_follower', $userId)->where('id_followed', $id)->first();
+        Log::debug($unfollow);
+
+
+       
 
         if ($unfollow) {
 
