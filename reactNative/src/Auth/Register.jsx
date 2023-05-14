@@ -84,7 +84,7 @@ const Register = ({ setLogin }) => {
       quality: 1,
     });
 
-    console.log("result: "+JSON.stringify(result));
+    console.log("Result: "+JSON.stringify(result));
 
     if (!result.canceled) {
       setImage(result);
