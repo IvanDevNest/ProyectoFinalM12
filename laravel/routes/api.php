@@ -39,7 +39,9 @@ Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');
 
 // Rutas para FollowerController
-Route::apiResource('followers', 'App\Http\Controllers\Api\FollowerController');
+Route::apiResource('followers', 'App\Http\Controllers\Api\FollowerController')
+->middleware('auth:sanctum');
+
 // Rutas para UsersController
 // Route::apiResource('users', 'App\Http\Controllers\Api\UserController');
 
