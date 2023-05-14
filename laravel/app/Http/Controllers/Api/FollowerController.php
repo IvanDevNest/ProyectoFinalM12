@@ -36,7 +36,7 @@ class FollowerController extends Controller
             'id_followed' => 'required|exists:users,id',
         ]);
         // Verificar si el usuario está tratando de seguirse a sí mismo
-        if ($validatedData['id_follower'] == $validatedData['id_follower']) {
+        if ($validatedData['id_follower'] == $validatedData['id_followed']) {
             return response()->json([
                 'success' => false,
                 'message' => 'No puedes seguirte a ti mismo'
