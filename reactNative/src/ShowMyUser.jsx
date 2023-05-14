@@ -19,10 +19,8 @@ const ShowMyUser = () => {
 
   let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
   const [avatarUrl, setAvatarUrl] = useState(null);
-  const [stars, setStars] = useState(null);
 
-  console.log("usuari: " +usuari)
-  console.log("estrellas :"+stars)
+  console.log("usuari: " + usuari)
 
   const fetchAvatar = async () => {
     const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
@@ -30,7 +28,7 @@ const ShowMyUser = () => {
     console.log("fetchavatar: " + response.image_url)
     setAvatarUrl(response.image_url);
   };
-  
+
   useEffect(() => {
     fetchAvatar();
   }, []);
@@ -48,24 +46,10 @@ const ShowMyUser = () => {
 
 
         <Text>Nombre: {usuari.name}</Text>
-        <Rating
-          type='custom'
-          ratingCount={5}
-          imageSize={30}
-          showRating
-          onFinishRating={rating=> setStars(rating)}
-          tintColor='gray'
-          ratingBackgroundColor='transparent'
 
-
-        />
 
         <Text>Apellido: {usuari.lastname}</Text>
         <Text>Segundo apellido: {usuari.second_surname}</Text>
-
-
-
-
 
       </View>
       <View style={{ alignItems: 'center' }}>

@@ -20,6 +20,7 @@ const ShowUser = () => {
   let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [stars, setStars] = useState(3);
+  const [error, setError] = useState("");
 
   const route = useRoute();
   const objectId = route.params.objectId;
@@ -60,6 +61,7 @@ const ShowUser = () => {
     formData.append('stars',stars);
     formData.append('reviewed_id',authorRuta.id);
     formData.append('author_review_id',usuari.id);
+    console.log(JSON.stringify(formData))
     try {
       const data = await fetch('http://equip04.insjoaquimmir.cat/api/reviews', {
           headers: {
@@ -80,7 +82,7 @@ const ShowUser = () => {
       }
       else setError(resposta.message);
   } catch (e) {
-      console.log(e.err);
+      console.log("catch enviar review: "+e.err);
 
   }
   };
@@ -112,7 +114,7 @@ const ShowUser = () => {
           ratingBackgroundColor='transparent'
         />
         <Button title="Enviar Review" onPress={()=> enviarReview(stars)}/>
-
+        {error?<Text>{error}</Text>:<></>}
         <Text>Apellido: {authorRuta.lastname}</Text>
         <Text>Segundo apellido: {authorRuta.second_surname}</Text>
 

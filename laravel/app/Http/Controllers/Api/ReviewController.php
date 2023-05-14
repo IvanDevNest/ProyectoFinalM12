@@ -31,7 +31,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $validatedData = $request->validate([
             'stars' => 'required|integer|between:1,5',
             'reviewed_id' => 'required',
@@ -42,7 +42,14 @@ class ReviewController extends Controller
         if ($validatedData['reviewed_id'] == $validatedData['author_review_id']) {
             return response()->json(['error' => 'No puedes evaluarte a ti mismo'], 400);
         }
+        //comprovar si existe la review
+        $existingReview = Review::where('reviewed_id', $validatedData['reviewed_id'])
+            ->where('author_review_id', $validatedData['author_review_id'])
+            ->first();
 
+        if ($existingReview) {
+            return response()->json(['error' => 'Ya existe una evaluación para este usuario'], 400);
+        }
         $review = Review::create($validatedData);
 
         return response()->json([

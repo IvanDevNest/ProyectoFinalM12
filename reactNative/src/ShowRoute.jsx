@@ -106,13 +106,14 @@ const ShowRoute = () => {
         };
 
     }
-    setTimeout(() => {
-        fetchAvatar(ruta.author_id);
-        getUserLooking(ruta.author_id)
-      }, 1000); // espera 1 segundo antes de llamar a getUserLooking
+   
     useEffect(() => {
         getRoute(objectId);
         obtenerInscripciones(objectId);
+        setTimeout(() => {
+            fetchAvatar(ruta.author_id);
+            getUserLooking(ruta.author_id)
+          }, 1000); // espera 1 segundo antes de llamar a getUserLooking
     }, [reload]);
 
     const unirseRuta = async (objectId) => {
