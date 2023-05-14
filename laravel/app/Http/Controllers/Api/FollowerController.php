@@ -35,7 +35,23 @@ class FollowerController extends Controller
             'id_follower' => 'required|exists:users,id',
             'id_followed' => 'required|exists:users,id',
         ]);
-
+        // Verificar si el usuario está tratando de seguirse a sí mismo
+        if ($validatedData['id_follower'] == $validatedData['id_follower']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No puedes seguirte a ti mismo'
+            ], 400);
+        }
+        //comprovar si ya le sigue
+        $existingFollow = Follower::where('id_follower', $validatedData['id_follower'])
+            ->where('id_follower', $validatedData['id_follower'])
+            ->first();
+        if ($existingFollow) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ya sigues a este usuario'
+            ], 400);
+        }
         $follower = Follower::create($validatedData);
 
         return response()->json([
