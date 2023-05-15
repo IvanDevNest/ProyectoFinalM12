@@ -54,7 +54,7 @@ const RutasList = () => {
   const getRoutes = async (page) => {
     try {
       setIsLoading(true)
-      const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes?page=" + page, {
+      const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes?page= " + page, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json"
