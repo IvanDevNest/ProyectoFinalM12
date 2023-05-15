@@ -10,10 +10,11 @@ import StyleText from './StyledText';
 const RutasList = () => {
   let [rutas, setRutas] = useState("");
   let [isLoading, setIsLoading] = useState(true);
-  let { authToken, setAuthToken, reload } = useContext(UserContext);
+  let { filter, setFilter, authToken, setAuthToken, reload } = useContext(UserContext);
   let [page, setPage] = useState(1);
   let [lastpage, setLastPage] = useState("");
-  let [filter, setFilter] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+
 
 
   console.log(authToken)
@@ -96,8 +97,8 @@ const RutasList = () => {
       // Manejo de errores
     }
   };
-  const handleFilter = () => {
-    setFilter(filter); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
+  const handleFilter = (filterValue) => {
+    setFilter(filterValue); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
     setPage(1);
     getRoutes(page, filter); // Llama a la función 'getRoutes' pasando el valor actual de 'filter'
   };
@@ -118,11 +119,12 @@ const RutasList = () => {
       <TextInput
   style={styles.input}
   placeholder="Filtrar por nombre"
-  value={filter}
-  onChangeText={(value) => setFilter(value)}
+  value={filterValue}
+  onChangeText={(value) => setFilterValue(value)}
 />
 
-<Button title="Filtrar" onPress={handleFilter} />
+
+<Button title="Filtrar" onPress={() => handleFilter(filterValue)} />
 <Button title="Borrar Filtro" onPress={deleteFilter} />
 
     {/* Resto del código */}
