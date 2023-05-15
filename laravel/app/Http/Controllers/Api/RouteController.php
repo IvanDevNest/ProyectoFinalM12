@@ -18,22 +18,39 @@ class RouteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $routes = DB::table('routes')
-        // ->leftJoin('users', 'routes.id', '=', 'users.route_id')
-        // ->select('routes.*', DB::raw('COUNT(users.id) as user_sum'))
-        // ->groupBy('routes.id')
-        // ->havingRaw('user_sum <= max_users')
-        // ->paginate(6);
+        $query = Route::query();
+    
+        if ($name = $request->get('name')) {
+            $query->where('name', 'like', "%{$name}%");
+            $routes = $query->get();
 
-    $routes = Route::paginate(6);
+        }
+        if ($description = $request->get('description')) {
+            $query->where('description', 'like', "%{$description}%");
+            $routes = $query->get();
 
+        }
+        if ($distance = $request->get('distance')) {
+            $query->where('distance', 'like', "%{$distance}%");
+            $routes = $query->get();
+
+        }
+        
+        else{
+            $routes = $query->paginate(5);
+
+        }
+    
+    
         return response()->json([
             'success' => true,
             'data' => $routes
         ], 200);
     }
+    
+
 
 
     /**
