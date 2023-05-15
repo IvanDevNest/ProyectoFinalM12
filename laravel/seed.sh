@@ -10,6 +10,7 @@ php artisan db:seed --class=FollowersSeeder
 php artisan db:seed --class=PermissionsSeeder
 php artisan db:seed --class=RolePermissionsSeeder
 php artisan db:seed --class=MessageSeeder
+php artisan db:seed --class=MessageSeeder
 
 
 

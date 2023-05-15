@@ -18,6 +18,9 @@ class User extends Authenticatable
 
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
     use CrudTrait;
+    
+    public $guard_name = 'web';
+
     // use HasRoles;
     protected $fillable = [
         'name',
