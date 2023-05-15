@@ -175,7 +175,7 @@ class TokenController extends Controller
     ]);
     }
 
-    protected function editUser(Request $request,User $user)
+    protected function update(Request $request,User $user)
     {
         Log::debug($request);
         $validacion = $request->validate([
