@@ -1,4 +1,4 @@
-import React,{ useState ,useContext,useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import Constants from 'expo-constants'
 import { UserContext } from '../userContext';
@@ -8,15 +8,15 @@ const Header = () => {
   let [userImage, setUserImage] = useState("");
   let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
-  let { setUsuari,authToken} = useContext(UserContext);
+  let { setUsuari, authToken } = useContext(UserContext);
 
-  const getUser = async ()=> {
+  const getUser = async () => {
     try {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          'Authorization': 'Bearer '  + authToken, 
+          'Authorization': 'Bearer ' + authToken,
         },
         method: "GET",
       });
@@ -25,25 +25,25 @@ const Header = () => {
         console.log(JSON.stringify(resposta))
         // setUsername(resposta.user.name);
         // setRoles(resposta.roles);
-         setUsuari(resposta.user)
+        setUsuari(resposta.user)
         // setUsuariId(resposta.user.id)
         // // console.log(usuari);
         setIsLoading(false)
-      }        
+      }
       else setError(resposta.message);
-    } catch(e){
+    } catch (e) {
       console.log(e.message);
       // alert("Catchch");
-    }; 
-       
-}
-useEffect(() => {
-  getUser();
-},[]);
+    };
+
+  }
+  useEffect(() => {
+    getUser();
+  }, []);
 
 
   return (
-    <View style={{marginTop: Constants.statusBarHeight}}>
+    <View style={{ marginTop: Constants.statusBarHeight }}>
       {isLoading ?
         <><Text>cargando...</Text></>
         :

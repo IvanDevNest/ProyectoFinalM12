@@ -29,8 +29,7 @@ const Register = ({ setLogin }) => {
       // console.log("tamaño: " +image.assets[0].fileSize)
   
       // console.log("imagenurl: " +imageUri)
-  
-  
+
       formData.append('imageUri', {
         uri: image.assets[0].uri,
         name:fileName,
@@ -39,7 +38,6 @@ const Register = ({ setLogin }) => {
       });
     }
     
-   
     // formData.append('fileSize',image.fileSize)
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());

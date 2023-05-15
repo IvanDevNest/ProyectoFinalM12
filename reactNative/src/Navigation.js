@@ -17,6 +17,7 @@ import CreateRoute from "./CreateRoute";
 import RutasList from "./RutasList";
 import ShowRoute from "./ShowRoute";
 import RouteEdit from "./RouteEdit";
+import UserEdit from "./UserEdit";
 import ShowUser from "./ShowUser";
 import ShowMyUser from "./ShowMyUser";
 // import { AuthContext } from "./AuthContext";
@@ -41,7 +42,11 @@ function MyStack() {
             <HomeStackNavigator.Screen
                 name="ShowUser"
                 component={ShowUser}
-            />
+            />  
+            <HomeStackNavigator.Screen
+            name="UserEdit"
+            component={UserEdit}
+        />
         </HomeStackNavigator.Navigator>
     )
 }

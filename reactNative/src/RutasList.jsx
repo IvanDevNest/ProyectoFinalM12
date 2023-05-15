@@ -57,13 +57,13 @@ const RutasList = () => {
     try {
       setIsLoading(true);
       let url = `http://equip04.insjoaquimmir.cat/api/routes`;
-  
+
       if (filter) {
         url += `?name=${encodeURIComponent(filter)}`;
       } else if (page) {
         url += `?page=${page}`;
       }
-  
+
       const data = await fetch(url, {
         headers: {
           Accept: "application/json",
@@ -71,30 +71,29 @@ const RutasList = () => {
         },
         method: "GET",
       });
-  
+
       // Resto del código
     } catch {
       // Manejo de errores
     }
   };
-  
+
   useEffect(() => {
-    getRoutes(page,filter)
-  }, [reload, page,filter]);
+    getRoutes(page, filter)
+  }, [reload, page, filter]);
 
   return (
     <>
       <Button title='Logout' onPress={() => sendLogout()}></Button>
       <TextInput
-  style={styles.input}
-  placeholder="Filtrar por nombre"
-  value={filter}
-  onChangeText={(text) => setFilter(text)}
-/>
+        placeholder="Filtrar por nombre"
+        value={filter}
+        onChangeText={(text) => setFilter(text)}
+      />
       {isLoading ?
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }}></Image>
-        </View> 
+        </View>
         :
         <>
           <FlatList data={rutas}
