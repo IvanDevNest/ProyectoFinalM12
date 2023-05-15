@@ -14,10 +14,8 @@
 
     class User extends Authenticatable
     {   
-        use \Backpack\CRUD\app\Models\Traits\CrudTrait;
-
-        use HasApiTokens, HasFactory, Notifiable, HasRoles;
         use CrudTrait;
+        use HasApiTokens, HasFactory, Notifiable, HasRoles;
         
         public $guard_name = 'web';
 
