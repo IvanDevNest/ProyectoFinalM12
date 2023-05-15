@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    use HasFactory;
+    // use HasFactory;
 
-    protected $fillable = [
-        'name',
-    ];
+    // protected $fillable = [
+    //     'name',
+    // ];
 }

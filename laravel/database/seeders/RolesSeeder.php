@@ -9,20 +9,20 @@ use Illuminate\Support\Facades\DB;
 
 class RolesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        DB::table('roles')->insert([
-            ['name' => 'Novato'],
-            ['name' => 'Veterano'],
-            ['name' => 'Admin'],
-            ['name' => 'VIP'],
+    // /**
+    //  * Run the database seeds.
+    //  *
+    //  * @return void
+    //  */
+    // public function run()
+    // {
+    //     DB::table('roles')->insert([
+    //         ['name' => 'Novato'],
+    //         ['name' => 'Veterano'],
+    //         ['name' => 'Admin'],
+    //         ['name' => 'VIP'],
 
-        ]);
-    }
+    //     ]);
+    // }
 }
 
