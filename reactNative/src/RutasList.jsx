@@ -13,7 +13,7 @@ const RutasList = () => {
   let { authToken, setAuthToken, reload } = useContext(UserContext);
   let [page, setPage] = useState(1);
   let [lastpage, setLastPage] = useState("");
-  const [filter, setFilter] = useState('');
+  let [filter, setFilter] = useState('');
 
 
   console.log(authToken)
@@ -56,12 +56,15 @@ const RutasList = () => {
   const getRoutes = async (page, filter) => {
     try {
       setIsLoading(true);
-      let url = `http://equip04.insjoaquimmir.cat/api/routes`;
+      console.log("Filtro: " + filter)
 
       if (filter) {
-        url += `?name=${encodeURIComponent(filter)}`;
+        console.log("Entra por filtro")
+        url = `http://equip04.insjoaquimmir.cat/api/routes?page=${page}&name=${filter}`;
       } else if (page) {
-        url += `?page=${page}`;
+        console.log("Entra sin filtro")
+        console.log("PAGINA: " + page)
+        url = `http://equip04.insjoaquimmir.cat/api/routes?page=${page}`;
       }
 
       const data = await fetch(url, {
@@ -70,26 +73,59 @@ const RutasList = () => {
           "Content-Type": "application/json"
         },
         method: "GET",
+
+
       });
+      const resposta = await data.json();
+      console.log("Data: " + JSON.stringify(resposta.data))
+      if (resposta.success === true) {
+        console.log("resposta pages" + JSON.stringify(resposta))
+        setRutas(resposta.data.data)
+        console.log("SetRutas: " + resposta.data.data)
+
+        setLastPage(resposta.data.last_page)
+        console.log(resposta.data.last_page)
+
+        setIsLoading(false)
+
+      } else alert("La resposta no ha triomfat");
+
 
       // Resto del código
     } catch {
       // Manejo de errores
     }
   };
+  const handleFilter = () => {
+    setFilter(filter); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
+    setPage(1);
+    getRoutes(page, filter); // Llama a la función 'getRoutes' pasando el valor actual de 'filter'
+  };
+  const deleteFilter = () => {
+    setFilter(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
+    setPage(1);
+    getRoutes(page)
+
+  };
 
   useEffect(() => {
-    getRoutes(page, filter)
-  }, [reload, page, filter]);
+    getRoutes(page)
+  }, [reload, page]);
 
   return (
     <>
       <Button title='Logout' onPress={() => sendLogout()}></Button>
       <TextInput
+        style={styles.input}
         placeholder="Filtrar por nombre"
         value={filter}
-        onChangeText={(text) => setFilter(text)}
+        onChangeText={(value) => setFilter(value)}
       />
+
+      <Button title="Filtrar" onPress={handleFilter} />
+      <Button title="Borrar Filtro" onPress={deleteFilter} />
+
+      {/* Resto del código */}
       {isLoading ?
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }}></Image>
@@ -123,6 +159,14 @@ const RutasList = () => {
     </>
   )
 }
-
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+});
 
 export default RutasList

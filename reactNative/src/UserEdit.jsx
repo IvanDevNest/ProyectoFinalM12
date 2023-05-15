@@ -32,6 +32,20 @@ const UserEdit = () => {
   }
 
   const updateUser = async (formState, id) => {
+    const formData=new FormData();
+
+    const fileName = image.assets[0].uri.split("/").pop();
+    formData.append('imageUri', {
+      uri: image.assets[0].uri,
+      name:fileName,
+      type: Platform === "ios" ? image.assets[0].uri.split(".").pop() :  "image/"+image.assets[0].uri.split(".").pop(),
+
+    });
+    formData.append('name', dataa.name);
+    formData.append('lastname', dataa.lastname);
+    formData.append('second_surname', dataa.second_surname);
+    formData.append('email', dataa.email.toLowerCase());
+    formData.append('password', dataa.password);
     console.log("formulari" + JSON.stringify(formState));
     try {
       const data = await fetch('http://equip04.insjoaquimmir.cat/api/user/' + id, {
@@ -100,9 +114,9 @@ const UserEdit = () => {
   // }
 
 
-  useEffect(() => {
-    getRoute(objectId)
-  }, []);
+  // useEffect(() => {
+  //   getRoute(objectId)
+  // }, []);
   useEffect(() => {
     console.log("variable userlocal" + JSON.stringify(usuariLocal))
     setFormulari({
@@ -120,17 +134,33 @@ const UserEdit = () => {
     })
   }, [usuariLocal])
   useEffect(() => {
-    setUsuariLocal = usuari;
+    setUsuariLocal(usuari);
     setFormulari({
       name: usuari.name,
       lastname: usuari.lastname,
       second_surname: usuari.second_surname,
       file_id: usuari.file_id,
     })
+    setIsLoading(false)
   }, [])
 
   console.log("local formulari" + JSON.stringify(formulari))
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log("Result: " + JSON.stringify(result));
+
+    if (!result.canceled) {
+      setImage(result);
+    }
+  };
   return (
     <ScrollView>
       {isLoading ?
@@ -140,6 +170,9 @@ const UserEdit = () => {
 
           <Text style={{ fontWeight: 'bold' }}>Editar User</Text>
           <Text style={{ fontWeight: 'bold' }}>Información del usuario</Text>
+          <Text style={{ fontWeight: 'bold' }}>Foto de perfil</Text>
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
+          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           <Text style={{ fontWeight: 'bold' }}>Nombre del usuario</Text>
           <TextInput
             name="name"
@@ -157,17 +190,17 @@ const UserEdit = () => {
               />
             </View>
             <View>
-            <Text style={{ fontWeight: 'bold' }}>second_surname</Text>
-            <TextInput
-              name="second_surname"
-              onChangeText={text => handleChange(text, 'second_surname')}
-              value={formulari.second_surname}
-            />
+              <Text style={{ fontWeight: 'bold' }}>second_surname</Text>
+              <TextInput
+                name="second_surname"
+                onChangeText={text => handleChange(text, 'second_surname')}
+                value={formulari.second_surname}
+              />
             </View>
           </View>
 
           <View>
-           
+
           </View>
 
           {error ? <Text style={{ color: 'red' }}>{error}</Text> : <></>}

@@ -24,8 +24,8 @@ const ShowMyUser = () => {
 
   const navigation = useNavigation();
 
-  function EditUser(id) {
-    navigation.navigate('EditUser', { objectId: id,});
+  function UserEdit(id) {
+    navigation.navigate('UserEdit', { objectId: id,});
 }
   const fetchAvatar = async () => {
     const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
@@ -48,7 +48,7 @@ const ShowMyUser = () => {
           </View> :
 
           <Image style={styles.avatar} source={{ uri: avatarUrl }}></Image>}
-          <Button title="Editar perfil" onPress={() => EditUser(usuari.id)} />
+          <Button title="Editar perfil" onPress={() => UserEdit(usuari.id)} />
 
 
         <Text>Nombre: {usuari.name}</Text>
