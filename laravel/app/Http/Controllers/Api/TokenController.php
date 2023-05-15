@@ -183,7 +183,6 @@ class TokenController extends Controller
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
             'imageUri' => ['nullable'],
-            // 'fileSize'=> ['nullable'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -212,9 +211,7 @@ class TokenController extends Controller
         }else{
             $user->update($validacion);
         }
-
         // $token = $user->createToken("authToken")->plainTextToken;
-
         return response()->json([
             "success" => true,
             'message' => 'Usuario actualizado'
