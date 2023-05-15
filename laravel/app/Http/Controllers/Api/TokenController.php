@@ -175,7 +175,55 @@ class TokenController extends Controller
     ]);
     }
 
+    protected function editUser(Request $request,User $user)
+    {
+        Log::debug($request);
+        $validacion = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'lastname' => ['nullable', 'string', 'max:255'],
+            'second_surname' => ['nullable', 'string', 'max:255'],
+            'imageUri' => ['nullable'],
+            // 'fileSize'=> ['nullable'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+        ///
+        if ($request->file('imageUri')) {
+            Log::debug($request->input('imageUri'));
+            // $imageUri = $request->file('imageUri')->getSize();
+            $imageUri = $request->file('imageUri');
+            Log::debug($imageUri);
 
+            $fileSize = $imageUri->getSize();
+            // $fileSize = $request->input('fileSize');
+            Log::debug($fileSize);
+            // Desar fitxer al disc i inserir dades a BD
+            $file = new File();
+            $ok = $file->diskSave($imageUri);
+            if ($ok) {
+                $user->update($validacion);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error uploading file'
+                ], 421);
+            }
+
+        }else{
+            $user->update($validacion);
+        }
+
+        // $token = $user->createToken("authToken")->plainTextToken;
+
+        return response()->json([
+            "success" => true,
+            'message' => 'Usuario actualizado'
+
+            // "authToken" => $token,
+            // "tokenType" => "Bearer"
+        ], 200);
+
+    }
 
 
 }

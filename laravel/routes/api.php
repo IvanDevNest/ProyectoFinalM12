@@ -59,6 +59,7 @@ Route::get('user', 'App\Http\Controllers\Api\TokenController@user')
 
 Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
 Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
+Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@update');
 Route::get('users/{userId}/avatar', 'App\Http\Controllers\Api\TokenController@getUserAvatar');
 
 
