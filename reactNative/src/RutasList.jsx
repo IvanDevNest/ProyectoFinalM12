@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Button, Image, TextInput } from 'react-native';
 import RutaList from './RutaList';
 import { UserContext } from './userContext';
 import StyleText from './StyledText';
@@ -13,6 +13,8 @@ const RutasList = () => {
   let { authToken, setAuthToken, reload } = useContext(UserContext);
   let [page, setPage] = useState(1);
   let [lastpage, setLastPage] = useState("");
+  const [filter, setFilter] = useState('');
+
 
   console.log(authToken)
 
@@ -51,40 +53,44 @@ const RutasList = () => {
     };
   }
 
-  const getRoutes = async (page) => {
+  const getRoutes = async (page, filter) => {
     try {
-      setIsLoading(true)
-      const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes?page= " + page, {
+      setIsLoading(true);
+      let url = `http://equip04.insjoaquimmir.cat/api/routes`;
+  
+      if (filter) {
+        url += `?name=${encodeURIComponent(filter)}`;
+      } else if (page) {
+        url += `?page=${page}`;
+      }
+  
+      const data = await fetch(url, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json"
         },
         method: "GET",
-
-      })
-      const resposta = await data.json();
-      console.log(resposta)
-      if (resposta.success === true) {
-        console.log("resposta pages" + JSON.stringify(resposta))
-        setRutas(resposta.data.data)
-        setLastPage(resposta.data.last_page)
-        console.log(resposta.data.last_page)
-
-        setIsLoading(false)
-
-      } else alert("La resposta no ha triomfat");
+      });
+  
+      // Resto del código
     } catch {
-      console.log("Error");
-      alert("Catchch");
-    };
-  }
+      // Manejo de errores
+    }
+  };
+  
   useEffect(() => {
-    getRoutes(page)
-  }, [reload, page]);
+    getRoutes(page,filter)
+  }, [reload, page,filter]);
 
   return (
     <>
       <Button title='Logout' onPress={() => sendLogout()}></Button>
+      <TextInput
+  style={styles.input}
+  placeholder="Filtrar por nombre"
+  value={filter}
+  onChangeText={(text) => setFilter(text)}
+/>
       {isLoading ?
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }}></Image>

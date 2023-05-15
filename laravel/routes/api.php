@@ -67,6 +67,9 @@ Route::post('/routes/{route}/inscription', 'App\Http\Controllers\Api\RouteContro
 Route::delete('/routes/{route}/uninscription', 'App\Http\Controllers\Api\RouteController@uninscription')
 ->middleware('auth:sanctum');
 Route::get('/inscriptions', 'App\Http\Controllers\Api\RouteController@inscriptions');
+Route::get('/routes', 'App\Http\Controllers\Api\RouteController@index');
+
+
 
 
 
