@@ -155,7 +155,7 @@ const RutaList = (ruta) => {
                         <View key={(ruta.id)} style={{ flexDirection: 'row', paddingBottom: 10 }}>
 
                             <View style={{paddingHorizontal: 60, paddingVertical: 35 }}>
-                            <Image source={require("./CapturaAPP.png")} style={{ borderColor: 'blue', borderWidth: 2,width: 120, height: 70, position: 'absolute' }}></Image>
+                            <Image source={require("./CapturaAPP.png")} style={{ borderColor: 'skyblue', borderWidth: 2,width: 120, height: 70, position: 'absolute' }}></Image>
                             
 
                             </View>
@@ -180,7 +180,8 @@ const RutaList = (ruta) => {
                             </View>
 
                         </View>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row'}}>
+                            <View style={{flexDirection:"row"}}>
                             <View style={{ alignItems: "center" }}>
                                 <StyledText fontWeight='bold'>MaxUsers</StyledText>
                                 <StyledText>{ruta.max_users}/10</StyledText>
@@ -190,7 +191,10 @@ const RutaList = (ruta) => {
                                 <StyledText>{ruta.num_stops}</StyledText>
                             </View>
 
-                            <View>
+                            </View>
+                            
+                            <View style={{flexDirection:"row",justifyContent:"space-around"}}>
+                            <View style={{padding:20, flexDirection: 'row', justifyContent:"space-around"}} >
                                 {usuari.route_id == ruta.id && ruta.author_id != usuari.id?
                                     <Button title="Salir de la ruta" onPress={() => salirseRuta(ruta.id)} />
                                     :
@@ -212,6 +216,9 @@ const RutaList = (ruta) => {
                                 <Button title="Ver" onPress={() => ShowRoute(ruta.id)}></Button>
 
                             </View>
+
+                            </View>
+                            
                         </View>
 
 
@@ -234,6 +241,8 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         marginBottom: 10,
+        flexDirection:"column"
+        
     },
     buttonEliminar: {
         backgroundColor: "red",
