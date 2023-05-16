@@ -178,6 +178,7 @@ class TokenController extends Controller
     protected function update(Request $request,User $user)
     {
         Log::debug($request);
+        Log::debug($user);
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
