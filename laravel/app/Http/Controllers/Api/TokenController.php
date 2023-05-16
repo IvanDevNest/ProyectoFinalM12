@@ -59,19 +59,19 @@ class TokenController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        if($user){
+        if ($user) {
             return response()->json([
                 "success" => true,
                 "data" => $user
             ], 200);
-        }else{
+        } else {
             return response()->json([
                 "success" => false,
                 "message" => "User not found"
             ], 404);
         }
-    
-       
+
+
     }
     public function index()
     {
@@ -119,14 +119,14 @@ class TokenController extends Controller
                 ], 421);
             }
 
-        }else{
-              $user = User::create([
-            'name' => $validacion['name'],
-            // 'lastname'=> $validacion['lastname'],
-            // 'second_surname'=> $validacion['second_surname'],
-            'email' => $validacion['email'],
-            'password' => Hash::make($validacion['password']),
-        ]);
+        } else {
+            $user = User::create([
+                'name' => $validacion['name'],
+                // 'lastname'=> $validacion['lastname'],
+                // 'second_surname'=> $validacion['second_surname'],
+                'email' => $validacion['email'],
+                'password' => Hash::make($validacion['password']),
+            ]);
         }
 
         $token = $user->createToken("authToken")->plainTextToken;
@@ -170,16 +170,16 @@ class TokenController extends Controller
         $imageUrl = url('storage/' . $imagePath);
 
         return response()->json([
-        "success" => true,
-        'image_url' => $imageUrl
-    ]);
+            "success" => true,
+            'image_url' => $imageUrl
+        ]);
     }
 
-    protected function update(Request $request,User $user)
+    protected function update(Request $request, User $user)
     {
         Log::debug($request);
         Log::debug($user);
-        
+
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
@@ -202,7 +202,7 @@ class TokenController extends Controller
             // Desar fitxer al disc i inserir dades a BD
             $file = new File();
             $ok = $file->diskSave($imageUri);
-            $validacion['file_id'] = $file->id; 
+            $validacion['file_id'] = $file->id;
             if ($ok) {
                 $user->update($validacion);
 
@@ -213,7 +213,7 @@ class TokenController extends Controller
                 ], 421);
             }
 
-        }else{
+        } else {
             // Log::debug($validacion['second_surname']); 
             $user->update($validacion);
         }
@@ -230,13 +230,13 @@ class TokenController extends Controller
     // public function getUserPost(Request $request,$userId)
     // {
     //     $query = File::query();
-    
+
     //     if ($user_id = $request->get('user_id')) {
     //         $query->where('user_id', $userId);
     //         $posts = $query->get();
 
     //     }
-        
+
     //     // Construir la URL de la imagen
     //     $imagePath = $posts->filepath;
     //     Log::debug($imagePath);
@@ -248,61 +248,61 @@ class TokenController extends Controller
     // ]);
     // }
     public function getUserPosts(Request $request, $userId)
-{
-    $query = File::query();
+    {
+        $query = File::query();
 
-    if ($user_id = $request->get('user_id')) {
+
         $query->where('user_id', $userId);
         $posts = $query->get();
-    }
 
-    $imageUrls = [];
-    foreach ($posts as $post) {
-        $imagePath = $post->filepath;
-        $imageUrl = url('storage/' . $imagePath);
-        $imageUrls[] = $imageUrl;
-    }
 
-    return response()->json([
-        "success" => true,
-        'image_urls' => $imageUrls
-    ]);
-}
-protected function postUserFiles(Request $request)
-{
-    Log::debug($request);
-    $validacion = $request->validate([
-        'image' => ['required'],
-        'user_id'  => ['required']
-    ]);
-    ///
-    if ($request->file('image')) {
-            
-        $image = $request->file('image');
-        Log::debug($image);
-
-        $file = new File();
-        $ok = $file->diskSave($image);
-
-        if ($ok) {
-            $file->user_id = $validacion['user_id'];
-            $file->save();
-
-            return response()->json([
-                "success" => true,
-                "message" => "Post subido correctamente",
-
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error uploading file'
-            ], 421);
+        $imageUrls = [];
+        foreach ($posts as $post) {
+            $imagePath = $post->filepath;
+            $imageUrl = url('storage/' . $imagePath);
+            $imageUrls[] = $imageUrl;
         }
 
-  
+        return response()->json([
+            "success" => true,
+            'image_urls' => $imageUrls
+        ]);
     }
+    protected function postUserFiles(Request $request)
+    {
+        Log::debug($request);
+        $validacion = $request->validate([
+            'image' => ['required'],
+            'user_id' => ['required']
+        ]);
+        ///
+        if ($request->file('image')) {
 
-}
+            $image = $request->file('image');
+            Log::debug($image);
+
+            $file = new File();
+            $ok = $file->diskSave($image);
+
+            if ($ok) {
+                $file->user_id = $validacion['user_id'];
+                $file->save();
+
+                return response()->json([
+                    "success" => true,
+                    "message" => "Post subido correctamente",
+
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error uploading file'
+                ], 421);
+            }
+
+
+        }
+
+    }
 
 }
