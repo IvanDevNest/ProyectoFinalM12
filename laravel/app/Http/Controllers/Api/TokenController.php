@@ -185,6 +185,7 @@ class TokenController extends Controller
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
             'imageUri' => ['nullable'],
+            'file_id' => ['nullable'],
             // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             // 'password' => ['required', 'string', 'min:8'],
         ]);
@@ -201,8 +202,10 @@ class TokenController extends Controller
             // Desar fitxer al disc i inserir dades a BD
             $file = new File();
             $ok = $file->diskSave($imageUri);
+            $validacion['file_id'] = $file->id; 
             if ($ok) {
                 $user->update($validacion);
+
             } else {
                 return response()->json([
                     'success' => false,
