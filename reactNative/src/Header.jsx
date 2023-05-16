@@ -21,30 +21,6 @@ const Header = () => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <Image source={require('./blue-man-1.gif')} style={styles.logo} />
-        <View>
-                    <Text>Filtrar por:</Text>
-                    <Controller
-                        control={control}
-                        name="type_vehicle"
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, onBlur, value, setFilter } }) => (
-                            <RNPickerSelect
-                                placeholder={{ label: 'Selecciona una opción...', value: null }}
-                                onValueChange={onChange}
-                                onBlur={onChange}
-                                items={[
-                                    { label: 'Moto', value: 'Moto' },
-                                    { label: 'Coche', value: 'Coche' }
-                                ]}
-                                value={value}
-                            />
-                        )}
-                        
-                    />
-
-
-                </View>
         
 
       </View>

@@ -15,11 +15,13 @@ export default function App() {
   let [usuariId, setUsuariId] = useState("")
   let [usuari, setUsuari] = useState([])
   let [reload, setReload] = useState(true);
-  let [filter, setFilter] = useState("")
+  let [filterName, setFilterName] = useState("")
+  let [filterVehicle, setFilterVehicle] = useState("")
+
 
   return (
 
-    <UserContext.Provider value={{ filter, setFilter, authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari ,reload, setReload}}>
+    <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari ,reload, setReload}}>
       <View style={styles.container}>
         {authToken ?
           <>
