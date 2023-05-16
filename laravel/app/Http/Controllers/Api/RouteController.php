@@ -32,8 +32,9 @@ class RouteController extends Controller
             $routes = $query->get();
 
         }
-        if ($distance = $request->get('distance')) {
-            $query->where('distance', 'like', "%{$distance}%");
+        
+        if ($type_vehicle = $request->get('type_vehicle')) {
+            $query->where('type_vehicle', 'like', "%{$type_vehicle}%");
             $routes = $query->get();
 
         }

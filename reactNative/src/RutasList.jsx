@@ -114,11 +114,12 @@ const RutasList = () => {
     setFilterVehicle("") // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
     setPage(1);
   };
-  const handleFilterVehicle = (filterValue) => {
-    setFilterVehicle(filterValue);
-    setFilterName("") // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
+  const handleFilterVehicle = (selectedVehicleType) => {
+    setFilterVehicle(selectedVehicleType);
+    setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
     setPage(1);
   };
+  
   const deleteFilter = () => {
     setFilterVehicle("")
     setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
@@ -177,23 +178,24 @@ const RutasList = () => {
     defaultValue=""
     rules={{ required: true }}
     render={({ field: { onChange, onBlur, value } }) => (
-        <RNPickerSelect
-            placeholder={{ label: 'Elige el vehiculo:', value: null }}
-            onValueChange={(selectedValue) => {
-                onChange(selectedValue);
-                setFilterValue(selectedValue);
-                console.log("Filtro de vehiculos: "+filterValue)
-            }}
-            onBlur={onBlur}
-            items={[
-                { label: 'Coche', value: 'coche' },
-                { label: 'Moto', value: 'moto' }
-            ]}
-            value={value}
-        />
+      <RNPickerSelect
+      placeholder={{ label: 'Elige el vehiculo:', value: null }}
+      onValueChange={(selectedValue) => {
+        onChange(selectedValue);
+        setSelectedVehicleType(selectedValue);
+        console.log("Filtro de vehiculos: " + selectedValue);
+      }}
+      onBlur={onBlur}
+      items={[
+        { label: 'Coche', value: 'coche' },
+        { label: 'Moto', value: 'moto' }
+      ]}
+      value={value}
+    />
+    
     )}
 />
-<Button title="Filtrar" onPress={() => handleFilterVehicle(filterValue)} />
+<Button title="Filtrar" onPress={() => handleFilterVehicle(selectedVehicleType)} />
 <Button title="Borrar Filtro" onPress={deleteFilter} />
 
 
