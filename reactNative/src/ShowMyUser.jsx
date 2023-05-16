@@ -79,7 +79,7 @@ useEffect(() => {
 
       </View>
       <View style={{ alignItems: 'center' }}>
-        <FotosUser />
+        <FotosUser id={usuari.id}/>
 
       </View>
     </View>
