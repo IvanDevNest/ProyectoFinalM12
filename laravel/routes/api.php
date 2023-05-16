@@ -68,6 +68,10 @@ Route::post('user/{user}', 'App\Http\Controllers\Api\TokenController@update')->m
 
 Route::get('users/{userId}/avatar', 'App\Http\Controllers\Api\TokenController@getUserAvatar');
 
+Route::get('users/{userId}/posts', 'App\Http\Controllers\Api\TokenController@getUserPosts');
+
+Route::post('users/postuserfiles', 'App\Http\Controllers\Api\TokenController@postUserFiles');
+
 
 Route::post('/routes/{route}/inscription', 'App\Http\Controllers\Api\RouteController@inscription')
 ->middleware('auth:sanctum');
