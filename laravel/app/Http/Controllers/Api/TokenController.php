@@ -183,8 +183,8 @@ class TokenController extends Controller
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
             'imageUri' => ['nullable'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'password' => ['required', 'string', 'min:8'],
         ]);
         ///
         if ($request->file('imageUri')) {
