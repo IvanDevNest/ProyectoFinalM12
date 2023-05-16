@@ -18,12 +18,19 @@ class File extends Model
     protected $fillable = [
         'filepath',
         'filesize',
+        'user_id'
     ];
     
-     public function user()
-     {
-         return $this->hasOne(User::class);
-     }
+    //  public function user()
+    //  {
+    //      return $this->hasOne(User::class);
+    //  }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
      public function message()
      {
          return $this->hasOne(Message::class);
@@ -82,5 +89,5 @@ class File extends Model
         Log::debug("DB storage OK");
         return true;
     }
-    
+   
 }

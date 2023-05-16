@@ -44,9 +44,13 @@ function MyStack() {
                 component={ShowUser}
             />  
             <HomeStackNavigator.Screen
-            name="UserEdit"
-            component={UserEdit}
-        />
+                name="ShowMyUser"
+                component={ShowMyUser}
+            />
+            <HomeStackNavigator.Screen
+                name="UserEdit"
+                component={UserEdit}
+            />
         </HomeStackNavigator.Navigator>
     )
 }

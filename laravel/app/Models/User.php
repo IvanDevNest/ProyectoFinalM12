@@ -43,9 +43,17 @@
     {
         return $this->belongsTo(Route::class);
     }
-    public function file()
+    // public function file()
+    // {
+    //     return $this->belongsTo(File::class);
+    // } 
+     public function file()
     {
-        return $this->belongsTo(File::class);
+        return $this->belongsTo(File::class,'file_id');
+    }
+    public function additionalPhotos()
+    {
+        return $this->hasMany(File::class, 'user_id');
     }
 
     // public function routes()

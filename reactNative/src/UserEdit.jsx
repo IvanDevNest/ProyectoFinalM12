@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet, ScrollView, Controller, TextInput,Platform } from 'react-native';
+import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet, ScrollView, Controller, TextInput, Platform } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -10,7 +10,7 @@ const UserEdit = () => {
   const route = useRoute();
   const objectId = route.params.objectId;
   let [formulari, setFormulari] = useState({});
-  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
+  let { usuari, setUsuari, authToken, setAuthToken,setReload,reload } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [usuariLocal, setUsuariLocal] = useState([]);
   const [error, setError] = useState([]);
@@ -27,20 +27,22 @@ const UserEdit = () => {
     }));
   }
 
-  function ShowUser(id) {
-    navigation.navigate('ShowUser', { objectId: id });
+  function ShowMyUser() {
+    navigation.navigate('ShowMyUser');
   }
 
   const updateUser = async (formulari, id) => {
-    const formData=new FormData();
+    const formData = new FormData();
+    if (image) {
+      const fileName = image.assets[0].uri.split("/").pop();
+      formData.append('imageUri', {
+        uri: image.assets[0].uri,
+        name: fileName,
+        type: Platform === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
 
-    const fileName = image.assets[0].uri.split("/").pop();
-    formData.append('imageUri', {
-      uri: image.assets[0].uri,
-      name:fileName,
-      type: Platform === "ios" ? image.assets[0].uri.split(".").pop() :  "image/"+image.assets[0].uri.split(".").pop(),
+      });
+    }
 
-    });
     formData.append('name', formulari.name);
     formData.append('lastname', formulari.lastname);
     formData.append('second_surname', formulari.second_surname);
@@ -51,10 +53,10 @@ const UserEdit = () => {
       const data = await fetch('http://equip04.insjoaquimmir.cat/api/user/' + id, {
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
-           'Authorization': 'Bearer ' + authToken,
+          // 'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + authToken,
         },
-        method: 'PUT',
+        method: 'POST',
         body: formData,
       });
       const resposta = await data.json();
@@ -63,8 +65,9 @@ const UserEdit = () => {
       if (resposta.success === true) {
         // setRutas(resposta);
         console.log("resposta: " + JSON.stringify(resposta))
-        ShowUser(usuari.id)
         // setReload(!reload)
+
+        ShowMyUser()
 
       }
       else setError(resposta.message);

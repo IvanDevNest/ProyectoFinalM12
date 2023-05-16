@@ -214,7 +214,7 @@ class TokenController extends Controller
             }
 
         }else{
-            Log::debug($validacion['second_surname']); 
+            // Log::debug($validacion['second_surname']); 
             $user->update($validacion);
         }
         // $token = $user->createToken("authToken")->plainTextToken;
