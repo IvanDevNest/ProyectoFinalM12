@@ -25,7 +25,7 @@
             'email',
             'password',
             'lastname',
-            'secound_sourname',
+            'second_surname',
             'file_id',
             'route_id',
             'author_id'
