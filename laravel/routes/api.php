@@ -62,8 +62,8 @@ Route::get('user', 'App\Http\Controllers\Api\TokenController@user')
 
 Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
 Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
-
-// Route::put('user/{user}', 'App\Http\Controllers\Api\TokenController@update')->middleware('auth:sanctum');
+ 
+Route::post('user/{user}', 'App\Http\Controllers\Api\TokenController@update')->middleware('auth:sanctum');
 
 
 Route::get('users/{userId}/avatar', 'App\Http\Controllers\Api\TokenController@getUserAvatar');
