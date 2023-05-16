@@ -227,6 +227,82 @@ class TokenController extends Controller
         ], 200);
 
     }
+    // public function getUserPost(Request $request,$userId)
+    // {
+    //     $query = File::query();
+    
+    //     if ($user_id = $request->get('user_id')) {
+    //         $query->where('user_id', $userId);
+    //         $posts = $query->get();
 
+    //     }
+        
+    //     // Construir la URL de la imagen
+    //     $imagePath = $posts->filepath;
+    //     Log::debug($imagePath);
+    //     $imageUrl = url('storage/' . $imagePath);
+
+    //     return response()->json([
+    //     "success" => true,
+    //     'image_url' => $imageUrl
+    // ]);
+    // }
+    public function getUserPosts(Request $request, $userId)
+{
+    $query = File::query();
+
+    if ($user_id = $request->get('user_id')) {
+        $query->where('user_id', $userId);
+        $posts = $query->get();
+    }
+
+    $imageUrls = [];
+    foreach ($posts as $post) {
+        $imagePath = $post->filepath;
+        $imageUrl = url('storage/' . $imagePath);
+        $imageUrls[] = $imageUrl;
+    }
+
+    return response()->json([
+        "success" => true,
+        'image_urls' => $imageUrls
+    ]);
+}
+protected function postUserFiles(Request $request)
+{
+    Log::debug($request);
+    $validacion = $request->validate([
+        'image' => ['required'],
+        'user_id'  => ['required']
+    ]);
+    ///
+    if ($request->file('image')) {
+            
+        $image = $request->file('image');
+        Log::debug($image);
+
+        $file = new File();
+        $ok = $file->diskSave($image);
+
+        if ($ok) {
+            $file->user_id = $validacion['user_id'];
+            $file->save();
+
+            return response()->json([
+                "success" => true,
+                "message" => "Post subido correctamente",
+
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error uploading file'
+            ], 421);
+        }
+
+  
+    }
+
+}
 
 }

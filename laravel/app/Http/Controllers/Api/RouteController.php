@@ -44,7 +44,6 @@ class RouteController extends Controller
 
         }
     
-    
         return response()->json([
             'success' => true,
             'data' => $routes
