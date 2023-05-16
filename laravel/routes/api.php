@@ -32,10 +32,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Rutas para ReviewController
 Route::apiResource('reviews', 'App\Http\Controllers\Api\ReviewController');
 
-// Rutas para TokenController
-Route::apiResource('routes', 'App\Http\Controllers\Api\TokenController');
+// Rutas para RouteController
+Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 
-Route::apiResource('user', 'App\Http\Controllers\Api\RouteController');
+// Rutas para TokenController
+Route::apiResource('user', 'App\Http\Controllers\Api\TokenController');
 
 // Rutas para MessageController
 Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');
