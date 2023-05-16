@@ -21,8 +21,12 @@ class CreateUsersTable extends Migration
 
             // $table->unsignedBigInteger('id_role')->default(1);
             // $table->foreign('id_role')->references('id')->on('roles')->onDelete('cascade');
-            
+
             $table->timestamps();
+        });
+        Schema::table('files', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

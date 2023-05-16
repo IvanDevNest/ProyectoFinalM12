@@ -18,9 +18,8 @@ return new class extends Migration
             $table->string('filepath', 255);
             $table->integer('filesize');
 
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-            
+         
+
             $table->timestamps();
 
         });
