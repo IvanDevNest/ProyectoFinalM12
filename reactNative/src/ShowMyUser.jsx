@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderColor: 'grey',
-    borderWidth: 2
+    borderWidth: 2,
+    marginBottom:5
   },
   avatarVIP: {
     width: 100,

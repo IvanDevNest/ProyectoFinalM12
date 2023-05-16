@@ -100,7 +100,6 @@ const RutasList = () => {
   const handleFilter = (filterValue) => {
     setFilter(filterValue); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
     setPage(1);
-    getRoutes(page, filter); // Llama a la función 'getRoutes' pasando el valor actual de 'filter'
   };
   const deleteFilter = () => {
     setFilter(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
@@ -110,8 +109,8 @@ const RutasList = () => {
   };
 
   useEffect(() => {
-    getRoutes(page)
-  }, [reload, page]);
+    getRoutes(page, filter)
+  }, [reload, page, filter]);
 
   return (
     <>

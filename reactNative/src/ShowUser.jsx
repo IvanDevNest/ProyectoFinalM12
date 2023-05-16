@@ -285,6 +285,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: 'grey',
     borderWidth: 2
+    
   },
   avatarVIP: {
     width: 100,

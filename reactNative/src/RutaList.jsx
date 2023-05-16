@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Image } from "react-native";
 import StyledText from "./StyledText";
 import Constants from "expo-constants";
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from "./userContext";
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
 
 
 const RutaList = (ruta) => {
@@ -152,10 +154,17 @@ const RutaList = (ruta) => {
 
                         <View key={(ruta.id)} style={{ flexDirection: 'row', paddingBottom: 10 }}>
 
-                            <View style={{ backgroundColor: 'red', paddingHorizontal: 60, paddingVertical: 35, borderColor: 'black', borderWidth: 2 }}>
+                            <View style={{paddingHorizontal: 60, paddingVertical: 35 }}>
+                            <Image source={require("./CapturaAPP.png")} style={{ borderColor: 'blue', borderWidth: 2,width: 120, height: 70, position: 'absolute' }}></Image>
+                            
 
                             </View>
-                            <View style={{ flex: 1, paddingLeft: 15 }}>
+                            <View style={{ flex: 1, paddingLeft: 15, }}>
+                            {ruta.type_vehicle=="moto"? <FontAwesome5 name="motorcycle" size={24} color="skyblue" />:
+                            <FontAwesome5 name="car" size={24} color="skyblue"/>
+}
+
+
                                 <StyledText>{ruta.name}</StyledText>
                                 <StyledText>{ruta.description}</StyledText>
                             </View>
