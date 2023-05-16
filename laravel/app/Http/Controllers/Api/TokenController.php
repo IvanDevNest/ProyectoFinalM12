@@ -178,13 +178,14 @@ class TokenController extends Controller
     protected function update(Request $request,User $user)
     {
         Log::debug($request);
+        Log::debug($user);
         $validacion = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
             'imageUri' => ['nullable'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'password' => ['required', 'string', 'min:8'],
         ]);
         ///
         if ($request->file('imageUri')) {

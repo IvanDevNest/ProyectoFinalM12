@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet, ScrollView, Controller, TextInput } from 'react-native';
+import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet, ScrollView, Controller, TextInput,Platform } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -31,7 +31,7 @@ const UserEdit = () => {
     navigation.navigate('ShowUser', { objectId: id });
   }
 
-  const updateUser = async (formState, id) => {
+  const updateUser = async (formulari, id) => {
     const formData=new FormData();
 
     const fileName = image.assets[0].uri.split("/").pop();
@@ -41,23 +41,25 @@ const UserEdit = () => {
       type: Platform === "ios" ? image.assets[0].uri.split(".").pop() :  "image/"+image.assets[0].uri.split(".").pop(),
 
     });
-    formData.append('name', dataa.name);
-    formData.append('lastname', dataa.lastname);
-    formData.append('second_surname', dataa.second_surname);
-    formData.append('email', dataa.email.toLowerCase());
-    formData.append('password', dataa.password);
-    console.log("formulari" + JSON.stringify(formState));
+    formData.append('name', formulari.name);
+    formData.append('lastname', formulari.lastname);
+    formData.append('second_surname', formulari.second_surname);
+    // formData.append('email', formulari.email);
+    // formData.append('password', formulari.password);
+    console.log("formulari" + JSON.stringify(formData));
     try {
       const data = await fetch('http://equip04.insjoaquimmir.cat/api/user/' + id, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + authToken,
+           'Authorization': 'Bearer ' + authToken,
         },
         method: 'PUT',
-        body: JSON.stringify(formState),
+        body: formData,
       });
       const resposta = await data.json();
+      console.log(resposta);
+
       if (resposta.success === true) {
         // setRutas(resposta);
         console.log("resposta: " + JSON.stringify(resposta))
@@ -123,7 +125,7 @@ const UserEdit = () => {
       name: usuariLocal.name,
       lastname: usuariLocal.lastname,
       second_surname: usuariLocal.second_surname,
-      file_id: usuariLocal.file_id,
+      // file_id: usuariLocal.file_id,
       // type_vehicle: ruta.type_vehicle,
       // distance: ruta.distance,
       // url_maps: ruta.url_maps,
@@ -139,12 +141,13 @@ const UserEdit = () => {
       name: usuari.name,
       lastname: usuari.lastname,
       second_surname: usuari.second_surname,
-      file_id: usuari.file_id,
+      // file_id: usuari.file_id,
     })
     setIsLoading(false)
   }, [])
 
   console.log("local formulari" + JSON.stringify(formulari))
+  console.log("local usuari" + JSON.stringify(usuariLocal))
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -204,7 +207,7 @@ const UserEdit = () => {
           </View>
 
           {error ? <Text style={{ color: 'red' }}>{error}</Text> : <></>}
-          <Button title="Actualizar Ruta" onPress={() => updateUser(formulari, usuari.id)} />
+          <Button title="Actualizar Perfil" onPress={() => updateUser(formulari, usuari.id)} />
         </ScrollView>
 
       }

@@ -35,6 +35,9 @@ Route::apiResource('reviews', 'App\Http\Controllers\Api\ReviewController');
 // Rutas para RouteController
 Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 
+// Rutas para TokenController
+Route::apiResource('user', 'App\Http\Controllers\Api\TokenController');
+
 // Rutas para MessageController
 Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');
 
@@ -60,7 +63,8 @@ Route::get('user', 'App\Http\Controllers\Api\TokenController@user')
 Route::get('users', 'App\Http\Controllers\Api\TokenController@index');
 Route::get('user/{id}', 'App\Http\Controllers\Api\TokenController@show');
 
-Route::put('user/{id}', 'App\Http\Controllers\Api\TokenController@update');
+// Route::put('user/{user}', 'App\Http\Controllers\Api\TokenController@update')->middleware('auth:sanctum');
+
 
 Route::get('users/{userId}/avatar', 'App\Http\Controllers\Api\TokenController@getUserAvatar');
 
