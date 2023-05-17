@@ -37,7 +37,7 @@ class MessageController extends Controller
             'user_id' => 'required|exists:users,id',
             'route_id' => 'required|exists:routes,id',
             // 'date' => 'required|date_format:Y-m-d H:i:s',
-            'text' => 'required|string|max:255',
+            'text' => 'nullable|string|max:255',
             'imageUri' => 'nullable',
             'img_author_message'=> 'required|string|max:255',
             'author_name'=>'required|string|max:255',

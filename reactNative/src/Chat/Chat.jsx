@@ -73,7 +73,7 @@ const Chat = () => {
                 console.log(imageMessage)
                 return (
                     <View >
-                        <Image source={{ uri: imageMessage }} style={{ width: 100, height: 100, }} />
+                        <Image source={{ uri: imageMessage }} style={{ width: 200, height: 200, }} />
                         <View style={[styles.messageContainer, styles.myMessageContainer]}>
 
                             <Text style={styles.timeText}>{message.date}</Text>
