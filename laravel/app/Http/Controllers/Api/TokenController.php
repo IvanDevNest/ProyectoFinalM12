@@ -251,7 +251,6 @@ class TokenController extends Controller
     {
         $query = File::query();
 
-
         $query->where('user_id', $userId);
         $posts = $query->get();
 
