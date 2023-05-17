@@ -6,14 +6,21 @@ import RNPickerSelect from 'react-native-picker-select';
 import { UserContext } from './userContext';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useSelector,useDispatch } from 'react-redux';
+import { createRoute } from './slices/routes/thunks';
 const CreateRoute = () => {
     //no se usa
     // const [rutas, setRutas] = useState([]);
     // const [selectedValue, setSelectedValue] = useState(null);
-    
-    //redux
-    const { isSaving = true, error = "" } = useSelector((state) => state.routes);
 
+    //redux
+  const dispatch = useDispatch();
+
+    const { isSaving = true, error = "" } = useSelector((state) => state.routes);
+    const onSubmit = (data) => {
+
+        dispatch(createRoute(data, authToken,ShowRoute,date,usuari));
+        } 
     //local
     let { usuari, authToken, setReload, reload } = useContext(UserContext);
     // const [error, setError] = useState("");
@@ -21,44 +28,44 @@ const CreateRoute = () => {
     const { control, handleSubmit, formState: { errors }, } = useForm();
 
 
-    function onPressObject(id) {
+    function ShowRoute(id) {
         navigation.navigate('ShowRoute', { objectId: id });
     }
-    const onSubmit = (data) => createRoute(data);
-    const createRoute = async (formState) => {
-        console.log("date" + JSON.stringify(date))
+    // const onSubmit = (data) => createRoute(data);
+    // const createRoute = async (formState) => {
+    //     console.log("date" + JSON.stringify(date))
 
-        let dateToSend = JSON.stringify(date).split('.')[0].replace('T', ' ').replace('"', '');
-        console.log("modificada" + dateToSend)
-        formState.date = dateToSend
-        formState.author_id = usuari.id
-        console.log(JSON.stringify(formState));
-        try {
-            const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes', {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: 'POST',
-                body: JSON.stringify(formState),
-            });
-            const resposta = await data.json();
-            if (resposta.success === true) {
-                // setRutas(resposta);
-                console.log("resposta: " + JSON.stringify(resposta))
-                console.log("resposta route id: " + (resposta.data.id))
+    //     let dateToSend = JSON.stringify(date).split('.')[0].replace('T', ' ').replace('"', '');
+    //     console.log("modificada" + dateToSend)
+    //     formState.date = dateToSend
+    //     formState.author_id = usuari.id
+    //     console.log(JSON.stringify(formState));
+    //     try {
+    //         const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes', {
+    //             headers: {
+    //                 Accept: 'application/json',
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: 'POST',
+    //             body: JSON.stringify(formState),
+    //         });
+    //         const resposta = await data.json();
+    //         if (resposta.success === true) {
+    //             // setRutas(resposta);
+    //             console.log("resposta: " + JSON.stringify(resposta))
+    //             console.log("resposta route id: " + (resposta.data.id))
 
-                onPressObject(resposta.data.id)
-                // setReload(!reload)
+    //             onPressObject(resposta.data.id)
+    //             // setReload(!reload)
 
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log(e.err);
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log(e.err);
 
-        }
-    };
+    //     }
+    // };
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);

@@ -3,6 +3,43 @@ import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
 
+export const createRoute = (formState,authToken,ShowRoute,date,usuari) => {
+    return async (dispatch, getState) => {
+
+    console.log("date" + JSON.stringify(date))
+
+    let dateToSend = JSON.stringify(date).split('.')[0].replace('T', ' ').replace('"', '');
+    console.log("modificada" + dateToSend)
+    formState.date = dateToSend
+    formState.author_id = usuari.id
+    console.log(JSON.stringify(formState));
+    try {
+        const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes', {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: 'POST',
+            body: JSON.stringify(formState),
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            // setRutas(resposta);
+            console.log("resposta: " + JSON.stringify(resposta))
+            console.log("resposta route id: " + (resposta.data.id))
+
+            ShowRoute(resposta.data.id)
+            // setReload(!reload)
+
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log(e.message);
+
+    }
+};
+};
 export const addPlace = (formData, authToken, navigate) => {
     return async (dispatch, getState) => {
         

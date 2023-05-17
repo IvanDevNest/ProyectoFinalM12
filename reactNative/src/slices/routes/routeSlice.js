@@ -2,13 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     error: "",
     isSaving: false,
+    isLoading:false,
+
+
 
     formulari:[],
-
-
     
-    
-    isLoading:false,
 
     places:[],
 
@@ -25,7 +24,6 @@ const initialState = {
     favorite:true,
 
     page: 1,
-
 
     pages: [], 
 

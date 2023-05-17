@@ -10,6 +10,9 @@ import ShowRoute from './src/ShowRoute';
 import Header from './src/Header';
 
 
+import { store } from './src/store'
+import { Provider } from 'react-redux'
+
 export default function App() {
   let [authToken, setAuthToken] = useState("")
   let [usuariId, setUsuariId] = useState("")
@@ -21,29 +24,31 @@ export default function App() {
 
 
   return (
+    <Provider store={store}>
+      <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl }}>
+        <View style={styles.container}>
+          {authToken ?
+            <>
+              <Header />
+              <Navigation />
+            </> :
+            <LoginRegister />}
+          {/* <Navigation/> */}
 
-    <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari ,reload, setReload,myAvatarUrl, setMyAvatarUrl}}>
-      <View style={styles.container}>
-        {authToken ?
-          <>
-            <Header/>
-            <Navigation/>
-          </> :
-          <LoginRegister />} 
-            {/* <Navigation/> */}
-           
-        
-        <StatusBar style="auto" />
-      </View>
-    </UserContext.Provider>
+
+          <StatusBar style="auto" />
+        </View>
+      </UserContext.Provider>
+    </Provider>
+
 
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:"white",
-    justifyContent:"center",
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
   }
 })
