@@ -146,7 +146,7 @@ const RutaList = (ruta) => {
     }
 
     useEffect(() => {
-        getUser();
+         getUser();
         obtenerInscripciones(ruta.id)
     }, [reload]);
 

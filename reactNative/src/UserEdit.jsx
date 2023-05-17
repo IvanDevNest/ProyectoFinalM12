@@ -65,10 +65,9 @@ const UserEdit = () => {
       if (resposta.success === true) {
         // setRutas(resposta);
         console.log("resposta: " + JSON.stringify(resposta))
-        // setReload(!reload)
+        setReload(!reload)
 
         ShowMyUser()
-
       }
       else setError(resposta.message);
     } catch (e) {
