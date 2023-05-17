@@ -33,6 +33,7 @@ class MessageSeeder extends Seeder
                'id_route' => $route->id,
                'date' => now(),
                'text' => 'Este es un ejemplo de mensaje para la ruta ' . $route->name,
+               'author_name'=>'joel'
            ]);
        }
     }
