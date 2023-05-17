@@ -5,8 +5,8 @@ import { UserContext } from '../userContext';
 const Chat = () => {
     const [messages, setMessages] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    let { authToken, setAuthToken, usuari, myAvatarUrl,reload } = useContext(UserContext);
-
+    let { authToken, setAuthToken, usuari, myAvatarUrl, reload } = useContext(UserContext);
+    console.log(usuari)
     const getMessages = async () => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/messages", {
@@ -22,7 +22,9 @@ const Chat = () => {
                 console.log("resposta messages: " + JSON.stringify(resposta.data))
                 setMessages([])
                 resposta.data.map((message) => {
-                    message.id_route == usuari.route_id ?
+                    message.route_id == usuari.route_id ?
+                        // console.log(message)
+                        // console.log(message.id_route+"<--meesage id route,usuari.id_route-->"+usuari.route_id)
                         setMessages(messages => [...messages, message])
                         :
                         <></>
@@ -37,11 +39,11 @@ const Chat = () => {
     }
     useEffect(() => {
         getMessages()
-    }, [usuari.route_id,reload]);
+    }, [usuari.route_id, reload]);
 
     const renderMessage = (message) => {
-        console.log("message"+JSON.stringify(message))
-        if (message.author_id==usuari.id) {
+        console.log("message" + JSON.stringify(message))
+        if (message.author_id == usuari.id) {
             return (
                 <View style={[styles.messageContainer, styles.myMessageContainer]}>
                     <Text style={styles.myMessageText}>{message.text}</Text>
@@ -51,7 +53,7 @@ const Chat = () => {
         } else {
             return (
                 <View style={styles.messageContainer}>
-                    <Image source={{uri:message.img_author_message}} style={styles.profileImage} />
+                    <Image source={{ uri: message.img_author_message }} style={styles.profileImage} />
                     <Text style={styles.senderName}>{message.author_name}</Text>
                     <Text style={styles.messageText}>{message.text}</Text>
                     <Text style={styles.timeText}>{message.date}</Text>

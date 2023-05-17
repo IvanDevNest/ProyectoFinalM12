@@ -34,8 +34,8 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'id_user' => 'required|exists:users,id',
-            'id_route' => 'required|exists:routes,id',
+            'user_id' => 'required|exists:users,id',
+            'route_id' => 'required|exists:routes,id',
             // 'date' => 'required|date_format:Y-m-d H:i:s',
             'text' => 'required|string|max:255',
             'imageUri' => 'nullable',

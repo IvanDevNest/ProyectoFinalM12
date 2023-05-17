@@ -29,7 +29,7 @@ class MessageSeeder extends Seeder
 
            // Crear un mensaje para la ruta actual
            Message::create([
-               'user_if' => $user->id,
+               'user_id' => $user->id,
                'route_id' => $route->id,
                'date' => now(),
                'text' => 'Este es un ejemplo de mensaje para la ruta ' . $route->name,

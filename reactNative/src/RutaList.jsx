@@ -46,27 +46,27 @@ const RutaList = (ruta) => {
 
         };
     }
-    // const getUser = async () => {
-    //     try {
-    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-    //             headers: {
-    //                 Accept: "application/json",
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': 'Bearer ' + authToken,
-    //             },
-    //             method: "GET",
-    //         });
-    //         const resposta = await data.json();
-    //         if (resposta.success === true) {
-    //             console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-    //             setUsuari(resposta.user)
-    //         }
-    //         else setError(resposta.message);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //     };
+    const getUser = async () => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+                setUsuari(resposta.user)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+        };
 
-    // }
+    }
 
     const obtenerInscripciones = async (id) => {
         try {
@@ -140,7 +140,7 @@ const RutaList = (ruta) => {
     }
 
     useEffect(() => {
-        // getUser();
+         getUser();
         obtenerInscripciones(ruta.id)
     }, [reload]);
 
