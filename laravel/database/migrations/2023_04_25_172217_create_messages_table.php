@@ -26,6 +26,11 @@ return new class extends Migration
             $table->timestamps();
             
         });
+        // Schema::table('files', function (Blueprint $table) {
+        //     $table->unsignedBigInteger('message_id')->nullable();
+        //     $table->foreign('message_id')->references('id')->on('messages');
+        // });
+        
     }
 
     /**

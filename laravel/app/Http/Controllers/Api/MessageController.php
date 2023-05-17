@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Message;
+use Illuminate\Support\Facades\Log;
+use App\Models\File;
 
 class MessageController extends Controller
 {
@@ -35,11 +37,36 @@ class MessageController extends Controller
             'id_route' => 'required|exists:routes,id',
             'date' => 'required|date_format:Y-m-d H:i:s',
             'text' => 'required|string|max:255',
-            'attached_file' => 'nullable|file'
+            'imageUri' => 'nullable'
         ]);
-
-        $message = new Message($validatedData);
-        $message->save();
+        if ($request->file('imageUri')) {
+            $imageUri = $request->file('imageUri');
+            $file = new File();
+            $ok = $file->diskSave($imageUri);
+            if ($ok) {
+                $message = Message::create([
+                    'id_user' => $validatedData['id_user'],
+                    'id_route' => $validatedData['id_route'],
+                    'date' => $validatedData['date'],
+                    'text' => $validatedData['text'],
+                    'file_id' => $file->id,
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error uploading file'
+                ], 421);
+            }
+        } else {
+            $message = Message::create([
+                'id_user' => $validatedData['id_user'],
+                'id_route' => $validatedData['id_route'],
+                'date' => $validatedData['date'],
+                'text' => $validatedData['text'],
+            ]);
+        }
+        // $message = new Message($validatedData);
+        // $message->save();
 
         return response()->json([
             'success' => true,
@@ -71,7 +98,7 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'id_user' => 'sometimes|required|exists:users,id',
@@ -80,11 +107,11 @@ class MessageController extends Controller
             'text' => 'sometimes|required|string|max:255',
             'attached_file' => 'nullable|file'
         ]);
-    
+
         $message = Message::findOrFail($id);
-    
+
         $message->update($validatedData);
-    
+
         return response()->json([
             'success' => true,
             'data' => $message,

@@ -18,7 +18,8 @@ class File extends Model
     protected $fillable = [
         'filepath',
         'filesize',
-        'user_id'
+        'user_id',
+        // 'message_id'
     ];
     
     //  public function user()
@@ -31,10 +32,10 @@ class File extends Model
         return $this->belongsTo(User::class);
     }
 
-     public function message()
-     {
-         return $this->hasOne(Message::class);
-     }
+    // public function message()
+    // {
+    //     return $this->belongsTo(Message::class, 'message_id');
+    // }
     /**
      * Store uploaded file at disk and DB
      * 
