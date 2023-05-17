@@ -42,7 +42,6 @@ const Chat = () => {
     }, [usuari.route_id, reload]);
 
     const renderMessage = (message) => {
-        console.log("message" + JSON.stringify(message))
         if (message.author_id == usuari.id) {
             return (
                 <View style={[styles.messageContainer, styles.myMessageContainer]}>

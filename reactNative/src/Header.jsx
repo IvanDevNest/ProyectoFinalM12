@@ -34,7 +34,7 @@ const Header = () => {
       });
       const resposta = await data.json();
       if (resposta.success === true) {
-        console.log(JSON.stringify(resposta))
+        // console.log(JSON.stringify(resposta))
         setUsuari(resposta.user)
         setIsLoading(false)
       }
