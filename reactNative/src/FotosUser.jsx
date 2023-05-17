@@ -2,30 +2,29 @@ import { View, Text, Button, Image } from 'react-native';
 import Rutas from './Routes'
 import Fotos from './Fotos'
 import FotoUser from './FotoUser'
-import { FlatList } from 'react-native'
-import { useState } from 'react';
-import { UserContext } from './userContext';
-import { useEffect } from 'react';
-import { useContext } from 'react';
+import { FlatList, Platform } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
-
+import React, { useState, useContext, useEffect } from 'react';
+import { UserContext } from './userContext';
 
 const FotosUser = ({ id }) => {
   const [images, setImages] = useState([]);
   const [image, setImage] = useState([]);
-  let { authToken, setAuthToken } = useContext(UserContext);
-
   const [error, setError] = useState([]);
+  const [desplegable, setDesplegable] = useState(false);
+
+  let { authToken, setAuthToken, setReload, reload } = useContext(UserContext);
+
   const getImagesPost = async () => {
     try {
       const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${id}/posts`);
       const resposta = await data.json();
       if (resposta.success === true) {
-        console.log("imagesUser: " + resposta)
-        setImages(response.imageUrls);
+        console.log("imagesUser: " + JSON.stringify(resposta))
+        setImages(resposta.image_urls);
       } else setError(resposta.message);
     } catch (e) {
-      console.log("catch fetch Avatar: " + e.error);
+      console.log("catch getImagesPost: " + e.message);
     };
   }
 
@@ -37,18 +36,17 @@ const FotosUser = ({ id }) => {
       console.log("imagen url: " + image.uri)
       console.log("nombre: " + fileName)
 
-      formData.append('imageUri', {
+      formData.append('image', {
         uri: image.assets[0].uri,
         name: fileName,
         type: Platform === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
 
       });
-      formData.append('id_user', id);
+      formData.append('user_id', id);
 
     } else {
       setError("No hay imagen para subir")
     }
-    console.log("Data antes de enviar" + JSON.stringify(dataa))
     console.log("FormData antes de enviar" + JSON.stringify(formData))
     try {
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/users/postuserfiles", {
@@ -61,9 +59,11 @@ const FotosUser = ({ id }) => {
 
       });
       const resposta = await data.json();
-      console.log("Resposta register" + JSON.stringify(resposta))
+      console.log("Resposta uploadFoto" + JSON.stringify(resposta))
       if (resposta.success === true) {
         setReload(!reload)
+        console.log(resposta.message)
+
         // setAuthToken(resposta.authToken);
       }
       else {
@@ -79,7 +79,7 @@ const FotosUser = ({ id }) => {
 
   useEffect(() => {
     getImagesPost()
-  }, []);
+  }, [!reload]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -96,16 +96,42 @@ const FotosUser = ({ id }) => {
       setImage(result);
     }
   };
+  console.log(images)
+
   return (
     <>
-      <Button title="Ya tengo cuenta" onPress={() => { uploadFoto(image) }} />
-      <FlatList data={Fotos} numColumns={2}
-        renderItem={({ item: foto }) => (
 
-          <FotoUser {...foto} />
+      {desplegable ?
+        <>
+          <Button title="Cancelar foto" onPress={() => { setDesplegable(false) }} />
 
-        )}>
-      </FlatList>
+          <Button title="Elegir Foto" onPress={pickImage} />
+          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
+          <Button title="Enviar foto" onPress={() => { uploadFoto(image), setDesplegable(false) }} />
+
+        </>
+        : <>
+          <Button title="Subir foto" onPress={() => { setDesplegable(true) }} />
+
+        </>}
+      {images.length > 0 ?
+        <FlatList data={images} numColumns={2}
+          renderItem={({ item: foto }) => (
+
+            <FotoUser url={foto} />
+
+          )}>
+        </FlatList>
+        :
+        <FlatList data={Fotos} numColumns={2}
+          renderItem={({ item: foto }) => (
+
+            <FotoUser {...foto} />
+
+          )}>
+        </FlatList>
+      }
+
     </>
 
 
