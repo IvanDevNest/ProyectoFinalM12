@@ -24,18 +24,21 @@ class RouteController extends Controller
     
         if ($name = $request->get('name')) {
             $query->where('name', 'like', "%{$name}%");
-            $routes = $query->get();
+            $routes = $query->paginate(5);
+
 
         }
         if ($description = $request->get('description')) {
             $query->where('description', 'like', "%{$description}%");
-            $routes = $query->get();
+            $routes = $query->paginate(5);
+
 
         }
         
         if ($type_vehicle = $request->get('type_vehicle')) {
             $query->where('type_vehicle', 'like', "%{$type_vehicle}%");
-            $routes = $query->get();
+            $routes = $query->paginate(5);
+
 
         }
         
