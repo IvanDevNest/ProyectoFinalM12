@@ -17,11 +17,12 @@ export default function App() {
   let [reload, setReload] = useState(true);
   let [filterName, setFilterName] = useState("")
   let [filterVehicle, setFilterVehicle] = useState("")
+  let [myAvatarUrl, setMyAvatarUrl] = useState(null);
 
 
   return (
 
-    <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari ,reload, setReload}}>
+    <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari ,reload, setReload,myAvatarUrl, setMyAvatarUrl}}>
       <View style={styles.container}>
         {authToken ?
           <>

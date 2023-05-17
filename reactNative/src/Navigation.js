@@ -20,6 +20,8 @@ import RouteEdit from "./RouteEdit";
 import UserEdit from "./UserEdit";
 import ShowUser from "./ShowUser";
 import ShowMyUser from "./ShowMyUser";
+import Chat from "./Chat/Chat";
+
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
 const HomeStackNavigator = createNativeStackNavigator();
@@ -42,7 +44,7 @@ function MyStack() {
             <HomeStackNavigator.Screen
                 name="ShowUser"
                 component={ShowUser}
-            />  
+            />
             <HomeStackNavigator.Screen
                 name="ShowMyUser"
                 component={ShowMyUser}
@@ -85,6 +87,12 @@ function MyTabs() {
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="user-circle" size={size} color={color} />)
 
+                }}
+            />
+            <Tab.Screen name="Chat" component={Chat}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome5 name="rocketchat" size={24} color="black" />)
                 }}
             />
 

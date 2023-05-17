@@ -17,8 +17,8 @@ import { useRoute } from '@react-navigation/native';
 
 const ShowMyUser = () => {
 
-  let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
-  const [avatarUrl, setAvatarUrl] = useState(null);
+  let { usuari, setUsuari, authToken, setReload, reload,myAvatarUrl, setMyAvatarUrl } = useContext(UserContext);
+  // const [avatarUrl, setAvatarUrl] = useState(null);
 
   console.log("usuari: " + usuari)
 
@@ -31,7 +31,7 @@ const ShowMyUser = () => {
     const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
     const response = await data.json();
     console.log("fetchavatar: " + response.image_url)
-    setAvatarUrl(response.image_url);
+    setMyAvatarUrl(response.image_url);
   };
 
 
@@ -65,11 +65,11 @@ useEffect(() => {
       <View style={{ alignItems: 'center', paddingVertical: 10 }}>
         {usuari.id_role == 4 ?
           <View style={{ flexDirection: 'row' }}>
-            <Image style={styles.avatarVIP} source={{ uri: avatarUrl }}></Image>
+            <Image style={styles.avatarVIP} source={{ uri: myAvatarUrl }}></Image>
             <Image source={require("./vip.png")} style={{ width: 30, height: 30, position: 'absolute' }}></Image>
           </View> :
 
-          <Image style={styles.avatar} source={{ uri: avatarUrl }}></Image>}
+          <Image style={styles.avatar} source={{ uri: myAvatarUrl }}></Image>}
           <Button title="Editar perfil" onPress={() => UserEdit(usuari.id)} />
 
 
@@ -79,7 +79,7 @@ useEffect(() => {
 
       </View>
       <View style={{ alignItems: 'center' }}>
-        <FotosUser id={usuari.id}/>
+      <FotosUser id={usuari.id}/>
 
       </View>
     </View>
