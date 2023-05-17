@@ -46,7 +46,7 @@ const CreateMessage = () => {
 
             formData.append('author_name', usuari.name)
             formData.append('img_author_message', myAvatarUrl)
-
+        }
         console.log("Console FormData: "+formData);
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
