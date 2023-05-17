@@ -20,7 +20,7 @@ const ShowMyUser = () => {
   let { usuari, setUsuari, authToken, setReload, reload,myAvatarUrl, setMyAvatarUrl } = useContext(UserContext);
   // const [avatarUrl, setAvatarUrl] = useState(null);
 
-  console.log("usuari: " + usuari)
+  console.log("usuari: " + JSON.stringify(usuari))
 
   const navigation = useNavigation();
 
@@ -28,33 +28,31 @@ const ShowMyUser = () => {
     navigation.navigate('UserEdit', { objectId: id,});
 }
   
+  // const getUser = async () => {
+  //   try {
+  //       const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+  //           headers: {
+  //               Accept: "application/json",
+  //               "Content-Type": "application/json",
+  //               'Authorization': 'Bearer ' + authToken,
+  //           },
+  //           method: "GET",
+  //       });
+  //       const resposta = await data.json();
+  //       if (resposta.success === true) {
+  //           console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+  //           setUsuari(resposta.user)
+  //       }
+  //       else setError(resposta.message);
+  //   } catch (e) {
+  //       console.log(e.message);
+  //   };
 
-
-  const getUser = async () => {
-    try {
-        const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + authToken,
-            },
-            method: "GET",
-        });
-        const resposta = await data.json();
-        if (resposta.success === true) {
-            console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-            setUsuari(resposta.user)
-        }
-        else setError(resposta.message);
-    } catch (e) {
-        console.log(e.message);
-    };
-
-}
-useEffect(() => {
-  fetchAvatar();
-  getUser()
-}, []);
+// }
+// useEffect(() => {
+//   // fetchAvatar();
+//   getUser()
+// }, []);
   return (
     <View>
       <View style={{ alignItems: 'center', paddingVertical: 10 }}>

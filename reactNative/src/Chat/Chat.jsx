@@ -5,7 +5,7 @@ import { UserContext } from '../userContext';
 const Chat = () => {
     const [messages, setMessages] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    let { authToken, setAuthToken, usuari, myAvatarUrl } = useContext(UserContext);
+    let { authToken, setAuthToken, usuari, myAvatarUrl,reload } = useContext(UserContext);
 
     const getMessages = async () => {
         try {

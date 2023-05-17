@@ -12,7 +12,7 @@ import StyleText from './StyledText';
 const RutasList = () => {
   let [rutas, setRutas] = useState("");
   let [isLoading, setIsLoading] = useState(true);
-  let { filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, reload, myAvatarUrl, setMyAvatarUrl, usuari } = useContext(UserContext);
+  let { filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, reload } = useContext(UserContext);
   let [page, setPage] = useState(1);
   let [lastpage, setLastPage] = useState("");
   const [filterValueName, setFilterValueName] = useState('');
@@ -26,14 +26,7 @@ const RutasList = () => {
 
   const { control, handleSubmit, formState: { errors }, } = useForm();
 
-  //setmyavatarurl
-  const fetchAvatar = async () => {
-    const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
-    const response = await data.json();
-    console.log("fetchavatar: " + response.image_url)
-    setMyAvatarUrl(response.image_url);
-  };
-
+  
   console.log(authToken)
 
   const pasarPagina = async (page, lastpage) => {
@@ -151,9 +144,7 @@ const RutasList = () => {
   useEffect(() => {
     getRoutes(page, filterName, filterVehicle)
   }, [reload, page, filterName, filterVehicle]);
-  useEffect(() => {
-    fetchAvatar()
-  }, []);
+
   return (
     <>
       <Button title='Logout' onPress={() => sendLogout()}></Button>

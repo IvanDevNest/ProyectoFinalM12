@@ -8,7 +8,15 @@ const Header = () => {
   let [userImage, setUserImage] = useState("");
   let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
-  let { setUsuari, authToken } = useContext(UserContext);
+  let { setUsuari, authToken,myAvatarUrl, setMyAvatarUrl, usuari } = useContext(UserContext);
+
+//setmyavatarurl
+const fetchAvatar = async () => {
+  const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
+  const response = await data.json();
+  console.log("fetchavatar: " + response.image_url)
+  setMyAvatarUrl(response.image_url);
+};
 
   const getUser = async () => {
     try {
@@ -29,6 +37,7 @@ const Header = () => {
         // setUsuariId(resposta.user.id)
         // // console.log(usuari);
         setIsLoading(false)
+        fetchAvatar()
       }
       else setError(resposta.message);
     } catch (e) {
@@ -39,6 +48,8 @@ const Header = () => {
   }
   useEffect(() => {
     getUser();
+    
+
   }, []);
 
 
