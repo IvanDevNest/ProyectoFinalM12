@@ -94,12 +94,23 @@ const RutasList = () => {
       const resposta = await data.json();
       console.log("Data: " + JSON.stringify(resposta.data))
       if (resposta.success === true) {
-        console.log("resposta pages" + JSON.stringify(resposta))
+        if (resposta.data.last_page){
+          console.log("resposta pages" + JSON.stringify(resposta))
         setRutas(resposta.data.data)
         console.log("SetRutas: " + resposta.data.data)
 
         setLastPage(resposta.data.last_page)
         console.log("last page: "+resposta.data.last_page)
+
+        }else{
+          console.log("resposta pages" + JSON.stringify(resposta))
+        setRutas(resposta.data)
+        console.log("SetRutas: " + resposta.data)
+
+        setLastPage(1)
+        console.log("last page: "+lastpage)
+        }
+        
 
         setIsLoading(false)
 
