@@ -35,11 +35,7 @@ const Header = () => {
       const resposta = await data.json();
       if (resposta.success === true) {
         console.log(JSON.stringify(resposta))
-        // setUsername(resposta.user.name);
-        // setRoles(resposta.roles);
         setUsuari(resposta.user)
-        // setUsuariId(resposta.user.id)
-        // // console.log(usuari);
         setIsLoading(false)
       }
       else setError(resposta.message);
@@ -50,9 +46,14 @@ const Header = () => {
 
   }
   useEffect(() => {
-    getUser();
-    fetchAvatar()
+    getUser()
   }, []);
+  useEffect(() => {
+    if(usuari){
+      fetchAvatar()
+    }
+  }, [usuari]);
+
   const applyFilter = () => {
     setFilter(value)
   }
