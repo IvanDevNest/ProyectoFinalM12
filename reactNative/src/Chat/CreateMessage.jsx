@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text ,Platform} from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { UserContext } from '../userContext';
@@ -10,12 +10,12 @@ const CreateMessage = () => {
     const [image, setImage] = useState(null);
     const [error, setError] = useState([]);
 
-    let { authToken, setAuthToken, usuari, myAvatarUrl,setReload,reload } = useContext(UserContext);
+    let { authToken, setAuthToken, usuari, myAvatarUrl, setReload, reload } = useContext(UserContext);
 
-    const { control, handleSubmit, formState: { errors },reset } = useForm();
+    const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
-    const onSubmit = (data) => {createMessage(data),  reset()};
-    ;
+    const onSubmit = (data) => createMessage(data, image)
+
 
     const createMessage = async (dataa, image) => {
         //file
@@ -54,10 +54,10 @@ const CreateMessage = () => {
             const resposta = await data.json();
             console.log("resposta: " + JSON.stringify(resposta))
             if (resposta.success === true) {
-                
-                console.log("resposta message: " + resposta.message)
-                // reset();
 
+                console.log("resposta message: " + resposta.message)
+                reset();
+                setImage(null)
                 setReload(!reload)
 
             }
@@ -82,22 +82,36 @@ const CreateMessage = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <CustomInput
-                name="text"
-                placeholder="Escribe un mensaje..."
-                control={control}
-                styles={styles.input}
-                rules={{
-                    required: 'No se puede enviar un mensaje vacio',
-                }}
-            />
+        <View style={{backgroundColor:'white'}}>
+            {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
 
-            {/* <Ionicons name="ios-camera" size={24} color="black" style={styles.icon} onPress={() => pickImage()} /> */}
-            <Feather name="send" size={24} color="black" onPress={handleSubmit(onSubmit)} />
+            <View style={styles.container}>
 
 
+                <Controller
+                    control={control}
+                    rules={{
+                        required: 'No se puede enviar un mensaje vacío',
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                            placeholder="Escribe un mensaje..."
+                            style={styles.input}
+                        />
+                    )}
+                    name="text"
+                />
+                {errors.text && <span>{errors.text.message}</span>}
+                <Ionicons name="ios-camera" size={24} color="black" onPress={() => pickImage()} />
+                <Feather name="send" size={24} color="black" style={styles.sendButton} onPress={handleSubmit(onSubmit)} />
+
+
+            </View>
         </View>
+
     );
 };
 
@@ -108,7 +122,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingBottom: 8,
         backgroundColor: '#FFFFFF',
-        maxWidth: '100%'
     },
     input: {
         flex: 1,
@@ -118,6 +131,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 16,
     },
+
     sendButton: {
         marginLeft: 8,
     },
@@ -125,9 +139,7 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
     },
-    icon: {
-        marginHorizontal: 5
-    },
+
 });
 
 export default CreateMessage;

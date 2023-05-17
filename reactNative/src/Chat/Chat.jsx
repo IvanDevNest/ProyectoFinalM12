@@ -4,6 +4,7 @@ import CreateMessage from './CreateMessage';
 import { UserContext } from '../userContext';
 const Chat = () => {
     const [messages, setMessages] = useState([])
+    const [imageMessage, setImageMessage] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     let { authToken, setAuthToken, usuari, myAvatarUrl, reload } = useContext(UserContext);
     console.log(usuari)
@@ -40,25 +41,77 @@ const Chat = () => {
     useEffect(() => {
         getMessages()
     }, [usuari.route_id, reload]);
-
+    // const getImagesPost = async () => {
+    //     try {
+    //       const data = await fetch(`http://equip04.insjoaquimmir.cat/api/files/${message.file_id}`);
+    //       const resposta = await data.json();
+    //       if (resposta.success === true) {
+    //         console.log("imagesUser: " + JSON.stringify(resposta))
+    //         setImageMessage(resposta.url);
+    //       } else setError(resposta.message);
+    //     } catch (e) {
+    //       console.log("catch getImagesPost: " + e.message);
+    //     };
+    //   }
+    const getImagesMessage = async (id) => {
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/files/${id}`);
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("imagesMessage: " + JSON.stringify(resposta))
+                setImageMessage(resposta.data);
+            } else setError(resposta.message);
+        } catch (e) {
+            console.log("catch getImagesPost: " + e.message);
+        };
+    }
     const renderMessage = (message) => {
-        if (message.author_id == usuari.id) {
-            return (
-                <View style={[styles.messageContainer, styles.myMessageContainer]}>
-                    <Text style={styles.myMessageText}>{message.text}</Text>
-                    <Text style={styles.timeText}>{message.date}</Text>
-                </View>
-            );
+        // console.log("rendermessage " + JSON.stringify(message))
+        if (message.file_id) {
+            getImagesMessage(message.file_id)
+            if (message.user_id == usuari.id) {
+                console.log(imageMessage)
+                return (
+                    <View >
+                        <Image source={{ uri: imageMessage }} style={{ width: 100, height: 100, }} />
+                        <View style={[styles.messageContainer, styles.myMessageContainer]}>
+
+                            <Text style={styles.timeText}>{message.date}</Text>
+                            <Text style={styles.myMessageText}>{message.text}</Text>
+                        </View>
+                    </View>
+
+                );
+            } else {
+                return (
+                    <View style={styles.messageContainer}>
+                        <Image source={{ uri: message.img_author_message }} style={styles.profileImage} />
+                        <Text style={styles.senderName}>{message.author_name}</Text>
+                        <Text style={styles.messageText}>{message.text}</Text>
+                        <Text style={styles.timeText}>{message.date}</Text>
+                    </View>
+                );
+            }
         } else {
-            return (
-                <View style={styles.messageContainer}>
-                    <Image source={{ uri: message.img_author_message }} style={styles.profileImage} />
-                    <Text style={styles.senderName}>{message.author_name}</Text>
-                    <Text style={styles.messageText}>{message.text}</Text>
-                    <Text style={styles.timeText}>{message.date}</Text>
-                </View>
-            );
+            if (message.user_id == usuari.id) {
+                return (
+                    <View style={[styles.messageContainer, styles.myMessageContainer]}>
+                        <Text style={styles.timeText}>{message.date}</Text>
+                        <Text style={styles.myMessageText}>{message.text}</Text>
+                    </View>
+                );
+            } else {
+                return (
+                    <View style={styles.messageContainer}>
+                        <Image source={{ uri: message.img_author_message }} style={styles.profileImage} />
+                        <Text style={styles.senderName}>{message.author_name}</Text>
+                        <Text style={styles.messageText}>{message.text}</Text>
+                        <Text style={styles.timeText}>{message.date}</Text>
+                    </View>
+                );
+            }
         }
+
     };
 
     return (
