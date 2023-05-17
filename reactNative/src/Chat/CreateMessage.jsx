@@ -14,8 +14,8 @@ const CreateMessage = () => {
 
     const { control, handleSubmit, formState: { errors },reset } = useForm();
 
-    const onSubmit = (data) => {createMessage(data),  reset()};
-    ;
+    const onSubmit = (data) => createMessage(data);
+    
 
     const createMessage = async (dataa, image) => {
         //file
@@ -40,7 +40,7 @@ const CreateMessage = () => {
         formData.append('author_name', usuari.name)
         formData.append('img_author_message', myAvatarUrl)
 
-        console.log(formData);
+        console.log("Console FormData: "+formData);
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
                 headers: {
@@ -56,14 +56,14 @@ const CreateMessage = () => {
             if (resposta.success === true) {
                 
                 console.log("resposta message: " + resposta.message)
-                // reset();
+                reset();
 
                 setReload(!reload)
 
             }
             else setError(resposta.message);
         } catch (e) {
-            console.log(e.err);
+            console.log("El Undefined: "+e.message);
 
         }
     };
