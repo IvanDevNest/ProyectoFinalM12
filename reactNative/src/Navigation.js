@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons'; 
+
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
@@ -21,6 +23,9 @@ import UserEdit from "./UserEdit";
 import ShowUser from "./ShowUser";
 import ShowMyUser from "./ShowMyUser";
 import Chat from "./Chat/Chat";
+import { Ionicons } from '@expo/vector-icons'; 
+import vipPage from "./vipPage";
+
 
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
@@ -92,7 +97,13 @@ function MyTabs() {
             <Tab.Screen name="Chat" component={Chat}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="rocketchat" size={24} color="black" />)
+                        <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />)
+                }}
+            />
+            <Tab.Screen name="Vip" component={vipPage}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome name="diamond" size={24} color="yellow"/>)
                 }}
             />
 

@@ -5,6 +5,12 @@ import Constants from "expo-constants";
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from "./userContext";
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
+
+import { AntDesign } from '@expo/vector-icons'; 
+
+
 
 
 
@@ -149,7 +155,7 @@ const RutaList = (ruta) => {
         <>
             {isLoading ? <></>
                 :
-                // numeroInscripciones < ruta.max_users ?
+                //numeroInscripciones < ruta.max_users ?
                     <View key={(ruta.id)} style={styles.containerPadre}>
 
                         <View key={(ruta.id)} style={{ flexDirection: 'row', paddingBottom: 10 }}>
@@ -160,8 +166,15 @@ const RutaList = (ruta) => {
 
                             </View>
                             <View style={{ flex: 1, paddingLeft: 15, }}>
-                            {ruta.type_vehicle=="moto"? <FontAwesome5 name="motorcycle" size={24} color="skyblue" />:
-                            <FontAwesome5 name="car" size={24} color="skyblue"/>
+                            {ruta.type_vehicle=="moto"? 
+                            <View style={{flexDirection:"row"}}>
+                                <FontAwesome5 name="motorcycle" size={24} color="skyblue" />
+                                <StyledText>    {ruta.date}</StyledText>
+                                </View>:
+                            <View style={{flexDirection:"row"}}>
+                            <FontAwesome5 name="car" size={24} color="skyblue" />
+                            <StyledText>    {ruta.date}</StyledText>
+                            </View>
 }
 
 
@@ -171,24 +184,24 @@ const RutaList = (ruta) => {
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ alignItems: "center" }}>
-                                <StyledText>MaxUsers</StyledText>
-                                <StyledText>{ruta.max_users}/10</StyledText>
+                            <FontAwesome5 style={{paddingHorizontal:15, paddingVertical:10}} name="users" size={24} color="black" />
+                            <StyledText>{ruta.max_users}/10</StyledText>
                             </View>
                             <View style={{ alignItems: "center" }}>
-                                <StyledText>NumStops</StyledText>
-                                <StyledText>{ruta.num_stops}</StyledText>
+                            <MaterialCommunityIcons style={{paddingHorizontal:15, paddingVertical:10}} name="bus-stop-uncovered" size={24} color="black" />
+                            <StyledText>{ruta.num_stops}</StyledText>
                             </View>
 
                         </View>
                         <View style={{ flexDirection: 'row'}}>
                             <View style={{flexDirection:"row"}}>
                             <View style={{ alignItems: "center" }}>
-                                <StyledText fontWeight='bold'>MaxUsers</StyledText>
-                                <StyledText>{ruta.max_users}/10</StyledText>
+                            <AntDesign style={{paddingHorizontal:15, paddingVertical:10}} name="clockcircle" size={24} color="black" />
+                            <StyledText>{ruta.estimated_duration}</StyledText>
                             </View>
                             <View style={{ alignItems: "center" }}>
-                                <StyledText>NumStops</StyledText>
-                                <StyledText>{ruta.num_stops}</StyledText>
+                            <MaterialCommunityIcons style={{paddingHorizontal:20, paddingVertical:10}} name="map-marker-distance" size={24} color="black" />
+                                <StyledText>{ruta.distance} km</StyledText>
                             </View>
 
                             </View>
