@@ -243,7 +243,7 @@ class RouteController extends Controller
     }
     public function inscriptions(Request $request)
     {
-        $query = Route::query();
+        $query = inscriptions::query();
     
         if ($route_id = $request->get('route_id')) {
             $query->where('route_id', 'like', "%{$route_id}%");
