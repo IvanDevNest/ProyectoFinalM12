@@ -241,16 +241,10 @@ class RouteController extends Controller
             ], 404);
         }
     }
-    public function inscriptions(Request $request)
+    public function inscriptions()
     {
-        $query = inscriptions::query();
-    
-        if ($route_id = $request->get('route_id')) {
-            $query->where('route_id', 'like', "%{$route_id}%");
-            $routes = $query->get();
+        $inscriptions = Inscription::all();
 
-
-        }
         return response()->json([
             'success' => true,
             'data' => $inscriptions
