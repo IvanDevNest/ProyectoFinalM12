@@ -50,8 +50,8 @@ class MessageController extends Controller
             $ok = $file->diskSave($imageUri);
             if ($ok) {
                 $message = Message::create([
-                    'id_user' => $validatedData['id_user'],
-                    'id_route' => $validatedData['id_route'],
+                    'user_id' => $validatedData['user_id'],
+                    'route_id' => $validatedData['route_id'],
                     'date' => $date,
                     'text' => $validatedData['text'],
                     'file_id' => $file->id,
@@ -66,8 +66,8 @@ class MessageController extends Controller
             }
         } else {
             $message = Message::create([
-                'id_user' => $validatedData['id_user'],
-                'id_route' => $validatedData['id_route'],
+                'user_id' => $validatedData['user_id'],
+                'route_id' => $validatedData['route_id'],
                 'date' => $date,
                 'text' => $validatedData['text'],
                 'img_author_message' => $validatedData['img_author_message'],

@@ -27,12 +27,7 @@ const ShowMyUser = () => {
   function UserEdit(id) {
     navigation.navigate('UserEdit', { objectId: id,});
 }
-  const fetchAvatar = async () => {
-    const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
-    const response = await data.json();
-    console.log("fetchavatar: " + response.image_url)
-    setMyAvatarUrl(response.image_url);
-  };
+  
 
 
   const getUser = async () => {

@@ -1,14 +1,16 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { UserContext } from '../userContext';
+import { useForm, Controller } from 'react-hook-form';
+import CustomInput from '../CustomInput';
 const CreateMessage = () => {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
     const [error, setError] = useState([]);
 
-    let { authToken, setAuthToken, usuari, myAvatarUrl } = useContext(UserContext);
+    let { authToken, setAuthToken, usuari, myAvatarUrl,setReload,reload } = useContext(UserContext);
 
     const { control, handleSubmit, formState: { errors }, } = useForm();
 
@@ -49,13 +51,12 @@ const CreateMessage = () => {
                 body: formData,
             });
             const resposta = await data.json();
+            console.log("resposta: " + JSON.stringify(resposta))
             if (resposta.success === true) {
-
-                console.log("resposta: " + JSON.stringify(resposta))
+                
                 console.log("resposta message: " + resposta.message)
-
-
-                // setReload(!reload)
+                control.text=""
+                setReload(!reload)
 
             }
             else setError(resposta.message);
@@ -72,24 +73,28 @@ const CreateMessage = () => {
             aspect: [4, 3],
             quality: 1,
         });
-
         console.log("Result: " + JSON.stringify(result));
-
         if (!result.canceled) {
             setImage(result);
         }
     };
-   
+
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
+            <CustomInput
+                name="text"
                 placeholder="Escribe un mensaje..."
-                value={message}
-                onChangeText={setMessage}
+                control={control}
+                styles={styles.input}
+                rules={{
+                    required: 'No se puede enviar un mensaje vacio',
+                }}
             />
-            <Ionicons name="ios-camera" size={24} color="black" style={styles.icon} onPress={pickImage()} />
+
+            {/* <Ionicons name="ios-camera" size={24} color="black" style={styles.icon} onPress={() => pickImage()} /> */}
             <Feather name="send" size={24} color="black" onPress={handleSubmit(onSubmit)} />
+
+
         </View>
     );
 };
@@ -101,6 +106,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingBottom: 8,
         backgroundColor: '#FFFFFF',
+        maxWidth: '100%'
     },
     input: {
         flex: 1,

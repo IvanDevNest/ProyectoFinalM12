@@ -12,7 +12,7 @@ import StyleText from './StyledText';
 const RutasList = () => {
   let [rutas, setRutas] = useState("");
   let [isLoading, setIsLoading] = useState(true);
-  let { filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, reload } = useContext(UserContext);
+  let { filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, reload, myAvatarUrl, setMyAvatarUrl, usuari } = useContext(UserContext);
   let [page, setPage] = useState(1);
   let [lastpage, setLastPage] = useState("");
   const [filterValueName, setFilterValueName] = useState('');
@@ -26,7 +26,13 @@ const RutasList = () => {
 
   const { control, handleSubmit, formState: { errors }, } = useForm();
 
-
+  //setmyavatarurl
+  const fetchAvatar = async () => {
+    const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
+    const response = await data.json();
+    console.log("fetchavatar: " + response.image_url)
+    setMyAvatarUrl(response.image_url);
+  };
 
   console.log(authToken)
 
@@ -69,7 +75,7 @@ const RutasList = () => {
     try {
       setIsLoading(true);
       if (filterName) {
-        console.log("Entra por filtro Name: "+filterName)
+        console.log("Entra por filtro Name: " + filterName)
         url = `http://equip04.insjoaquimmir.cat/api/routes?page=${page}&name=${filterName}`;
       }
       else if (filterVehicle) {
@@ -94,23 +100,23 @@ const RutasList = () => {
       const resposta = await data.json();
       console.log("Data: " + JSON.stringify(resposta.data))
       if (resposta.success === true) {
-        if (resposta.data.last_page){
+        if (resposta.data.last_page) {
           console.log("resposta pages" + JSON.stringify(resposta))
-        setRutas(resposta.data.data)
-        console.log("SetRutas: " + resposta.data.data)
+          setRutas(resposta.data.data)
+          console.log("SetRutas: " + resposta.data.data)
 
-        setLastPage(resposta.data.last_page)
-        console.log("last page: "+resposta.data.last_page)
+          setLastPage(resposta.data.last_page)
+          console.log("last page: " + resposta.data.last_page)
 
-        }else{
+        } else {
           console.log("resposta pages" + JSON.stringify(resposta))
-        setRutas(resposta.data)
-        console.log("SetRutas: " + resposta.data)
+          setRutas(resposta.data)
+          console.log("SetRutas: " + resposta.data)
 
-        setLastPage(1)
-        console.log("last page: "+lastpage)
+          setLastPage(1)
+          console.log("last page: " + lastpage)
         }
-        
+
 
         setIsLoading(false)
 
@@ -124,7 +130,7 @@ const RutasList = () => {
   };
   const handleFilterName = (filterValueName) => {
     setPage(1);
-    console.log("ultimo filtro name:"+filterValueName)
+    console.log("ultimo filtro name:" + filterValueName)
     setFilterName(filterValueName);
     setFilterVehicle("") // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
   };
@@ -133,7 +139,7 @@ const RutasList = () => {
     setFilterVehicle(filterValueVehicle);
     setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
   };
-  
+
   const deleteFilter = () => {
     setFilterVehicle("")
     setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
@@ -145,77 +151,79 @@ const RutasList = () => {
   useEffect(() => {
     getRoutes(page, filterName, filterVehicle)
   }, [reload, page, filterName, filterVehicle]);
-
+  useEffect(() => {
+    fetchAvatar()
+  }, []);
   return (
     <>
-    <Button title='Logout' onPress={() => sendLogout()}></Button>
+      <Button title='Logout' onPress={() => sendLogout()}></Button>
 
-    <View>
-    <Controller
-    control={control}
-    name="type_vehicle"
-    defaultValue=""
-    rules={{ required: true }}
-    render={({ field: { onChange, onBlur, value } }) => (
-        <RNPickerSelect
-            placeholder={{ label: 'Como quieres filtrar?', value: null }}
-            onValueChange={(selectedValue) => {
+      <View>
+        <Controller
+          control={control}
+          name="type_vehicle"
+          defaultValue=""
+          rules={{ required: true }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <RNPickerSelect
+              placeholder={{ label: 'Como quieres filtrar?', value: null }}
+              onValueChange={(selectedValue) => {
                 onChange(selectedValue);
                 setTypeFilter(selectedValue);
-                console.log("selected value: "+selectedValue)
-            }}
-            onBlur={onBlur}
-            items={[
+                console.log("selected value: " + selectedValue)
+              }}
+              onBlur={onBlur}
+              items={[
                 { label: 'Nombre', value: 'Nombre' },
                 { label: 'Vehiculo', value: 'Vehiculo' }
-            ]}
-            value={typeFilter}
+              ]}
+              value={typeFilter}
+            />
+          )}
         />
-    )}
-/>
 
 
-    </View>
-    {typeFilter == "Nombre"?<><TextInput
-  style={styles.input}
-  placeholder="Filtrar por nombre"
-  value={filterValueName}
-  onChangeText={(value) => setFilterValueName(value)}
-/>
+      </View>
+      {typeFilter == "Nombre" ? <><TextInput
+        style={styles.input}
+        placeholder="Filtrar por nombre"
+        value={filterValueName}
+        onChangeText={(value) => setFilterValueName(value)}
+      />
 
 
-<Button title="Filtrar" onPress={() => handleFilterName(filterValueName)} />
-<Button title="Borrar Filtro" onPress={deleteFilter} /></>:<View>
-    <Controller
-    control={control}
-    name="type_vehicle"
-    defaultValue=""
-    rules={{ required: true }}
-    render={({ field: { onChange, onBlur, value } }) => (
-      <RNPickerSelect
-      placeholder={{ label: 'Elige el vehiculo:', value: null }}
-      onValueChange={(selectedValue) => {
-        onChange(selectedValue);
-        setFilterValueVehicle(selectedValue);
-        console.log("Filtro de vehiculosssssss: " + filterValueVehicle);
-      }}
-      onBlur={onBlur}
-      items={[
-        { label: 'Coche', value: 'coche' },
-        { label: 'Moto', value: 'moto' }
-      ]}
-      value={filterValueVehicle}
-    />
-    
-    )}
-/>
-<Button title="Filtrar" onPress={() => handleFilterVehicle(filterValueVehicle)} />
-<Button title="Borrar Filtro" onPress={deleteFilter} />
+        <Button title="Filtrar" onPress={() => handleFilterName(filterValueName)} />
+        <Button title="Borrar Filtro" onPress={deleteFilter} /></> : <View>
+        <Controller
+          control={control}
+          name="type_vehicle"
+          defaultValue=""
+          rules={{ required: true }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <RNPickerSelect
+              placeholder={{ label: 'Elige el vehiculo:', value: null }}
+              onValueChange={(selectedValue) => {
+                onChange(selectedValue);
+                setFilterValueVehicle(selectedValue);
+                console.log("Filtro de vehiculosssssss: " + filterValueVehicle);
+              }}
+              onBlur={onBlur}
+              items={[
+                { label: 'Coche', value: 'coche' },
+                { label: 'Moto', value: 'moto' }
+              ]}
+              value={filterValueVehicle}
+            />
+
+          )}
+        />
+        <Button title="Filtrar" onPress={() => handleFilterVehicle(filterValueVehicle)} />
+        <Button title="Borrar Filtro" onPress={deleteFilter} />
 
 
-    </View>}
-    
-      
+      </View>}
+
+
 
       {/* Resto del código */}
       {isLoading ?
