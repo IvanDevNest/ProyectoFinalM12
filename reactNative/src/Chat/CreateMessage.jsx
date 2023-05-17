@@ -47,20 +47,23 @@ const CreateMessage = () => {
             formData.append('author_name', usuari.name)
             formData.append('img_author_message', myAvatarUrl)
 
-            console.log(formData);
-            try {
-                const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + authToken,
-                    },
-                    method: 'POST',
-                    body: formData,
-                });
-                const resposta = await data.json();
-                console.log("resposta: " + JSON.stringify(resposta))
-                if (resposta.success === true) {
+        console.log("Console FormData: "+formData);
+        try {
+            const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: 'POST',
+                body: formData,
+            });
+            const resposta = await data.json();
+            console.log("resposta: " + JSON.stringify(resposta))
+            if (resposta.success === true) {
+                
+                console.log("resposta message: " + resposta.message)
+                reset();
 
                     console.log("resposta message: " + resposta.message)
                     reset();
@@ -68,11 +71,11 @@ const CreateMessage = () => {
                     setReload(!reload)
 
                 }
-                else setError(resposta.message);
-            } catch (e) {
-                console.log(e.err);
+           
+            else setError(resposta.message);
+        } catch (e) {
+            console.log("El Undefined: "+e.message);
 
-            }
         }
 
     };

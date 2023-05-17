@@ -148,6 +148,7 @@ const RutaList = (ruta) => {
     useEffect(() => {
          getUser();
         obtenerInscripciones(ruta.id)
+        console.log("Las inscripciones: "+JSON.stringify(inscripciones))
     }, [reload]);
 
     const numeroInscripciones = inscripciones.length;

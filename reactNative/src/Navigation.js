@@ -24,8 +24,7 @@ import ShowUser from "./ShowUser";
 import ShowMyUser from "./ShowMyUser";
 import Chat from "./Chat/Chat";
 import { Ionicons } from '@expo/vector-icons'; 
-import vipPage from "./vipPage";
-
+import Paginavip from "./Paginavip";
 
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
@@ -67,7 +66,7 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
 
     return (
-        <Tab.Navigator
+        <Tab.Navigator 
             initialRouteName="listar"
             screenOptions={{
                 tabBarActiveTintColor: 'skyblue',
@@ -100,10 +99,10 @@ function MyTabs() {
                         <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />)
                 }}
             />
-            <Tab.Screen name="Vip" component={vipPage}
+            <Tab.Screen name="Vip" component={Paginavip}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome name="diamond" size={24} color="yellow"/>)
+                        <FontAwesome name="diamond" size={24} color="#D4AF37"/>)
                 }}
             />
 
