@@ -62,11 +62,14 @@ class FileController extends Controller
     public function show($id)
     {
         $file = File::find($id);
+        $imagePath = $file->filepath;
+        $imageUrl = url('storage/' . $imagePath);
+       
 
         if ($file) {
             return response()->json([
                 'success' => true,
-                'data'    => $file
+                'data'    => $imageUrl
             ], 200);
         } else {
             return response()->json([
