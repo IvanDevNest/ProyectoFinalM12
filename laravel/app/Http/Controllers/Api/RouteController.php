@@ -241,7 +241,7 @@ class RouteController extends Controller
             ], 404);
         }
     }
-    public function inscriptions()
+    public function inscriptions(Request $request)
     {
         $query = Inscription::query();
     
