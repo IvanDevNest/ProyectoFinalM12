@@ -3,6 +3,10 @@ import Rutas from './Routes'
 import Fotos from './Fotos'
 import FotoUser from './FotoUser'
 import { FlatList } from 'react-native'
+import { useState } from 'react';
+import { UserContext } from './userContext';
+import { useEffect } from 'react';
+import { useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 
 
