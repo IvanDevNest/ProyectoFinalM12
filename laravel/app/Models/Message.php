@@ -13,6 +13,8 @@ class Message extends Model
         'date',
         'text',
         'file_id',
+        'img_author_message',
+        'author_name'
     ];
     public function user()
     {

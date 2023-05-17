@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Message;
 use Illuminate\Support\Facades\Log;
 use App\Models\File;
+use Carbon\Carbon;
 
 class MessageController extends Controller
 {
@@ -35,10 +36,14 @@ class MessageController extends Controller
         $validatedData = $request->validate([
             'id_user' => 'required|exists:users,id',
             'id_route' => 'required|exists:routes,id',
-            'date' => 'required|date_format:Y-m-d H:i:s',
+            // 'date' => 'required|date_format:Y-m-d H:i:s',
             'text' => 'required|string|max:255',
-            'imageUri' => 'nullable'
+            'imageUri' => 'nullable',
+            'img_author_message'=> 'required|string|max:255',
+            'author_name'=>'required|string|max:255',
         ]);
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+
         if ($request->file('imageUri')) {
             $imageUri = $request->file('imageUri');
             $file = new File();
@@ -47,9 +52,11 @@ class MessageController extends Controller
                 $message = Message::create([
                     'id_user' => $validatedData['id_user'],
                     'id_route' => $validatedData['id_route'],
-                    'date' => $validatedData['date'],
+                    'date' => $date,
                     'text' => $validatedData['text'],
                     'file_id' => $file->id,
+                    'img_author_message' => $validatedData['img_author_message'],
+                    'author_name' => $validatedData['author_name']
                 ]);
             } else {
                 return response()->json([
@@ -61,8 +68,10 @@ class MessageController extends Controller
             $message = Message::create([
                 'id_user' => $validatedData['id_user'],
                 'id_route' => $validatedData['id_route'],
-                'date' => $validatedData['date'],
+                'date' => $date,
                 'text' => $validatedData['text'],
+                'img_author_message' => $validatedData['img_author_message'],
+                'author_name' => $validatedData['author_name']
             ]);
         }
         // $message = new Message($validatedData);
