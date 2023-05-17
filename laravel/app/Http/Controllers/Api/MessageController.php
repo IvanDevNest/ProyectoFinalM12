@@ -39,8 +39,8 @@ class MessageController extends Controller
             // 'date' => 'required|date_format:Y-m-d H:i:s',
             'text' => 'nullable|string|max:255',
             'imageUri' => 'nullable',
-            'img_author_message'=> 'required|string|max:255',
-            'author_name'=>'required|string|max:255',
+            'img_author_message' => 'required|string|max:255',
+            'author_name' => 'required|string|max:255',
         ]);
         $date = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -49,15 +49,26 @@ class MessageController extends Controller
             $file = new File();
             $ok = $file->diskSave($imageUri);
             if ($ok) {
-                $message = Message::create([
+                if ($request->input('text')) {
+                    $message = Message::create([
+                        'user_id' => $validatedData['user_id'],
+                        'route_id' => $validatedData['route_id'],
+                        'date' => $date,
+                        'text' => $validatedData['text'],
+                        'file_id' => $file->id,
+                        'img_author_message' => $validatedData['img_author_message'],
+                        'author_name' => $validatedData['author_name']
+                    ]);
+                }$message = Message::create([
                     'user_id' => $validatedData['user_id'],
                     'route_id' => $validatedData['route_id'],
                     'date' => $date,
-                    'text' => $validatedData['text'],
                     'file_id' => $file->id,
                     'img_author_message' => $validatedData['img_author_message'],
                     'author_name' => $validatedData['author_name']
                 ]);
+              
+
             } else {
                 return response()->json([
                     'success' => false,
@@ -65,6 +76,7 @@ class MessageController extends Controller
                 ], 421);
             }
         } else {
+            if ($request->input('text')) {
             $message = Message::create([
                 'user_id' => $validatedData['user_id'],
                 'route_id' => $validatedData['route_id'],
@@ -73,10 +85,14 @@ class MessageController extends Controller
                 'img_author_message' => $validatedData['img_author_message'],
                 'author_name' => $validatedData['author_name']
             ]);
+        }   else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error creating message'
+                ], 421);
+            }
         }
-        // $message = new Message($validatedData);
-        // $message->save();
-
+        
         return response()->json([
             'success' => true,
             'data' => $message,
