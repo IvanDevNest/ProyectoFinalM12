@@ -12,9 +12,10 @@ const CreateMessage = () => {
 
     let { authToken, setAuthToken, usuari, myAvatarUrl,setReload,reload } = useContext(UserContext);
 
-    const { control, handleSubmit, formState: { errors }, } = useForm();
+    const { control, handleSubmit, formState: { errors },reset } = useForm();
 
-    const onSubmit = (data) => createMessage(data);
+    const onSubmit = (data) => {createMessage(data),  reset()};
+    ;
 
     const createMessage = async (dataa, image) => {
         //file
@@ -55,7 +56,8 @@ const CreateMessage = () => {
             if (resposta.success === true) {
                 
                 console.log("resposta message: " + resposta.message)
-                control.text=""
+                // reset();
+
                 setReload(!reload)
 
             }
