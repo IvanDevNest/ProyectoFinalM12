@@ -247,7 +247,7 @@ class RouteController extends Controller
     
         if ($route_id = $request->get('route_id')) {
             $query->where('route_id', 'like', "%{$route_id}%");
-            $routes = $query->get();
+            $inscriptions = $query->get();
 
 
         }
