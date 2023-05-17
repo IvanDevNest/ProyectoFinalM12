@@ -54,16 +54,19 @@ const Chat = () => {
     //     };
     //   }
     const getImagesMessage = async (id) => {
-        try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/files/${id}`);
-            const resposta = await data.json();
-            if (resposta.success === true) {
-                console.log("imagesMessage: " + JSON.stringify(resposta))
-                setImageMessage(resposta.data);
-            } else setError(resposta.message);
-        } catch (e) {
-            console.log("catch getImagesPost: " + e.message);
-        };
+        if(id){
+            try {
+                const data = await fetch(`http://equip04.insjoaquimmir.cat/api/files/${id}`);
+                const resposta = await data.json();
+                if (resposta.success === true) {
+                    console.log("imagesMessage: " + JSON.stringify(resposta))
+                    setImageMessage(resposta.data);
+                } else setError(resposta.message);
+            } catch (e) {
+                console.log("catch getImagesPost: " + e.message);
+            };
+        }
+      
     }
     const renderMessage = (message) => {
         // console.log("rendermessage " + JSON.stringify(message))

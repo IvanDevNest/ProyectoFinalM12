@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('route_id')->references('id')->on('routes')->onDelete('cascade');
 
             $table->dateTime('date');
-            $table->text('text');
+            $table->text('text')->nullable();
 
             $table->string('author_name');
             $table->string('img_author_message')->nullable();

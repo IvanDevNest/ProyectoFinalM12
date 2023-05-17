@@ -18,13 +18,13 @@ const CreateMessage = () => {
 
 
     const createMessage = async (dataa, image) => {
+        const formData = new FormData();
         //file
         console.log(dataa)
         if (dataa.text == undefined && !image) {
             console.log("no deja enviar mensaje")
             setError("no puedes enviar un mensaje vacio")
         } else {
-            const formData = new FormData();
             if (image) {
                 console.log("imagen: " + JSON.stringify(image.assets[0]))
                 const fileName = image.assets[0].uri.split("/").pop();
@@ -46,7 +46,7 @@ const CreateMessage = () => {
 
             formData.append('author_name', usuari.name)
             formData.append('img_author_message', myAvatarUrl)
-
+        }
         console.log("Console FormData: "+formData);
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
