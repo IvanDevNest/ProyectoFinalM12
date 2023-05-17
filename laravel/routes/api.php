@@ -35,6 +35,9 @@ Route::apiResource('reviews', 'App\Http\Controllers\Api\ReviewController');
 // Rutas para RouteController
 Route::apiResource('routes', 'App\Http\Controllers\Api\RouteController');
 
+// Rutas para FileController
+Route::apiResource('files', 'App\Http\Controllers\Api\FileController');
+
 // Rutas para TokenController
 Route::apiResource('user', 'App\Http\Controllers\Api\TokenController');
 
