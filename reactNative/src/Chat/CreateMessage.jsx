@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text ,Platform} from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text, Platform } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { UserContext } from '../userContext';
@@ -19,53 +19,62 @@ const CreateMessage = () => {
 
     const createMessage = async (dataa, image) => {
         //file
-        const formData = new FormData();
-        if (image) {
-            console.log("imagen: " + JSON.stringify(image.assets[0]))
-            const fileName = image.assets[0].uri.split("/").pop();
-            console.log("imagen url: " + image.uri)
-            console.log("nombre: " + fileName)
-            formData.append('imageUri', {
-                uri: image.assets[0].uri,
-                name: fileName,
-                type: Platform === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
+        console.log(dataa)
+        if (dataa.text == undefined && !image) {
+            console.log("no deja enviar mensaje")
+            setError("no puedes enviar un mensaje vacio")
+        } else {
+            const formData = new FormData();
+            if (image) {
+                console.log("imagen: " + JSON.stringify(image.assets[0]))
+                const fileName = image.assets[0].uri.split("/").pop();
+                console.log("imagen url: " + image.uri)
+                console.log("nombre: " + fileName)
+                formData.append('imageUri', {
+                    uri: image.assets[0].uri,
+                    name: fileName,
+                    type: Platform === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
 
-            });
-        }
+                });
+            }
 
-        formData.append('user_id', usuari.id)
-        formData.append('route_id', usuari.route_id)
-        formData.append('text', dataa.text)
+            formData.append('user_id', usuari.id)
+            formData.append('route_id', usuari.route_id)
+            if (dataa.text != undefined){
+                formData.append('text', dataa.text)
+            }
 
-        formData.append('author_name', usuari.name)
-        formData.append('img_author_message', myAvatarUrl)
+            formData.append('author_name', usuari.name)
+            formData.append('img_author_message', myAvatarUrl)
 
-        console.log(formData);
-        try {
-            const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: 'POST',
-                body: formData,
-            });
-            const resposta = await data.json();
-            console.log("resposta: " + JSON.stringify(resposta))
-            if (resposta.success === true) {
+            console.log(formData);
+            try {
+                const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authToken,
+                    },
+                    method: 'POST',
+                    body: formData,
+                });
+                const resposta = await data.json();
+                console.log("resposta: " + JSON.stringify(resposta))
+                if (resposta.success === true) {
 
-                console.log("resposta message: " + resposta.message)
-                reset();
-                setImage(null)
-                setReload(!reload)
+                    console.log("resposta message: " + resposta.message)
+                    reset();
+                    setImage(null)
+                    setReload(!reload)
+
+                }
+                else setError(resposta.message);
+            } catch (e) {
+                console.log(e.err);
 
             }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log(e.err);
-
         }
+
     };
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -82,7 +91,7 @@ const CreateMessage = () => {
     };
 
     return (
-        <View style={{backgroundColor:'white'}}>
+        <View style={{ backgroundColor: 'white' }}>
             {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
 
             <View style={styles.container}>
@@ -90,9 +99,7 @@ const CreateMessage = () => {
 
                 <Controller
                     control={control}
-                    rules={{
-                        required: 'No se puede enviar un mensaje vacío',
-                    }}
+
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             onBlur={onBlur}
@@ -104,12 +111,13 @@ const CreateMessage = () => {
                     )}
                     name="text"
                 />
-                {errors.text && <span>{errors.text.message}</span>}
                 <Ionicons name="ios-camera" size={24} color="black" onPress={() => pickImage()} />
                 <Feather name="send" size={24} color="black" style={styles.sendButton} onPress={handleSubmit(onSubmit)} />
 
 
             </View>
+            {error && <Text style={{ color: 'red' }} >Error: {error}</Text>}
+
         </View>
 
     );
