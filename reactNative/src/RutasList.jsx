@@ -15,7 +15,11 @@ const RutasList = () => {
   let { filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, reload } = useContext(UserContext);
   let [page, setPage] = useState(1);
   let [lastpage, setLastPage] = useState("");
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValueName, setFilterValueName] = useState('');
+  const [filterValueVehicle, setFilterValueVehicle] = useState('');
+
+  const [typeFilter, setTypeFilter] = useState('');
+
   const [selectedVehicleType, setSelectedVehicleType] = useState('');
 
 
@@ -64,10 +68,8 @@ const RutasList = () => {
   const getRoutes = async (page, filterName, filterVehicle) => {
     try {
       setIsLoading(true);
-      console.log("Filtro Name: " + filterName)
-
       if (filterName) {
-        console.log("Entra por filtro Name")
+        console.log("Entra por filtro Name: "+filterName)
         url = `http://equip04.insjoaquimmir.cat/api/routes?page=${page}&name=${filterName}`;
       }
       else if (filterVehicle) {
@@ -92,12 +94,23 @@ const RutasList = () => {
       const resposta = await data.json();
       console.log("Data: " + JSON.stringify(resposta.data))
       if (resposta.success === true) {
-        console.log("resposta pages" + JSON.stringify(resposta))
+        if (resposta.data.last_page){
+          console.log("resposta pages" + JSON.stringify(resposta))
         setRutas(resposta.data.data)
         console.log("SetRutas: " + resposta.data.data)
 
         setLastPage(resposta.data.last_page)
-        console.log(resposta.data.last_page)
+        console.log("last page: "+resposta.data.last_page)
+
+        }else{
+          console.log("resposta pages" + JSON.stringify(resposta))
+        setRutas(resposta.data)
+        console.log("SetRutas: " + resposta.data)
+
+        setLastPage(1)
+        console.log("last page: "+lastpage)
+        }
+        
 
         setIsLoading(false)
 
@@ -109,15 +122,16 @@ const RutasList = () => {
       // Manejo de errores
     }
   };
-  const handleFilterName = (filterValue) => {
-    setFilterName(filterValue);
+  const handleFilterName = (filterValueName) => {
+    setPage(1);
+    console.log("ultimo filtro name:"+filterValueName)
+    setFilterName(filterValueName);
     setFilterVehicle("") // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
-    setPage(1);
   };
-  const handleFilterVehicle = (selectedVehicleType) => {
-    setFilterVehicle(selectedVehicleType);
-    setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
+  const handleFilterVehicle = (filterValueVehicle) => {
     setPage(1);
+    setFilterVehicle(filterValueVehicle);
+    setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
   };
   
   const deleteFilter = () => {
@@ -147,30 +161,30 @@ const RutasList = () => {
             placeholder={{ label: 'Como quieres filtrar?', value: null }}
             onValueChange={(selectedValue) => {
                 onChange(selectedValue);
-                setSelectedVehicleType(selectedValue);
-                console.log(selectedVehicleType)
+                setTypeFilter(selectedValue);
+                console.log("selected value: "+selectedValue)
             }}
             onBlur={onBlur}
             items={[
                 { label: 'Nombre', value: 'Nombre' },
                 { label: 'Vehiculo', value: 'Vehiculo' }
             ]}
-            value={value}
+            value={typeFilter}
         />
     )}
 />
 
 
     </View>
-    {selectedVehicleType == "Nombre"?<><TextInput
+    {typeFilter == "Nombre"?<><TextInput
   style={styles.input}
   placeholder="Filtrar por nombre"
-  value={filterValue}
-  onChangeText={(value) => setFilterValue(value)}
+  value={filterValueName}
+  onChangeText={(value) => setFilterValueName(value)}
 />
 
 
-<Button title="Filtrar" onPress={() => handleFilterName(filterValue)} />
+<Button title="Filtrar" onPress={() => handleFilterName(filterValueName)} />
 <Button title="Borrar Filtro" onPress={deleteFilter} /></>:<View>
     <Controller
     control={control}
@@ -182,20 +196,20 @@ const RutasList = () => {
       placeholder={{ label: 'Elige el vehiculo:', value: null }}
       onValueChange={(selectedValue) => {
         onChange(selectedValue);
-        setSelectedVehicleType(selectedValue);
-        console.log("Filtro de vehiculos: " + selectedValue);
+        setFilterValueVehicle(selectedValue);
+        console.log("Filtro de vehiculosssssss: " + filterValueVehicle);
       }}
       onBlur={onBlur}
       items={[
         { label: 'Coche', value: 'coche' },
         { label: 'Moto', value: 'moto' }
       ]}
-      value={value}
+      value={filterValueVehicle}
     />
     
     )}
 />
-<Button title="Filtrar" onPress={() => handleFilterVehicle(selectedVehicleType)} />
+<Button title="Filtrar" onPress={() => handleFilterVehicle(filterValueVehicle)} />
 <Button title="Borrar Filtro" onPress={deleteFilter} />
 
 
