@@ -7,22 +7,29 @@ import { UserContext } from './userContext';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 const CreateRoute = () => {
+    //no se usa
     // const [rutas, setRutas] = useState([]);
-    const [selectedValue, setSelectedValue] = useState(null);
-    let { usuari, authToken, setReload, reload } = useContext(UserContext);
-    const [error, setError] = useState("");
-    const navigation = useNavigation();
+    // const [selectedValue, setSelectedValue] = useState(null);
+    
+    //redux
+    const { isSaving = true, error = "" } = useSelector((state) => state.routes);
 
+    //local
+    let { usuari, authToken, setReload, reload } = useContext(UserContext);
+    // const [error, setError] = useState("");
+    const navigation = useNavigation();
     const { control, handleSubmit, formState: { errors }, } = useForm();
+
+
     function onPressObject(id) {
         navigation.navigate('ShowRoute', { objectId: id });
     }
     const onSubmit = (data) => createRoute(data);
     const createRoute = async (formState) => {
-        console.log("date"+JSON.stringify(date))
+        console.log("date" + JSON.stringify(date))
 
-        let dateToSend = JSON.stringify(date).split('.')[0].replace('T', ' ').replace('"','');
-        console.log("modificada"+dateToSend)
+        let dateToSend = JSON.stringify(date).split('.')[0].replace('T', ' ').replace('"', '');
+        console.log("modificada" + dateToSend)
         formState.date = dateToSend
         formState.author_id = usuari.id
         console.log(JSON.stringify(formState));
@@ -113,7 +120,7 @@ const CreateRoute = () => {
                         )}
 
                     </View>
-                   
+
                 </View>
                 <View>
                     <Text>Vehículo</Text>

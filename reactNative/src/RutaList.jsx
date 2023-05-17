@@ -76,7 +76,7 @@ const RutaList = (ruta) => {
 
     const obtenerInscripciones = async (id) => {
         try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${id}`, {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
