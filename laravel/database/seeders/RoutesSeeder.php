@@ -38,7 +38,7 @@ class RoutesSeeder extends Seeder
                 'distance' => '50',
                 
                 'latitude' => $latitude,
-                'logitude' => $longitude,
+                'longitude' => $longitude,
 
                 'type_vehicle' => $type_vehicle,
                 'url_maps' => 'https://maps.google.com/route' . ($i + 1),
