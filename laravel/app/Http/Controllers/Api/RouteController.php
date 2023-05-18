@@ -93,13 +93,13 @@ class RouteController extends Controller
 
         // Ordenar las rutas por distancia
         $routes = $routes->sortBy('distanceToRoute')->values();
-
+        Log::debug($routes);
         $perPage = 5;
         $currentPage = $request->input('page', 1);
         $offset = ($currentPage - 1) * $perPage;
         // Obtener las rutas de la página actual
         $pagedRoutes = $routes->slice($offset, $perPage)->values();
-        
+
         // Calcular el número de la última página
         $totalRoutes = $routes->count();
         $lastPage = ceil($totalRoutes / $perPage);
