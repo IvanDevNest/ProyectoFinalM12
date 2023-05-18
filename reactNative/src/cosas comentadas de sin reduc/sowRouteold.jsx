@@ -45,7 +45,29 @@ const ShowRoute = () => {
     }
     // console.log("usuariu" + JSON.stringify(usuari))
 
-  
+    // const getRoute = async (objectId) => {
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json"
+    //             },
+    //             method: "GET",
+    //         })
+    //         const resposta = await data.json();
+    //         if (resposta.success === true) {
+    //             console.log("resposta" + JSON.stringify(resposta))
+    //             setRuta(resposta.data)
+    //             await obtenerDatosAuthorRuta(resposta.data.author_id)
+    //             setIsLoading(false)
+    //         } else {
+    //             setError(resposta.message);
+    //         }
+    //     } catch (e) {
+    //         console.log(e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
 
     const obtenerDatosAuthorRuta = async (id) => {
         try {
@@ -94,14 +116,102 @@ const ShowRoute = () => {
         };
 
     }
-    
+    // const obtenerInscripciones = async (objectId) => {
+    //     try {
+    //         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${objectId}`, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "GET",
+    //         });
+    //         const resposta = await data.json();
+    //         if (resposta.success === true) {
+    //             // console.log("Inscripciones: " + JSON.stringify(resposta))
+    //             setInscripciones(resposta.data)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log(e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
+
 
     useEffect(() => {
         dispatch(getRoute(objectId,authToken));
         dispatch(obtenerInscripciones(objectId,authToken))
-    }, [reload,ruta,inscripciones]);
+    }, [reload]);
 
-    
+    // const unirseRuta = async (objectId) => {
+    //     try {
+    //         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/routes/${objectId}/inscription`, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "POST",
+    //         });
+    //         const resposta = await data.json();
+    //         if (resposta.success === true) {
+    //             // console.log(JSON.stringify(resposta))
+    //             // setIsLoading(false)
+    //             setReload(!reload)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log(e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
+    // const salirseRuta = async (objectId) => {
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId + "/uninscription", {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "DELETE",
+    //         });
+    //         const resposta = await data.json();
+    //         // console.log("resposta unirse ruta" + JSON.stringify(resposta))
+
+    //         if (resposta.success === true) {
+    //             // setIsLoading(false)
+    //             setReload(!reload)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log("catch: " + e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
+
+    // const eliminarRuta = async (id) => {
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "DELETE",
+    //         });
+    //         const resposta = await data.json();
+    //         console.log(resposta)
+    //         if (resposta.success === true) {
+    //             console.log("Ruta eliminada correctament")
+    //             RutasList()
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log("Catch: " + e.message);
+
+    //     };
+    // }
     return (
         <View>
             {isLoading ?
@@ -166,7 +276,7 @@ const ShowRoute = () => {
                         <></>
                     }
                     {usuari.route_id == null ?
-                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(objectId,authToken, setReload, reload))} />
+                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(objectId,authToken, setReload, reload), setReload(!reload))} />
                         :
                         <></>
                     }
