@@ -354,8 +354,9 @@ export const handleFilterVehicle = (filterValueVehicle, setFilterVehicle, setFil
         setFilterName("") // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
     }
 }
-export const deleteFilter = (setFilterVehicle, setFilterName) => {
+export const deleteFilter = (setFilterVehicle, setFilterName, setTypeFilter) => {
     return async (dispatch, getState) => {
+        setTypeFilter("")
         setFilterVehicle("")
         setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
         dispatch(setPage(1))
