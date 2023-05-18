@@ -10,7 +10,7 @@ import * as Location from 'expo-location';
 const Header = () => {
   const { control, handleSubmit, formState: { errors }, } = useForm();
   let [filter, setFilter] = useState("");
-  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari,setAuthToken,latitudeUser, setLatitudeUser,longitudeUser, setLongitudeUser } = useContext(UserContext);
+  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari,setAuthToken,latitudeUser, setLatitudeUser,longitudeUser, setLongitudeUser,coordsCargadas, setcoordsCargadas } = useContext(UserContext);
   let [userImage, setUserImage] = useState("");
   let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
@@ -75,6 +75,7 @@ const Header = () => {
         const { coords } = await Location.getCurrentPositionAsync({});
         setLatitudeUser(coords.latitude);
         setLongitudeUser(coords.longitude);
+        setcoordsCargadas(true)
       } else {
         console.log("No se puede acceder a la ubi")
       }
