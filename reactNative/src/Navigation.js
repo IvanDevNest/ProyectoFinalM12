@@ -5,6 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
+import { useState } from "react";
+import { UserContext } from "./userContext";
+import { useEffect } from "react";
 
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -66,9 +69,27 @@ function MyStack() {
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+    const [showJoinedRoute, setShowJoinedRoute] = useState(false);
+    let { usuari, authToken } = useContext(UserContext);
 
+    
+
+    useEffect(() => {
+      // Lógica para determinar si se muestra la pantalla "Joined"
+      // Obtén el usuario desde alguna fuente de datos
+      console.log("RouteID: "+usuari.route_id)
+  
+      if (usuari.route_id != null) {
+        setShowJoinedRoute(true);
+      } else {
+        setShowJoinedRoute(false);
+      }
+      console.log("Joined Route: "+showJoinedRoute)
+    }, [usuari.route_id]);
+  
     return (
         <Tab.Navigator 
+        
             initialRouteName="listar"
             screenOptions={{
                 tabBarActiveTintColor: 'skyblue',
@@ -95,28 +116,37 @@ function MyTabs() {
 
                 }}
             />
-            <Tab.Screen name="Chat" component={Chat}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />)
-                }}
-            />
+            {showJoinedRoute && (
+        <Tab.Screen
+          name="Chat"
+          component={Chat}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+                <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+            ),
+          }}
+        />
+      )}
             <Tab.Screen name="Vip" component={Paginavip}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome name="diamond" size={24} color="#D4AF37"/>)
                 }}
             />
-            <Tab.Screen name="Joined" component={ShowJoinedRoute}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="map-marker-alt" size={24} color="black" />)
-                }}
-            />
-
-        </Tab.Navigator>
-    );
-}
+             {showJoinedRoute && (
+        <Tab.Screen
+          name="Joined"
+          component={ShowJoinedRoute}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome5 name="map-marker-alt" size={24} color="black" />
+            ),
+          }}
+        />
+      )}
+    </Tab.Navigator>
+  );
+};
 export default function Navigation() {
 
     // const {isLoading, authToken} = useContext(AuthContext)
