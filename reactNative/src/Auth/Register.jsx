@@ -126,7 +126,6 @@ const Register = ({ setLogin }) => {
               placeholder={{ label: 'Elige el genero:', value: null }}
               onValueChange={(selectedValue) => {
                 onChange(selectedValue);
-                setGender(selectedValue);
                 console.log("Genero: " + selectedValue);
               }}
               onBlur={onBlur}
