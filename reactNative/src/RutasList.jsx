@@ -34,88 +34,93 @@ const RutasList = () => {
   return (
     <>
       {coordsCargadas ? (
-        <View>
-          <Controller
-            control={control}
-            name="type_vehicle"
-            defaultValue=""
-            rules={{ required: true }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <RNPickerSelect
-                placeholder={{ label: 'Sin Filtro', value: null }}
-                onValueChange={(selectedValue) => {
-                  onChange(selectedValue);
-                  setTypeFilter(selectedValue);
-                  console.log("selected value: " + selectedValue)
-                }}
-                onBlur={onBlur}
-                items={[
-                  { label: 'Nombre', value: 'Nombre' },
-                  { label: 'Vehiculo', value: 'Vehiculo' }
-                ]}
-                value={typeFilter}
-              />
-            )}
-          />
-          {typeFilter === "Nombre" ? (
-            <>
-              <TextInput
-                style={styles.input}
-                placeholder="Filtrar por nombre"
-                value={filterValueName}
-                onChangeText={(value) => setFilterValueName(value)}
-              />
-              <Button title="Filtrar" onPress={() => { dispatch(handleFilterName(filterValueName, setFilterVehicle, setFilterName)) }} />
-            </>
-          ) : null}
-          {typeFilter === "Vehiculo" ? (
-            <View>
-              <Controller
-                control={control}
-                name="type_vehicle"
-                defaultValue=""
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <RNPickerSelect
-                    placeholder={{ label: 'Elige el vehiculo:', value: null }}
-                    onValueChange={(selectedValue) => {
-                      onChange(selectedValue);
-                      setFilterValueVehicle(selectedValue);
-                      console.log("Filtro de vehiculosssssss: " + filterValueVehicle);
-                    }}
-                    onBlur={onBlur}
-                    items={[
-                      { label: 'Coche', value: 'coche' },
-                      { label: 'Moto', value: 'moto' }
-                    ]}
-                    value={filterValueVehicle}
-                  />
-                )}
-              />
-              <Button title="Filtrar" onPress={() => { dispatch(handleFilterVehicle(filterValueVehicle, setFilterVehicle, setFilterName)) }} />
-            </View>
-          ) : null}
-          <Button title="Borrar Filtro" onPress={() => dispatch(deleteFilter(setFilterVehicle, setFilterName))} />
-          <FlatList
+        <>
+          <View>
+            <Controller
+              control={control}
+              name="type_vehicle"
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RNPickerSelect
+                  placeholder={{ label: 'Sin Filtro', value: null }}
+                  onValueChange={(selectedValue) => {
+                    onChange(selectedValue);
+                    setTypeFilter(selectedValue);
+                    console.log("selected value: " + selectedValue)
+                  }}
+                  onBlur={onBlur}
+                  items={[
+                    { label: 'Nombre', value: 'Nombre' },
+                    { label: 'Vehiculo', value: 'Vehiculo' }
+                  ]}
+                  value={typeFilter}
+                />
+              )}
+            />
+            {typeFilter === "Nombre" ? (
+              <>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Filtrar por nombre"
+                  value={filterValueName}
+                  onChangeText={(value) => setFilterValueName(value)}
+                />
+                <Button title="Filtrar" onPress={() => { dispatch(handleFilterName(filterValueName, setFilterVehicle, setFilterName)) }} />
+              </>
+            ) : null}
+            {typeFilter === "Vehiculo" ? (
+              <View>
+                <Controller
+                  control={control}
+                  name="type_vehicle"
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <RNPickerSelect
+                      placeholder={{ label: 'Elige el vehiculo:', value: null }}
+                      onValueChange={(selectedValue) => {
+                        onChange(selectedValue);
+                        setFilterValueVehicle(selectedValue);
+                        console.log("Filtro de vehiculosssssss: " + filterValueVehicle);
+                      }}
+                      onBlur={onBlur}
+                      items={[
+                        { label: 'Coche', value: 'coche' },
+                        { label: 'Moto', value: 'moto' }
+                      ]}
+                      value={filterValueVehicle}
+                    />
+                  )}
+                />
+                <Button title="Filtrar" onPress={() => { dispatch(handleFilterVehicle(filterValueVehicle, setFilterVehicle, setFilterName)) }} />
+              </View>
+            ) : null}
+            <Button title="Borrar Filtro" onPress={() => dispatch(deleteFilter(setFilterVehicle, setFilterName))} />
+
+
+
+          </View>
+
+          <><FlatList
             data={rutas}
             renderItem={({ item: ruta }) => (
               <RutaList {...ruta} />
             )}
           />
-          <View style={{ flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'space-around', paddingVertical: 5 }}>
-            {page === 1 ? (
-              <Button title='Anterior' disabled onPress={() => dispatch(retrocederPagina(page))} />
-            ) : (
-              <Button title='Anterior' onPress={() => dispatch(retrocederPagina(page))} color={'#00ACFF'} />
-            )}
-            {page === lastpage ? (
-              <Button title='Siguiente' disabled onPress={() => dispatch(pasarPagina(page, lastpage))} />
-            ) : (
-              <Button title='Siguiente' onPress={() => dispatch(pasarPagina(page, lastpage))} />
-            )}
-          </View>
-        </View>
-        
+            <View style={{ flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'space-around', paddingVertical: 5 }}>
+              {page === 1 ? (
+                <Button title='Anterior' disabled onPress={() => dispatch(retrocederPagina(page))} />
+              ) : (
+                <Button title='Anterior' onPress={() => dispatch(retrocederPagina(page))} color={'#00ACFF'} />
+              )}
+              {page === lastpage ? (
+                <Button title='Siguiente' disabled onPress={() => dispatch(pasarPagina(page, lastpage))} />
+              ) : (
+                <Button title='Siguiente' onPress={() => dispatch(pasarPagina(page, lastpage))} />
+              )}
+            </View></>
+        </>
       ) : <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
         <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }} />
       </View>}
