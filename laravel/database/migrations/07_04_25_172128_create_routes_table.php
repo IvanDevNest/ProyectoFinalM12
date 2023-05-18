@@ -23,6 +23,8 @@ class CreateRoutesTable extends Migration
             $table->integer('num_stops');
             $table->integer('max_users');
             
+            $table->float('latitude', 8, 5);  // 90  to -90
+            $table->float('longitude', 8, 5); // 180 to -180
             // $table->unsignedBigInteger('id_author')->nullable();
             // $table->foreign('id_author')->references('id')->on('users');
             

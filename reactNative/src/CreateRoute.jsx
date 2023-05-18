@@ -9,13 +9,15 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { createRoute } from './slices/routes/thunks';
 const CreateRoute = () => {
-
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+  
     const dispatch = useDispatch();
 
     const { isSaving = true, error = "" } = useSelector((state) => state.routes);
     const onSubmit = (data) => {
 
-        dispatch(createRoute(data, authToken, ShowRoute, date, usuari));
+        dispatch(createRoute(data, authToken, ShowRoute, date, usuari,latitude,longitude));
     }
 
     let { usuari, authToken, setReload, reload } = useContext(UserContext);
@@ -53,7 +55,13 @@ const CreateRoute = () => {
     const minDate = new Date(currentYear, new Date().getMonth());
     const maxDate = new Date(nextYear, new Date().getMonth());
     console.log(JSON.stringify(date))
-    
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((pos) => {
+        setLatitude('latitude', pos.coords.latitude)
+        setLongitude('longitude', pos.coords.longitude)
+        });
+      }, []); 
     return (
         <ScrollView>
             <Text>Información de la ruta</Text>

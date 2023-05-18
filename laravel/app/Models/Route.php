@@ -18,6 +18,8 @@ class Route extends Model
         'url_maps',
         'num_stops',
         'max_users',
+        'latitude',
+        'longitude',
         'author_id',
         'id_route_style',
 
