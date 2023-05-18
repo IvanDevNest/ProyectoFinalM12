@@ -43,7 +43,7 @@ class RouteController extends Controller
 
         // Distancia en kilómetros
         $distancia = $radioTierra * $c;
-
+        Log::debug($distancia);
         return $distancia;
     }
 
@@ -55,6 +55,7 @@ class RouteController extends Controller
     public function index(Request $request)
     {
         $query = Route::query();
+        Log::debug($request);
 
         if ($name = $request->get('name')) {
             $query->where('name', 'like', "%{$name}%");
@@ -83,8 +84,8 @@ class RouteController extends Controller
         // Calcular la distancia y agregarla a cada ruta
         $latitudeUser = $request->input('latitudeUser'); // Obtener la latitud del usuario desde la solicitud
         $longitudeUser = $request->input('longitudeUser'); // Obtener la longitud del usuario desde la solicitud
-// Obtener todas las rutas sin paginación
-$routes = $query->get();
+        // Obtener todas las rutas sin paginación
+        $routes = $query->get();
         foreach ($routes as $route) {
             $distanceToRoute = $this->calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
             $route->distanceToRoute = $distanceToRoute;
@@ -92,7 +93,7 @@ $routes = $query->get();
 
         // Ordenar las rutas por distancia
         $routes = $routes->sortBy('distanceToRoute')->values();
-
+        Log::debug($routes);
         $perPage = 5;
         $currentPage = $request->input('page', 1);
         $offset = ($currentPage - 1) * $perPage;
@@ -102,7 +103,6 @@ $routes = $query->get();
         // Calcular el número de la última página
         $totalRoutes = $routes->count();
         $lastPage = ceil($totalRoutes / $perPage);
-
 
         return response()->json([
             'success' => true,

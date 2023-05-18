@@ -11,11 +11,7 @@ import { useEffect } from "react";
 
 import { FontAwesome5 } from '@expo/vector-icons';
 
-
 // import { View, ActivityIndicator } from "react-native";
-
-
-
 
 //paginas
 import CreateRoute from "./CreateRoute";
@@ -26,14 +22,16 @@ import UserEdit from "./UserEdit";
 import ShowUser from "./ShowUser";
 import ShowMyUser from "./ShowMyUser";
 import Chat from "./Chat/Chat";
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import Paginavip from "./Paginavip";
 import ShowJoinedRoute from "./ShowJoinedRoute";
 
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
 const HomeStackNavigator = createNativeStackNavigator();
+
 function MyStack() {
+
     return (
         <HomeStackNavigator.Navigator
             initialRouteName="RutasList" screenOptions={{ headerShown: false }}>
@@ -130,7 +128,7 @@ function MyTabs() {
             <Tab.Screen name="Vip" component={Paginavip}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome name="diamond" size={24} color="#D4AF37"/>)
+                        <FontAwesome name="diamond" size={24} color="#D4AF37" />)
                 }}
             />
              {showJoinedRoute && (
