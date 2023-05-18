@@ -276,7 +276,7 @@ export const updateRoute = (formState, id, authToken, ShowRoute, setReload, relo
 
 export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitudeUser) => {
     return async (dispatch, getState) => {
-
+        console.log("lat "+latitudeUser, "long "+longitudeUser)
         try {
             dispatch(setIsLoading(true));
             if (filterName) {

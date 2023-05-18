@@ -56,7 +56,7 @@ class RouteController extends Controller
     {
         $query = Route::query();
         Log::debug($request);
-        Log::debug($query);
+
         if ($name = $request->get('name')) {
             $query->where('name', 'like', "%{$name}%");
             // $routes = $query->paginate(5);
@@ -99,7 +99,7 @@ class RouteController extends Controller
         $offset = ($currentPage - 1) * $perPage;
         // Obtener las rutas de la página actual
         $pagedRoutes = $routes->slice($offset, $perPage)->values();
-
+        
         // Calcular el número de la última página
         $totalRoutes = $routes->count();
         $lastPage = ceil($totalRoutes / $perPage);
