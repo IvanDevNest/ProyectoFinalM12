@@ -96,7 +96,7 @@ class UserSeeder extends Seeder
         ],
         [
             'name' => 'Ivan',
-            'email' => 'ivasn@gmail.com',
+            'email' => 'ivan@gmail.com',
             'lastname' => 'FR',
             'second_surname' => '300cv',
             // 'id_role' => 1,
