@@ -65,7 +65,10 @@ class RouteController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $pagedRoutes
+            'data' => $pagedRoutes,
+            'current_page' => $currentPage,
+            'per_page' => $perPage,
+            'total' => $routes->count()
         ], 200);
     }
 
