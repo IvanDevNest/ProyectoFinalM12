@@ -78,13 +78,13 @@ class RouteController extends Controller
         //     $routes = $query->paginate(5);
 
         // }
-        // Obtener todas las rutas sin paginación
-        $routes = $query->get();
+        
 
         // Calcular la distancia y agregarla a cada ruta
         $latitudeUser = $request->input('latitudeUser'); // Obtener la latitud del usuario desde la solicitud
         $longitudeUser = $request->input('longitudeUser'); // Obtener la longitud del usuario desde la solicitud
-
+// Obtener todas las rutas sin paginación
+$routes = $query->get();
         foreach ($routes as $route) {
             $distanceToRoute = $this->calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
             $route->distanceToRoute = $distanceToRoute;
@@ -111,7 +111,6 @@ class RouteController extends Controller
             'per_page' => $perPage,
             'total' => $totalRoutes,
             'last_page' => $lastPage,
-
         ], 200);
     }
 
