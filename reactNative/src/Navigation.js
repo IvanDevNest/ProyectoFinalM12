@@ -25,6 +25,7 @@ import ShowMyUser from "./ShowMyUser";
 import Chat from "./Chat/Chat";
 import { Ionicons } from '@expo/vector-icons'; 
 import Paginavip from "./Paginavip";
+import ShowJoinedRoute from "./ShowJoinedRoute";
 
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
@@ -57,6 +58,7 @@ function MyStack() {
                 name="UserEdit"
                 component={UserEdit}
             />
+
         </HomeStackNavigator.Navigator>
     )
 }
@@ -103,6 +105,12 @@ function MyTabs() {
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome name="diamond" size={24} color="#D4AF37"/>)
+                }}
+            />
+            <Tab.Screen name="Joined" component={ShowJoinedRoute}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <FontAwesome5 name="map-marker-alt" size={24} color="black" />)
                 }}
             />
 
