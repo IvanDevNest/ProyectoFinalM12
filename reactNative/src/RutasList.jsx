@@ -35,7 +35,7 @@ const RutasList = () => {
           rules={{ required: true }}
           render={({ field: { onChange, onBlur, value } }) => (
             <RNPickerSelect
-              placeholder={{ label: 'Como quieres filtrar?', value: null }}
+              placeholder={{ label: 'Sin Filtro', value: null }}
               onValueChange={(selectedValue) => {
                 onChange(selectedValue);
                 setTypeFilter(selectedValue);
@@ -59,8 +59,9 @@ const RutasList = () => {
         onChangeText={(value) => setFilterValueName(value)}
       />
 
-        <Button title="Filtrar" onPress={() => {dispatch(handleFilterName(filterValueName, setFilterVehicle,setFilterName))}} />
-        <Button title="Borrar Filtro" onPress={()=> {dispatch(deleteFilter(setFilterVehicle,setFilterName))}} /></> : <View>
+
+        <Button title="Filtrar" onPress={() => { dispatch(handleFilterName(filterValueName, setFilterVehicle, setFilterName)) }} /></> : <></>}
+      {typeFilter == "Vehiculo" ? <View>
         <Controller
           control={control}
           name="type_vehicle"
@@ -84,11 +85,10 @@ const RutasList = () => {
 
           )}
         />
-        <Button title="Filtrar" onPress={() => {dispatch(handleFilterVehicle(filterValueVehicle,setFilterVehicle,setFilterName))}} />
-        <Button title="Borrar Filtro" onPress={()=> dispatch(deleteFilter(setFilterVehicle,setFilterName))} />
+        <Button title="Filtrar" onPress={() => { dispatch(handleFilterVehicle(filterValueVehicle, setFilterVehicle, setFilterName)) }} />
+      </View> : <></>}
+      <Button title="Borrar Filtro" onPress={() => dispatch(deleteFilter(setFilterVehicle, setFilterName))} />
 
-
-      </View>}
 
 
 
