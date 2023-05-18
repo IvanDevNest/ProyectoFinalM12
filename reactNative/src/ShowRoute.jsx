@@ -3,12 +3,25 @@ import { UserContext } from './userContext';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet } from 'react-native';
+import { getRoute } from './slices/routes/thunks';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { salirseRuta } from "./slices/routes/thunks";
+import { eliminarRuta } from "./slices/routes/thunks";
 
+import { unirseRuta } from './slices/routes/thunks';
+import { obtenerInscripciones } from "./slices/routes/thunks";
+
+import { set } from 'react-hook-form';
 const ShowRoute = () => {
-    const [ruta, setRuta] = useState([]);
-    const [error, setError] = useState([]);
-    const [inscripciones, setInscripciones] = useState([])
-    const [isLoading, setIsLoading] = useState(true);
+    const { inscripciones, isSaving = true, error = "", ruta, isLoading, page, lastpage, } = useSelector((state) => state.routes);
+
+    const dispatch = useDispatch();
+
+    // const [ruta, setRuta] = useState([]);
+    // const [error, setError] = useState([]);
+    // const [inscripciones, setInscripciones] = useState([])
+    // const [isLoading, setIsLoading] = useState(true);
     let { usuari, authToken } = useContext(UserContext);
     const [avatarUrl, setAvatarUrl] = useState(null);
     const [reload, setReload] = useState(false);
@@ -32,29 +45,29 @@ const ShowRoute = () => {
     }
     // console.log("usuariu" + JSON.stringify(usuari))
 
-    const getRoute = async (objectId) => {
-        try {
-            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                method: "GET",
-            })
-            const resposta = await data.json();
-            if (resposta.success === true) {
-                console.log("resposta" + JSON.stringify(resposta))
-                setRuta(resposta.data)
-                await obtenerDatosAuthorRuta(resposta.data.author_id)
-                setIsLoading(false)
-            } else {
-                setError(resposta.message);
-            }
-        } catch (e) {
-            console.log(e.message);
-            // alert("Catchch");
-        };
-    }
+    // const getRoute = async (objectId) => {
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json"
+    //             },
+    //             method: "GET",
+    //         })
+    //         const resposta = await data.json();
+    //         if (resposta.success === true) {
+    //             console.log("resposta" + JSON.stringify(resposta))
+    //             setRuta(resposta.data)
+    //             await obtenerDatosAuthorRuta(resposta.data.author_id)
+    //             setIsLoading(false)
+    //         } else {
+    //             setError(resposta.message);
+    //         }
+    //     } catch (e) {
+    //         console.log(e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
 
     const obtenerDatosAuthorRuta = async (id) => {
         try {
@@ -103,102 +116,102 @@ const ShowRoute = () => {
         };
 
     }
-    const obtenerInscripciones = async (objectId) => {
-        try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${objectId}`, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "GET",
-            });
-            const resposta = await data.json();
-            if (resposta.success === true) {
-                // console.log("Inscripciones: " + JSON.stringify(resposta))
-                setInscripciones(resposta.data)
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log(e.message);
-            // alert("Catchch");
-        };
-    }
+    // const obtenerInscripciones = async (objectId) => {
+    //     try {
+    //         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions/?route_id=${objectId}`, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "GET",
+    //         });
+    //         const resposta = await data.json();
+    //         if (resposta.success === true) {
+    //             // console.log("Inscripciones: " + JSON.stringify(resposta))
+    //             setInscripciones(resposta.data)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log(e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
 
 
     useEffect(() => {
-        getRoute(objectId);
-        obtenerInscripciones(objectId);
+        dispatch(getRoute(objectId,authToken));
+        dispatch(obtenerInscripciones(objectId,authToken))
     }, [reload]);
 
-    const unirseRuta = async (objectId) => {
-        try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/routes/${objectId}/inscription`, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "POST",
-            });
-            const resposta = await data.json();
-            if (resposta.success === true) {
-                // console.log(JSON.stringify(resposta))
-                // setIsLoading(false)
-                setReload(!reload)
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log(e.message);
-            // alert("Catchch");
-        };
-    }
-    const salirseRuta = async (objectId) => {
-        try {
-            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId + "/uninscription", {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "DELETE",
-            });
-            const resposta = await data.json();
-            // console.log("resposta unirse ruta" + JSON.stringify(resposta))
+    // const unirseRuta = async (objectId) => {
+    //     try {
+    //         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/routes/${objectId}/inscription`, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "POST",
+    //         });
+    //         const resposta = await data.json();
+    //         if (resposta.success === true) {
+    //             // console.log(JSON.stringify(resposta))
+    //             // setIsLoading(false)
+    //             setReload(!reload)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log(e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
+    // const salirseRuta = async (objectId) => {
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId + "/uninscription", {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "DELETE",
+    //         });
+    //         const resposta = await data.json();
+    //         // console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
-            if (resposta.success === true) {
-                // setIsLoading(false)
-                setReload(!reload)
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log("catch: " + e.message);
-            // alert("Catchch");
-        };
-    }
+    //         if (resposta.success === true) {
+    //             // setIsLoading(false)
+    //             setReload(!reload)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log("catch: " + e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
 
-    const eliminarRuta = async (id) => {
-        try {
-            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "DELETE",
-            });
-            const resposta = await data.json();
-            console.log(resposta)
-            if (resposta.success === true) {
-                console.log("Ruta eliminada correctament")
-                RutasList()
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log("Catch: " + e.message);
+    // const eliminarRuta = async (id) => {
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "DELETE",
+    //         });
+    //         const resposta = await data.json();
+    //         console.log(resposta)
+    //         if (resposta.success === true) {
+    //             console.log("Ruta eliminada correctament")
+    //             RutasList()
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log("Catch: " + e.message);
 
-        };
-    }
+    //     };
+    // }
     return (
         <View>
             {isLoading ?
@@ -258,19 +271,19 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => salirseRuta(objectId)} />
+                        <Button title="Salir de la ruta" onPress={() => {dispatch(salirseRuta(objectId,authToken,setReload,reload))}} />
                         :
                         <></>
                     }
                     {usuari.route_id == null ?
-                        <Button title="Unirme" onPress={() => unirseRuta(objectId)} />
+                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(objectId,authToken, setReload, reload), setReload(!reload))} />
                         :
                         <></>
                     }
                     {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar" onPress={() => RouteEdit(objectId)}></Button>
-                            <Button title="Eliminar" onPress={() => eliminarRuta(objectId)}></Button>
+                            <Button title="Eliminar" onPress={() => {dispatch(eliminarRuta(objectId, authToken,setReload,reload))}}></Button>
                         </> : <></>
                     }
                     {error ? <Text>{error}</Text> : <></>}

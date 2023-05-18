@@ -32,7 +32,9 @@ const initialState = {
         max_users: 0,
         id_route_style: 0,
         author_id: 0
-    }
+    },
+    inscripciones:[],
+
     // place:{ 
 
     //     name: "",
@@ -116,6 +118,12 @@ export const routeSlice = createSlice({
             state.ruta = action.payload
 
         },
+        setInscripciones: (state, action) => {
+
+            state.inscripciones = action.payload
+
+        },
+        
 
 
 
@@ -140,6 +148,6 @@ export const routeSlice = createSlice({
 
 });
 
-export const { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType,setRuta } = routeSlice.actions;
+export const { setIsSaving, setInscripciones, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType,setRuta } = routeSlice.actions;
 
 export default routeSlice.reducer

@@ -1,4 +1,4 @@
-import { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
+import { setIsSaving, setInscripciones, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
 import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
@@ -22,6 +22,33 @@ export const eliminarRuta = (id,authToken,setReload,reload) => {
         else setError("La resposta no ha triomfat");
     } catch (e) {
         console.log("Catch: " + e.message);
+    };
+};
+}
+
+export const obtenerInscripciones = (id,authToken) => {
+    return async (dispatch, getState) => {
+
+    try {
+        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "GET",
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            console.log("Inscripciones: " + JSON.stringify(resposta))
+            dispatch(setInscripciones(resposta.data))
+            dispatch(setIsLoading(false))
+
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log(e.message);
+        // alert("Catchch");
     };
 };
 }
@@ -91,29 +118,29 @@ export const salirseRuta = (id,authToken,setReload,reload) => {
 };
 }
 
-// export const getUser = async (authToken) => {
-//     return async (dispatch, getState) => {
+export const getUser = (authToken,setUsuari) => {
+    return async (dispatch, getState) => {
 
-//     try {
-//         const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-//             headers: {
-//                 Accept: "application/json",
-//                 "Content-Type": "application/json",
-//                 'Authorization': 'Bearer ' + authToken,
-//             },
-//             method: "GET",
-//         });
-//         const resposta = await data.json();
-//         if (resposta.success === true) {
-//             console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-//             setUsuari(resposta.user)
-//         }
-//         else setError(resposta.message);
-//     } catch (e) {
-//         console.log(e.message);
-//     };
-// };
-// }
+    try {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "GET",
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+            setUsuari(resposta.user)
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log(e.message);
+    };
+};
+}
 
 export const unirseRuta = (id, authToken, setReload, reload) => {
     return async (dispatch, getState) => {
