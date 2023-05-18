@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
-=======
-import { setIsSaving, setUsuari, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType } from "./routeSlice"
->>>>>>> 544c24f5ea7d48f0079d2948f1b46b5a8e52d8c9
 import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
@@ -69,7 +65,7 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari) => {
     };
 };
 
-export const salirseRuta = async (id,authToken,setReload,reload) => {
+export const salirseRuta = (id,authToken,setReload,reload) => {
     return async (dispatch, getState) => {
 
     console.log(id)
@@ -119,10 +115,9 @@ export const salirseRuta = async (id,authToken,setReload,reload) => {
 // };
 // }
 
-export const unirseRuta = async (id, authToken, setReload, reload) => {
-    console.log(id)
+export const unirseRuta = (id, authToken, setReload, reload) => {
     return async (dispatch, getState) => {
-
+        console.log(id)
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
                 headers: {

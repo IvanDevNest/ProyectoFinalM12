@@ -140,10 +140,6 @@ export const routeSlice = createSlice({
 
 });
 
-<<<<<<< HEAD
 export const { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType,setRuta } = routeSlice.actions;
-=======
-export const {setUsuari, setIsSaving, setIsLoading, setError, setLastPage,setRutas,setPage,setFilterValueName,setFilterValueVehicle,setTypeFilter,setSelectedVehicleType} = routeSlice.actions;
->>>>>>> 544c24f5ea7d48f0079d2948f1b46b5a8e52d8c9
 
 export default routeSlice.reducer

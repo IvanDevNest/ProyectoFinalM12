@@ -104,52 +104,52 @@ const RutaList = (ruta) => {
         };
     }
 
-    const unirseRuta = async (id) => {
-        console.log(id)
-        try {
-            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "POST",
-            });
-            const resposta = await data.json();
-            console.log("resposta unirse ruta" + JSON.stringify(resposta))
+    // const unirseRuta = async (id) => {
+    //     console.log(id)
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "POST",
+    //         });
+    //         const resposta = await data.json();
+    //         console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
-            if (resposta.success === true) {
-                // setIsLoading(false)
-                setReload(!reload)
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log("catch: " + e.message);
-            // alert("Catchch");
-        };
-    }
-    const salirseRuta = async (id) => {
-        console.log(id)
-        try {
-            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/uninscription", {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "DELETE",
-            });
-            const resposta = await data.json();
-            console.log("resposta unirse ruta" + JSON.stringify(resposta))
+    //         if (resposta.success === true) {
+    //             // setIsLoading(false)
+    //             setReload(!reload)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log("catch: " + e.message);
+    //         // alert("Catchch");
+    //     };
+    //  }
+    // const salirseRuta = async (id) => {
+    //     console.log(id)
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/uninscription", {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "DELETE",
+    //         });
+    //         const resposta = await data.json();
+    //         console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
-            if (resposta.success === true) {
-                setReload(!reload)
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log("catch: " + e.message);
-        };
-    }
+    //         if (resposta.success === true) {
+    //             setReload(!reload)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log("catch: " + e.message);
+    //     };
+    // }
 
     useEffect(() => {
         getUser();
@@ -216,19 +216,19 @@ const RutaList = (ruta) => {
                             <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
                                 <View style={{ padding: 20, flexDirection: 'row', justifyContent: "space-around" }} >
                                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                                        <Button title="Salir de la ruta" onPress={() => dispatch(salirseRuta(ruta.id,authToken,setReload,reload))} />
+                                        <Button title="Salir de la ruta" onPress={() => {dispatch(salirseRuta(ruta.id,authToken,setReload,reload))}} />
                                         :
                                         <></>
                                     }
                                     {usuari.route_id == null ?
-                                        <Button title="Unirme" onPress={() => unirseRuta(ruta.id)} />
+                                        <Button title="Unirme" onPress={() => {dispatch(unirseRuta(ruta.id,authToken, setReload, reload))}} />
                                         :
                                         <></>
                                     }
                                     {ruta.author_id == usuari.id ?
                                         <>
                                             <Button title="Editar" onPress={() => RouteEdit(ruta.id)}></Button>
-                                            <Button title="Eliminar" onPress={() => dispatch(eliminarRuta(ruta.id, authToken,setReload,reload))}></Button>
+                                            <Button title="Eliminar" onPress={() => {dispatch(eliminarRuta(ruta.id, authToken,setReload,reload))}}></Button>
                                         </>
                                         :
                                         <></>
