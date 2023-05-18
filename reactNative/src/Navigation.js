@@ -9,6 +9,7 @@ import { useState } from "react";
 import { UserContext } from "./userContext";
 import { useEffect } from "react";
 
+
 import { FontAwesome5 } from '@expo/vector-icons';
 
 // import { View, ActivityIndicator } from "react-native";
@@ -114,35 +115,68 @@ function MyTabs() {
 
                 }}
             />
-            {showJoinedRoute && (
-        <Tab.Screen
-          name="Chat"
-          component={Chat}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-                <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
-            ),
-          }}
-        />
-      )}
+            {showJoinedRoute ? (
+  <Tab.Screen
+    name="Chat"
+    component={Chat}
+    options={{
+      tabBarIcon: ({ color, size }) => (
+        <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+      ),
+    }}
+  />
+) : (
+  <Tab.Screen
+    name="Chat"
+    component={Chat}
+    options={{
+      tabBarIcon: ({ color, size }) => (
+        <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+      ),
+    }}
+    listeners={({ navigation }) => ({
+      tabPress: (event) => {
+        event.preventDefault();
+        alert("Únete a una ruta para acceder a esta funcionalidad.");
+      },
+    })}
+  />
+)}
+
             <Tab.Screen name="Vip" component={Paginavip}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome name="diamond" size={24} color="#D4AF37" />)
                 }}
             />
-             {showJoinedRoute && (
-        <Tab.Screen
-          name="Joined"
-          component={ShowJoinedRoute}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome5 name="map-marker-alt" size={24} color="black" />
-            ),
-          }}
-        />
-      )}
-    </Tab.Navigator>
+             {showJoinedRoute ? (
+    <Tab.Screen
+      name="Joined"
+      component={ShowJoinedRoute}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <FontAwesome5 name="map-marker-alt" size={24} color="black" />
+        ),
+      }}
+    />
+  ) : (
+    <Tab.Screen
+      name="Joined"
+      component={ShowJoinedRoute}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <FontAwesome5 name="map-marker-alt" size={24} color="black" />
+        ),
+      }}
+      listeners={({ navigation }) => ({
+        tabPress: (event) => {
+          event.preventDefault();
+          alert("Únete a una ruta para acceder a esta funcionalidad.");
+        },
+      })}
+    />
+  )}
+</Tab.Navigator>
   );
 };
 export default function Navigation() {
