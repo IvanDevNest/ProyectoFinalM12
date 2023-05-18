@@ -13,6 +13,40 @@ use Illuminate\Support\Facades\DB;
 
 class RouteController extends Controller
 {
+      /**
+     * Calcula la distancia entre dos puntos geográficos utilizando la fórmula haversine.
+     *
+     * @param  float  $lat1  Latitud del primer punto.
+     * @param  float  $lon1  Longitud del primer punto.
+     * @param  float  $lat2  Latitud del segundo punto.
+     * @param  float  $lon2  Longitud del segundo punto.
+     * @return float  Distancia entre los dos puntos en kilómetros.
+     */
+    private function calcularDistancia($lat1, $lon1, $lat2, $lon2)
+    {
+        $radioTierra = 6371; // Radio medio de la Tierra en kilómetros
+
+        // Convertir las latitudes y longitudes a radianes
+        $latRad1 = deg2rad($lat1);
+        $lonRad1 = deg2rad($lon1);
+        $latRad2 = deg2rad($lat2);
+        $lonRad2 = deg2rad($lon2);
+
+        // Diferencia de latitudes y longitudes
+        $dLat = $latRad2 - $latRad1;
+        $dLon = $lonRad2 - $lonRad1;
+
+        // Fórmula de la distancia haversine
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+            cos($latRad1) * cos($latRad2) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        // Distancia en kilómetros
+        $distancia = $radioTierra * $c;
+
+        return $distancia;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,7 +86,7 @@ class RouteController extends Controller
         $longitudeUser = $request->input('longitudeUser'); // Obtener la longitud del usuario desde la solicitud
 
         foreach ($routes as $route) {
-            $distance = calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
+            $distance = $this->calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
             $route->distance = $distance;
         }
 

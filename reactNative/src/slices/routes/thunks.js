@@ -352,7 +352,7 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
 
                 dispatch(setIsLoading(false))
 
-            } else alert("La resposta no ha triomfat");
+            } else alert("La resposta no ha triomfat"+resposta.message);
 
 
             // Resto del código
