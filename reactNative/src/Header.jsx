@@ -5,15 +5,16 @@ import { useForm, Controller } from 'react-hook-form';
 import RNPickerSelect from 'react-native-picker-select';
 import { useState } from 'react';
 import { UserContext } from './userContext';
-
+import * as Location from 'expo-location';
 
 const Header = () => {
   const { control, handleSubmit, formState: { errors }, } = useForm();
   let [filter, setFilter] = useState("");
-  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari,setAuthToken } = useContext(UserContext);
+  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari,setAuthToken,latitudeUser, setLatitudeUser,longitudeUser, setLongitudeUser } = useContext(UserContext);
   let [userImage, setUserImage] = useState("");
   let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
+
   //setmyavatarurl
   const fetchAvatar = async () => {
     const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
@@ -65,10 +66,27 @@ const Header = () => {
       console.log(e.message);
       // alert("Catchch");
     };
-
   }
+
+  const getLocation = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === 'granted') {
+        const { coords } = await Location.getCurrentPositionAsync({});
+        setLatitudeUser(coords.latitude);
+        setLongitudeUser(coords.longitude);
+      } else {
+        console.log("No se puede acceder a la ubi")
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  };
+
   useEffect(() => {
     getUser()
+    getLocation();
+
   }, []);
   useEffect(() => {
     if(usuari){

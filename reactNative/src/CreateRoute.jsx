@@ -74,10 +74,9 @@ const CreateRoute = () => {
       };
 
     useEffect(() => {
-       
         getLocation();
       }, []);
-      console.log("lat"+latitude+"long"+longitude)
+    //   console.log("lat"+latitude+"long"+longitude)
 
     return (
         <ScrollView>

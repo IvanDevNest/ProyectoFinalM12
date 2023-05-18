@@ -20,7 +20,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 
 const RutaList = (ruta) => {
-    let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
+    let { usuari, setUsuari, authToken, setReload, reload,latitudeUser,longitudeUser } = useContext(UserContext);
     const navigation = useNavigation();
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);

@@ -21,11 +21,13 @@ export default function App() {
   let [filterName, setFilterName] = useState("")
   let [filterVehicle, setFilterVehicle] = useState("")
   let [myAvatarUrl, setMyAvatarUrl] = useState(null);
-
+  let [latitudeUser, setLatitudeUser] = useState(0);
+  let [longitudeUser, setLongitudeUser] = useState(0);
 
   return (
     <Provider store={store}>
-      <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari, setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl }}>
+      <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari,
+         setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl,latitudeUser, setLatitudeUser,longitudeUser, setLongitudeUser }}>
         <View style={styles.container}>
           {authToken ?
             <>
