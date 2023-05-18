@@ -117,7 +117,7 @@ const RutaList = (ruta) => {
 
                             </View>
                             <View style={{ flex: 1, paddingLeft: 15, }}>
-                                {ruta.type_vehicle == "moto" ?
+                                {ruta.type_vehicle == "Moto" ?
                                     <View style={{ flexDirection: "row" }}>
                                         <FontAwesome5 name="motorcycle" size={24} color="skyblue" />
                                         <StyledText>    {ruta.date}</StyledText>

@@ -96,7 +96,7 @@ const RutasList = () => {
                 <Button title="Filtrar" onPress={() => { dispatch(handleFilterVehicle(filterValueVehicle, setFilterVehicle, setFilterName)) }} />
               </View>
             ) : null}
-            <Button title="Borrar Filtro" onPress={() => dispatch(deleteFilter(setFilterVehicle, setFilterName))} />
+            <Button title="Borrar Filtro" onPress={() => dispatch(deleteFilter(setFilterVehicle, setFilterName, setTypeFilter))} />
 
 
 

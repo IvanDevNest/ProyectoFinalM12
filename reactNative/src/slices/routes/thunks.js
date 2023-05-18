@@ -1,3 +1,4 @@
+import { current } from "immer";
 import { setIsSaving, setInscripciones, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
 import { useSelector } from "react-redux";
 // import { useContext } from "react";
@@ -317,14 +318,14 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
                 // console.log("rutasOrdenadas", rutasOrdenadas);
 
                 // dispatch(setRutas(rutasOrdenadas))
-                 dispatch(setRutas(resposta.data))
+                dispatch(setRutas(resposta.data))
                 console.log("SetRutas: " + resposta.data)
 
                 //cambiar sin .data
                 dispatch(setLastPage(resposta.last_page))
                 console.log("last page: " + resposta.last_page)
                 console.log("distance to route: " + resposta.data.distanceToRoute)
-
+                // dispatch(setPage(resposta.data.current_page))
                 dispatch(setIsLoading(false))
 
             } else alert("La resposta no ha triomfat"+resposta.message);
