@@ -1,6 +1,6 @@
 import React, { useEffect,useContext } from 'react';
 import Constants from 'expo-constants';
-import { View, Text, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, SafeAreaView,Button } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import RNPickerSelect from 'react-native-picker-select';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { UserContext } from './userContext';
 const Header = () => {
   const { control, handleSubmit, formState: { errors }, } = useForm();
   let [filter, setFilter] = useState("");
-  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari } = useContext(UserContext);
+  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari,setAuthToken } = useContext(UserContext);
   let [userImage, setUserImage] = useState("");
   let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
@@ -21,6 +21,28 @@ const Header = () => {
     console.log("fetchavatar: " + response.image_url)
     setMyAvatarUrl(response.image_url);
   };
+
+  const sendLogout = async () => {
+    try {
+      const data = await fetch("http://equip04.insjoaquimmir.cat/api/logout", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + authToken,
+        },
+        method: "POST",
+        body: JSON.stringify({})
+      });
+      const resposta = await data.json();
+      console.log(resposta)
+      if (resposta.success === true)
+        setAuthToken("");
+      else console.log("sendLogout: "+e.message);
+    } catch(e) {
+      console.log("Error"+e.message);
+      alert("sendlogout catch: "+e.message);
+    };
+  }
 
   const getUser = async () => {
     try {
@@ -64,6 +86,7 @@ const Header = () => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <Image source={require('./blue-man-1.gif')} style={styles.logo} />
+      <Button title='Logout' onPress={() => sendLogout()}></Button> 
 
 
       </View>

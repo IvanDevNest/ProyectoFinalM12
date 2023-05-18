@@ -4,30 +4,37 @@ const initialState = {
     isSaving: false,
     isLoading:false,
 
-
-
-    formulari:[],
-    
-
-    places:[],
-
-    place:{ 
-        name: "",
-        description: "",
-        file: { filepath: "" },
-        author: { name: "" },
-        latitude: 0,
-        longitude: 0,
-        visibility:0,
-    },
-    
-    favorite:true,
-
+    rutas:[],
     page: 1,
+    lastpage:"",
+    filterValueName:"",
+    filterValueVehicle:"",
+    typeFilter:"",
+    selectedVehicleType:"",
 
-    pages: [], 
 
-    filter: { description: "", author: ""},
+
+
+
+
+    // pages: [], 
+
+    // formulari:[],
+
+    // place:{ 
+    //     name: "",
+    //     description: "",
+    //     file: { filepath: "" },
+    //     author: { name: "" },
+    //     latitude: 0,
+    //     longitude: 0,
+    //     visibility:0,
+    // },
+    
+    // favorite:true,
+
+
+    // filter: { description: "", author: ""},
 
 }
 export const routeSlice = createSlice({
@@ -38,14 +45,14 @@ export const routeSlice = createSlice({
 
     reducers: {
 
-        setisSaving: (state,action) => {
+        setIsSaving: (state,action) => {
 
             //console.log("ABA")
             // state.isLoading = true;
             state.isSaving = action.payload;
         },
 
-        setisLoading: (state, action) => {
+        setIsLoading: (state, action) => {
 
             state.isLoading = action.payload;
         },
@@ -56,42 +63,66 @@ export const routeSlice = createSlice({
 
         },
 
-        setPlace: (state,action) => {
+        setLastPage: (state,action) => {
 
-            state.place = action.payload
-
-        },
-        setPlaces: (state,action) => {
-
-            state.places = action.payload
+            state.lastpage = action.payload
 
         },
-        setFavorite: (state, action) => {
+        setRutas: (state,action) => {
 
-            state.favorite = action.payload
+            state.rutas = action.payload
 
         },
-
         setPage: (state,action) => {
         
             state.page = action.payload
         
+        },    
+        setFilterValueName: (state,action) => {
+        
+            state.filterValueName = action.payload
+        
         },
-        setPages: (state,action) => {
-
-            state.pages = action.payload
-            
+        setFilterValueVehicle: (state,action) => {
+        
+            state.filterValueVehicle = action.payload
+        
         },
-        setFilter: (state,action) => {
+        setTypeFilter: (state,action) => {
+        
+            state.typeFilter = action.payload
+        
+        },
+        setSelectedVehicleType: (state,action) => {
+        
+            state.selectedVehicleType = action.payload
+        
+        },
 
-            state.filter = action.payload
+
+
+
+        // setFavorite: (state, action) => {
+
+        //     state.favorite = action.payload
+
+        // },
+
+        // setPages: (state,action) => {
+
+        //     state.pages = action.payload
             
-        }
+        // },
+        // setFilter: (state,action) => {
+
+        //     state.filter = action.payload
+            
+        // }
 
     }
 
 });
 
-export const { setisSaving, setisLoading, setPlace, setError, setFavorite,setPlaces,setPages,setPage,setFilter } = routeSlice.actions;
+export const { setIsSaving, setIsLoading, setError, setLastPage,setRutas,setPage,setFilterValueName,setFilterValueVehicle,setTypeFilter,setSelectedVehicleType} = routeSlice.actions;
 
 export default routeSlice.reducer
