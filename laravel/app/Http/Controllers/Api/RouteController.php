@@ -86,23 +86,32 @@ class RouteController extends Controller
         $longitudeUser = $request->input('longitudeUser'); // Obtener la longitud del usuario desde la solicitud
 
         foreach ($routes as $route) {
-            $distance = $this->calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
-            $route->distance = $distance;
+            $distanceToRoute = $this->calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
+            $route->distanceToRoute = $distanceToRoute;
         }
 
         // Ordenar las rutas por distancia
-        $routes = $routes->sortBy('distance')->values();
+        $routes = $routes->sortBy('distanceToRoute')->values();
 
         $perPage = 5;
         $currentPage = $request->input('page', 1);
-        $pagedRoutes = $routes->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $offset = ($currentPage - 1) * $perPage;
+        // Obtener las rutas de la página actual
+        $pagedRoutes = $routes->slice($offset, $perPage)->values();
+
+        // Calcular el número de la última página
+        $totalRoutes = $routes->count();
+        $lastPage = ceil($totalRoutes / $perPage);
+
 
         return response()->json([
             'success' => true,
             'data' => $pagedRoutes,
             'current_page' => $currentPage,
             'per_page' => $perPage,
-            'total' => $routes->count()
+            'total' => $totalRoutes,
+            'last_page' => $lastPage,
+
         ], 200);
     }
 

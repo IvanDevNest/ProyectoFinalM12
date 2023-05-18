@@ -343,12 +343,12 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
                 // console.log("rutasOrdenadas", rutasOrdenadas);
 
                 // dispatch(setRutas(rutasOrdenadas))
-                 dispatch(setRutas(resposta.data.data))
-                console.log("SetRutas: " + resposta.data.data)
+                 dispatch(setRutas(resposta.data))
+                console.log("SetRutas: " + resposta.data)
 
                 //cambiar sin .data
-                dispatch(setLastPage(resposta.data.last_page))
-                console.log("last page: " + resposta.data.last_page)
+                dispatch(setLastPage(resposta.last_page))
+                console.log("last page: " + resposta.last_page)
 
                 dispatch(setIsLoading(false))
 
