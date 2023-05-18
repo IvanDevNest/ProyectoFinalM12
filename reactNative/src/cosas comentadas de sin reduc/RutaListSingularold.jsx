@@ -1,20 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button, Image } from "react-native";
 import StyledText from "./StyledText";
+import Constants from "expo-constants";
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from "./userContext";
-import { MaterialCommunityIcons,Ionicons,AntDesign,FontAwesome5 } from '@expo/vector-icons';
-import { eliminarRuta,unirseRuta,salirseRuta,getUser,obtenerInscripciones } from "./slices/routes/thunks";
-import { useDispatch,useSelector } from "react-redux";
+import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { eliminarRuta } from "./slices/routes/thunks";
+import { useDispatch } from "react-redux";
+import { getUser } from "./slices/routes/thunks";
+import { unirseRuta } from "./slices/routes/thunks";
+import { salirseRuta } from "./slices/routes/thunks";
+
+import { AntDesign } from '@expo/vector-icons';
+
+
+
+
 
 const RutaList = (ruta) => {
-    const { inscripciones, isSaving = true, error = "", rutas, isLoading, page, lastpage, } = useSelector((state) => state.routes);
-
-    let { usuari, setUsuari, authToken, setReload, reload, latitudeUser,longitudeUser } = useContext(UserContext);
+    let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
     const navigation = useNavigation();
-    // const [error, setError] = useState("");
-    // const [isLoading, setIsLoading] = useState(true);
-    // const [inscripciones, setInscripciones] = useState([])
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [inscripciones, setInscripciones] = useState([])
     const dispatch = useDispatch();
 
     function ShowRoute(id) {
@@ -70,34 +80,34 @@ const RutaList = (ruta) => {
 
     // }
 
-    // const obtenerInscripciones = async (id) => {
-    //     try {
-    //         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
-    //             headers: {
-    //                 Accept: "application/json",
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': 'Bearer ' + authToken,
-    //             },
-    //             method: "GET",
-    //         });
-    //         const resposta = await data.json();
-    //         if (resposta.success === true) {
-    //             console.log("Inscripciones: " + JSON.stringify(resposta))
-    //             setInscripciones(resposta.data)
-    //             setIsLoading(false)
+    const obtenerInscripciones = async (id) => {
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("Inscripciones: " + JSON.stringify(resposta))
+                setInscripciones(resposta.data)
+                setIsLoading(false)
 
-    //         }
-    //         else setError(resposta.message);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //         // alert("Catchch");
-    //     };
-    // }
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
+    }
 
 
     useEffect(() => {
-        dispatch(getUser(authToken,setUsuari));
-        dispatch(obtenerInscripciones(ruta.id,authToken))
+        dispatch(getUser(authToken));
+        obtenerInscripciones(ruta.id)
         console.log("Las inscripciones: " + JSON.stringify(inscripciones))
     }, [reload]);
 

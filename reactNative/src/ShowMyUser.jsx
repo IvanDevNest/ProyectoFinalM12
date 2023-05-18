@@ -67,7 +67,7 @@ const ShowMyUser = () => {
 
 
         <Text>Nombre: {usuari.name}</Text>
-        <Text>Nombre: {usuari.gender}</Text>
+        <Text>Genero: {usuari.gender}</Text>
 
         <Text>Apellido: {usuari.lastname}</Text>
         <Text>Segundo apellido: {usuari.second_surname}</Text>

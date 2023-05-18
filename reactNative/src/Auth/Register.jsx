@@ -46,6 +46,7 @@ const Register = ({ setLogin }) => {
     formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);
     formData.append('gender', dataa.gender);
+    console.log("data.gender: "+dataa.gender)
 
    
     console.log("Data antes de enviar"+JSON.stringify(dataa))

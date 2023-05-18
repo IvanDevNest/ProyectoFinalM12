@@ -24,34 +24,52 @@ class RouteController extends Controller
 
         if ($name = $request->get('name')) {
             $query->where('name', 'like', "%{$name}%");
-            $routes = $query->paginate(5);
+            // $routes = $query->paginate(5);
 
 
         }
         if ($description = $request->get('description')) {
             $query->where('description', 'like', "%{$description}%");
-            $routes = $query->paginate(5);
+            // $routes = $query->paginate(5);
 
 
         }
 
         if ($type_vehicle = $request->get('type_vehicle')) {
             $query->where('type_vehicle', 'like', "%{$type_vehicle}%");
-            $routes = $query->paginate(5);
-
-
-        } else {
-            $routes = $query->paginate(5);
+            // $routes = $query->paginate(5);
 
         }
+        // } else {
+        //     $routes = $query->paginate(5);
+
+        // }
+        // Obtener todas las rutas sin paginación
+        $routes = $query->get();
+
+        // Calcular la distancia y agregarla a cada ruta
+        $latitudeUser = $request->input('latitudeUser'); // Obtener la latitud del usuario desde la solicitud
+        $longitudeUser = $request->input('longitudeUser'); // Obtener la longitud del usuario desde la solicitud
+
+        foreach ($routes as $route) {
+            $distance = calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
+            $route->distance = $distance;
+        }
+
+        // Ordenar las rutas por distancia
+        $routes = $routes->sortBy('distance')->values();
+
+        $perPage = 5;
+        $currentPage = $request->input('page', 1);
+        $pagedRoutes = $routes->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
         return response()->json([
             'success' => true,
-            'data' => $routes
+            'data' => $pagedRoutes
         ], 200);
     }
 
-
+//last_page     
 
 
     /**
@@ -249,6 +267,10 @@ class RouteController extends Controller
 
         if ($route_id = $request->get('route_id')) {
             $query->where('route_id', $route_id);
+            $inscriptions = $query->get();
+        }
+        if ($author_id = $request->get('author_id')) {
+            $query->where('author_id', $author_id);
             $inscriptions = $query->get();
         }
         return response()->json([

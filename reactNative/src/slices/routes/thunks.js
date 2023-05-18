@@ -1,4 +1,4 @@
-import { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
+import { setIsSaving, setInscripciones, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
 import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
@@ -24,6 +24,33 @@ export const eliminarRuta = (id, authToken, setReload, reload) => {
             console.log("Catch: " + e.message);
         };
     };
+}
+
+export const obtenerInscripciones = (id,authToken) => {
+    return async (dispatch, getState) => {
+
+    try {
+        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "GET",
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            console.log("Inscripciones: " + JSON.stringify(resposta))
+            dispatch(setInscripciones(resposta.data))
+            dispatch(setIsLoading(false))
+
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log(e.message);
+        // alert("Catchch");
+    };
+};
 }
 
 
@@ -93,29 +120,29 @@ export const salirseRuta = (id, authToken, setReload, reload) => {
     };
 }
 
-// export const getUser = async (authToken) => {
-//     return async (dispatch, getState) => {
+export const getUser = (authToken,setUsuari) => {
+    return async (dispatch, getState) => {
 
-//     try {
-//         const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-//             headers: {
-//                 Accept: "application/json",
-//                 "Content-Type": "application/json",
-//                 'Authorization': 'Bearer ' + authToken,
-//             },
-//             method: "GET",
-//         });
-//         const resposta = await data.json();
-//         if (resposta.success === true) {
-//             console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-//             setUsuari(resposta.user)
-//         }
-//         else setError(resposta.message);
-//     } catch (e) {
-//         console.log(e.message);
-//     };
-// };
-// }
+    try {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "GET",
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+            setUsuari(resposta.user)
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log(e.message);
+    };
+};
+}
 
 export const unirseRuta = (id, authToken, setReload, reload) => {
     return async (dispatch, getState) => {
@@ -146,20 +173,16 @@ export const unirseRuta = (id, authToken, setReload, reload) => {
 
 export const pasarPagina = (page, lastpage) => {
     return async (dispatch, getState) => {
-
         if (page !== lastpage) {
             dispatch(setPage(page + 1));
-
         }
     }
 };
 
 export const retrocederPagina = (page) => {
     return async (dispatch, getState) => {
-
         if (page !== 1) {
             dispatch(setPage(page - 1));
-
         }
     }
 }
@@ -293,7 +316,7 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
             else if (page) {
                 console.log("Entra sin filtro")
                 console.log("PAGINA: " + page)
-                url = `http://equip04.insjoaquimmir.cat/api/routes?page=${page}`;
+                url = `http://equip04.insjoaquimmir.cat/api/routes?page=${page}&latitudeUser=${latitudeUser}&longitudeUser=${longitudeUser}`;
             }
 
             const data = await fetch(url, {
@@ -307,22 +330,23 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
             console.log("Data: " + JSON.stringify(resposta.data))
             if (resposta.success === true) {
                 console.log("resposta pages" + JSON.stringify(resposta))
-                const rutasOrdenadas = resposta.data.data.map((ruta) => {
-                    const distancia = calcularDistancia(
-                        ruta.latitude,
-                        ruta.longitude,
-                        latitudeUser,
-                        longitudeUser
-                    );
-                    return { ...ruta, distancia }; // Agregar la distancia a cada ruta
-                });
-                rutasOrdenadas.sort((ruta1, ruta2) => ruta1.distancia - ruta2.distancia); // Ordenar las rutas por distancia
-                console.log("rutasOrdenadas", rutasOrdenadas);
+                // const rutasOrdenadas = resposta.data.data.map((ruta) => {
+                //     const distancia = calcularDistancia(
+                //         ruta.latitude,
+                //         ruta.longitude,
+                //         latitudeUser,
+                //         longitudeUser
+                //     );
+                //     return { ...ruta, distancia }; // Agregar la distancia a cada ruta
+                // });
+                // rutasOrdenadas.sort((ruta1, ruta2) => ruta1.distancia - ruta2.distancia); // Ordenar las rutas por distancia
+                // console.log("rutasOrdenadas", rutasOrdenadas);
 
-                dispatch(setRutas(rutasOrdenadas))
-                // dispatch(setRutas(resposta.data.data))
+                // dispatch(setRutas(rutasOrdenadas))
+                 dispatch(setRutas(resposta.data.data))
                 console.log("SetRutas: " + resposta.data.data)
 
+                //cambiar sin .data
                 dispatch(setLastPage(resposta.data.last_page))
                 console.log("last page: " + resposta.data.last_page)
 
