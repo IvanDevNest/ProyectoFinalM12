@@ -111,7 +111,6 @@ class RouteController extends Controller
             'per_page' => $perPage,
             'total' => $totalRoutes,
             'last_page' => $lastPage,
-
         ], 200);
     }
 
