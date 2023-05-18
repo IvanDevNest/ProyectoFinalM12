@@ -251,6 +251,10 @@ class RouteController extends Controller
             $query->where('route_id', $route_id);
             $inscriptions = $query->get();
         }
+        if ($author_id = $request->get('author_id')) {
+            $query->where('author_id', $author_id);
+            $inscriptions = $query->get();
+        }
         return response()->json([
             'success' => true,
             'data' => $inscriptions
