@@ -58,27 +58,27 @@ const CreateRoute = () => {
     const minDate = new Date(currentYear, new Date().getMonth());
     const maxDate = new Date(nextYear, new Date().getMonth());
     console.log(JSON.stringify(date))
-
+    const getLocation = async () => {
+        try {
+          const { status } = await Location.requestForegroundPermissionsAsync();
+          if (status === 'granted') {
+            const { coords } = await Location.getCurrentPositionAsync({});
+            setLatitude(coords.latitude);
+            setLongitude(coords.longitude);
+          } else {
+            console.log("No se puede acceder a la ubi")
+          }
+        } catch (error) {
+          console.log(error.message)
+        }
+      };
 
     useEffect(() => {
-        const getLocation = async () => {
-          try {
-            const { status } = await Location.requestForegroundPermissionsAsync();
-            if (status === 'granted') {
-              const { coords } = await Location.getCurrentPositionAsync({});
-              setLatitude(coords.latitude);
-              setLongitude(coords.longitude);
-            } else {
-              console.log("No se puede acceder a la ubi")
-            }
-          } catch (error) {
-            console.log(error.message)
-          }
-        };
-        console.log("lat"+latitude+"long"+longitude)
-    
+       
         getLocation();
       }, []);
+      console.log("lat"+latitude+"long"+longitude)
+
     return (
         <ScrollView>
             <Text>Información de la ruta</Text>
