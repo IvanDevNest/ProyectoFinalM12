@@ -3,6 +3,60 @@ import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
 
+export const getUser = async (setUsuari) => {
+    return async (dispatch, getState) => {
+
+    try {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "GET",
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+            setUsuari(resposta.user)
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log(e.message);
+    };
+};
+
+
+}
+
+export const eliminarRuta = (id,authToken,setReload,reload) => {
+    return async (dispatch, getState) => {
+
+
+    try {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "DELETE",
+        });
+        const resposta = await data.json();
+        console.log(resposta)
+        if (resposta.success === true) {
+            console.log("Ruta eliminada correctament")
+            setReload(!reload)
+        }
+        else setError("La resposta no ha triomfat");
+    } catch (e) {
+        console.log("Catch: " + e.message);
+
+    };
+};
+
+}
+
 export const createRoute = (formState,authToken,ShowRoute,date,usuari) => {
     return async (dispatch, getState) => {
 

@@ -146,7 +146,7 @@ const RutasList = () => {
           rules={{ required: true }}
           render={({ field: { onChange, onBlur, value } }) => (
             <RNPickerSelect
-              placeholder={{ label: 'Como quieres filtrar?', value: null }}
+              placeholder={{ label: 'Sin Filtro', value: null }}
               onValueChange={(selectedValue) => {
                 onChange(selectedValue);
                 setTypeFilter(selectedValue);
@@ -172,8 +172,8 @@ const RutasList = () => {
       />
 
 
-        <Button title="Filtrar" onPress={() => handleFilterName(filterValueName)} />
-        <Button title="Borrar Filtro" onPress={deleteFilter} /></> : <View>
+        <Button title="Filtrar" onPress={() => handleFilterName(filterValueName)} /></> : <></>}
+        {typeFilter == "Vehiculo"?<View>
         <Controller
           control={control}
           name="type_vehicle"
@@ -198,10 +198,9 @@ const RutasList = () => {
           )}
         />
         <Button title="Filtrar" onPress={() => handleFilterVehicle(filterValueVehicle)} />
+        </View>:<></>}
         <Button title="Borrar Filtro" onPress={deleteFilter} />
 
-
-      </View>}
 
 
 
