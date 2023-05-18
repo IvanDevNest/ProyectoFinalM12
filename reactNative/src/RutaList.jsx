@@ -56,27 +56,27 @@ const RutaList = (ruta) => {
 
     //     };
     // }
-    // const getUser = async () => {
-    //     try {
-    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-    //             headers: {
-    //                 Accept: "application/json",
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': 'Bearer ' + authToken,
-    //             },
-    //             method: "GET",
-    //         });
-    //         const resposta = await data.json();
-    //         if (resposta.success === true) {
-    //             console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-    //             setUsuari(resposta.user)
-    //         }
-    //         else setError(resposta.message);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //     };
+    const getUser = async () => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+                setUsuari(resposta.user)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+        };
 
-    // }
+    }
 
     const obtenerInscripciones = async (id) => {
         try {
@@ -102,30 +102,30 @@ const RutaList = (ruta) => {
         };
     }
 
-    const unirseRuta = async (id) => {
-        console.log(id)
-        try {
-            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "POST",
-            });
-            const resposta = await data.json();
-            console.log("resposta unirse ruta" + JSON.stringify(resposta))
+    // const unirseRuta = async (id) => {
+    //     console.log(id)
+    //     try {
+    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json",
+    //                 'Authorization': 'Bearer ' + authToken,
+    //             },
+    //             method: "POST",
+    //         });
+    //         const resposta = await data.json();
+    //         console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
-            if (resposta.success === true) {
-                // setIsLoading(false)
-                setReload(!reload)
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log("catch: " + e.message);
-            // alert("Catchch");
-        };
-    }
+    //         if (resposta.success === true) {
+    //             // setIsLoading(false)
+    //             setReload(!reload)
+    //         }
+    //         else setError(resposta.message);
+    //     } catch (e) {
+    //         console.log("catch: " + e.message);
+    //         // alert("Catchch");
+    //     };
+    // }
     const salirseRuta = async (id) => {
         console.log(id)
         try {
@@ -150,7 +150,7 @@ const RutaList = (ruta) => {
     }
 
     useEffect(() => {
-        dispatch(getUser(setUsuari));
+        getUser();
         obtenerInscripciones(ruta.id)
         console.log("Las inscripciones: " + JSON.stringify(inscripciones))
     }, [reload]);
