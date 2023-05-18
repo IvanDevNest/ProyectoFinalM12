@@ -25,6 +25,16 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
         ],
         [
+            'name' => 'Ivan',
+            'email' => 'ivan@gmail.com',
+            'lastname' => 'FR',
+            'second_surname' => '300cv',
+            // 'id_role' => 1,
+            'password' => "12345678",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
             'name' => 'Mary',
             'email' => 'mary@example.com',
             'lastname' => 'Smith',
