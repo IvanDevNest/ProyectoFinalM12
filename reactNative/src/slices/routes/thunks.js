@@ -274,32 +274,6 @@ export const updateRoute = (formState, id, authToken, ShowRoute, setReload, relo
 
 // }
 
-export const calcularDistancia = (lat1, lon1, lat2, lon2) => {
-    const radioTierra = 6371; // Radio medio de la Tierra en kilómetros
-    const toRadians = (grados) => (grados * Math.PI) / 180;
-
-    // Convertir las latitudes y longitudes a radianes
-    const latRad1 = toRadians(lat1);
-    const lonRad1 = toRadians(lon1);
-    const latRad2 = toRadians(lat2);
-    const lonRad2 = toRadians(lon2);
-
-    // Diferencia de latitudes y longitudes
-    const dLat = latRad2 - latRad1;
-    const dLon = lonRad2 - lonRad1;
-
-    // Fórmula de la distancia haversine
-    const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(latRad1) * Math.cos(latRad2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    // Distancia en kilómetros
-    const distancia = radioTierra * c;
-
-    return distancia;
-}
-
 export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitudeUser) => {
     return async (dispatch, getState) => {
 
