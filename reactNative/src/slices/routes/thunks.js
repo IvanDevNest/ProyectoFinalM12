@@ -349,6 +349,7 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
                 //cambiar sin .data
                 dispatch(setLastPage(resposta.last_page))
                 console.log("last page: " + resposta.last_page)
+                console.log("distance to route: " + resposta.data.distanceToRoute)
 
                 dispatch(setIsLoading(false))
 
