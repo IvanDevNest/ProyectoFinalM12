@@ -1,7 +1,35 @@
+<<<<<<< HEAD
 import { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
+=======
+import { setIsSaving, setUsuari, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType } from "./routeSlice"
+>>>>>>> 544c24f5ea7d48f0079d2948f1b46b5a8e52d8c9
 import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
+export const eliminarRuta = (id,authToken,setReload,reload) => {
+    return async (dispatch, getState) => {
+    try {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "DELETE",
+        });
+        const resposta = await data.json();
+        console.log(resposta)
+        if (resposta.success === true) {
+            console.log("Ruta eliminada correctament")
+            setReload(!reload)
+        }
+        else setError("La resposta no ha triomfat");
+    } catch (e) {
+        console.log("Catch: " + e.message);
+    };
+};
+}
+
 
 export const createRoute = (formState, authToken, ShowRoute, date, usuari) => {
     return async (dispatch, getState) => {
@@ -41,8 +69,33 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari) => {
     };
 };
 
+export const salirseRuta = async (id,authToken,setReload,reload) => {
+    return async (dispatch, getState) => {
 
-// export const getUser = async (setUsuari, authToken) => {
+    console.log(id)
+    try {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/uninscription", {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + authToken,
+            },
+            method: "DELETE",
+        });
+        const resposta = await data.json();
+        console.log("resposta unirse ruta" + JSON.stringify(resposta))
+
+        if (resposta.success === true) {
+            setReload(!reload)
+        }
+        else setError(resposta.message);
+    } catch (e) {
+        console.log("catch: " + e.message);
+    };
+};
+}
+
+// export const getUser = async (authToken) => {
 //     return async (dispatch, getState) => {
 
 //     try {
@@ -64,11 +117,9 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari) => {
 //         console.log(e.message);
 //     };
 // };
-
-
 // }
 
-export const unirseRuta = async (id, authToken) => {
+export const unirseRuta = async (id, authToken, setReload, reload) => {
     console.log(id)
     return async (dispatch, getState) => {
 

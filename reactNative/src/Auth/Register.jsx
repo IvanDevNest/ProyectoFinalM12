@@ -5,11 +5,14 @@ import CustomInput from '../CustomInput';
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
 import { Platform } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import * as ImagePicker from 'expo-image-picker';
 
 const Register = ({ setLogin }) => {
   const [image, setImage] = useState(null);
   const [error, setError] = useState([]);
+  const [gender, setGender] = useState("");
+
 
   let { authToken, setAuthToken } = useContext(UserContext);
 
@@ -42,6 +45,8 @@ const Register = ({ setLogin }) => {
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);
+    formData.append('gender', dataa.gender);
+
    
     console.log("Data antes de enviar"+JSON.stringify(dataa))
     console.log("FormData antes de enviar"+JSON.stringify(formData))
@@ -111,6 +116,29 @@ const Register = ({ setLogin }) => {
         control={control}
 
       />
+      <Controller
+          control={control}
+          name="gender"
+          defaultValue=""
+          rules={{ required: true }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <RNPickerSelect
+              placeholder={{ label: 'Elige el genero:', value: null }}
+              onValueChange={(selectedValue) => {
+                onChange(selectedValue);
+                console.log("Genero: " + selectedValue);
+              }}
+              onBlur={onBlur}
+              items={[
+                { label: 'Hombre', value: 'Hombre' },
+                { label: 'Mujer', value: 'Mujer' }
+              ]}
+              value={gender}
+            />
+
+          )}
+        />
+
       <Text>img_profile:</Text>
       <Button title="Pick an image from camera roll" onPress={pickImage} />
       {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
