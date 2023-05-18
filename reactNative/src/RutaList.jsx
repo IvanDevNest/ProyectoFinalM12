@@ -24,7 +24,7 @@ import { AntDesign } from '@expo/vector-icons';
 const RutaList = (ruta) => {
     const { inscripciones, isSaving = true, error = "", rutas, isLoading, page, lastpage, } = useSelector((state) => state.routes);
 
-    let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
+    let { usuari, setUsuari, authToken, setReload, reload, latitudeUser,longitudeUser } = useContext(UserContext);
     const navigation = useNavigation();
     // const [error, setError] = useState("");
     // const [isLoading, setIsLoading] = useState(true);

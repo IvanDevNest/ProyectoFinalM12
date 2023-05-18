@@ -21,7 +21,7 @@ class RouteController extends Controller
     public function index(Request $request)
     {
         $query = Route::query();
-    
+
         if ($name = $request->get('name')) {
             $query->where('name', 'like', "%{$name}%");
             $routes = $query->paginate(5);
@@ -34,25 +34,23 @@ class RouteController extends Controller
 
 
         }
-        
+
         if ($type_vehicle = $request->get('type_vehicle')) {
             $query->where('type_vehicle', 'like', "%{$type_vehicle}%");
             $routes = $query->paginate(5);
 
 
-        }
-        
-        else{
+        } else {
             $routes = $query->paginate(5);
 
         }
-    
+
         return response()->json([
             'success' => true,
             'data' => $routes
         ], 200);
     }
-    
+
 
 
 
@@ -74,6 +72,8 @@ class RouteController extends Controller
             'num_stops' => 'required|integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
+            'latitude' => 'required',
+            'longitude' => 'required',
             'id_route_style' => 'required|exists:route_styles,id',
             'author_id' => 'required|exists:users,id'
         ]);
@@ -143,6 +143,8 @@ class RouteController extends Controller
             'num_stops' => 'required|integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
+            'latitude' => 'required|float',
+            'longitude' => 'required|float',
             'id_route_style' => 'required|exists:route_styles,id',
             'author_id' => 'required|exists:users,id'
         ]);
@@ -244,9 +246,9 @@ class RouteController extends Controller
     public function inscriptions(Request $request)
     {
         $query = Inscription::query();
-    
+
         if ($route_id = $request->get('route_id')) {
-            $query->where('route_id',$route_id);
+            $query->where('route_id', $route_id);
             $inscriptions = $query->get();
         }
         return response()->json([

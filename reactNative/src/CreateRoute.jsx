@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Button, StyleSheet, Text, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, FlatList, ScrollView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from './CustomInput';
@@ -8,14 +8,19 @@ import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { createRoute } from './slices/routes/thunks';
+import * as Location from 'expo-location';
+import { setError } from './slices/routes/routeSlice';
+
 const CreateRoute = () => {
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
 
     const dispatch = useDispatch();
 
     const { isSaving = true, error = "" } = useSelector((state) => state.routes);
     const onSubmit = (data) => {
 
-        dispatch(createRoute(data, authToken, ShowRoute, date, usuari));
+        dispatch(createRoute(data, authToken, ShowRoute, date, usuari, latitude, longitude));
     }
 
     let { usuari, authToken, setReload, reload } = useContext(UserContext);
@@ -25,7 +30,7 @@ const CreateRoute = () => {
     function ShowRoute(id) {
         navigation.navigate('ShowRoute', { objectId: id });
     }
-   
+
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -53,7 +58,26 @@ const CreateRoute = () => {
     const minDate = new Date(currentYear, new Date().getMonth());
     const maxDate = new Date(nextYear, new Date().getMonth());
     console.log(JSON.stringify(date))
-    
+    const getLocation = async () => {
+        try {
+          const { status } = await Location.requestForegroundPermissionsAsync();
+          if (status === 'granted') {
+            const { coords } = await Location.getCurrentPositionAsync({});
+            setLatitude(coords.latitude);
+            setLongitude(coords.longitude);
+          } else {
+            console.log("No se puede acceder a la ubi")
+          }
+        } catch (error) {
+          console.log(error.message)
+        }
+      };
+
+    useEffect(() => {
+        getLocation();
+      }, []);
+    //   console.log("lat"+latitude+"long"+longitude)
+
     return (
         <ScrollView>
             <Text>Información de la ruta</Text>
