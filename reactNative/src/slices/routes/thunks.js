@@ -65,32 +65,55 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari) => {
     };
 };
 
-
-export const getUser = async (authToken) => {
+export const salirseRuta = async (id,authToken,setReload,reload) => {
     return async (dispatch, getState) => {
 
+    console.log(id)
     try {
-        const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/uninscription", {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 'Authorization': 'Bearer ' + authToken,
             },
-            method: "GET",
+            method: "DELETE",
         });
         const resposta = await data.json();
+        console.log("resposta unirse ruta" + JSON.stringify(resposta))
+
         if (resposta.success === true) {
-            console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-            setUsuari(resposta.user)
+            setReload(!reload)
         }
         else setError(resposta.message);
     } catch (e) {
-        console.log(e.message);
+        console.log("catch: " + e.message);
     };
 };
-
-
 }
+
+// export const getUser = async (authToken) => {
+//     return async (dispatch, getState) => {
+
+//     try {
+//         const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+//             headers: {
+//                 Accept: "application/json",
+//                 "Content-Type": "application/json",
+//                 'Authorization': 'Bearer ' + authToken,
+//             },
+//             method: "GET",
+//         });
+//         const resposta = await data.json();
+//         if (resposta.success === true) {
+//             console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+//             setUsuari(resposta.user)
+//         }
+//         else setError(resposta.message);
+//     } catch (e) {
+//         console.log(e.message);
+//     };
+// };
+// }
 
 export const unirseRuta = async (id, authToken, setReload, reload) => {
     console.log(id)

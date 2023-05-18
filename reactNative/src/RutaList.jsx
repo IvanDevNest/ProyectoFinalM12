@@ -11,6 +11,7 @@ import { eliminarRuta } from "./slices/routes/thunks";
 import { useDispatch } from "react-redux";
 import { getUser } from "./slices/routes/thunks";
 import { unirseRuta } from "./slices/routes/thunks";
+import { salirseRuta } from "./slices/routes/thunks";
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -57,27 +58,27 @@ const RutaList = (ruta) => {
 
     //     };
     // }
-    // const getUser = async () => {
-    //     try {
-    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-    //             headers: {
-    //                 Accept: "application/json",
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': 'Bearer ' + authToken,
-    //             },
-    //             method: "GET",
-    //         });
-    //         const resposta = await data.json();
-    //         if (resposta.success === true) {
-    //             console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-    //             setUsuari(resposta.user)
-    //         }
-    //         else setError(resposta.message);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //     };
+    const getUser = async () => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+                setUsuari(resposta.user)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+        };
 
-    // }
+    }
 
     const obtenerInscripciones = async (id) => {
         try {
@@ -215,12 +216,12 @@ const RutaList = (ruta) => {
                             <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
                                 <View style={{ padding: 20, flexDirection: 'row', justifyContent: "space-around" }} >
                                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                                        <Button title="Salir de la ruta" onPress={() => salirseRuta(ruta.id)} />
+                                        <Button title="Salir de la ruta" onPress={() => dispatch(salirseRuta(ruta.id,authToken,setReload,reload))} />
                                         :
                                         <></>
                                     }
                                     {usuari.route_id == null ?
-                                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(ruta.id, authToken,setReload,reload))} />
+                                        <Button title="Unirme" onPress={() => unirseRuta(ruta.id)} />
                                         :
                                         <></>
                                     }
