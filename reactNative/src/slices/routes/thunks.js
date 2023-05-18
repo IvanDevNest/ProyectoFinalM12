@@ -29,7 +29,7 @@ import { useSelector } from "react-redux";
 
 // }
 
-export const unirseRuta = async (id, authToken) => {
+export const unirseRuta = async (id, authToken, setReload, reload) => {
     console.log(id)
     return async (dispatch, getState) => {
 

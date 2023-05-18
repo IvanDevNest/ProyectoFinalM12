@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { eliminarRuta } from "./slices/routes/thunks";
 import { useDispatch } from "react-redux";
 import { getUser } from "./slices/routes/thunks";
+import { unirseRuta } from "./slices/routes/thunks";
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -219,7 +220,7 @@ const RutaList = (ruta) => {
                                         <></>
                                     }
                                     {usuari.route_id == null ?
-                                        <Button title="Unirme" onPress={() => unirseRuta(ruta.id)} />
+                                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(ruta.id, authToken,setReload,reload))} />
                                         :
                                         <></>
                                     }
