@@ -1,26 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button, Image } from "react-native";
 import StyledText from "./StyledText";
-import Constants from "expo-constants";
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from "./userContext";
-import { FontAwesome5 } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { eliminarRuta } from "./slices/routes/thunks";
+import { MaterialCommunityIcons,Ionicons,AntDesign,FontAwesome5 } from '@expo/vector-icons';
+import { eliminarRuta,unirseRuta,salirseRuta,getUser } from "./slices/routes/thunks";
 import { useDispatch } from "react-redux";
-import { getUser } from "./slices/routes/thunks";
-import { unirseRuta } from "./slices/routes/thunks";
-import { salirseRuta } from "./slices/routes/thunks";
-
-import { AntDesign } from '@expo/vector-icons';
-
-
-
-
 
 const RutaList = (ruta) => {
-    let { usuari, setUsuari, authToken, setReload, reload,latitudeUser,longitudeUser } = useContext(UserContext);
+    let { usuari, setUsuari, authToken, setReload, reload } = useContext(UserContext);
     const navigation = useNavigation();
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);

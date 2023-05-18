@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRoutes, retrocederPagina, pasarPagina, deleteFilter, handleFilterName, handleFilterVehicle } from './slices/routes/thunks';
 // import Routes from './Routes.js'
 const RutasList = () => {
-  let { filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, reload } = useContext(UserContext);
+  let { filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, reload,latitudeUser,longitudeUser } = useContext(UserContext);
+
   const [filterValueName, setFilterValueName] = useState('');
   const [filterValueVehicle, setFilterValueVehicle] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
@@ -22,9 +23,10 @@ const RutasList = () => {
   const { control, handleSubmit, formState: { errors }, } = useForm();
 
   useEffect(() => {
-    dispatch(getRoutes(page, filterName, filterVehicle))
+    dispatch(getRoutes(page, filterName, filterVehicle,latitudeUser,longitudeUser))
   }, [reload, page, filterName, filterVehicle]);
 
+ 
   return (
     <>
       <View>

@@ -2,32 +2,32 @@ import { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, se
 import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
-export const eliminarRuta = (id,authToken,setReload,reload) => {
+export const eliminarRuta = (id, authToken, setReload, reload) => {
     return async (dispatch, getState) => {
-    try {
-        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + authToken,
-            },
-            method: "DELETE",
-        });
-        const resposta = await data.json();
-        console.log(resposta)
-        if (resposta.success === true) {
-            console.log("Ruta eliminada correctament")
-            setReload(!reload)
-        }
-        else setError("La resposta no ha triomfat");
-    } catch (e) {
-        console.log("Catch: " + e.message);
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            console.log(resposta)
+            if (resposta.success === true) {
+                console.log("Ruta eliminada correctament")
+                setReload(!reload)
+            }
+            else setError("La resposta no ha triomfat");
+        } catch (e) {
+            console.log("Catch: " + e.message);
+        };
     };
-};
 }
 
 
-export const createRoute = (formState, authToken, ShowRoute, date, usuari,latitude,longitude) => {
+export const createRoute = (formState, authToken, ShowRoute, date, usuari, latitude, longitude) => {
     return async (dispatch, getState) => {
 
         console.log("date" + JSON.stringify(date))
@@ -67,30 +67,30 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari,latitu
     };
 };
 
-export const salirseRuta = (id,authToken,setReload,reload) => {
+export const salirseRuta = (id, authToken, setReload, reload) => {
     return async (dispatch, getState) => {
 
-    console.log(id)
-    try {
-        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/uninscription", {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + authToken,
-            },
-            method: "DELETE",
-        });
-        const resposta = await data.json();
-        console.log("resposta unirse ruta" + JSON.stringify(resposta))
+        console.log(id)
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/uninscription", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
-        if (resposta.success === true) {
-            setReload(!reload)
-        }
-        else setError(resposta.message);
-    } catch (e) {
-        console.log("catch: " + e.message);
+            if (resposta.success === true) {
+                setReload(!reload)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log("catch: " + e.message);
+        };
     };
-};
 }
 
 // export const getUser = async (authToken) => {
@@ -164,7 +164,7 @@ export const retrocederPagina = (page) => {
     }
 }
 
-export const getRoute = (objectId,authToken) => {
+export const getRoute = (objectId, authToken) => {
     return async (dispatch, getState) => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
@@ -182,20 +182,6 @@ export const getRoute = (objectId,authToken) => {
                 console.log("resposta getRoute" + JSON.stringify(resposta))
                 dispatch(setRuta(resposta.data))
                 dispatch(setIsLoading(false))
-
-                // setFormulari({
-                //     name: resposta.data.name,
-                //     description: resposta.data.description,
-                //     date: resposta.data.date,
-                //     estimated_duration: resposta.data.estimated_duration,
-                //     type_vehicle: resposta.data.type_vehicle,
-                //     distance: resposta.data.distance,
-                //     url_maps: resposta.data.url_maps,
-                //     num_stops: resposta.data.num_stops,
-                //     max_users: resposta.data.max_users,
-                //     id_route_style: resposta.data.id_route_style,
-                //     author_id: resposta.data.author_id
-                // })
 
             }
             else {
@@ -231,7 +217,7 @@ export const updateRoute = (formState, id, authToken, ShowRoute, setReload, relo
 
             }
             dispatch(setError(resposta.message))
-        
+
         } catch (e) {
             console.log(e.err);
 
@@ -265,7 +251,33 @@ export const updateRoute = (formState, id, authToken, ShowRoute, setReload, relo
 
 // }
 
-export const getRoutes = (page, filterName, filterVehicle) => {
+export const calcularDistancia = (lat1, lon1, lat2, lon2) => {
+    const radioTierra = 6371; // Radio medio de la Tierra en kilómetros
+    const toRadians = (grados) => (grados * Math.PI) / 180;
+
+    // Convertir las latitudes y longitudes a radianes
+    const latRad1 = toRadians(lat1);
+    const lonRad1 = toRadians(lon1);
+    const latRad2 = toRadians(lat2);
+    const lonRad2 = toRadians(lon2);
+
+    // Diferencia de latitudes y longitudes
+    const dLat = latRad2 - latRad1;
+    const dLon = lonRad2 - lonRad1;
+
+    // Fórmula de la distancia haversine
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(latRad1) * Math.cos(latRad2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    // Distancia en kilómetros
+    const distancia = radioTierra * c;
+
+    return distancia;
+}
+
+export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitudeUser) => {
     return async (dispatch, getState) => {
 
         try {
@@ -295,7 +307,20 @@ export const getRoutes = (page, filterName, filterVehicle) => {
             console.log("Data: " + JSON.stringify(resposta.data))
             if (resposta.success === true) {
                 console.log("resposta pages" + JSON.stringify(resposta))
-                dispatch(setRutas(resposta.data.data))
+                const rutasOrdenadas = resposta.data.data.map((ruta) => {
+                    const distancia = calcularDistancia(
+                        ruta.latitude,
+                        ruta.longitude,
+                        latitudeUser,
+                        longitudeUser
+                    );
+                    return { ...ruta, distancia }; // Agregar la distancia a cada ruta
+                });
+                rutasOrdenadas.sort((ruta1, ruta2) => ruta1.distancia - ruta2.distancia); // Ordenar las rutas por distancia
+                console.log("rutasOrdenadas", rutasOrdenadas);
+
+                dispatch(setRutas(rutasOrdenadas))
+                // dispatch(setRutas(resposta.data.data))
                 console.log("SetRutas: " + resposta.data.data)
 
                 dispatch(setLastPage(resposta.data.last_page))
