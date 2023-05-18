@@ -1,4 +1,4 @@
-import { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType } from "./routeSlice"
+import { setIsSaving, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
 import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
@@ -72,28 +72,28 @@ export const unirseRuta = async (id, authToken) => {
     console.log(id)
     return async (dispatch, getState) => {
 
-    try {
-        const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + authToken,
-            },
-            method: "POST",
-        });
-        const resposta = await data.json();
-        console.log("resposta unirse ruta" + JSON.stringify(resposta))
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id + "/inscription", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "POST",
+            });
+            const resposta = await data.json();
+            console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
-        if (resposta.success === true) {
-            // setIsLoading(false)
-            setReload(!reload)
-        }
-        else setError(resposta.message);
-    } catch (e) {
-        console.log("catch: " + e.message);
-        // alert("Catchch");
+            if (resposta.success === true) {
+                // setIsLoading(false)
+                setReload(!reload)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log("catch: " + e.message);
+            // alert("Catchch");
+        };
     };
-};
 }
 
 export const pasarPagina = (page, lastpage) => {
@@ -115,6 +115,82 @@ export const retrocederPagina = (page) => {
         }
     }
 }
+
+export const getRoute = (objectId,authToken) => {
+    return async (dispatch, getState) => {
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+
+                },
+                method: "GET",
+
+            })
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("resposta getRoute" + JSON.stringify(resposta))
+                dispatch(setRuta(resposta.data))
+                dispatch(setIsLoading(false))
+
+                // setFormulari({
+                //     name: resposta.data.name,
+                //     description: resposta.data.description,
+                //     date: resposta.data.date,
+                //     estimated_duration: resposta.data.estimated_duration,
+                //     type_vehicle: resposta.data.type_vehicle,
+                //     distance: resposta.data.distance,
+                //     url_maps: resposta.data.url_maps,
+                //     num_stops: resposta.data.num_stops,
+                //     max_users: resposta.data.max_users,
+                //     id_route_style: resposta.data.id_route_style,
+                //     author_id: resposta.data.author_id
+                // })
+
+            }
+            else {
+                dispatch(setError(resposta.message))
+            }
+        } catch (err) {
+            console.log("catch" + err.message);
+        };
+    }
+}
+
+export const updateRoute = (formState, id, authToken, ShowRoute, setReload, reload) => {
+    return async (dispatch, getState) => {
+
+        console.log("formulari" + JSON.stringify(formState));
+        try {
+            const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes/' + id, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: 'PUT',
+                body: JSON.stringify(formState),
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                // setRutas(resposta);
+                console.log("resposta: " + JSON.stringify(resposta))
+
+                ShowRoute(resposta.data.id)
+                setReload(!reload)
+
+            }
+            dispatch(setError(resposta.message))
+        
+        } catch (e) {
+            console.log(e.err);
+
+        }
+    }
+
+};
 // export const sendLogout = () => {
 //     return async (dispatch, getState) => {
 
@@ -183,13 +259,13 @@ export const getRoutes = (page, filterName, filterVehicle) => {
 
 
             // Resto del código
-        } catch(e) {
-            console.log("catch getRoutes: "+e.message)
+        } catch (e) {
+            console.log("catch getRoutes: " + e.message)
         }
     }
 }
- 
-export const handleFilterName = (filterValueName,setFilterVehicle,setFilterName) => {
+
+export const handleFilterName = (filterValueName, setFilterVehicle, setFilterName) => {
     return async (dispatch, getState) => {
         console.log("entra?")
         dispatch(setPage(1));
@@ -198,7 +274,7 @@ export const handleFilterName = (filterValueName,setFilterVehicle,setFilterName)
         setFilterVehicle("") // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
     }
 }
-export const handleFilterVehicle = (filterValueVehicle,setFilterVehicle,setFilterName) => {
+export const handleFilterVehicle = (filterValueVehicle, setFilterVehicle, setFilterName) => {
     return async (dispatch, getState) => {
         dispatch(setPage(1));
         // console.log("ultimo filtro name:" + filterValueName)
@@ -206,7 +282,7 @@ export const handleFilterVehicle = (filterValueVehicle,setFilterVehicle,setFilte
         setFilterName("") // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
     }
 }
-export const deleteFilter = (setFilterVehicle,setFilterName) => {
+export const deleteFilter = (setFilterVehicle, setFilterName) => {
     return async (dispatch, getState) => {
         setFilterVehicle("")
         setFilterName(""); // Actualiza el estado 'filter' con el valor actual antes de llamar a 'getRoutes'
@@ -221,7 +297,7 @@ export const deleteFilter = (setFilterVehicle,setFilterName) => {
 export const addPlace = (formData, authToken, navigate) => {
     return async (dispatch, getState) => {
 
-        dispatch(setisSaving(true))
+        dispatch(setIsSaving(true))
 
         // dispatch(startLoadingReviews());
         const headers = {
