@@ -26,6 +26,7 @@
             'password',
             'lastname',
             'second_surname',
+            'gender',
             'file_id',
             'route_id',
             'author_id'

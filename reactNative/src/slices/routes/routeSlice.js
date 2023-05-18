@@ -98,6 +98,11 @@ export const routeSlice = createSlice({
             state.selectedVehicleType = action.payload
         
         },
+        setUsuari: (state,action) => {
+
+            state.usuari = action.payload
+
+        },
 
 
 
@@ -123,6 +128,6 @@ export const routeSlice = createSlice({
 
 });
 
-export const { setIsSaving, setIsLoading, setError, setLastPage,setRutas,setPage,setFilterValueName,setFilterValueVehicle,setTypeFilter,setSelectedVehicleType} = routeSlice.actions;
+export const {setUsuari, setIsSaving, setIsLoading, setError, setLastPage,setRutas,setPage,setFilterValueName,setFilterValueVehicle,setTypeFilter,setSelectedVehicleType} = routeSlice.actions;
 
 export default routeSlice.reducer

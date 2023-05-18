@@ -19,6 +19,8 @@ class UserSeeder extends Seeder
             'email' => 'john@example.com',
             'lastname' => 'Doe',
             'second_surname' => 'Smith',
+            'gender' => 'Hombre',
+
             // 'id_role' => 1,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -29,6 +31,8 @@ class UserSeeder extends Seeder
             'email' => 'ivasn@gmail.com',
             'lastname' => 'FR',
             'second_surname' => '300cv',
+            'gender' => 'Hombre',
+
             // 'id_role' => 1,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -39,6 +43,8 @@ class UserSeeder extends Seeder
             'email' => 'mary@example.com',
             'lastname' => 'Smith',
             'second_surname' => 'Johnson',
+            'gender' => 'Mujer',
+
             // 'id_role' => 2,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -49,6 +55,8 @@ class UserSeeder extends Seeder
             'email' => 'tom@example.com',
             'lastname' => 'Johnson',
             'second_surname' => 'Brown',
+            'gender' => 'Hombre',
+
             // 'id_role' => 3,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -59,6 +67,8 @@ class UserSeeder extends Seeder
             'email' => 'fds@example.com',
             'lastname' => 'ds',
             'second_surname' => 'fds',
+            'gender' => 'Hombre',
+
             // 'id_role' => 4,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -69,6 +79,8 @@ class UserSeeder extends Seeder
             'email' => 'ffdsfsfds@example.com',
             'lastname' => 'dhgfs',
             'second_surname' => 'fds',
+            'gender' => 'Hombre',
+
             // 'id_role' => 4,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -79,6 +91,8 @@ class UserSeeder extends Seeder
             'email' => 'fdgdfgsdfs@example.com',
             'lastname' => 'ds',
             'second_surname' => 'fds',
+            'gender' => 'Hombre',
+
             // 'id_role' => 4,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -89,6 +103,8 @@ class UserSeeder extends Seeder
             'email' => 'gdsg@example.com',
             'lastname' => 'ds',
             'second_surname' => 'fds',
+            'gender' => 'Hombre',
+
             // 'id_role' => 4,
             'password' => Hash::make('password'),
             'created_at' => now(),
@@ -99,6 +115,8 @@ class UserSeeder extends Seeder
             'email' => 'ivan@gmail.com',
             'lastname' => 'FR',
             'second_surname' => '300cv',
+            'gender' => 'Hombre',
+
             // 'id_role' => 1,
             'password' => Hash::make('1234'),
             'created_at' => now(),
