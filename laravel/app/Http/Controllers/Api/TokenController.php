@@ -86,6 +86,7 @@ class TokenController extends Controller
             'lastname' => ['nullable', 'string', 'max:255'],
             'second_surname' => ['nullable', 'string', 'max:255'],
             'imageUri' => ['nullable'],
+            'gender' => ['required'],
             // 'fileSize'=> ['nullable'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
@@ -104,14 +105,21 @@ class TokenController extends Controller
             $file = new File();
             $ok = $file->diskSave($imageUri);
             if ($ok) {
-                $user = User::create([
+                $userData = [
                     'name' => $validacion['name'],
-                    // 'lastname'=> $validacion['lastname'],
-                    // 'second_surname'=> $validacion['second_surname'],
+                    'gender'=>$validacion['gender'],
                     'file_id' => $file->id,
                     'email' => $validacion['email'],
                     'password' => Hash::make($validacion['password']),
-                ]);
+                ];
+                if ($validacion['lastname']) {
+                    $userData['lastname'] = $validacion['lastname'];
+                }  
+                if ($validacion['second_surname']) {
+                    $userData['second_surname'] = $validacion['second_surname'];
+                }
+                $user = User::create($userData);
+
             } else {
                 return response()->json([
                     'success' => false,
@@ -120,13 +128,23 @@ class TokenController extends Controller
             }
 
         } else {
-            $user = User::create([
-                'name' => $validacion['name'],
-                // 'lastname'=> $validacion['lastname'],
-                // 'second_surname'=> $validacion['second_surname'],
-                'email' => $validacion['email'],
-                'password' => Hash::make($validacion['password']),
-            ]);
+            if($validacion['gender']=='Hombre'){
+                $userData = [
+                    'name' => $validacion['name'],
+                    'gender'=>$validacion['gender'],
+                    'file_id' => 1,
+                    'email' => $validacion['email'],
+                    'password' => Hash::make($validacion['password']),
+                ];
+                if ($validacion['lastname']) {
+                    $userData['lastname'] = $validacion['lastname'];
+                }  
+                if ($validacion['second_surname']) {
+                    $userData['second_surname'] = $validacion['second_surname'];
+                }
+                $user = User::create($userData);
+            }
+           
         }
 
         $token = $user->createToken("authToken")->plainTextToken;

@@ -21,43 +21,43 @@ const Register = ({ setLogin }) => {
   const onSubmit = data => handleRegister(data, image)
 
   const handleRegister = async (dataa, image) => {
-    const formData=new FormData();
-    if (image){
-      console.log("imagen: " +JSON.stringify(image.assets[0]))
+    const formData = new FormData();
+    if (image) {
+      console.log("imagen: " + JSON.stringify(image.assets[0]))
 
       const fileName = image.assets[0].uri.split("/").pop();
       // var imageUri= image.assets[0].uri.replace('file://','')
-      console.log("imagen url: " +image.uri)
-      console.log("nombre: " +fileName)
+      console.log("imagen url: " + image.uri)
+      console.log("nombre: " + fileName)
       // console.log("tamaño: " +image.assets[0].fileSize)
-  
+
       // console.log("imagenurl: " +imageUri)
 
       formData.append('imageUri', {
         uri: image.assets[0].uri,
-        name:fileName,
-        type: Platform === "ios" ? image.assets[0].uri.split(".").pop() :  "image/"+image.assets[0].uri.split(".").pop(),
-  
+        name: fileName,
+        type: Platform === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
+
       });
     }
-    
+
     // formData.append('fileSize',image.fileSize)
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);
     formData.append('gender', dataa.gender);
-    console.log("data.gender: "+dataa.gender)
+    console.log("data.gender: " + dataa.gender)
 
-   
-    console.log("Data antes de enviar"+JSON.stringify(dataa))
-    console.log("FormData antes de enviar"+JSON.stringify(formData))
+
+    console.log("Data antes de enviar" + JSON.stringify(dataa))
+    console.log("FormData antes de enviar" + JSON.stringify(formData))
 
     try {
 
       const data = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
         headers: {
           Accept: "application/json",
-          "content-type":"multipart/form-data"
+          "content-type": "multipart/form-data"
         },
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
@@ -66,7 +66,7 @@ const Register = ({ setLogin }) => {
 
       });
       const resposta = await data.json();
-      console.log("Resposta register"+ JSON.stringify(resposta))
+      console.log("Resposta register" + JSON.stringify(resposta))
       if (resposta.success === true) {
         setAuthToken(resposta.authToken);
       }
@@ -74,8 +74,8 @@ const Register = ({ setLogin }) => {
         console.log(resposta.message)
         setError(resposta.message);
       }
-    } catch(e) {
-      console.log("Error" +e.message);
+    } catch (e) {
+      console.log("Error" + e.message);
       alert(e.message);
     };
   }
@@ -88,7 +88,7 @@ const Register = ({ setLogin }) => {
       quality: 1,
     });
 
-    console.log("Result: "+JSON.stringify(result));
+    console.log("Result: " + JSON.stringify(result));
 
     if (!result.canceled) {
       setImage(result);
@@ -117,33 +117,33 @@ const Register = ({ setLogin }) => {
         control={control}
 
       />
+      <Text>Genero:</Text>
       <Controller
-          control={control}
-          name="gender"
-          defaultValue=""
-          rules={{ required: true }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <RNPickerSelect
-              placeholder={{ label: 'Elige el genero:', value: null }}
-              onValueChange={(selectedValue) => {
-                onChange(selectedValue);
-                console.log("Genero: " + selectedValue);
-              }}
-              onBlur={onBlur}
-              items={[
-                { label: 'Hombre', value: 'Hombre' },
-                { label: 'Mujer', value: 'Mujer' }
-              ]}
-              value={gender}
-            />
+        control={control}
+        name="gender"
+        defaultValue=""
+        rules={{ required: true }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <RNPickerSelect
+            placeholder={{ label: 'Elige el genero:', value: null }}
+            onValueChange={onChange}
+            onBlur={onBlur}
+            items={[
+              { label: 'Hombre', value: 'Hombre' },
+              { label: 'Mujer', value: 'Mujer' }
+            ]}
+            value={value}
+          />
+        )}
 
-          )}
-        />
+
+
+      />
 
       <Text>img_profile:</Text>
       <Button title="Pick an image from camera roll" onPress={pickImage} />
       {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-      
+
 
       {/* <CustomInput
         name="img_profile"

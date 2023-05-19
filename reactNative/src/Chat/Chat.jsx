@@ -4,10 +4,10 @@ import CreateMessage from './CreateMessage';
 import { UserContext } from '../userContext';
 const Chat = () => {
     const [messages, setMessages] = useState([])
-    const [imageMessage, setImageMessage] = useState("")
+    const [imageMessages, setImageMessages] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     let { authToken, setAuthToken, usuari, myAvatarUrl, reload } = useContext(UserContext);
-    console.log(usuari)
+    // console.log(usuari)
     const getMessages = async () => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/messages", {
@@ -20,16 +20,14 @@ const Chat = () => {
             });
             const resposta = await data.json();
             if (resposta.success === true) {
-                console.log("resposta messages: " + JSON.stringify(resposta.data))
+                // console.log("resposta messages: " + JSON.stringify(resposta.data))
                 setMessages([])
                 resposta.data.map((message) => {
-                    message.route_id == usuari.route_id ?
-                        // console.log(message)
-                        // console.log(message.id_route+"<--meesage id route,usuari.id_route-->"+usuari.route_id)
-                        setMessages(messages => [...messages, message])
-                        :
-                        <></>
-                })
+                    if (message.route_id == usuari.route_id) {
+                      setMessages((prevMessages) => [...prevMessages, message]);
+                      getImagesMessage(message.file_id); 
+                    }
+                  });
                 setIsLoading(false)
             }
             else setError(resposta.message);
@@ -41,26 +39,18 @@ const Chat = () => {
     useEffect(() => {
         getMessages()
     }, [usuari.route_id, reload]);
-    // const getImagesPost = async () => {
-    //     try {
-    //       const data = await fetch(`http://equip04.insjoaquimmir.cat/api/files/${message.file_id}`);
-    //       const resposta = await data.json();
-    //       if (resposta.success === true) {
-    //         console.log("imagesUser: " + JSON.stringify(resposta))
-    //         setImageMessage(resposta.url);
-    //       } else setError(resposta.message);
-    //     } catch (e) {
-    //       console.log("catch getImagesPost: " + e.message);
-    //     };
-    //   }
+
     const getImagesMessage = async (id) => {
         if(id){
             try {
                 const data = await fetch(`http://equip04.insjoaquimmir.cat/api/files/${id}`);
                 const resposta = await data.json();
                 if (resposta.success === true) {
-                    console.log("imagesMessage: " + JSON.stringify(resposta))
-                    setImageMessage(resposta.data);
+                    // console.log("imagesMessage: " + JSON.stringify(resposta))
+                    setImageMessages((prevImageMessages) => ({
+                        ...prevImageMessages,
+                        [id]: resposta.data,
+                      }));;
                 } else setError(resposta.message);
             } catch (e) {
                 console.log("catch getImagesPost: " + e.message);
@@ -71,9 +61,9 @@ const Chat = () => {
     const renderMessage = (message) => {
         // console.log("rendermessage " + JSON.stringify(message))
         if (message.file_id) {
-            getImagesMessage(message.file_id)
+            const imageMessage = imageMessages[message.file_id];
             if (message.user_id == usuari.id) {
-                console.log(imageMessage)
+                // console.log(imageMessage)
                 return (
                     <View >
                         <Image source={{ uri: imageMessage }} style={{ width: 200, height: 200, }} />
