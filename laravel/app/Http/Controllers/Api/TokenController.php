@@ -112,10 +112,11 @@ class TokenController extends Controller
                     'email' => $validacion['email'],
                     'password' => Hash::make($validacion['password']),
                 ];
-                if ($validacion['lastname']) {
+                if (isset($validacion['lastname'])) {
                     $userData['lastname'] = $validacion['lastname'];
-                }  
-                if ($validacion['second_surname']) {
+                }
+                
+                if (isset($validacion['second_surname'])) {
                     $userData['second_surname'] = $validacion['second_surname'];
                 }
                 $user = User::create($userData);
@@ -136,10 +137,11 @@ class TokenController extends Controller
                     'email' => $validacion['email'],
                     'password' => Hash::make($validacion['password']),
                 ];
-                if ($validacion['lastname']) {
+                if (isset($validacion['lastname'])) {
                     $userData['lastname'] = $validacion['lastname'];
-                }  
-                if ($validacion['second_surname']) {
+                }
+                
+                if (isset($validacion['second_surname'])) {
                     $userData['second_surname'] = $validacion['second_surname'];
                 }
                 $user = User::create($userData);
