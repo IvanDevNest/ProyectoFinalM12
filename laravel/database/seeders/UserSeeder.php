@@ -126,6 +126,7 @@ class UserSeeder extends Seeder
     $admin = new User([
         'name'      => config('admin.name'),
         'email'     => config('admin.email'),
+        'gender' => 'Hombre',
         'password'  => Hash::make(config('admin.password')),
     ]);
     $admin->save();

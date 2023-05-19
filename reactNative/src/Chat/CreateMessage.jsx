@@ -40,43 +40,40 @@ const CreateMessage = () => {
 
             formData.append('user_id', usuari.id)
             formData.append('route_id', usuari.route_id)
-            if (dataa.text != undefined){
+            if (dataa.text != undefined) {
                 formData.append('text', dataa.text)
             }
 
             formData.append('author_name', usuari.name)
             formData.append('img_author_message', myAvatarUrl)
-        }
-        console.log("Console FormData: "+formData);
-        try {
-            const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: 'POST',
-                body: formData,
-            });
-            const resposta = await data.json();
-            console.log("resposta: " + JSON.stringify(resposta))
-            if (resposta.success === true) {
-                
-                console.log("resposta message: " + resposta.message)
-                reset();
-
+            console.log("Console FormData: " + formData);
+            try {
+                const data = await fetch('http://equip04.insjoaquimmir.cat/api/messages', {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + authToken,
+                    },
+                    method: 'POST',
+                    body: formData,
+                });
+                const resposta = await data.json();
+                console.log("resposta: " + JSON.stringify(resposta))
+                if (resposta.success === true) {
                     console.log("resposta message: " + resposta.message)
                     reset();
                     setImage(null)
                     setReload(!reload)
-
+    
                 }
-           
-            else setError(resposta.message);
-        } catch (e) {
-            console.log("El Undefined: "+e.message);
-
+    
+                else console.log(resposta.message);
+            } catch (e) {
+                console.log("El Undefined: " + e.message);
+    
+            }
         }
+       
 
     };
     const pickImage = async () => {
@@ -119,7 +116,7 @@ const CreateMessage = () => {
 
 
             </View>
-            {error && <Text style={{ color: 'red' }} >Error: {error}</Text>}
+            {error.length > 1 && <Text style={{ color: 'red' }} >Error: {error}</Text>}
 
         </View>
 
