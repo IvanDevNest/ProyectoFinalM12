@@ -49,27 +49,21 @@ class MessageController extends Controller
             $file = new File();
             $ok = $file->diskSave($imageUri);
             if ($ok) {
-                if ($request->input('text')) {
-                    $message = Message::create([
-                        'user_id' => $validatedData['user_id'],
-                        'route_id' => $validatedData['route_id'],
-                        'date' => $date,
-                        'text' => $validatedData['text'],
-                        'file_id' => $file->id,
-                        'img_author_message' => $validatedData['img_author_message'],
-                        'author_name' => $validatedData['author_name']
-                    ]);
-                }else{
-                    $message = Message::create([
+                $messageData = [
                     'user_id' => $validatedData['user_id'],
                     'route_id' => $validatedData['route_id'],
                     'date' => $date,
                     'file_id' => $file->id,
                     'img_author_message' => $validatedData['img_author_message'],
                     'author_name' => $validatedData['author_name']
-                ]);
-            }
+                ];
+                if ($validatedData['text']) {
+                    $messageData['text'] = $validatedData['text'];
+                }
+                $message = Message::create($messageData);
 
+               
+            
             } else {
                 return response()->json([
                     'success' => false,
