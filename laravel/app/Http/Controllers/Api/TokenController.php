@@ -107,7 +107,7 @@ class TokenController extends Controller
             if ($ok) {
                 $userData = [
                     'name' => $validacion['name'],
-                    'gender'=>$validacion['gender'],
+                    'gender' => $validacion['gender'],
                     'file_id' => $file->id,
                     'email' => $validacion['email'],
                     'password' => Hash::make($validacion['password']),
@@ -115,7 +115,7 @@ class TokenController extends Controller
                 if (isset($validacion['lastname'])) {
                     $userData['lastname'] = $validacion['lastname'];
                 }
-                
+
                 if (isset($validacion['second_surname'])) {
                     $userData['second_surname'] = $validacion['second_surname'];
                 }
@@ -129,24 +129,24 @@ class TokenController extends Controller
             }
 
         } else {
-            if($validacion['gender']=='Hombre'){
-                $userData = [
-                    'name' => $validacion['name'],
-                    'gender'=>$validacion['gender'],
-                    'file_id' => 1,
-                    'email' => $validacion['email'],
-                    'password' => Hash::make($validacion['password']),
-                ];
-                if (isset($validacion['lastname'])) {
-                    $userData['lastname'] = $validacion['lastname'];
-                }
-                
-                if (isset($validacion['second_surname'])) {
-                    $userData['second_surname'] = $validacion['second_surname'];
-                }
-                $user = User::create($userData);
+
+            $userData = [
+                'name' => $validacion['name'],
+                'gender' => $validacion['gender'],
+                // 'file_id' => 1,
+                'email' => $validacion['email'],
+                'password' => Hash::make($validacion['password']),
+            ];
+            if (isset($validacion['lastname'])) {
+                $userData['lastname'] = $validacion['lastname'];
             }
-           
+
+            if (isset($validacion['second_surname'])) {
+                $userData['second_surname'] = $validacion['second_surname'];
+            }
+            $user = User::create($userData);
+
+
         }
 
         $token = $user->createToken("authToken")->plainTextToken;

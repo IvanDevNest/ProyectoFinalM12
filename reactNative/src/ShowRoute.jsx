@@ -45,7 +45,7 @@ const ShowRoute = () => {
     }
     // console.log("usuariu" + JSON.stringify(usuari))
 
-  
+
 
     const obtenerDatosAuthorRuta = async (id) => {
         try {
@@ -84,34 +84,41 @@ const ShowRoute = () => {
                 method: "GET",
             });
             const resposta = await data.json();
+            console.log("RESPOSTA GETAUTHORUSER" + JSON.stringify(resposta))
+
             if (resposta.success === true) {
-                console.log("RESPOSTA GETAUTHORUSER" + JSON.stringify(resposta))
                 setAuthorRuta(resposta.data)
             }
-            else console.log("mensage error getuserlooking:"+resposta.message);
+            else console.log("mensage error getuserlooking:" + resposta.message);
         } catch (e) {
-            console.log(e.message);
+            console.log("mensage error getuserlooking" + e.message);
         };
 
     }
-    
+    useEffect(() => {
+        obtenerDatosAuthorRuta(ruta.author_id)
+    }, [])
 
     useEffect(() => {
-        dispatch(getRoute(objectId,authToken));
-        dispatch(obtenerInscripciones(objectId,authToken))
-    }, [reload,ruta,inscripciones]);
+        dispatch(getRoute(objectId, authToken));
+        dispatch(obtenerInscripciones(objectId, authToken))
+    }, [reload, ruta, inscripciones]);
 
-    
+
     return (
         <View>
             {isLoading ?
                 <Text>Cargando...</Text>
                 :
                 <View>
-                    <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
-                    <Text>{ruta.name}</Text>
-
                     <View style={{ flexDirection: 'row' }}>
+                        <View>
+                        <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
+                        <Text>{ruta.name}</Text>
+                        </View>
+                    <View>
+                    <Text style={{ fontWeight: 'bold' }}>Autor de la ruta</Text>
+                        <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
                             {avatarUrl ?
                                 <Image style={styles.avatar} source={{ uri: avatarUrl }} />
@@ -128,6 +135,10 @@ const ShowRoute = () => {
                             <></>}
 
                     </View>
+                    </View>
+                        
+                    </View>
+                    
                     <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
 
                     <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
@@ -161,19 +172,19 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => {dispatch(salirseRuta(objectId,authToken,setReload,reload))}} />
+                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload)) }} />
                         :
                         <></>
                     }
                     {usuari.route_id == null ?
-                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(objectId,authToken, setReload, reload))} />
+                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(objectId, authToken, setReload, reload))} />
                         :
                         <></>
                     }
                     {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar" onPress={() => RouteEdit(objectId)}></Button>
-                            <Button title="Eliminar" onPress={() => {dispatch(eliminarRuta(objectId, authToken,setReload,reload))}}></Button>
+                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload)) }}></Button>
                         </> : <></>
                     }
                     {error ? <Text>{error}</Text> : <></>}
@@ -190,8 +201,8 @@ const ShowRoute = () => {
 }
 const styles = StyleSheet.create({
     avatar: {
-        width: 100,
-        height: 100,
+        width: 40,
+        height: 40,
         borderRadius: 50,
     },
 });

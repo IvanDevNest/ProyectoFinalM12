@@ -66,11 +66,11 @@ const ShowMyUser = () => {
           <Button title="Editar perfil" onPress={() => UserEdit(usuari.id)} />
 
 
-        <Text>Nombre: {usuari.name}</Text>
-        <Text>Genero: {usuari.gender}</Text>
-
+        <Text>Nombre: {usuari.name} {usuari.lastname} {usuari.second_surname}</Text>
+        {/* <Text>Genero: {usuari.gender}</Text> */}
+{/* 
         <Text>Apellido: {usuari.lastname}</Text>
-        <Text>Segundo apellido: {usuari.second_surname}</Text>
+        <Text>Segundo apellido: {usuari.second_surname}</Text> */}
 
       </View>
       <View style={{ alignItems: 'center' }}>
