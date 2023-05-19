@@ -59,7 +59,8 @@ class MessageController extends Controller
                         'img_author_message' => $validatedData['img_author_message'],
                         'author_name' => $validatedData['author_name']
                     ]);
-                }$message = Message::create([
+                }else{
+                    $message = Message::create([
                     'user_id' => $validatedData['user_id'],
                     'route_id' => $validatedData['route_id'],
                     'date' => $date,
@@ -67,7 +68,7 @@ class MessageController extends Controller
                     'img_author_message' => $validatedData['img_author_message'],
                     'author_name' => $validatedData['author_name']
                 ]);
-              
+            }
 
             } else {
                 return response()->json([
