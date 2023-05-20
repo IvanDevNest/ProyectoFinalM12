@@ -22,10 +22,11 @@ import RouteEdit from "./RouteEdit";
 import UserEdit from "./UserEdit";
 import ShowUser from "./ShowUser";
 import ShowMyUser from "./ShowMyUser";
-import Chat from "./Chat/Chat";
+// import Chat from "./Chat/Chat";
 import { Ionicons } from '@expo/vector-icons';
 import Paginavip from "./Paginavip";
 import ShowJoinedRoute from "./ShowJoinedRoute";
+import Chat from "./Chat websocket/Chat";
 
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";

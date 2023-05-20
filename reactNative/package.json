@@ -26,6 +26,8 @@
     "expo-image-picker": "~14.1.1",
     "expo-location": "~15.1.1",
     "expo-status-bar": "~1.4.4",
+    "laravel-echo": "^1.15.1",
+    "pusher-js": "^8.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
@@ -45,12 +47,13 @@
     "react-native-screens": "~3.20.0",
     "react-native-star-rating": "^1.1.0",
     "react-native-web": "~0.18.10",
-    "react-native-webview": "^11.26.0",
+    "react-native-webview": "^11.26.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-router-native": "^6.11.1",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
