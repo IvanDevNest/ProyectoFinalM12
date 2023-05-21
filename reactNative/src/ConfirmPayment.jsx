@@ -8,28 +8,33 @@ const ConfirmPayment = () => {
     const { confirmPayment } = useStripe();
     const [paymentError, setPaymentError] = useState(null);
 
-    const handlePayment = async () => {
+     const handlePayment = async () => {
         try {
-            const response = await fetch('http://equip04.insjoaquimmir.cat/subscribe');
-            const data = await response.json();
-            
-            const { clientSecret } = data;
-        
-            const { paymentIntent, error } = await confirmPayment(clientSecret, {
-              type: 'Card',
+            const data = await fetch('http://equip04.insjoaquimmir.cat/api/subscribe', {
+                headers: {
+                    Accept: 'application/json',
+                },
+                method: 'POST',
+                // body: JSON.stringify(formState),
             });
+            const resposta = await data.json();
+            console.log("resposta: " + JSON.stringify(resposta))
 
-            if (error) {
-                setPaymentError(error.message);
-            } else if (paymentIntent) {
-                // Pago exitoso, puedes realizar las acciones necesarias aquí
-                console.log('Pago exitoso:', paymentIntent);
+            if (resposta.success === true) {
+                // setRutas(resposta);
+                console.log("resposta: " + JSON.stringify(resposta))
+                setClientSecret(resposta.data);
+
+
             }
+            // else setError(resposta.message);
         } catch (e) {
-            console.log('Error al confirmar el pago:', e);
-            setPaymentError('Error al confirmar el pago');
+            console.log(e.message);
         }
     }
+ 
+  
+ 
     return (
         <View>
             <CardField
@@ -48,7 +53,8 @@ const ConfirmPayment = () => {
                 }}
             />
             {paymentError && <Text style={{ color: 'red' }}>{paymentError}</Text>}
-            <Button title="Pagar" onPress={handlePayment} />
+            <Button title="Pagar" onPress={handlePayment} /> 
+
         </View>
 
     )
