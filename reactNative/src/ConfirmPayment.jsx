@@ -7,7 +7,12 @@ const ConfirmPayment = () => {
 
     const { confirmPayment } = useStripe();
     const [paymentError, setPaymentError] = useState(null);
+    const [cardData, setCardData] = useState({});
+    console.log(cardData)
 
+    const handleCardComplete = (cardDetails) => {
+        setCardData(cardDetails);
+      };
      const handlePayment = async () => {
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/subscribe', {
@@ -15,7 +20,7 @@ const ConfirmPayment = () => {
                     Accept: 'application/json',
                 },
                 method: 'POST',
-                // body: JSON.stringify(formState),
+                body: JSON.stringify(cardData),
             });
             const resposta = await data.json();
             console.log("resposta: " + JSON.stringify(resposta))
@@ -51,7 +56,9 @@ const ConfirmPayment = () => {
                     height: 50,
                     marginVertical: 20,
                 }}
-            />
+                onComplete={handleCardComplete}
+
+/>
             {paymentError && <Text style={{ color: 'red' }}>{paymentError}</Text>}
             <Button title="Pagar" onPress={handlePayment} /> 
 
