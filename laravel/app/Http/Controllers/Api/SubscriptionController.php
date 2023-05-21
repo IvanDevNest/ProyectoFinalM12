@@ -7,14 +7,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use Stripe;
 
 class SubscriptionController extends Controller
 {
     public function subscribe(Request $request)
     {
 
-        Stripe\Stripe::setApiKey('sk_test_51N9rwKIDlfyhoNNpI2xazoeJPPbcgOw3RdsHDLqxf4ROpcVdrNqasGxxgqVpUm2twmvPoeUK8vGtEGgIU80Gn2ZB00ofweKda5');
+        \Stripe\Stripe::setApiKey('sk_test_51N9rwKIDlfyhoNNpI2xazoeJPPbcgOw3RdsHDLqxf4ROpcVdrNqasGxxgqVpUm2twmvPoeUK8vGtEGgIU80Gn2ZB00ofweKda5');
 
         $intent = \Stripe\PaymentIntent::create([
             'amount' => 12,
