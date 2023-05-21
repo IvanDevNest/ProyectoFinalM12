@@ -25,7 +25,7 @@ class SubscriptionController extends Controller
             'currency' => 'eur',
         ]);
         $client_secret = $intent->client_secret;
-        return response()->json(['succes' => 'true', 'data' => $client_secret], 200);
+        return response()->json(['success' => 'true', 'data' => $client_secret], 200);
         // try {
         //     // Establecer la clave secreta de Stripe
         //     Stripe::setApiKey(env('STRIPE_SECRET'));
