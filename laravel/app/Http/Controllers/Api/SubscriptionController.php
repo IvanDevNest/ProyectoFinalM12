@@ -7,15 +7,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Stripe\Stripe;
+use Stripe\Charge;
+use Stripe\PaymentIntent;
 
 class SubscriptionController extends Controller
 {
     public function subscribe(Request $request)
     {
 
-        \Stripe\Stripe::setApiKey('sk_test_51N9rwKIDlfyhoNNpI2xazoeJPPbcgOw3RdsHDLqxf4ROpcVdrNqasGxxgqVpUm2twmvPoeUK8vGtEGgIU80Gn2ZB00ofweKda5');
+        Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $intent = \Stripe\PaymentIntent::create([
+        $intent = PaymentIntent::create([
             'amount' => 12,
             'currency' => 'eur',
         ]);
