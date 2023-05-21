@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/channels.php';
-use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +24,6 @@ use App\Http\Controllers\PaymentController;
 
 // });
 
-use App\Models\User;
 
 
 
@@ -88,7 +86,4 @@ Route::get('/routes', 'App\Http\Controllers\Api\RouteController@index');
 
 
 
-
-
-
-Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+Route::post('/subscribe', 'App\Http\Controllers\Api\SubscriptionController@subscribe');
