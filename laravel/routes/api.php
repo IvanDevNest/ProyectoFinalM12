@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 require __DIR__.'/channels.php';
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,3 +90,5 @@ Route::get('/routes', 'App\Http\Controllers\Api\RouteController@index');
 
 
 
+
+Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
