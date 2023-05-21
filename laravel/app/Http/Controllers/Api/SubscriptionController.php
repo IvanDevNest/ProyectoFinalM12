@@ -15,23 +15,15 @@ class SubscriptionController extends Controller
 {
     public function subscribe(Request $request)
     {
-        try {
-            \Stripe\Stripe::setApiKey('sk_test_51N9rwKIDlfyhoNNpI2xazoeJPPbcgOw3RdsHDLqxf4ROpcVdrNqasGxxgqVpUm2twmvPoeUK8vGtEGgIU80Gn2ZB00ofweKda5');
-    
-            $intent = \Stripe\PaymentIntent::create([
-                'amount' => 1000, // Monto en centavos
-                'currency' => 'eur', // Moneda (por ejemplo, euros)
-            ]);
-    
-            $clientSecret = $intent->client_secret;
-    
-            return response()->json([
-                'success' => true,
-                'clientSecret' => $clientSecret,
-            ], 200);
-        } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'error' => $ex->getMessage()], 500);
-        }
+        
+        Stripe::setApiKey('sk_test_51N9rwKIDlfyhoNNpI2xazoeJPPbcgOw3RdsHDLqxf4ROpcVdrNqasGxxgqVpUm2twmvPoeUK8vGtEGgIU80Gn2ZB00ofweKda5');
+
+        $intent = \Stripe\PaymentIntent::create([
+          'amount' => 12,
+          'currency' => 'eur',
+        ]);
+        $client_secret = $intent->client_secret;
+        return response()->json(['succes' => 'true','data'=>$client_secret], 200);
         // try {
         //     // Establecer la clave secreta de Stripe
         //     Stripe::setApiKey(env('STRIPE_SECRET'));
