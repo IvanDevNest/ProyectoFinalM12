@@ -25,23 +25,30 @@ const Chat = () => {
             transports: ['websocket'],
         });
         console.log("entra1 useEffect" + echoInstance)
+        echoInstance.connector.socket.on('connect', () => {
+            console.log('conected');
+        })
         setEcho(echoInstance);
 
         return () => {
             echoInstance.disconnect();
         };
     }, []);
-
+ 
     useEffect(() => {
         if (echo) {
+            
+            echo.connector.socket.on('connect', () => {
+                console.log('conected');
+            })
             //         console.log(echo.channel)
 
             //         const channel = echo.channel('message-events');
             // console.log(channel.listen('.message'))
-
-            echo.channel('channelName’').listen('eventListenerName’', ev => {
-                console.log("message from channel", ev.message.text)
-            });
+            // echo.channel('message-events').listen('eventListenerName', ev => {
+            //     console.log('Received event:', ev);
+            // });
+            
             // channel.listen('.message', (message) => {
             //     console.log('Received message:', message);
             //     handleNewMessage(message);
@@ -53,23 +60,16 @@ const Chat = () => {
     const getMessages = () => {
         if (echo) {
 
-        echo.connector.socket.on('error', (error) => {
-            console.error('Socket error:', error);
-        });
+            echo.connector.socket.on('connect', () => {
+                console.log('conected');
 
-        echo.channel('message-events').listen('.message', (data) => {
-            console.log('Received message:', data);
-        });
-        console.log(echo.connector.socket)
-        echo.connector.socket.on('connect', () => {
-            console.log('Socket connected');
-        });
-        echo.connector.socket.emit('index', (messageList) => {
-            console.log('Received messages:', messageList);
-            setMessages(messageList);
-            setIsLoading(false);
-        });
-
+                          });
+      
+                        //   echo.connector.socket.__invoke('index', (messageList) => {
+                        //     console.log('Received messages:', messageList);
+                        //     setMessages(messageList);
+                        //     setIsLoading(false);
+                        // });
     }
 };
 console.log(messages)
@@ -77,7 +77,7 @@ console.log(messages)
 
 useEffect(() => {
     getMessages();
-}, [usuari.route_id, reload, socket]);
+}, [usuari.route_id, reload, echo]);
 
 const getImagesMessage = async (id) => {
     if (id) {
