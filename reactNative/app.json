@@ -16,10 +16,8 @@
     ],
     "ios": {
       "bundleIdentifier": "com.company.projectem12prueba",
-      "supportsTablet": true,
-      "config": {
-        "googleMapsApiKey": "AIzaSyDHxaklEAdALoHdGnjRhiGOwkFy9nt4dmk" 
-      }
+      "supportsTablet": true
+      
     },
     "android": {
       "adaptiveIcon": {

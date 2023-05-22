@@ -1,23 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from './userContext';
-import { useRoute } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import { useRoute,useNavigation } from '@react-navigation/native';
 import { View, Button, Text, TouchableOpacity, Linking, Image, StyleSheet } from 'react-native';
-import { getRoute } from './slices/routes/thunks';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { salirseRuta } from "./slices/routes/thunks";
-import { eliminarRuta } from "./slices/routes/thunks";
-import { unirseRuta } from './slices/routes/thunks';
-import { obtenerInscripciones } from "./slices/routes/thunks";
-import { WebView } from 'react-native-webview';
-import { set } from 'react-hook-form';
-import IframePlugin from '@native-html/iframe-plugin';
-import { RenderHTML } from 'react-native-render-html';
+import { useDispatch,useSelector } from 'react-redux';
+
+import { salirseRuta,eliminarRuta,unirseRuta,obtenerInscripciones,getRoute } from "./slices/routes/thunks";
+
 
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import axios from 'axios';
 import MapViewDirections from 'react-native-maps-directions'
+import { WebView } from 'react-native-webview';
 
 const ShowRoute = () => {
     const { inscripciones, isSaving = true, error = "", ruta, isLoading, page, lastpage, } = useSelector((state) => state.routes);
@@ -160,8 +153,10 @@ const ShowRoute = () => {
     if (!endCoordinates) {
         return null; // Invalid URL, handle it accordingly
     }
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyDHxaklEAdALoHdGnjRhiGOwkFy9nt4dmk';
-
+    // const GOOGLE_MAPS_APIKEY = 'AIzaSyDHxaklEAdALoHdGnjRhiGOwkFy9nt4dmk';
+    // "config": {
+    //     "googleMapsApiKey": "AIzaSyDHxaklEAdALoHdGnjRhiGOwkFy9nt4dmk" 
+    //   }
     return (
         <View>
             {isLoading ?
@@ -217,7 +212,7 @@ const ShowRoute = () => {
                         />
 
                     </MapView>
-
+                  
                     <Text style={{ fontWeight: 'bold' }}>Descripcion</Text>
                     <Text>{ruta.description}</Text>
                     <View style={{ flexDirection: 'row' }}>
