@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import { CardField, useStripe } from '@stripe/stripe-react-native';
 import { useRoute } from '@react-navigation/native';
+import { useEffect } from "react";
 
 const ConfirmPayment = () => {
 
@@ -12,13 +13,7 @@ const ConfirmPayment = () => {
     const [paymentError, setPaymentError] = useState(null);
     const [cardData, setCardData] = useState({});
     console.log(cardData)
-    const handleSelectMonthly = () => {
-        setSubscriptionType('monthly');
-      };
-      
-      const handleSelectAnnual = () => {
-        setSubscriptionType('annual');
-      };
+
 
     const handleCardComplete = (cardDetails) => {
         setCardData(cardDetails);
@@ -47,7 +42,9 @@ const ConfirmPayment = () => {
             console.log(e.message);
         }
     }
- 
+    useEffect(() => {
+     console.log(subscriptionType)
+      }, [subscriptionType]);
   
  
     return (
@@ -67,14 +64,33 @@ const ConfirmPayment = () => {
                     marginVertical: 20,
                 }}
                 onComplete={handleCardComplete}
-
-/>
+            />
+            
+            <View style={styles.subscriptionButtons}>
+                <Button
+                    title="Pagar Mensualmente"
+                    onPress={() => setSubscriptionType('monthly')}
+                    color={subscriptionType === 'monthly' ? '#007bff' : '#999999'}
+                />
+                <Button
+                    title="Pagar Anualmente"
+                    onPress={() => setSubscriptionType('annual')}
+                    color={subscriptionType === 'annual' ? '#007bff' : '#999999'}
+                />
+            </View>
+            
             {paymentError && <Text style={{ color: 'red' }}>{paymentError}</Text>}
             <Button title="Pagar" onPress={handlePayment} /> 
-
         </View>
-
     )
 }
 
-export default ConfirmPayment
+const styles = StyleSheet.create({
+    subscriptionButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+});
+
+export default ConfirmPayment;
