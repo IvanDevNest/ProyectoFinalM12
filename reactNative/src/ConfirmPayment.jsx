@@ -5,10 +5,20 @@ import { useRoute } from '@react-navigation/native';
 
 const ConfirmPayment = () => {
 
+    const [subscriptionType, setSubscriptionType] = useState('monthly');
+
+
     const { confirmPayment } = useStripe();
     const [paymentError, setPaymentError] = useState(null);
     const [cardData, setCardData] = useState({});
     console.log(cardData)
+    const handleSelectMonthly = () => {
+        setSubscriptionType('monthly');
+      };
+      
+      const handleSelectAnnual = () => {
+        setSubscriptionType('annual');
+      };
 
     const handleCardComplete = (cardDetails) => {
         setCardData(cardDetails);
@@ -20,7 +30,7 @@ const ConfirmPayment = () => {
                     Accept: 'application/json',
                 },
                 method: 'POST',
-                body: JSON.stringify(cardData),
+                body: JSON.stringify({ cardData, subscription: subscriptionType }),
             });
             const resposta = await data.json();
             console.log("resposta: " + JSON.stringify(resposta))
