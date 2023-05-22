@@ -93,6 +93,7 @@ const CreateRoute = () => {
     const minDate = new Date(currentYear, new Date().getMonth());
     const maxDate = new Date(nextYear, new Date().getMonth());
     console.log(JSON.stringify(date))
+    
     return (
         <ScrollView>
             <Text>Información de la ruta</Text>

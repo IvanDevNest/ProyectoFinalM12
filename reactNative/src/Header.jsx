@@ -104,7 +104,7 @@ const Header = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <Image source={require('./blue-man-1.gif')} style={styles.logo} />
+        <Image source={require('./logo.png')} style={styles.logo} />
       <Button title='Logout' onPress={() => sendLogout()}></Button> 
 
 
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     marginRight: 10,
   },
   title: {

@@ -107,11 +107,7 @@ const ShowRoute = () => {
         dispatch(obtenerInscripciones(objectId,authToken))
     }, [reload,ruta,inscripciones]);
     
-    const renderers = {
-        iframe: IframePlugin,
-      };
-      const html = <iframe src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d17468.732533657883!2d1.675721653645597!3d41.24021157673988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e0!4m3!3m2!1d41.244080499999995!2d1.6627528!4m3!3m2!1d41.254789099999996!2d1.6549398!5e0!3m2!1ses!2ses!4v1684518930515!5m2!1ses!2ses" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>;
-    return (
+  return (
         <View>
             {isLoading ?
                 <Text>Cargando...</Text>
@@ -193,10 +189,7 @@ const ShowRoute = () => {
                             <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload)) }}></Button>
                         </> : <></>
                     }
-                    <RenderHTML
-  source={{ html }}
-  renderers={renderers}
-/>
+                  
                     
                     
 
