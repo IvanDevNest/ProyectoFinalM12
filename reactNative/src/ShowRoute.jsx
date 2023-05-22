@@ -235,12 +235,12 @@ const ShowRoute = () => {
                             </View>
                         </View>
                         <View>
-                            <Text style={{ fontWeight: 'bold' }}>Duracion estimada</Text>
-                            <Text>{ruta.estimated_duration}</Text>
+                            <Text style={{ fontWeight: 'bold' }}>Duracion   </Text>
+                            <Text>{ruta.estimated_duration} h</Text>
                         </View>
                         <View>
-                            <Text style={{ fontWeight: 'bold' }}>Distancia en Km</Text>
-                            <Text>{ruta.distance}</Text>
+                            <Text style={{ fontWeight: 'bold' }}>Distancia</Text>
+                            <Text>{ruta.distance} km</Text>
                         </View>
                     </View>
 
