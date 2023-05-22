@@ -46,7 +46,7 @@ class ThrottleRequests
      *
      * @throws \Illuminate\Http\Exceptions\ThrottleRequestsException
      */
-    public function handle($request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
+    public function handle($request, Closure $next, $maxAttempts = 1000, $decayMinutes = 1, $prefix = '')
     {
         if (is_string($maxAttempts)
             && func_num_args() === 3
@@ -182,7 +182,7 @@ class ThrottleRequests
      * @param  string  $key
      * @param  int  $maxAttempts
      * @param  callable|null  $responseCallback
-     * @return \Illuminate\Http\Exceptions\ThrottleRequestsException
+     * @return \Illuminate\Http\Exceptions\gitException
      */
     protected function buildException($request, $key, $maxAttempts, $responseCallback = null)
     {
