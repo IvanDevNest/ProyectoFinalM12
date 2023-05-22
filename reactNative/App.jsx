@@ -27,8 +27,10 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <UserContext.Provider value={{ filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari,
-         setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl,latitudeUser, setLatitudeUser,longitudeUser, setLongitudeUser,coordsCargadas, setcoordsCargadas }}>
+      <UserContext.Provider value={{
+        filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari,
+        setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl, latitudeUser, setLatitudeUser, longitudeUser, setLongitudeUser, coordsCargadas, setcoordsCargadas
+      }}>
         <View style={styles.container}>
           {authToken ?
             <>

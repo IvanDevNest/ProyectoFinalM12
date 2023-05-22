@@ -22,10 +22,13 @@ import RouteEdit from "./RouteEdit";
 import UserEdit from "./UserEdit";
 import ShowUser from "./ShowUser";
 import ShowMyUser from "./ShowMyUser";
-import Chat from "./Chat/Chat";
+ import Chat from "./Chat/Chat";
 import { Ionicons } from '@expo/vector-icons';
-import Paginavip from "./Paginavip";
+// import Paginavip from "./Paginavip";
 import ShowJoinedRoute from "./ShowJoinedRoute";
+import Paginavip from "./Paginavippruebapagos";
+//  import Chat from "./Chat websocket/Chat";
+import ConfirmPayment from "./ConfirmPayment";
 
 // import { AuthContext } from "./AuthContext";
 // import LoginRegister from "./Auth/LoginRegister";
@@ -59,7 +62,11 @@ function MyStack() {
             <HomeStackNavigator.Screen
                 name="UserEdit"
                 component={UserEdit}
-            />
+            /> 
+            <HomeStackNavigator.Screen
+            name="ConfirmPayment"
+            component={ConfirmPayment}
+        />
 
         </HomeStackNavigator.Navigator>
     )

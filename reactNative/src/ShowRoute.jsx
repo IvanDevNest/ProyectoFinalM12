@@ -103,11 +103,14 @@ const ShowRoute = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(getRoute(objectId,authToken));
-        dispatch(obtenerInscripciones(objectId,authToken))
-    }, [reload,ruta,inscripciones]);
-    
-  return (
+        dispatch(getRoute(objectId, authToken));
+        dispatch(obtenerInscripciones(objectId, authToken))
+    }, [reload, ruta, inscripciones]);
+
+  
+
+    // const html = <iframe src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d17468.732533657883!2d1.675721653645597!3d41.24021157673988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e0!4m3!3m2!1d41.244080499999995!2d1.6627528!4m3!3m2!1d41.254789099999996!2d1.6549398!5e0!3m2!1ses!2ses!4v1684518930515!5m2!1ses!2ses" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>;
+    return (
         <View>
             {isLoading ?
                 <Text>Cargando...</Text>
@@ -115,32 +118,32 @@ const ShowRoute = () => {
                 <View>
                     <View style={{ flexDirection: 'row' }}>
                         <View>
-                        <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
-                        <Text>{ruta.name}</Text>
+                            <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
+                            <Text>{ruta.name}</Text>
                         </View>
-                    <View>
-                    <Text style={{ fontWeight: 'bold' }}>Autor de la ruta</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
-                            {avatarUrl ?
-                                <Image style={styles.avatar} source={{ uri: avatarUrl }} />
-                                :
-                                <Image style={styles.avatar} source={require("./user_default.png")} />
-                            }
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
-                            <Text>{authorRuta.name}</Text>
-                        </TouchableOpacity>
-                        {authorRuta.id_role == 4 ?
-                            <Image source={require("./vip.png")} style={{ width: 30, height: 30, position: 'absolute' }}></Image>
-                            :
-                            <></>}
+                        <View>
+                            <Text style={{ fontWeight: 'bold' }}>Autor de la ruta</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
+                                    {avatarUrl ?
+                                        <Image style={styles.avatar} source={{ uri: avatarUrl }} />
+                                        :
+                                        <Image style={styles.avatar} source={require("./user_default.png")} />
+                                    }
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => ShowUser(authorRuta.id)}>
+                                    <Text>{authorRuta.name}</Text>
+                                </TouchableOpacity>
+                                {authorRuta.id_role == 4 ?
+                                    <Image source={require("./vip.png")} style={{ width: 30, height: 30, position: 'absolute' }}></Image>
+                                    :
+                                    <></>}
+
+                            </View>
+                        </View>
 
                     </View>
-                    </View>
-                        
-                    </View>
-                    
+
                     <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
 
                     <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
@@ -189,18 +192,23 @@ const ShowRoute = () => {
                             <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload)) }}></Button>
                         </> : <></>
                     }
+<<<<<<< HEAD
                   
                     
                     
+=======
+               
+
+>>>>>>> e42ace2b33497d96a05d27169e29e88b93a75a81
 
                     {error ? <Text>{error}</Text> : <></>}
-                    
 
-                    
+
+
                 </View>
-                
+
             }
-            
+
         </View>
 
 

@@ -43,8 +43,9 @@ class MessageWebSocketController extends WebSocketController
             'type' => 'index',
             'data' => $messages
         ];
+        // $this->broadcast('.message', $response);
 
-        return $this->sendMessage(json_encode($response));
+         return $this->sendMessage(json_encode($response));
     }
 
     protected function store(array $data)
@@ -61,8 +62,9 @@ class MessageWebSocketController extends WebSocketController
             'data' => $message,
             'message' => 'Message created successfully.'
         ];
+        $this->broadcast('.message', $response);
 
-        return $this->sendMessage(json_encode($response));
+        // return $this->sendMessage(json_encode($response));
     }
 
     protected function show($id)
@@ -73,8 +75,9 @@ class MessageWebSocketController extends WebSocketController
             'type' => 'show',
             'data' => $message
         ];
+        $this->broadcast('.message', $response);
 
-        return $this->sendMessage(json_encode($response));
+        // return $this->sendMessage(json_encode($response));
     }
 
     protected function update($id, array $data)
@@ -119,8 +122,9 @@ class MessageWebSocketController extends WebSocketController
             'type' => 'unknown',
             'message' => 'Unknown message type.'
         ];
+        $this->broadcast('.message', $response);
 
-        return $this->sendMessage(json_encode($response));
+        // return $this->sendMessage(json_encode($response));
     }
 
     protected function validateData(array $data)
