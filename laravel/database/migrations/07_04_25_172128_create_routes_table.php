@@ -19,12 +19,18 @@ class CreateRoutesTable extends Migration
 
             // $table->string('cord_x');
             // $table->string('cord_y');
-            $table->string('url_maps');
+            // $table->string('url_maps');
             $table->integer('num_stops');
             $table->integer('max_users');
-            
-            $table->float('latitude', 8, 5);  // 90  to -90
-            $table->float('longitude', 8, 5); // 180 to -180
+
+            $table->float('startLatitude',8, 5);
+            $table->float('startLongitude',8, 5);
+
+            $table->float('endLatitude',8, 5);
+            $table->float('endLongitude',8, 5);
+
+            // $table->float('latitude', 8, 5);  // 90  to -90
+            // $table->float('longitude', 8, 5); // 180 to -180
             // $table->unsignedBigInteger('id_author')->nullable();
             // $table->foreign('id_author')->references('id')->on('users');
             

@@ -15,25 +15,30 @@ class Route extends Model
         'estimated_duration',
         'type_vehicle',
         'distance',
-        'url_maps',
+        // 'url_maps',
         'num_stops',
         'max_users',
-        'latitude',
-        'longitude',
+        // 'latitude',
+        // 'longitude',
+        'startLatitude',
+        'startLongitude',
+
+        'endLatitude',
+        'endLongitude',
         'author_id',
         'id_route_style',
 
     ];
-    
+
     public function file()
     {
         return $this->belongsTo(File::class);
     }
-    
+
     public function users()
-{
-    return $this->hasMany(User::class);
-}
+    {
+        return $this->hasMany(User::class);
+    }
 
     // public function user()
     // {

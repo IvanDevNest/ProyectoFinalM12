@@ -27,6 +27,8 @@ class RoutesSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             $latitude = mt_rand(-90, 90) + mt_rand() / mt_getrandmax();
             $longitude = mt_rand(-180, 180) + mt_rand() / mt_getrandmax();
+            $latitude1 = mt_rand(-90, 90) + mt_rand() / mt_getrandmax();
+            $longitude1 = mt_rand(-180, 180) + mt_rand() / mt_getrandmax();
             $type_vehicle = $vehicleTypes[array_rand($vehicleTypes)];
 
 
@@ -36,12 +38,15 @@ class RoutesSeeder extends Seeder
                 'date' => '2023-05-17 18:20:56',
                 'estimated_duration' => '1:30',
                 'distance' => '50',
-                
-                'latitude' => $latitude,
-                'longitude' => $longitude,
+
+                'startLatitude'=> $latitude,
+                'startLongitude'=> $longitude,
+
+                'endLatitude'=> $latitude1,
+                'endLongitude'=> $longitude1,
 
                 'type_vehicle' => $type_vehicle,
-                'url_maps' => 'https://maps.google.com/route' . ($i + 1),
+                // 'url_maps' => 'https://maps.google.com/route' . ($i + 1),
                 'num_stops' => rand(1, 10),
                 // 'max_users' => rand(1, 10),
                 'max_users' => rand(1, 2),
@@ -55,6 +60,6 @@ class RoutesSeeder extends Seeder
 
         // Insertar los datos en la tabla "routes"
         DB::table('routes')->insert($routes);
-    
+
     }
 }

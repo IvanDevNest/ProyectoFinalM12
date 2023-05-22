@@ -82,12 +82,13 @@ class RouteController extends Controller
         
 
         // Calcular la distancia y agregarla a cada ruta
+        
         $latitudeUser = $request->input('latitudeUser'); // Obtener la latitud del usuario desde la solicitud
         $longitudeUser = $request->input('longitudeUser'); // Obtener la longitud del usuario desde la solicitud
         // Obtener todas las rutas sin paginación
         $routes = $query->get();
         foreach ($routes as $route) {
-            $distanceToRoute = $this->calcularDistancia($route->latitude, $route->longitude, $latitudeUser, $longitudeUser);
+            $distanceToRoute = $this->calcularDistancia($route->startLatitude, $route->startLongitude, $latitudeUser, $longitudeUser);
             $route->distanceToRoute = $distanceToRoute;
         }
 
@@ -131,12 +132,16 @@ class RouteController extends Controller
             'date' => 'required',
             'distance' => 'required|numeric',
             'estimated_duration' => 'required|numeric',
-            'url_maps' => 'required|max:255',
+            // 'url_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
-            'latitude' => 'required',
-            'longitude' => 'required',
+
+            'startLatitude' => 'required',
+            'startLongitude' => 'required',
+            'endLatitude' => 'required',
+            'endLongitude' => 'required',
+            
             'id_route_style' => 'required|exists:route_styles,id',
             'author_id' => 'required|exists:users,id'
         ]);
@@ -202,12 +207,16 @@ class RouteController extends Controller
             'date' => 'required',
             'distance' => 'required|numeric',
             'estimated_duration' => 'required|numeric',
-            'url_maps' => 'required|max:255',
+            // 'url_maps' => 'required|max:255',
             'num_stops' => 'required|integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
-            'latitude' => 'required|float',
-            'longitude' => 'required|float',
+            // 'latitude' => 'required|float',
+            // 'longitude' => 'required|float',
+            'startLatitude' => 'required',
+            'startlongitude' => 'required',
+            'endLatitude' => 'required',
+            'endlongitude' => 'required',
             'id_route_style' => 'required|exists:route_styles,id',
             'author_id' => 'required|exists:users,id'
         ]);
