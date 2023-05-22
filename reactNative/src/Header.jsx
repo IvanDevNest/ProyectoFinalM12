@@ -19,7 +19,7 @@ const Header = () => {
   const fetchAvatar = async () => {
     const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${usuari.id}/avatar`);
     const response = await data.json();
-    console.log("fetchavatar: " + response.image_url)
+    console.log("fetchMyAvatar: " + response.image_url)
     setMyAvatarUrl(response.image_url);
   };
 

@@ -68,7 +68,7 @@ const ShowRoute = () => {
             const data = await fetch(`http://equip04.insjoaquimmir.cat/api/users/${id}/avatar`);
             const resposta = await data.json();
             if (resposta.success === true) {
-                console.log("fetchavatar: " + resposta)
+                console.log("fetchavatar author route: " + resposta)
                 setAvatarUrl(resposta.image_url);
             } else setError(resposta.message);
         } catch (e) {
@@ -99,13 +99,16 @@ const ShowRoute = () => {
 
     }
     useEffect(() => {
+        if(ruta){
         obtenerDatosAuthorRuta(ruta.author_id)
-    }, [])
-
+    }
+    }, [ruta])
     useEffect(() => {
-        dispatch(getRoute(objectId, authToken));
+    dispatch(getRoute(objectId, authToken));
+    },[])
+    useEffect(() => {
         dispatch(obtenerInscripciones(objectId, authToken))
-    }, [reload, ruta, inscripciones]);
+    }, [reload, ruta,inscripciones]);
 
   
 

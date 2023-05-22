@@ -41,7 +41,7 @@ export const obtenerInscripciones = (id,authToken) => {
         });
         const resposta = await data.json();
         if (resposta.success === true) {
-            console.log("Inscripciones: " + JSON.stringify(resposta))
+            // console.log("Inscripciones: " + JSON.stringify(resposta))
             dispatch(setInscripciones(resposta.data))
             dispatch(setIsLoading(false))
 

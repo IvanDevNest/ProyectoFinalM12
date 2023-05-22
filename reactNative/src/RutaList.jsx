@@ -96,9 +96,9 @@ const RutaList = (ruta) => {
 
 
     useEffect(() => {
-        dispatch(getUser(authToken,setUsuari));
+        // dispatch(getUser(authToken,setUsuari));
         dispatch(obtenerInscripciones(ruta.id,authToken))
-        console.log("Las inscripciones: " + JSON.stringify(inscripciones))
+        // console.log("Las inscripciones: " + JSON.stringify(inscripciones))
     }, [reload]);
 
     const numeroInscripciones = inscripciones.length;
