@@ -85,208 +85,210 @@ const CreateRoute = () => {
     console.log(latitudeUser, longitudeUser)
     console.log(startCoords, endCoords)
     return (
-        <ScrollView>
-            <Text>Información de la ruta</Text>
-            <Text>Nombre de la ruta</Text>
-            <CustomInput
-                name="name"
-                placeholder="Nombre de la ruta"
-                control={control}
-                rules={{ required: 'duracion is required' }}
+        <>
+            <ScrollView    >
+            <View style={{flex: 1,paddingBottom: 300}}>
+                                    <Text>Información de la ruta</Text>
+                    <Text>Nombre de la ruta</Text>
+                    <CustomInput
+                        name="name"
+                        placeholder="Nombre de la ruta"
+                        control={control}
+                        rules={{ required: 'duracion is required' }}
 
-            />
-            <View >
-                <View>
-                    <Text>Fecha</Text>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>{text}</Text>
-                        <View style={{ flex: 2, flexDirection: 'row' }}>
-                            <Button title='Seleccionar dia' onPress={() => showMode('date')} />
-                            <Button title='Seleccionar hora' onPress={() => showMode('time')} />
+                    />
+                    <View >
+                        <View>
+                            <Text>Fecha</Text>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text>{text}</Text>
+                                <View style={{ flex: 2, flexDirection: 'row' }}>
+                                    <Button title='Seleccionar dia' onPress={() => showMode('date')} />
+                                    <Button title='Seleccionar hora' onPress={() => showMode('time')} />
+                                </View>
+                                {show && (
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={date}
+                                        mode={mode}
+                                        is24Hour={true}
+                                        display="default"
+                                        minimumDate={minDate}
+                                        maximumDate={maxDate}
+                                        onChange={onChange}
+                                    />
+                                )}
+
+                            </View>
+
                         </View>
-                        {show && (
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={date}
-                                mode={mode}
-                                is24Hour={true}
-                                display="default"
-                                minimumDate={minDate}
-                                maximumDate={maxDate}
-                                onChange={onChange}
+                        <View>
+                            <Text>Vehículo</Text>
+                            <Controller
+                                control={control}
+                                name="type_vehicle"
+                                defaultValue=""
+                                rules={{ required: true }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <RNPickerSelect
+                                        placeholder={{ label: 'Selecciona una opción...', value: null }}
+                                        onValueChange={onChange}
+                                        onBlur={onBlur}
+                                        items={[
+                                            { label: 'Moto', value: 'Moto' },
+                                            { label: 'Coche', value: 'Coche' }
+                                        ]}
+                                        value={value}
+                                    />
+                                )}
                             />
-                        )}
 
+
+                        </View>
                     </View>
 
-                </View>
-                <View>
-                    <Text>Vehículo</Text>
-                    <Controller
-                        control={control}
-                        name="type_vehicle"
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <RNPickerSelect
-                                placeholder={{ label: 'Selecciona una opción...', value: null }}
-                                onValueChange={onChange}
-                                onBlur={onBlur}
-                                items={[
-                                    { label: 'Moto', value: 'Moto' },
-                                    { label: 'Coche', value: 'Coche' }
-                                ]}
-                                value={value}
+                    <View>
+                        <View>
+                            <Text>Distancia aproximada</Text>
+                            <CustomInput
+                                name="distance"
+
+                                placeholder="30km-35km"
+                                control={control}
+                                rules={{
+                                    required: 'Distancia es requerida',
+                                }}
                             />
-                        )}
-                    />
-
-
-                </View>
-            </View>
-
-            <View>
-                <View>
-                    <Text>Distancia aproximada</Text>
-                    <CustomInput
-                        name="distance"
-
-                        placeholder="30km-35km"
-                        control={control}
-                        rules={{
-                            required: 'Distancia es requerida',
+                        </View>
+                        <View>
+                            <Text>Duración</Text>
+                            <CustomInput
+                                name="estimated_duration"
+                                control={control}
+                                rules={{
+                                    required: 'Duración es requerida',
+                                }}
+                            />
+                        </View>
+                    </View>
+                    <Text>
+                        Marca el inicio y el final de la ruta en el mapa
+                    </Text>
+                    <MapView
+                        provider={PROVIDER_GOOGLE}
+                        style={{
+                            width: '100%',
+                            height: '40%',
                         }}
-                    />
-                </View>
-                <View>
-                    <Text>Duración</Text>
-                    <CustomInput
-                        name="estimated_duration"
-                        control={control}
-                        rules={{
-                            required: 'Duración es requerida',
+                        onPress={handleMapPress}
+                        initialRegion={{
+                            latitude: latitudeUser,
+                            longitude: longitudeUser,
+                            latitudeDelta: 0.05,
+                            longitudeDelta: 0.05,
                         }}
+                    ><MapViewDirections
+                            origin={startCoords}
+                            destination={endCoords}
+                            apikey={GOOGLE_MAPS_APIKEY}
+                            strokeWidth={3}
+                            strokeColor="blue"
+                        />
+                        {startCoords && <Marker coordinate={startCoords} />}
+                        {endCoords && <Marker coordinate={endCoords} />}
+                    </MapView>
+                    <Button
+                        title="Volver a marcar"
+                        onPress={handleReset}
+                        disabled={!startCoords && !endCoords}
                     />
-                </View>
-            </View>
-            <Text>
-                Marca el inicio y el final de la ruta en el mapa
-            </Text>
-            <MapView
-                provider={PROVIDER_GOOGLE}
-                style={{
-                    width: '100%',
-                    height: '40%',
-                }}
-                onPress={handleMapPress}
-                initialRegion={{
-                    latitude: latitudeUser,
-                    longitude: longitudeUser,
-                    latitudeDelta: 0.05,
-                    longitudeDelta: 0.05,
-                }}
-            ><MapViewDirections
-                    origin={startCoords}
-                    destination={endCoords}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={3}
-                    strokeColor="blue"
-                />
-                {startCoords && <Marker coordinate={startCoords} />}
-                {endCoords && <Marker coordinate={endCoords} />}
-            </MapView>
-            <Button
-                title="Volver a marcar"
-                onPress={handleReset}
-                disabled={!startCoords && !endCoords}
-            />
-            {/* <CustomInput
+                    {/* <CustomInput
                 name="url_maps"
                 placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
                 control={control}
                 rules={{ required: 'URL de Google Maps is required' }}
             /> */}
-            <View>
-                <View>
-                    <Text>Velocidad de la ruta</Text>
+                    <View>
+                        <View>
+                            <Text>Velocidad de la ruta</Text>
+                            <Controller
+                                control={control}
+                                name="id_route_style"
+                                defaultValue=""
+                                rules={{ required: true }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <RNPickerSelect
+                                        placeholder={{ label: 'Selecciona una opción...', value: null }}
+                                        onValueChange={onChange}
+                                        onBlur={onBlur}
+                                        items={[
+                                            { label: 'Del chill', value: '1' },
+                                            { label: 'Animado', value: '2' },
+                                            { label: 'A gas', value: '3' },
+                                        ]}
+                                        value={value}
+                                    />
+                                )}
+                            />
+
+                        </View>
+                        <View>
+                            <Text>Numero de paradas</Text>
+                            <CustomInput
+                                name="num_stops"
+
+                                control={control}
+                                rules={{
+                                    required: 'Numero de paradas es requerida',
+                                }}
+                            />
+                        </View>
+
+
+                    </View>
+                    <Text>Maximo de personas</Text>
                     <Controller
                         control={control}
-                        name="id_route_style"
-                        defaultValue=""
+                        name="max_users"
+                        defaultValue="10"
                         rules={{ required: true }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <RNPickerSelect
+
                                 placeholder={{ label: 'Selecciona una opción...', value: null }}
                                 onValueChange={onChange}
                                 onBlur={onBlur}
                                 items={[
-                                    { label: 'Del chill', value: '1' },
-                                    { label: 'Animado', value: '2' },
-                                    { label: 'A gas', value: '3' },
+                                    { label: '1', value: '1' },
+                                    { label: '2', value: '2' },
+                                    { label: '3', value: '3' },
+                                    { label: '4', value: '4' },
+                                    { label: '5', value: '5' },
+                                    { label: '6', value: '6' },
+                                    { label: '7', value: '7' },
+                                    { label: '8', value: '8' },
+                                    { label: '9', value: '9' },
+                                    { label: '10', value: '10' },
                                 ]}
                                 value={value}
                             />
                         )}
                     />
 
-                </View>
-                <View>
-                    <Text>Numero de paradas</Text>
+
+                    <Text>Descripción</Text>
                     <CustomInput
-                        name="num_stops"
-
+                        name="description"
+                        placeholder="Descripción de la ruta"
                         control={control}
-                        rules={{
-                            required: 'Numero de paradas es requerida',
-                        }}
+                        rules={{ required: 'Descripción is required' }}
+
                     />
+                    {error ? <Text>{error}</Text> : <></>}
+                    <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
                 </View>
-
-
-            </View>
-            <Text>Maximo de personas</Text>
-            <Controller
-                control={control}
-                name="max_users"
-                defaultValue="10"
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <RNPickerSelect
-
-                        placeholder={{ label: 'Selecciona una opción...', value: null }}
-                        onValueChange={onChange}
-                        onBlur={onBlur}
-                        items={[
-                            { label: '1', value: '1' },
-                            { label: '2', value: '2' },
-                            { label: '3', value: '3' },
-                            { label: '4', value: '4' },
-                            { label: '5', value: '5' },
-                            { label: '6', value: '6' },
-                            { label: '7', value: '7' },
-                            { label: '8', value: '8' },
-                            { label: '9', value: '9' },
-                            { label: '10', value: '10' },
-                        ]}
-                        value={value}
-                    />
-                )}
-            />
-
-
-            <Text>Descripción</Text>
-            <CustomInput
-                name="description"
-                placeholder="Descripción de la ruta"
-                control={control}
-                rules={{ required: 'Descripción is required' }}
-
-            />
-            {error ? <Text>{error}</Text> : <></>}
-            <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
-
-        </ScrollView >
-
+            </ScrollView >
+        </>
     )
 }
 

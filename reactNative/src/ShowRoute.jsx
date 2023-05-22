@@ -11,7 +11,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'
 
 const ShowRoute = () => {
-    const { inscripciones, isSaving = true, error = "", ruta, page, lastpage, } = useSelector((state) => state.routes);
+    const { inscripciones, isSaving = true, error = "",  page, lastpage, } = useSelector((state) => state.routes);
 
     const dispatch = useDispatch();
 
@@ -22,13 +22,13 @@ const ShowRoute = () => {
     let { usuari, authToken } = useContext(UserContext);
     const [avatarUrl, setAvatarUrl] = useState(null);
     const [reload, setReload] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const [authorRuta, setAuthorRuta] = useState([]);
 
     const route = useRoute();
-    const objectId = route.params.objectId;
+    const ruta = route.params.object;
 
     const navigation = useNavigation();
 
@@ -91,70 +91,74 @@ const ShowRoute = () => {
         };
 
     }
+    
     useEffect(() => {
         if (ruta) {
             obtenerDatosAuthorRuta(ruta.author_id)
-            getCoordsMap()
         }
     }, [ruta])
+    // useEffect(() => {
+    //         dispatch(getRoute(objectId, authToken));
+    // }, [])
     useEffect(() => {
-            dispatch(getRoute(objectId, authToken));
-    }, [])
-    useEffect(() => {
-        dispatch(obtenerInscripciones(objectId, authToken))
+        dispatch(obtenerInscripciones(ruta.id, authToken))
     }, [reload, ruta ]);
     // }, [reload, ruta, inscripciones]);
-    console.log(ruta.url_maps)
-    const [initialRegion, setInitialRegion] = useState({});
-    const [startCoords, setStartCoords] = useState({});
-    const [endCoords, setEndCoords] = useState({});
-    const getCoordsMap = async () => {
+      const [initialRegion, setInitialRegion] = useState({
+                    latitude: ruta.startLatitude,
+                    longitude: ruta.startLongitude,
+                    latitudeDelta: 0.1, // Ajusta el nivel de zoom verticalmente
+                    longitudeDelta: 0.1, // Ajusta el nivel de zoom horizontalmente
+                });
+     const [startCoords, setStartCoords] = useState({latitude:ruta.startLatitude,longitude:ruta.startLongitude});
+      const [endCoords, setEndCoords] = useState({latitude:ruta.endLatitude,longitude:ruta.endLongitude});
+    // const getCoordsMap = async () => {
 
-        //ruta
-        const routeUrl = ruta.url_maps
+    //     //ruta
+    //     const routeUrl = ruta.url_maps
         
-        // Extraer coordenadas iniciales
-        const regexInicial = /\/(\d+\.\d+),(\d+\.\d+)\//;
-        const matchInicial = routeUrl.match(regexInicial);
-        let latInicial = 0;
-        let lngInicial = 0;
+    //     // Extraer coordenadas iniciales
+    //     const regexInicial = /\/(\d+\.\d+),(\d+\.\d+)\//;
+    //     const matchInicial = routeUrl.match(regexInicial);
+    //     let latInicial = 0;
+    //     let lngInicial = 0;
 
-        if (matchInicial && matchInicial.length >= 3) {
-            latInicial = parseFloat(matchInicial[1]);
-            lngInicial = parseFloat(matchInicial[2]);
-        } else {
-            console.log("No se encontró la latitud y longitud inicial en la URL.");
-        }
+    //     if (matchInicial && matchInicial.length >= 3) {
+    //         latInicial = parseFloat(matchInicial[1]);
+    //         lngInicial = parseFloat(matchInicial[2]);
+    //     } else {
+    //         console.log("No se encontró la latitud y longitud inicial en la URL.");
+    //     }
 
-        setStartCoords({ latitude: latInicial, longitude: lngInicial });
+    //     setStartCoords({ latitude: latInicial, longitude: lngInicial });
 
-        setInitialRegion({
-            latitude: latInicial,
-            longitude: lngInicial,
-            latitudeDelta: 0.02, // Ajusta el nivel de zoom verticalmente
-            longitudeDelta: 0.02, // Ajusta el nivel de zoom horizontalmente
-        });
+    //     setInitialRegion({
+    //         latitude: latInicial,
+    //         longitude: lngInicial,
+    //         latitudeDelta: 0.02, // Ajusta el nivel de zoom verticalmente
+    //         longitudeDelta: 0.02, // Ajusta el nivel de zoom horizontalmente
+    //     });
 
 
-        // Extraer coordenadas finales
-        const regexFinales = /\/@(-?\d+\.\d+),(-?\d+\.\d+)/;
-        const matchPreview = routeUrl.match(regexFinales);
+    //     // Extraer coordenadas finales
+    //     const regexFinales = /\/@(-?\d+\.\d+),(-?\d+\.\d+)/;
+    //     const matchPreview = routeUrl.match(regexFinales);
       
 
-        if (matchPreview && matchPreview.length >= 3) {
-            latFinal = parseFloat(matchPreview[1]);
-            lngFinal = parseFloat(matchPreview[2]);
+    //     if (matchPreview && matchPreview.length >= 3) {
+    //         latFinal = parseFloat(matchPreview[1]);
+    //         lngFinal = parseFloat(matchPreview[2]);
 
-        } else {
-            console.log("No se encontraron las coordenadas finales en la URL.");
-        }
-        setEndCoords({ latitude: latFinal, longitude: lngFinal })
+    //     } else {
+    //         console.log("No se encontraron las coordenadas finales en la URL.");
+    //     }
+    //     setEndCoords({ latitude: latFinal, longitude: lngFinal })
 
-        console.log("Coordenadas iniciales:", latInicial, lngInicial);
-        console.log("Coordenadas finales:", latFinal, lngFinal);
-        setIsLoading(false)
+    //     console.log("Coordenadas iniciales:", latInicial, lngInicial);
+    //     console.log("Coordenadas finales:", latFinal, lngFinal);
+    //     setIsLoading(false)
 
-    }
+    // }
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
     return (
@@ -240,19 +244,19 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload)) }} />
+                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(ruta.id, authToken, setReload, reload)) }} />
                         :
                         <></>
                     }
                     {usuari.route_id == null ?
-                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(objectId, authToken, setReload, reload))} />
+                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(ruta.id, authToken, setReload, reload))} />
                         :
                         <></>
                     }
                     {ruta.author_id == usuari.id ?
                         <>
-                            <Button title="Editar" onPress={() => RouteEdit(objectId)}></Button>
-                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload)) }}></Button>
+                            <Button title="Editar" onPress={() => RouteEdit(ruta.id)}></Button>
+                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(ruta.id, authToken, setReload, reload)) }}></Button>
                         </> : <></>
                     }
 

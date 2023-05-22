@@ -102,12 +102,13 @@ const RutasList = () => {
 
           </View>
 
-          <><FlatList
+          <>
+          <FlatList
             data={rutas}
             renderItem={({ item: ruta }) => (
               <RutaList {...ruta} />
             )}
-          />
+          /> 
             <View style={{ flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'space-around', paddingVertical: 5 }}>
               {page === 1 ? (
                 <Button title='Anterior' disabled onPress={() => dispatch(retrocederPagina(page))} />

@@ -64,6 +64,7 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
         console.log("modificada" + dateToSend)
         formState.date = dateToSend
         formState.author_id = usuari.id
+        
         formState.startLatitude = startCoords.latitude
         formState.startLongitude = startCoords.longitude
 
@@ -81,12 +82,13 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
                 body: JSON.stringify(formState),
             });
             const resposta = await data.json();
+            console.log("resposta: " + JSON.stringify(resposta))
+
             if (resposta.success === true) {
                 // setRutas(resposta);
-                console.log("resposta: " + JSON.stringify(resposta))
                 console.log("resposta route id: " + (resposta.data.id))
 
-                ShowRoute(resposta.data.id)
+                ShowRoute(resposta.data)
                 // setReload(!reload)
 
             }
@@ -321,7 +323,7 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
 
                 // dispatch(setRutas(rutasOrdenadas))
                 dispatch(setRutas(resposta.data))
-                console.log("SetRutas: " + resposta.data)
+                console.log("SetRutas: " + JSON.stringify(resposta.data))
 
                 //cambiar sin .data
                 dispatch(setLastPage(resposta.last_page))

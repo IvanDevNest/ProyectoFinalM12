@@ -27,13 +27,18 @@ const initialState = {
         estimated_duration: 0,
         type_vehicle: "",
         distance: 0,
-        url_maps: "",
+        // url_maps: "",
+        startLatitude: 0,
+        startLongitude: 0,
+
+        endLatitude: 0,
+        endLongitude: 0,
         num_stops: 0,
         max_users: 0,
         id_route_style: 0,
         author_id: 0
     },
-    inscripciones:[],
+    inscripciones: [],
 
     // place:{ 
 
@@ -123,7 +128,7 @@ export const routeSlice = createSlice({
             state.inscripciones = action.payload
 
         },
-        
+
 
 
 
@@ -148,6 +153,6 @@ export const routeSlice = createSlice({
 
 });
 
-export const { setIsSaving, setInscripciones, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType,setRuta } = routeSlice.actions;
+export const { setIsSaving, setInscripciones, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } = routeSlice.actions;
 
 export default routeSlice.reducer
