@@ -192,14 +192,8 @@ const ShowRoute = () => {
                             <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload)) }}></Button>
                         </> : <></>
                     }
-<<<<<<< HEAD
-                  
-                    
-                    
-=======
                
 
->>>>>>> e42ace2b33497d96a05d27169e29e88b93a75a81
 
                     {error ? <Text>{error}</Text> : <></>}
 
