@@ -12,6 +12,7 @@ import Header from './src/Header';
 
 import { store } from './src/store'
 import { Provider } from 'react-redux'
+import MapView from 'react-native-maps';
 
 export default function App() {
   let [authToken, setAuthToken] = useState("")
@@ -35,7 +36,8 @@ export default function App() {
           {authToken ?
             <>
               <Header />
-              <Navigation />
+
+               <Navigation />
             </> :
             <LoginRegister />}
           {/* <Navigation/> */}
