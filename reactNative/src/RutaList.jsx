@@ -136,7 +136,7 @@ const RutaList = (ruta) => {
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ alignItems: "center" }}>
                                 <FontAwesome5 style={{ paddingHorizontal: 15, paddingVertical: 10 }} name="users" size={24} color="black" />
-                                <StyledText>{ruta.max_users}/10</StyledText>
+                                <StyledText>{inscripciones.length}/{ruta.max_users}</StyledText>
                             </View>
                             <View style={{ alignItems: "center" }}>
                                 <MaterialCommunityIcons style={{ paddingHorizontal: 15, paddingVertical: 10 }} name="bus-stop-uncovered" size={24} color="black" />
