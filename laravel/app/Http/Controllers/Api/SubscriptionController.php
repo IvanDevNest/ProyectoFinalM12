@@ -19,7 +19,7 @@ class SubscriptionController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $intent = PaymentIntent::create([
-            'amount' => 12,
+            'amount' => 12000,
             'currency' => 'eur',
         ]);
         $client_secret = $intent->client_secret;
