@@ -35,9 +35,8 @@ export default function App() {
         <View style={styles.container}>
           {authToken ?
             <>
-              <Header />
 
-               <Navigation />
+              <Navigation />
             </> :
             <LoginRegister />}
           {/* <Navigation/> */}

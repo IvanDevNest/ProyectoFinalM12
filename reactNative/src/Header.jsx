@@ -1,11 +1,13 @@
 import React, { useEffect,useContext } from 'react';
 import Constants from 'expo-constants';
-import { View, Text, TextInput, StyleSheet, Image, SafeAreaView,Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, SafeAreaView,Button,TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import RNPickerSelect from 'react-native-picker-select';
 import { useState } from 'react';
 import { UserContext } from './userContext';
 import * as Location from 'expo-location';
+import RutasList from './RutasList';
+import { useRoute,useNavigation } from '@react-navigation/native';
 
 const Header = () => {
   const { control, handleSubmit, formState: { errors }, } = useForm();
@@ -14,6 +16,8 @@ const Header = () => {
   let [userImage, setUserImage] = useState("");
   let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
+
+  const navigation = useNavigation();
 
   //setmyavatarurl
   const fetchAvatar = async () => {
@@ -101,10 +105,15 @@ const Header = () => {
   useEffect(() => {
     console.log(filter)
   }, [filter]);
+  function RutasList() {
+    navigation.navigate('RutasList');
+}
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <Image source={require('./logo.png')} style={styles.logo} />
+      <TouchableOpacity onPress={RutasList}>
+      <Image source={require('./logo.png')} style={styles.logo} />
+    </TouchableOpacity>
       <Button title='Logout' onPress={() => sendLogout()}></Button> 
 
 

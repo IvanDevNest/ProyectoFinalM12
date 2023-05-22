@@ -205,7 +205,6 @@ export const getRoute = (objectId, authToken) => {
             if (resposta.success === true) {
                 console.log("resposta getRoute" + JSON.stringify(resposta))
                 dispatch(setRuta(resposta.data))
-                dispatch(setIsLoading(false))
 
             }
             else {
