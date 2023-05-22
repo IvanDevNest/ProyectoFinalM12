@@ -16,7 +16,8 @@ class SubscriptionController extends Controller
     public function subscribe(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
-    
+        
+        
         $amount = ($request->input('subscription') === 'monthly') ? 1.99 : 11.99;
     
         $intent = PaymentIntent::create([

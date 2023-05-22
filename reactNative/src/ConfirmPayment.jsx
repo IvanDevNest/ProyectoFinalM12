@@ -12,6 +12,8 @@ const ConfirmPayment = () => {
     const { confirmPayment } = useStripe();
     const [paymentError, setPaymentError] = useState(null);
     const [cardData, setCardData] = useState({});
+    const [clientSecret, setClientSecret] = useState(null);
+
     console.log(cardData)
 
 
