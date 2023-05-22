@@ -55,7 +55,7 @@ export const obtenerInscripciones = (id,authToken) => {
 }
 
 
-export const createRoute = (formState, authToken, ShowRoute, date, usuari, latitude, longitude) => {
+export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords,endCoords) => {
     return async (dispatch, getState) => {
 
         console.log("date" + JSON.stringify(date))
@@ -64,8 +64,11 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, latit
         console.log("modificada" + dateToSend)
         formState.date = dateToSend
         formState.author_id = usuari.id
-        formState.latitude = latitude
-        formState.longitude = longitude
+        formState.startLatitude = startCoords.latitude
+        formState.startLongitude = startCoords.longitude
+
+        formState.endLatitude = endCoords.latitude
+        formState.endLongitude = endCoords.longitude
         console.log(JSON.stringify(formState));
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/routes', {

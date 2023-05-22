@@ -7,10 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { salirseRuta, eliminarRuta, unirseRuta, obtenerInscripciones, getRoute } from "./slices/routes/thunks";
 
 
-import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
-import axios from 'axios';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'
-import { WebView } from 'react-native-webview';
 
 const ShowRoute = () => {
     const { inscripciones, isSaving = true, error = "", ruta, page, lastpage, } = useSelector((state) => state.routes);
@@ -54,7 +52,6 @@ const ShowRoute = () => {
 
         } catch (error) {
             console.log(error);
-            setError(error.message);
         }
     };
 
@@ -66,7 +63,7 @@ const ShowRoute = () => {
             if (resposta.success === true) {
                 console.log("fetchavatar author route: " + resposta)
                 setAvatarUrl(resposta.image_url);
-            } else setError(resposta.message);
+            } else console.log(resposta.message);
         } catch (e) {
             console.log(e.message);
         };
@@ -101,64 +98,63 @@ const ShowRoute = () => {
         }
     }, [ruta])
     useEffect(() => {
-        dispatch(getRoute(objectId, authToken));
+            dispatch(getRoute(objectId, authToken));
     }, [])
     useEffect(() => {
         dispatch(obtenerInscripciones(objectId, authToken))
-    }, [reload, ruta, inscripciones]);
-
+    }, [reload, ruta ]);
+    // }, [reload, ruta, inscripciones]);
+    console.log(ruta.url_maps)
     const [initialRegion, setInitialRegion] = useState({});
     const [startCoords, setStartCoords] = useState({});
     const [endCoords, setEndCoords] = useState({});
-        const getCoordsMap = async () => {
-            //ruta
-            const routeUrl = ruta.url_maps
+    const getCoordsMap = async () => {
 
-            // Extraer coordenadas iniciales
-            const regexInicial = /\/(\d+\.\d+),(\d+\.\d+)\//;
-            const matchInicial = routeUrl.match(regexInicial);
-            let latInicial = 0;
-            let lngInicial = 0;
+        //ruta
+        const routeUrl = ruta.url_maps
+        
+        // Extraer coordenadas iniciales
+        const regexInicial = /\/(\d+\.\d+),(\d+\.\d+)\//;
+        const matchInicial = routeUrl.match(regexInicial);
+        let latInicial = 0;
+        let lngInicial = 0;
 
-            if (matchInicial && matchInicial.length >= 3) {
-                latInicial = parseFloat(matchInicial[1]);
-                lngInicial = parseFloat(matchInicial[2]);
-                console.log("Latitud inicial:", latInicial);
-                console.log("Longitud inicial:", lngInicial);
-            } else {
-                console.log("No se encontró la latitud y longitud inicial en la URL.");
-            }
-
-            setInitialRegion({
-                latitude: latInicial,
-                longitude: lngInicial,
-                latitudeDelta: 1, // Ajusta el nivel de zoom verticalmente
-                longitudeDelta: 1, // Ajusta el nivel de zoom horizontalmente
-            });
-
-            setStartCoords({ latitude: latInicial, longitude: lngInicial });
-
-            // Extraer coordenadas finales
-            const regexFinales = /\/@(-?\d+\.\d+),(-?\d+\.\d+)/;
-            const matchFinales = routeUrl.match(regexFinales);
-            let latitude = 0;
-            let longitude = 0;
-
-            if (matchFinales && matchFinales.length >= 3) {
-                latitude = parseFloat(matchFinales[1]);
-                longitude = parseFloat(matchFinales[2]);
-                                setIsLoading(false)
-
-            } else {
-                console.log("No se encontraron las coordenadas finales en la URL.");
-            }
-
-             setEndCoords({ latitude, longitude });
-
-            console.log("Coordenadas iniciales:", latInicial, lngInicial);
-            console.log("Coordenadas finales:", latitude, longitude);
-
+        if (matchInicial && matchInicial.length >= 3) {
+            latInicial = parseFloat(matchInicial[1]);
+            lngInicial = parseFloat(matchInicial[2]);
+        } else {
+            console.log("No se encontró la latitud y longitud inicial en la URL.");
         }
+
+        setStartCoords({ latitude: latInicial, longitude: lngInicial });
+
+        setInitialRegion({
+            latitude: latInicial,
+            longitude: lngInicial,
+            latitudeDelta: 0.02, // Ajusta el nivel de zoom verticalmente
+            longitudeDelta: 0.02, // Ajusta el nivel de zoom horizontalmente
+        });
+
+
+        // Extraer coordenadas finales
+        const regexFinales = /\/@(-?\d+\.\d+),(-?\d+\.\d+)/;
+        const matchPreview = routeUrl.match(regexFinales);
+      
+
+        if (matchPreview && matchPreview.length >= 3) {
+            latFinal = parseFloat(matchPreview[1]);
+            lngFinal = parseFloat(matchPreview[2]);
+
+        } else {
+            console.log("No se encontraron las coordenadas finales en la URL.");
+        }
+        setEndCoords({ latitude: latFinal, longitude: lngFinal })
+
+        console.log("Coordenadas iniciales:", latInicial, lngInicial);
+        console.log("Coordenadas finales:", latFinal, lngFinal);
+        setIsLoading(false)
+
+    }
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
     return (
@@ -212,7 +208,7 @@ const ShowRoute = () => {
                             destination={endCoords}
                             apikey={GOOGLE_MAPS_APIKEY}
                             strokeWidth={3}
-                            strokeColor="hotpink"
+                            strokeColor="blue"
                         />
 
                     </MapView>

@@ -10,20 +10,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createRoute } from './slices/routes/thunks';
 import * as Location from 'expo-location';
 import { setError } from './slices/routes/routeSlice';
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions'
 
 const CreateRoute = () => {
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
 
     const dispatch = useDispatch();
 
     const { isSaving = true, error = "" } = useSelector((state) => state.routes);
     const onSubmit = (data) => {
 
-        dispatch(createRoute(data, authToken, ShowRoute, date, usuari, latitude, longitude));
+        dispatch(createRoute(data, authToken, ShowRoute, date, usuari, startCoords, endCoords));
     }
 
-    let { usuari, authToken, setReload, reload } = useContext(UserContext);
+    let { usuari, authToken, setReload, reload, latitudeUser, longitudeUser } = useContext(UserContext);
     const navigation = useNavigation();
     const { control, handleSubmit, formState: { errors }, } = useForm();
 
@@ -58,26 +58,32 @@ const CreateRoute = () => {
     const minDate = new Date(currentYear, new Date().getMonth());
     const maxDate = new Date(nextYear, new Date().getMonth());
     console.log(JSON.stringify(date))
-    const getLocation = async () => {
-        try {
-          const { status } = await Location.requestForegroundPermissionsAsync();
-          if (status === 'granted') {
-            const { coords } = await Location.getCurrentPositionAsync({});
-            setLatitude(coords.latitude);
-            setLongitude(coords.longitude);
-          } else {
-            console.log("No se puede acceder a la ubi")
-          }
-        } catch (error) {
-          console.log(error.message)
-        }
-      };
 
-    useEffect(() => {
-        getLocation();
-      }, []);
+
     //   console.log("lat"+latitude+"long"+longitude)
+    const [startCoords, setStartCoords] = useState(null);
+    const [endCoords, setEndCoords] = useState(null);
 
+    const handleMapPress = (event) => {
+        const { coordinate } = event.nativeEvent;
+
+        if (!startCoords) {
+            // Seleccionar el primer punto
+            setStartCoords(coordinate);
+        } else if (!endCoords) {
+            // Seleccionar el segundo punto
+            setEndCoords(coordinate);
+        }
+    };
+
+    const handleReset = () => {
+        // Reiniciar los puntos seleccionados
+        setStartCoords(null);
+        setEndCoords(null);
+    };
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
+    console.log(latitudeUser, longitudeUser)
+    console.log(startCoords, endCoords)
     return (
         <ScrollView>
             <Text>Información de la ruta</Text>
@@ -164,14 +170,42 @@ const CreateRoute = () => {
                 </View>
             </View>
             <Text>
-                URL de Google Maps con símbolo de ayuda para enseñar cómo coger la URL
+                Marca el inicio y el final de la ruta en el mapa
             </Text>
-            <CustomInput
+            <MapView
+                provider={PROVIDER_GOOGLE}
+                style={{
+                    width: '100%',
+                    height: '40%',
+                }}
+                onPress={handleMapPress}
+                initialRegion={{
+                    latitude: latitudeUser,
+                    longitude: longitudeUser,
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05,
+                }}
+            ><MapViewDirections
+                    origin={startCoords}
+                    destination={endCoords}
+                    apikey={GOOGLE_MAPS_APIKEY}
+                    strokeWidth={3}
+                    strokeColor="blue"
+                />
+                {startCoords && <Marker coordinate={startCoords} />}
+                {endCoords && <Marker coordinate={endCoords} />}
+            </MapView>
+            <Button
+                title="Volver a marcar"
+                onPress={handleReset}
+                disabled={!startCoords && !endCoords}
+            />
+            {/* <CustomInput
                 name="url_maps"
                 placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
                 control={control}
                 rules={{ required: 'URL de Google Maps is required' }}
-            />
+            /> */}
             <View>
                 <View>
                     <Text>Velocidad de la ruta</Text>

@@ -16,7 +16,7 @@ const RouteEdit = () => {
     estimated_duration: '',
     type_vehicle: '',
     distance: 0,
-    url_maps: '',
+    // url_maps: '',
     num_stops: 0,
     max_users: '',
     id_route_style: 0,
@@ -53,7 +53,7 @@ const RouteEdit = () => {
       estimated_duration: ruta.estimated_duration ,
       type_vehicle: ruta.type_vehicle ,
       distance: ruta.distance ,
-      url_maps: ruta.url_maps ,
+      // url_maps: ruta.url_maps ,
       num_stops: ruta.num_stops ,
       max_users: ruta.max_users ,
       id_route_style: ruta.id_route_style ,
@@ -113,10 +113,10 @@ const RouteEdit = () => {
             </View>
           </View>
 
-          <Text style={{ fontWeight: 'bold' }}>
+          {/* <Text style={{ fontWeight: 'bold' }}>
             URL de Google Maps con símbolo de ayuda para enseñar cómo coger la URL
           </Text>
-          <Text>{formulari.url_maps}</Text>
+          <Text>{formulari.url_maps}</Text> */}
 
           <View>
             <View>
