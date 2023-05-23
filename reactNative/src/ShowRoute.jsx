@@ -108,7 +108,6 @@ const ShowRoute = () => {
 
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
-    console.log(usuari.route_id == ruta.id && ruta.author_id != usuari.id)
     return (
         <View>
             {isLoading ?

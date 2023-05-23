@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class RouteController extends Controller
 {
-      /**
+    /**
      * Calcula la distancia entre dos puntos geográficos utilizando la fórmula haversine.
      *
      * @param  float  $lat1  Latitud del primer punto.
@@ -79,10 +79,10 @@ class RouteController extends Controller
         //     $routes = $query->paginate(5);
 
         // }
-        
+
 
         // Calcular la distancia y agregarla a cada ruta
-        
+
         $latitudeUser = $request->input('latitudeUser'); // Obtener la latitud del usuario desde la solicitud
         $longitudeUser = $request->input('longitudeUser'); // Obtener la longitud del usuario desde la solicitud
         // Obtener todas las rutas sin paginación
@@ -95,6 +95,20 @@ class RouteController extends Controller
         // Ordenar las rutas por distancia
         $routes = $routes->sortBy('distanceToRoute')->values();
         Log::debug($routes);
+
+        // Filtrar las rutas por límite de inscripciones
+        $filteredRoutes = collect([]);
+
+        foreach ($routes as $route) {
+            $inscriptionsCount = Inscription::where('route_id', $route->id)->count();
+
+            if ($inscriptionsCount < $route->max_users) {
+                $filteredRoutes->push($route);
+            }
+        }
+
+        $routes = $filteredRoutes;
+
         $perPage = 5;
         $currentPage = $request->input('page', 1);
         $offset = ($currentPage - 1) * $perPage;
@@ -115,7 +129,7 @@ class RouteController extends Controller
         ], 200);
     }
 
-//last_page     
+    //last_page     
 
 
     /**
@@ -141,7 +155,7 @@ class RouteController extends Controller
             'startLongitude' => 'required',
             'endLatitude' => 'required',
             'endLongitude' => 'required',
-            
+
             'id_route_style' => 'required|exists:route_styles,id',
             'author_id' => 'required|exists:users,id'
         ]);

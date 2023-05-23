@@ -26,7 +26,7 @@ const RutasList = () => {
     if (coordsCargadas) {
       dispatch(getRoutes(page, filterName, filterVehicle, latitudeUser, longitudeUser))
     } else {
-      console.log("getrouts  " + latitudeUser, longitudeUser)
+      console.log("getRoutes " + latitudeUser, longitudeUser)
     }
   }, [reload, page, filterName, filterVehicle, coordsCargadas]);
 
@@ -41,7 +41,7 @@ const RutasList = () => {
               name="type_vehicle"
               defaultValue=""
               rules={{ required: true }}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, onBlur, value }}) => (
                 <RNPickerSelect
                   placeholder={{ label: 'Sin Filtro', value: null }}
                   onValueChange={(selectedValue) => {
@@ -103,12 +103,12 @@ const RutasList = () => {
           </View>
 
           <>
-          <FlatList
-            data={rutas}
-            renderItem={({ item: ruta }) => (
-              <RutaList {...ruta} />
-            )}
-          /> 
+            <FlatList
+              data={rutas}
+              renderItem={({ item: ruta }) => (
+                <RutaList {...ruta} />
+              )}
+            />
             <View style={{ flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'space-around', paddingVertical: 5 }}>
               {page === 1 ? (
                 <Button title='Anterior' disabled onPress={() => dispatch(retrocederPagina(page))} />
@@ -126,33 +126,6 @@ const RutasList = () => {
         <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }} />
       </View>}
 
-      {/* Resto del código
-      {isLoading ? (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-          <Image source={require("./Loader.gif")} style={{ width: 200, height: 100 }} />
-        </View>
-      ) : (
-        <>
-          <FlatList
-            data={rutas}
-            renderItem={({ item: ruta }) => (
-              <RutaList {...ruta} />
-            )}
-          />
-          <View style={{ flexDirection: 'row', alignContent: 'center', alignItems: 'center', justifyContent: 'space-around', paddingVertical: 5 }}>
-            {page === 1 ? (
-              <Button title='Anterior' disabled onPress={() => dispatch(retrocederPagina(page))} />
-            ) : (
-              <Button title='Anterior' onPress={() => dispatch(retrocederPagina(page))} color={'#00ACFF'} />
-            )}
-            {page === lastpage ? (
-              <Button title='Siguiente' disabled onPress={() => dispatch(pasarPagina(page, lastpage))} />
-            ) : (
-              <Button title='Siguiente' onPress={() => dispatch(pasarPagina(page, lastpage))} />
-            )}
-          </View>
-        </>
-      )} */}
     </>
   )
 }

@@ -43,8 +43,8 @@ export const obtenerInscripciones = (id, authToken) => {
                 method: "GET",
             });
             const resposta = await data.json();
+            console.log("Inscripciones: " + JSON.stringify(resposta.data))
             if (resposta.success === true) {
-                // console.log("Inscripciones: " + JSON.stringify(resposta))
                 dispatch(setInscripciones(resposta.data))
                 dispatch(setIsLoading(false))
 
@@ -327,7 +327,7 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
 
                 dispatch(setLastPage(resposta.last_page))
                 console.log("last page: " + resposta.last_page)
-                console.log("distance to route: " + resposta.data.distanceToRoute)
+                // console.log("distance to route: " + resposta.data.distanceToRoute)
                 // dispatch(setPage(resposta.data.current_page))
                 dispatch(setIsLoading(false))
 
