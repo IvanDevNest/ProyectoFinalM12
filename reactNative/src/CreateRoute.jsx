@@ -28,7 +28,7 @@ const CreateRoute = () => {
     const { control, handleSubmit, formState: { errors }, } = useForm();
 
     function ShowRoute(id) {
-        navigation.navigate('ShowRoute', { id });
+        navigation.navigate('ShowRoute', { objectId: id });
     }
 
     const [date, setDate] = useState(new Date());
