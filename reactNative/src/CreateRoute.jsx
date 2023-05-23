@@ -20,7 +20,7 @@ const CreateRoute = () => {
     const { isSaving = true, error = "" } = useSelector((state) => state.routes);
     const onSubmit = (data) => {
 
-        dispatch(createRoute(data, authToken, ShowRoute, date, usuari, startCoords, endCoords));
+        dispatch(createRoute(data, authToken, ShowRoute, date, usuari, startCoords, endCoords,setReload, reload));
     }
 
     let { usuari, authToken, setReload, reload, latitudeUser, longitudeUser } = useContext(UserContext);

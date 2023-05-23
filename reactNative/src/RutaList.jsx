@@ -25,148 +25,24 @@ const RutaList = (ruta) => {
     function RouteEdit(id) {
         navigation.navigate('RouteEdit', { objectId: id });
     }
-    // console.log("ruta"+ruta.id+"usu"+JSON.stringify(usuari))
-
-    // console.log("ruta"+ruta.author_id+"usu"+JSON.stringify(usuari.id))
-    // const eliminarRuta = async (id) => {
-    //     try {
-    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
-    //             headers: {
-    //                 Accept: "application/json",
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': 'Bearer ' + authToken,
-    //             },
-    //             method: "DELETE",
-    //         });
-    //         const resposta = await data.json();
-    //         console.log(resposta)
-    //         if (resposta.success === true) {
-    //             console.log("Ruta eliminada correctament")
-    //             setReload(!reload)
-    //         }
-    //         else setError("La resposta no ha triomfat");
-    //     } catch (e) {
-    //         console.log("Catch: " + e.message);
-
-    //     };
-    // }
-    // const getUser = async () => {
-    //     try {
-    //         const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-    //             headers: {
-    //                 Accept: "application/json",
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': 'Bearer ' + authToken,
-    //             },
-    //             method: "GET",
-    //         });
-    //         const resposta = await data.json();
-    //         if (resposta.success === true) {
-    //             console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-    //             setUsuari(resposta.user)
-    //         }
-    //         else setError(resposta.message);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //     };
-
-    // }
-
-    // const obtenerInscripciones = async (id) => {
-    //     try {
-    //         const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
-    //             headers: {
-    //                 Accept: "application/json",
-    //                 "Content-Type": "application/json",
-    //                 'Authorization': 'Bearer ' + authToken,
-    //             },
-    //             method: "GET",
-    //         });
-    //         const resposta = await data.json();
-    //         if (resposta.success === true) {
-    //             console.log("Inscripciones: " + JSON.stringify(resposta))
-    //             setInscripciones(resposta.data)
-    //             setIsLoading(false)
-
-    //         }
-    //         else setError(resposta.message);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //         // alert("Catchch");
-    //     };
-    // }
+  
      const [initialRegion, setInitialRegion] = useState({
                     latitude: ruta.startLatitude,
                     longitude: ruta.startLongitude,
-                    latitudeDelta: 0.1, // Ajusta el nivel de zoom verticalmente
-                    longitudeDelta: 0.1, // Ajusta el nivel de zoom horizontalmente
+                    latitudeDelta: 1, // Ajusta el nivel de zoom verticalmente
+                    longitudeDelta: 1, // Ajusta el nivel de zoom horizontalmente
                 });
      const [startCoords, setStartCoords] = useState({latitude:ruta.startLatitude,longitude:ruta.startLongitude});
       const [endCoords, setEndCoords] = useState({latitude:ruta.endLatitude,longitude:ruta.endLongitude});
-    // const getCoordsMap = async () => {
-    //     console.log(ruta.url_maps)
-    //     //ruta
-    //     const routeUrl = ruta.url_maps
-
-    //         // Extraer coordenadas iniciales
-    //         const regexInicial = /\/(\d+\.\d+),(\d+\.\d+)\//;
-    //         const matchInicial = routeUrl.match(regexInicial);
-    //         let latInicial = 0;
-    //         let lngInicial = 0;
-
-    //         if (matchInicial && matchInicial.length >= 3) {
-    //             latInicial = parseFloat(matchInicial[1]);
-    //             lngInicial = parseFloat(matchInicial[2]);
-    //         } else {
-    //             console.log("No se encontró la latitud y longitud inicial en la URL.");
-    //         }
-
-    //         setStartCoords({ latitude: latInicial, longitude: lngInicial });
-
-    //         setInitialRegion({
-    //             latitude: latInicial,
-    //             longitude: lngInicial,
-    //             latitudeDelta: 0.1, // Ajusta el nivel de zoom verticalmente
-    //             longitudeDelta: 0.1, // Ajusta el nivel de zoom horizontalmente
-    //         });
-
-
-    //         // Extraer coordenadas finales
-    //         const regexFinales = /\/@(-?\d+\.\d+),(-?\d+\.\d+)/;
-    //         const matchPreview = routeUrl.match(regexFinales);
-
-
-    //         if (matchPreview && matchPreview.length >= 3) {
-    //             latFinal = parseFloat(matchPreview[1]);
-    //             lngFinal = parseFloat(matchPreview[2]);
-
-    //         } else {
-    //             console.log("No se encontraron las coordenadas finales en la URL.");
-    //         }
-    //         setEndCoords({ latitude: latFinal, longitude: lngFinal })
-
-    //         console.log("Coordenadas iniciales:", latInicial, lngInicial);
-    //         console.log("Coordenadas finales:", latFinal, lngFinal);
-        
-
-    // }
+ 
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
 
 
     useEffect(() => {
-        // dispatch(getUser(authToken,setUsuari));
         dispatch(obtenerInscripciones(ruta.id, authToken))
-        // console.log("Las inscripciones: " + JSON.stringify(inscripciones))
     }, [reload]);
-    // useEffect(() => {
-    //     if(ruta){
-    //         getCoordsMap()
-
-    //     }
-    //     setIsLoading(false)
-
-    // }, [ruta]);
+  
 
     const numeroInscripciones = inscripciones.length;
     return (
