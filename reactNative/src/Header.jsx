@@ -12,7 +12,8 @@ import { useRoute,useNavigation } from '@react-navigation/native';
 const Header = () => {
   const { control, handleSubmit, formState: { errors }, } = useForm();
   let [filter, setFilter] = useState("");
-  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari,setAuthToken,latitudeUser, setLatitudeUser,longitudeUser, setLongitudeUser,coordsCargadas, setcoordsCargadas,reload } = useContext(UserContext);
+  let { setUsuari, authToken, myAvatarUrl, setMyAvatarUrl, usuari,setAuthToken,latitudeUser, setLatitudeUser,longitudeUser, setLongitudeUser,
+    coordsCargadas, setcoordsCargadas,reload,userRole, setUserRole } = useContext(UserContext);
   let [userImage, setUserImage] = useState("");
   let [error, setError] = useState("");
   let [isLoading, setIsLoading] = useState(true);
@@ -64,6 +65,7 @@ const Header = () => {
         // console.log(JSON.stringify(resposta))
         setUsuari(resposta.user)
         setIsLoading(false)
+        setUserRole(resposta.roles)
       }
       else setError(resposta.message);
     } catch (e) {

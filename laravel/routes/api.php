@@ -43,7 +43,9 @@ Route::apiResource('files', 'App\Http\Controllers\Api\FileController');
 Route::apiResource('user', 'App\Http\Controllers\Api\TokenController');
 
 // Rutas para MessageController
-Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController');
+Route::apiResource('messages', 'App\Http\Controllers\Api\MessageController')
+->middleware('auth:sanctum');
+
 
 // Rutas para FollowerController
 Route::apiResource('followers', 'App\Http\Controllers\Api\FollowerController')
@@ -86,4 +88,5 @@ Route::get('/routes', 'App\Http\Controllers\Api\RouteController@index');
 
 
 
-Route::post('/subscribe', 'App\Http\Controllers\Api\SubscriptionController@subscribe');
+Route::post('/subscribe', 'App\Http\Controllers\Api\SubscriptionController@subscribe')
+->middleware('auth:sanctum');

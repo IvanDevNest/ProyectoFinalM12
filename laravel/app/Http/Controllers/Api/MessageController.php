@@ -60,10 +60,7 @@ class MessageController extends Controller
                 if ($validatedData['text']) {
                     $messageData['text'] = $validatedData['text'];
                 }
-                $message = Message::create($messageData);
-
-               
-            
+                $message = Message::create($messageData);            
             } else {
                 return response()->json([
                     'success' => false,
@@ -87,7 +84,6 @@ class MessageController extends Controller
                 ], 421);
             }
         }
-        
         return response()->json([
             'success' => true,
             'data' => $message,

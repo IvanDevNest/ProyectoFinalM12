@@ -160,10 +160,8 @@ class RouteController extends Controller
             'author_id' => 'required|exists:users,id'
         ]);
 
-        // Obtén el ID del usuario que creó la ruta
         $author_id = $validatedData['author_id'];
 
-        // Validar si el usuario ya tiene una ruta asignada
         $user = User::find($author_id);
         if ($user->route_id != null) {
             return response()->json([
@@ -174,12 +172,11 @@ class RouteController extends Controller
 
         $route = Route::create($validatedData);
 
-        // Actualiza el registro del usuario correspondiente con la ID de la ruta creada
         User::where('id', $author_id)->update(['route_id' => $route->id]);
 
         $routeId = $route->id;
         Log::debug($routeId);
-        //Crear inscripcion
+
         Inscription::create([
             'author_id' => $author_id,
             'route_id' => $routeId
@@ -275,7 +272,7 @@ class RouteController extends Controller
     {
         Log::debug($id);
         $user = auth()->user();
-        // Validar si el usuario ya tiene una ruta asignada
+
         if ($user->route_id != null) {
             return response()->json([
                 'success' => false,
@@ -289,7 +286,6 @@ class RouteController extends Controller
             'route_id' => $id
         ]);
 
-        // Actualiza el registro del usuario correspondiente con la ID de la unida
         User::where('id', $userId)->update(['route_id' => $id]);
 
         return response()->json([
@@ -314,7 +310,6 @@ class RouteController extends Controller
 
             Inscription::where('author_id', $userId)->where('route_id', $id)->delete();
 
-            // Actualiza el registro del usuario correspondiente con la ID de la unida
             User::where('id', $userId)->update(['route_id' => null]);
 
             return response()->json([

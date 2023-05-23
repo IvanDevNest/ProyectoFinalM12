@@ -22,22 +22,21 @@ const ShowRoute = () => {
     let { usuari, authToken, reload, setReload, inscripciones, setInscripciones } = useContext(UserContext);
     const [avatarUrl, setAvatarUrl] = useState(null);
     const [authorRuta, setAuthorRuta] = useState([]);
+    const [authorRutaRole, setAuthorRutaRole] = useState([]);
 
     const route = useRoute();
     const objectId = route.params.objectId;
     // const inscripciones= route.params.inscripciones
     const navigation = useNavigation();
 
-    function ShowUser(authorRuta) {
-        navigation.navigate('ShowUser', { authorRuta: authorRuta });
+    function ShowUser(authorRuta,authorRutaRole) {
+        navigation.navigate('ShowUser', { authorRuta: authorRuta,authorRutaRole:authorRutaRole });
     }
-
 
     function RouteEdit(id) {
         navigation.navigate('RouteEdit', { objectId: id });
     }
     // console.log("usuariu" + JSON.stringify(usuari))
-
 
     function RutasList() {
         navigation.navigate('RutasList');
@@ -83,6 +82,7 @@ const ShowRoute = () => {
 
             if (resposta.success === true) {
                 setAuthorRuta(resposta.data)
+                setAuthorRutaRole(resposta.roles)
             }
             else console.log("mensage error getuserlooking:" + resposta.message);
         } catch (e) {
@@ -122,14 +122,14 @@ const ShowRoute = () => {
                         <View >
                             <Text style={{ fontWeight: 'bold' }}>Autor de la ruta</Text>
                             <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => ShowUser(authorRuta)}>
+                                <TouchableOpacity onPress={() => ShowUser(authorRuta,authorRutaRole)}>
                                     {avatarUrl ?
                                         <Image style={styles.avatar} source={{ uri: avatarUrl }} />
                                         :
                                         <Image style={styles.avatar} source={require("./user_default.png")} />
                                     }
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => ShowUser(authorRuta)}>
+                                <TouchableOpacity onPress={() => ShowUser(authorRuta,authorRutaRole)}>
                                     <Text>{authorRuta.name}</Text>
                                 </TouchableOpacity>
                                 {authorRuta.id_role == 4 ?
@@ -202,7 +202,7 @@ const ShowRoute = () => {
                     {ruta.author_id == usuari.id ?
                         <>
                             {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000 ?
-                                <Button title="Editar" onPress={() => alert("no puedes editar una ruta con menos de 12 horas de antelacion")} />
+                                <Button title="Editar" onPress={() => alert("No puedes editar una ruta con menos de 12 horas de antelacion")} />
                                 : <Button title="Editar" onPress={() => RouteEdit(objectId)}/>
                             }
 

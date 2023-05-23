@@ -25,7 +25,7 @@ class TokenController extends Controller
         return response()->json([
             "success" => true,
             "user" => $request->user(),
-            // "roles"   => $user->getRoleNames(),
+            "roles" => $user->getRoleNames(),
         ]);
     }
     public function login(Request $request)
@@ -62,7 +62,8 @@ class TokenController extends Controller
         if ($user) {
             return response()->json([
                 "success" => true,
-                "data" => $user
+                "data" => $user,
+                "roles" => $user->getRoleNames(),
             ], 200);
         } else {
             return response()->json([

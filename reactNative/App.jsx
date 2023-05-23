@@ -26,13 +26,13 @@ export default function App() {
   let [longitudeUser, setLongitudeUser] = useState(0);
   let [coordsCargadas, setcoordsCargadas] = useState(false);
   const [inscripciones, setInscripciones] = useState([])
-
+  let [userRole, setUserRole] = useState("")
   return (
     <Provider store={store}>
       <UserContext.Provider value={{
         filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari,
         setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl, latitudeUser, setLatitudeUser, longitudeUser, setLongitudeUser, coordsCargadas, setcoordsCargadas,
-        inscripciones, setInscripciones
+        inscripciones, setInscripciones,userRole, setUserRole
       }}>
         <View style={styles.container}>
           {authToken ?

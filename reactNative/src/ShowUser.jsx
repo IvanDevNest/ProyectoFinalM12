@@ -38,6 +38,7 @@ const ShowUser = () => {
   const route = useRoute();
   // const objectId = route.params.objectId;
   const authorRuta = route.params.authorRuta;
+  const authorRutaRole = route.params.authorRutaRole;
 
   let roundedNum = Math.round(average)
 
@@ -142,17 +143,17 @@ const ShowUser = () => {
         let followerCount = 0;
         resposta.data.map((seguidores) => {
           seguidores.id_followed == authorRuta.id ?
-          followerCount++
-          :
+            followerCount++
+            :
             <></>
         })
         setFollowers(followerCount);
         resposta.data.map((seguidores) => {
           seguidores.id_follower == usuari.id && seguidores.id_followed == authorRuta.id ?
 
-          // console.log("id de los seguidpres en la tabla"+seguidores.id_follower+"mi id del usuario logeado"+usuari.id+"="+"id de los q siguen en la tabla"+seguidores.id_followed+"id del usuario q estoy viend"+authorRuta.id)
-             setFollower(true)
-            :<></>
+            // console.log("id de los seguidpres en la tabla"+seguidores.id_follower+"mi id del usuario logeado"+usuari.id+"="+"id de los q siguen en la tabla"+seguidores.id_followed+"id del usuario q estoy viend"+authorRuta.id)
+            setFollower(true)
+            : <></>
         })
         // setReload(!reload)
       } else setError(resposta.error);
@@ -189,7 +190,7 @@ const ShowUser = () => {
   };
   const unfollowUsuario = async () => {
     try {
-      const data = await fetch('http://equip04.insjoaquimmir.cat/api/followers/'+authorRuta.id, {
+      const data = await fetch('http://equip04.insjoaquimmir.cat/api/followers/' + authorRuta.id, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -224,14 +225,14 @@ const ShowUser = () => {
         <></> :
         <View>
           <View style={{ alignItems: 'center', paddingVertical: 10 }}>
-            {authorRuta.id_role == 4 ?
+            {authorRutaRole == "vip" ?
               <View style={{ flexDirection: 'row' }}>
                 <Image style={styles.avatarVIP} source={{ uri: avatarUrl }}></Image>
                 <Image source={require("./vip.png")} style={{ width: 30, height: 30, position: 'absolute' }}></Image>
-              </View> :
-
-              <Image style={styles.avatar} source={{ uri: avatarUrl }}></Image>}
-
+              </View>
+              :
+              <Image style={styles.avatar} source={{ uri: avatarUrl }}></Image>
+            }
 
             <Text>Nombre: {authorRuta.name}</Text>
             <View style={{ flexDirection: 'row' }}>
@@ -286,7 +287,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: 'grey',
     borderWidth: 2
-    
+
   },
   avatarVIP: {
     width: 100,
