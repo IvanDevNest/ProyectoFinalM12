@@ -8,7 +8,7 @@ const ConfirmPayment = () => {
 
     const [subscriptionType, setSubscriptionType] = useState('monthly');
 
-    let { authToken } = useContext(UserContext);
+    let { authToken,reload,setReload} = useContext(UserContext);
 
     const { confirmPayment } = useStripe();
     const [paymentError, setPaymentError] = useState(null);
@@ -42,7 +42,7 @@ const ConfirmPayment = () => {
                 // setRutas(resposta);
                 console.log("resposta: " + JSON.stringify(resposta))
                 setClientSecret(resposta.data);
-
+                setReload(!reload)
 
             }
             // else setError(resposta.message);

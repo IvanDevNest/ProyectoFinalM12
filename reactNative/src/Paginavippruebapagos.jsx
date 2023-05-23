@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { UserContext } from "./userContext";
 
 const Paginavip = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
+  let { userRole } = useContext(UserContext);
 
   //   function ConfirmPayment(id) {
   //     navigation.navigate('ConfirmPayment', { objectId: id});
@@ -14,30 +15,42 @@ const Paginavip = () => {
     navigation.navigate('ConfirmPayment');
   }
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('./vip.png')}
-        style={styles.image}
-      />
-      <Text style={styles.title}>¡Conviértete en VIP!</Text>
-      <Text style={styles.description}>
-        Disfruta de beneficios exclusivos por tan solo:
-      </Text>
-      <View style={styles.priceContainer}>
-        <Text style={styles.price}>1.99€ al mes o 11.99€ al año</Text>
-      </View>
+    <>
+      {userRole != 'vip' ?
+        <View style={styles.container}>
+          <Image
+            source={require('./vip.png')}
+            style={styles.image}
+          />
+          <Text style={styles.title}>¡Conviértete en VIP!</Text>
+          <Text style={styles.description}>
+            Disfruta de beneficios exclusivos por tan solo:
+          </Text>
+          <View style={styles.priceContainer}>
+            <Text style={styles.price}>1.99€ al mes o 11.99€ al año</Text>
+          </View>
 
-      <Text>Elige tu suscripción:</Text>
+          <Text>Elige tu suscripción:</Text>
 
+          <Button
+            title="¡Hazte VIP ahora!"
+            onPress={() => ConfirmPayment()}
+            style={styles.button}
+          />
+        </View>
+        : <View style={styles.container}>
+          <Image
+            source={require('./vip.png')}
+            style={styles.image}
+          />
+          <Text style={styles.title}> !Ya eres VIP!</Text>
+          <Text style={styles.title}> !Muchas Gracias!</Text>
 
+        </View>
 
-      <Button
-        title="¡Hazte VIP ahora!"
-        onPress={() => ConfirmPayment()}
-        style={styles.button}
-      />
+      }
+    </>
 
-    </View>
   );
 }
 
