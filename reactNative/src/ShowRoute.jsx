@@ -42,6 +42,9 @@ const ShowRoute = () => {
     // console.log("usuariu" + JSON.stringify(usuari))
 
 
+    function RutasList() {
+        navigation.navigate('RutasList');
+    }
 
     const obtenerDatosAuthorRuta = async (id) => {
         try {
@@ -97,7 +100,7 @@ const ShowRoute = () => {
         }
     }, [ruta])
     useEffect(() => {
-            dispatch(getRoute(objectId, authToken));
+            dispatch(getRoute(objectId, authToken,setStartCoords,setEndCoords));
     }, [])
     useEffect(() => {
         dispatch(obtenerInscripciones(objectId, authToken))
@@ -110,8 +113,8 @@ const ShowRoute = () => {
                     latitudeDelta: 0.1, // Ajusta el nivel de zoom verticalmente
                     longitudeDelta: 0.1, // Ajusta el nivel de zoom horizontalmente
                 });
-     const [startCoords, setStartCoords] = useState({latitude:ruta.startLatitude,longitude:ruta.startLongitude});
-      const [endCoords, setEndCoords] = useState({latitude:ruta.endLatitude,longitude:ruta.endLongitude});
+    const [startCoords, setStartCoords] = useState({});
+    const [endCoords, setEndCoords] = useState({});
     // const getCoordsMap = async () => {
 
     //     //ruta
@@ -195,11 +198,10 @@ const ShowRoute = () => {
 
                     </View>
 
-                    <Text style={{ fontWeight: 'bold' }}>URL maps</Text>
-
-                    <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
+                    <Text style={{ fontWeight: 'bold' }}>Ruta maps</Text>
+                    {/* <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
                         <Text style={{ color: 'blue' }}>{ruta.url_maps}</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <MapView
                         provider={PROVIDER_GOOGLE}
                         style={styles.map}
@@ -256,7 +258,7 @@ const ShowRoute = () => {
                     {ruta.author_id == usuari.id ?
                         <>
                             <Button title="Editar" onPress={() => RouteEdit(objectId)}></Button>
-                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload)) }}></Button>
+                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload,RutasList)) }}></Button>
                         </> : <></>
                     }
 

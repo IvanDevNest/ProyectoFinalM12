@@ -1,9 +1,10 @@
 import { current } from "immer";
 import { setIsSaving, setInscripciones, setIsLoading, setError, setLastPage, setRutas, setPage, setFilterValueName, setFilterValueVehicle, setTypeFilter, setSelectedVehicleType, setRuta } from "./routeSlice"
 import { useSelector } from "react-redux";
+import RutasList from "../../RutasList";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
-export const eliminarRuta = (id, authToken, setReload, reload) => {
+export const eliminarRuta = (id, authToken, setReload, reload,RutasList) => {
     return async (dispatch, getState) => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
@@ -18,6 +19,8 @@ export const eliminarRuta = (id, authToken, setReload, reload) => {
             console.log(resposta)
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
+                RutasList()
+
                 dispatch(setReload(!reload))
             }
             else setError("La resposta no ha triomfat");
@@ -27,35 +30,35 @@ export const eliminarRuta = (id, authToken, setReload, reload) => {
     };
 }
 
-export const obtenerInscripciones = (id,authToken) => {
+export const obtenerInscripciones = (id, authToken) => {
     return async (dispatch, getState) => {
 
-    try {
-        const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + authToken,
-            },
-            method: "GET",
-        });
-        const resposta = await data.json();
-        if (resposta.success === true) {
-            // console.log("Inscripciones: " + JSON.stringify(resposta))
-            dispatch(setInscripciones(resposta.data))
-            dispatch(setIsLoading(false))
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                // console.log("Inscripciones: " + JSON.stringify(resposta))
+                dispatch(setInscripciones(resposta.data))
+                dispatch(setIsLoading(false))
 
-        }
-        else setError(resposta.message);
-    } catch (e) {
-        console.log(e.message);
-        // alert("Catchch");
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
     };
-};
 }
 
 
-export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords,endCoords) => {
+export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords, endCoords) => {
     return async (dispatch, getState) => {
 
         console.log("date" + JSON.stringify(date))
@@ -64,7 +67,7 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
         console.log("modificada" + dateToSend)
         formState.date = dateToSend
         formState.author_id = usuari.id
-        
+
         formState.startLatitude = startCoords.latitude
         formState.startLongitude = startCoords.longitude
 
@@ -88,8 +91,8 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
                 // setRutas(resposta);
                 console.log("resposta route id: " + (resposta.data.id))
 
-                ShowRoute(resposta.data)
-                // setReload(!reload)
+                ShowRoute(resposta.data.id)
+                dispatch(setReload(!reload))
 
             }
             else setError(resposta.message);
@@ -126,28 +129,28 @@ export const salirseRuta = (id, authToken, setReload, reload) => {
     };
 }
 
-export const getUser = (authToken,setUsuari) => {
+export const getUser = (authToken, setUsuari) => {
     return async (dispatch, getState) => {
 
-    try {
-        const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + authToken,
-            },
-            method: "GET",
-        });
-        const resposta = await data.json();
-        if (resposta.success === true) {
-            console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
-            setUsuari(resposta.user)
-        }
-        else setError(resposta.message);
-    } catch (e) {
-        console.log(e.message);
+        try {
+            const data = await fetch("http://equip04.insjoaquimmir.cat/api/user", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
+                setUsuari(resposta.user)
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+        };
     };
-};
 }
 
 export const unirseRuta = (id, authToken, setReload, reload) => {
@@ -193,7 +196,7 @@ export const retrocederPagina = (page) => {
     }
 }
 
-export const getRoute = (objectId, authToken) => {
+export const getRoute = (objectId, authToken, setStartCoords, setEndCoords) => {
     return async (dispatch, getState) => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
@@ -210,7 +213,9 @@ export const getRoute = (objectId, authToken) => {
             if (resposta.success === true) {
                 console.log("resposta getRoute" + JSON.stringify(resposta))
                 dispatch(setRuta(resposta.data))
-dispatch(setIsLoading(false))
+                setStartCoords({ latitude: resposta.data.startLatitude, longitude: resposta.data.startLongitude })
+                setEndCoords({ latitude: resposta.data.endLatitude, longitude: resposta.data.endLongitude })
+                dispatch(setIsLoading(false))
             }
             else {
                 dispatch(setError(resposta.message))
@@ -281,7 +286,7 @@ export const updateRoute = (formState, id, authToken, ShowRoute, setReload, relo
 
 export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitudeUser) => {
     return async (dispatch, getState) => {
-        console.log("lat "+latitudeUser, "long "+longitudeUser)
+        console.log("lat " + latitudeUser, "long " + longitudeUser)
         try {
             dispatch(setIsLoading(true));
             if (filterName) {
@@ -332,7 +337,7 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
                 // dispatch(setPage(resposta.data.current_page))
                 dispatch(setIsLoading(false))
 
-            } else alert("La resposta no ha triomfat"+resposta.message);
+            } else alert("La resposta no ha triomfat" + resposta.message);
 
 
             // Resto del código

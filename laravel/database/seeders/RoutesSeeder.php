@@ -25,10 +25,11 @@ class RoutesSeeder extends Seeder
         $vehicleTypes = ['Moto', 'Coche'];
 
         for ($i = 0; $i < 20; $i++) {
-            $latitude = mt_rand(-90, 90) + mt_rand() / mt_getrandmax();
-            $longitude = mt_rand(-180, 180) + mt_rand() / mt_getrandmax();
-            $latitude1 = mt_rand(-90, 90) + mt_rand() / mt_getrandmax();
-            $longitude1 = mt_rand(-180, 180) + mt_rand() / mt_getrandmax();
+            $latitude = mt_rand(36.0, 43.8) + mt_rand() / mt_getrandmax();
+            $longitude = mt_rand(-9.3, 3.4) + mt_rand() / mt_getrandmax();
+            $latitude1 = mt_rand(36.0, 43.8) + mt_rand() / mt_getrandmax();
+            $longitude1 = mt_rand(-9.3, 3.4) + mt_rand() / mt_getrandmax();
+            
             $type_vehicle = $vehicleTypes[array_rand($vehicleTypes)];
 
 
