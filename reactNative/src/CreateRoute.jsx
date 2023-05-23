@@ -186,7 +186,7 @@ const CreateRoute = () => {
         required: 'Duración es requerida',
         pattern: {
             value: /^\d+$/,
-            message: 'La duración debe ser un número',
+            message: 'La duración debe ser un número "1" = (1h)',
         },
     }}
 />
@@ -265,10 +265,12 @@ const CreateRoute = () => {
         name="num_stops"
         control={control}
         rules={{
+
             pattern: {
                 value: /^\d+$/,
                 message: 'La duración debe ser un número',
             },
+
         }}
     />
 </View>
