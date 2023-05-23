@@ -147,21 +147,21 @@ const ShowRoute = () => {
                         <Text style={{ color: 'blue' }}>{ruta.url_maps}</Text>
                     </TouchableOpacity> */}
                     <MapView
-                        provider={PROVIDER_GOOGLE}
-                        style={styles.map}
-                        initialRegion={initialRegion}
-                    >
-                        <Marker coordinate={startCoords} />
-                        <Marker coordinate={endCoords} />
-                        <MapViewDirections
-                            origin={startCoords}
-                            destination={endCoords}
-                            apikey={GOOGLE_MAPS_APIKEY}
-                            strokeWidth={3}
-                            strokeColor="blue"
-                        />
+                                provider={PROVIDER_GOOGLE}
+                                style={{ borderColor: 'skyblue', borderWidth: 2, width: 120, height: 70, position: 'absolute' }}
+                                initialRegion={initialRegion}
+                            >
+                                <Marker coordinate={startCoords} />
+                                <Marker coordinate={endCoords} />
+                                <MapViewDirections
+                                    origin={startCoords}
+                                    destination={endCoords}
+                                    apikey={GOOGLE_MAPS_APIKEY}
+                                    strokeWidth={3}
+                                    strokeColor="blue"
+                                />
 
-                    </MapView>
+                            </MapView>
 
                     <Text style={{ fontWeight: 'bold' }}>Descripcion</Text>
                     <Text>{ruta.description}</Text>
