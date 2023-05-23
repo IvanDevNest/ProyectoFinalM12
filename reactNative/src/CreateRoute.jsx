@@ -84,6 +84,7 @@ const CreateRoute = () => {
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
     console.log(latitudeUser, longitudeUser)
     console.log(startCoords, endCoords)
+
     return (
         <>
             <ScrollView    >
@@ -142,6 +143,8 @@ const CreateRoute = () => {
                                     />
                                 )}
                             />
+                                  {errors.type_vehicle && <Text>{alert('El vehiculo es obligatorio')}</Text>}
+
 
 
                         </View>
@@ -150,31 +153,51 @@ const CreateRoute = () => {
                     <View>
                         <View>
                             <Text>Distancia aproximada</Text>
-                            <CustomInput
-                                name="distance"
-
-                                placeholder="30km-35km"
+                            <Controller
                                 control={control}
-                                rules={{
-                                    required: 'Distancia es requerida',
-                                }}
+                                name="distance"
+                                defaultValue=""
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <RNPickerSelect
+                                        placeholder={{ label: 'Selecciona una opción...', value: null }}
+                                        onValueChange={onChange}
+                                        onBlur={onBlur}
+                                        items={[
+                                            { label: '05-10km', value: '0510' },
+                                            { label: '10-20km', value: '1020' },
+                                            { label: '20-30km', value: '2030' },
+                                            { label: '30-40km', value: '3040' },
+                                            { label: '40-50km', value: '4050' },
+                                            { label: '50-100km', value: '50100' },
+
+
+                                        ]}
+                                        value={value}
+                                    />
+                                )}
                             />
                         </View>
                         <View>
-                            <Text>Duración</Text>
-                            <CustomInput
-                                name="estimated_duration"
-                                control={control}
-                                rules={{
-                                    required: 'Duración es requerida',
-                                }}
-                            />
-                        </View>
+    <Text>Duración</Text>
+    <CustomInput
+    name="estimated_duration"
+    control={control}
+    rules={{
+        required: 'Duración es requerida',
+        pattern: {
+            value: /^\d+$/,
+            message: 'La duración debe ser un número',
+        },
+    }}
+/>
+
+</View>
                     </View>
                     <Text>
                         Marca el inicio y el final de la ruta en el mapa
                     </Text>
                     <MapView
+                        name="map"
                         provider={PROVIDER_GOOGLE}
                         style={{
                             width: '100%',
@@ -197,11 +220,13 @@ const CreateRoute = () => {
                         {startCoords && <Marker coordinate={startCoords} />}
                         {endCoords && <Marker coordinate={endCoords} />}
                     </MapView>
+
                     <Button
                         title="Volver a marcar"
                         onPress={handleReset}
                         disabled={!startCoords && !endCoords}
                     />
+
                     {/* <CustomInput
                 name="url_maps"
                 placeholder="https://www.google.com/maps/dir/?api=1&origin=..."
@@ -230,19 +255,23 @@ const CreateRoute = () => {
                                     />
                                 )}
                             />
+                            {errors.id_route_style && <Text>{alert('La velocidad de la ruta es obligatoria')}</Text>}
+
 
                         </View>
                         <View>
-                            <Text>Numero de paradas</Text>
-                            <CustomInput
-                                name="num_stops"
-
-                                control={control}
-                                rules={{
-                                    required: 'Numero de paradas es requerida',
-                                }}
-                            />
-                        </View>
+    <Text>Número de paradas</Text>
+    <CustomInput
+        name="num_stops"
+        control={control}
+        rules={{
+            pattern: {
+                value: /^\d+$/,
+                message: 'La duración debe ser un número',
+            },
+        }}
+    />
+</View>
 
 
                     </View>
@@ -285,7 +314,7 @@ const CreateRoute = () => {
 
                     />
                     {error ? <Text>{error}</Text> : <></>}
-                    <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />
+                    {startCoords && endCoords?<Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />:<Button disabled title="Crear Ruta"/>}
                 </View>
             </ScrollView >
         </>
@@ -300,5 +329,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: 'center',
         justifyContent: 'center'
-    }
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: 5,
+    },
 })

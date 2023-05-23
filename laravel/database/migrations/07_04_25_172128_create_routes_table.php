@@ -20,7 +20,7 @@ class CreateRoutesTable extends Migration
             // $table->string('cord_x');
             // $table->string('cord_y');
             // $table->string('url_maps');
-            $table->integer('num_stops');
+            $table->integer('num_stops');->nullable();
             $table->integer('max_users');
 
             $table->float('startLatitude',8, 5);
