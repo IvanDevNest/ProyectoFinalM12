@@ -1,10 +1,9 @@
 {
+    "private": true,
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "deploy": "./deploy.sh",
-        "deploy-project": "npm run dev && npm run deploy"
-
+        "deploy": "./deploy.sh"
     },
     "devDependencies": {
         "axios": "^1.1.2",
