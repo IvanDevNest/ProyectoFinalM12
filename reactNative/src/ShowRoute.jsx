@@ -97,6 +97,7 @@ const ShowRoute = () => {
         }
     }, [ruta])
     useEffect(() => {
+        console.log(objectId)
         dispatch(getRoute(objectId, authToken, setStartCoords, setEndCoords, setInitialRegion));
     }, [reload])
     // useEffect(() => {
