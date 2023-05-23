@@ -80,7 +80,6 @@ const ShowRoute = () => {
             });
             const resposta = await data.json();
             console.log("RESPOSTA GETAUTHORUSER" + JSON.stringify(resposta))
-
             if (resposta.success === true) {
                 setAuthorRuta(resposta.data)
             }

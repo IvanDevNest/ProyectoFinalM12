@@ -12,14 +12,14 @@ export default function Login({ setLogin }) {
 
   return (
     <ImageBackground
-      source={require('../login.png')}
+      source={require('../login.jpg')}
       style={styles.container}
       resizeMode="cover"
       blurRadius={2}
     >
       <View style={styles.content}>
         <View  style={styles.login}>
-          <Text style={[styles.title, { color: 'white' }]}>Login</Text>
+          <Text style={[styles.title, { color: 'white' }]}>Iniciar Sesión</Text>
 
           <View style={styles.inputContainer}>
             <Text style={[styles.label, { color: 'white' }]}>Email:*</Text>
@@ -56,7 +56,7 @@ export default function Login({ setLogin }) {
 
           {error && <Text>{error}</Text>}
           <Button
-            title="Login"
+            title="Iniciar Sesión"
             onPress={handleSubmit(onSubmit)}
           />
 
