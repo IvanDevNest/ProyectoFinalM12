@@ -11,3 +11,4 @@
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>
     </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('file') }}"><i class="nav-icon la la-question"></i> Files</a></li>
