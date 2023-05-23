@@ -56,10 +56,10 @@ function MyStack() {
         name="ShowUser"
         component={ShowUser}
       />
-      {/* <HomeStackNavigator.Screen
+      <HomeStackNavigator.Screen
         name="ShowMyUser"
         component={ShowMyUser}
-      /> */}
+      />
       <HomeStackNavigator.Screen
         name="UserEdit"
         component={UserEdit}
@@ -160,7 +160,7 @@ function MyTabs() {
         <Tab.Screen
           name="Joined"
           component={ShowRoute}
-          initialParams={{ objectId: usuari.route_id,inscripciones }} // Añade el parámetro y su valor aquí
+          initialParams={{ objectId: usuari.route_id,inscripciones }}
 
           options={{
             tabBarIcon: ({ color, size }) => (

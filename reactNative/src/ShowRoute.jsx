@@ -113,9 +113,9 @@ const ShowRoute = () => {
             {isLoading ?
                 <Text>Cargando...</Text>
                 :
-                <View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View>
+                <View style={{padding:10}}>
+                    <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+                        <View style={{ flex: 1 }}>
                             <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
                             <Text>{ruta.name}</Text>
                         </View>
@@ -139,7 +139,6 @@ const ShowRoute = () => {
 
                             </View>
                         </View>
-
                     </View>
 
                     <Text style={{ fontWeight: 'bold' }}>Ruta maps</Text>
@@ -190,7 +189,7 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload, RutasList)) }} />
+                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload,true, RutasList)) }} />
                         :
                         <></>
                     }
@@ -207,7 +206,7 @@ const ShowRoute = () => {
                             }
 
 
-                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload, RutasList)) }}></Button>
+                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload,true, RutasList)) }}></Button>
                         </> : <></>
                     }
 
