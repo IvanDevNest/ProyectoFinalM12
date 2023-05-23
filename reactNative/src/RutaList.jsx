@@ -19,9 +19,9 @@ const RutaList = (ruta) => {
     // const [inscripciones, setInscripciones] = useState([])
     const dispatch = useDispatch();
 
-        function ShowRoute(ruta) {
-            navigation.navigate('ShowRoute', { object: ruta });
-        }
+    function ShowRoute(id) {
+        navigation.navigate('ShowRoute', { objectId: id });
+    }
     function RouteEdit(id) {
         navigation.navigate('RouteEdit', { objectId: id });
     }
@@ -261,7 +261,7 @@ const RutaList = (ruta) => {
                                         :
                                         <></>
                                     }
-                                    <Button title="Ver" onPress={() => ShowRoute(ruta)}></Button>
+                                    <Button title="Ver" onPress={() => ShowRoute(ruta.id)}></Button>
 
                                 </View>
 

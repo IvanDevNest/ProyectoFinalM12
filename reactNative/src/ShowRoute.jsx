@@ -11,7 +11,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'
 
 const ShowRoute = () => {
-    const { inscripciones, isSaving = true, error = "",  page, lastpage, } = useSelector((state) => state.routes);
+    const { inscripciones, isSaving = true, error = "",isLoading=true, ruta, page, lastpage, } = useSelector((state) => state.routes);
 
     const dispatch = useDispatch();
 
@@ -22,13 +22,12 @@ const ShowRoute = () => {
     let { usuari, authToken } = useContext(UserContext);
     const [avatarUrl, setAvatarUrl] = useState(null);
     const [reload, setReload] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
 
     const [authorRuta, setAuthorRuta] = useState([]);
 
     const route = useRoute();
-    const ruta = route.params.object;
+    const objectId = route.params.objectId;
 
     const navigation = useNavigation();
 
@@ -97,13 +96,14 @@ const ShowRoute = () => {
             obtenerDatosAuthorRuta(ruta.author_id)
         }
     }, [ruta])
-    // useEffect(() => {
-    //         dispatch(getRoute(objectId, authToken));
-    // }, [])
     useEffect(() => {
-        dispatch(obtenerInscripciones(ruta.id, authToken))
+            dispatch(getRoute(objectId, authToken));
+    }, [])
+    useEffect(() => {
+        dispatch(obtenerInscripciones(objectId, authToken))
     }, [reload, ruta ]);
     // }, [reload, ruta, inscripciones]);
+    console.log(ruta.url_maps)
       const [initialRegion, setInitialRegion] = useState({
                     latitude: ruta.startLatitude,
                     longitude: ruta.startLongitude,
@@ -244,19 +244,19 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(ruta.id, authToken, setReload, reload)) }} />
+                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload)) }} />
                         :
                         <></>
                     }
                     {usuari.route_id == null ?
-                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(ruta.id, authToken, setReload, reload))} />
+                        <Button title="Unirme" onPress={() => dispatch(unirseRuta(objectId, authToken, setReload, reload))} />
                         :
                         <></>
                     }
                     {ruta.author_id == usuari.id ?
                         <>
-                            <Button title="Editar" onPress={() => RouteEdit(ruta.id)}></Button>
-                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(ruta.id, authToken, setReload, reload)) }}></Button>
+                            <Button title="Editar" onPress={() => RouteEdit(objectId)}></Button>
+                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload)) }}></Button>
                         </> : <></>
                     }
 

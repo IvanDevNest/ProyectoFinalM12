@@ -18,7 +18,7 @@ export const eliminarRuta = (id, authToken, setReload, reload) => {
             console.log(resposta)
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
-                setReload(!reload)
+                dispatch(setReload(!reload))
             }
             else setError("La resposta no ha triomfat");
         } catch (e) {
@@ -167,7 +167,7 @@ export const unirseRuta = (id, authToken, setReload, reload) => {
 
             if (resposta.success === true) {
                 // setIsLoading(false)
-                setReload(!reload)
+                dispatch(setReload(!reload))
             }
             else setError(resposta.message);
         } catch (e) {
@@ -210,7 +210,7 @@ export const getRoute = (objectId, authToken) => {
             if (resposta.success === true) {
                 console.log("resposta getRoute" + JSON.stringify(resposta))
                 dispatch(setRuta(resposta.data))
-
+dispatch(setIsLoading(false))
             }
             else {
                 dispatch(setError(resposta.message))
