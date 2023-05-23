@@ -110,7 +110,7 @@ const RutaList = (ruta) => {
                         <View style={{ flexDirection: "row" }}>
                             <View style={{ alignItems: "center" }}>
                                 <AntDesign style={{ paddingHorizontal: 15, paddingVertical: 10 }} name="clockcircle" size={24} color="black" />
-                                <StyledText>{ruta.estimated_duration}</StyledText>
+                                <StyledText>{ruta.estimated_duration}h</StyledText>
                             </View>
                             <View style={{ alignItems: "center" }}>
                                 <MaterialCommunityIcons style={{ paddingHorizontal: 20, paddingVertical: 10 }} name="map-marker-distance" size={24} color="black" />

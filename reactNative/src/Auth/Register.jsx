@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button, PermissionsAndroid } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, Button, PermissionsAndroid } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
 import { useContext } from 'react';
@@ -32,110 +32,154 @@ const Register = ({ setLogin }) => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImage(result);
     }
   };
 
   return (
-    <View>
-      <Text>Nombre:*</Text>
-      <CustomInput
-        name="name"
-        placeholder="Name"
-        control={control}
-        rules={{required: 'El nombre es obligatorio'}}
-      />
+    <ImageBackground
+      source={require('../login.jpg')}
+      style={styles.container}
+      resizeMode="cover"
+      blurRadius={2}
+    >
+      <View style={styles.content}>
 
-      <Text>lastname:</Text>
-      <CustomInput
-        name="lastname"
-        placeholder="lastname"
-        control={control}
+        <View style={styles.login}>
+          <Text style={[styles.title, { color: 'white' }]}>Register</Text>
+          <View style={styles.inputContainer}>
 
-      />
-      {errors.lastname && <Text>{errors.lastname.message}</Text>}
+            <Text style={[styles.label, { color: 'white' }]}>Nombre:*</Text>
+            <CustomInput
+              name="name"
+              placeholder="Nombre"
+              control={control}
+              rules={{ required: 'El nombre es obligatorio' }}
+            />
 
-      <Text>second_surname:</Text>
-      <CustomInput
-        name="second_surname"
-        placeholder="second_surname"
-        control={control}
+            <Text style={[styles.label, { color: 'white' }]}>Primer Apellido:</Text>
+            <CustomInput
+              name="lastname"
+              placeholder="Primer Apellido"
+              control={control}
 
-      />
-      {errors.second_surname && <Text>{errors.second_surname.message}</Text>}
+            />
+            {errors.lastname && <Text style={{ color: 'red' }}>{errors.lastname.message}</Text>}
 
-      <Text>Genero:*</Text>
-      <Controller
-        control={control}
-        name="gender"
-        defaultValue=""
-        rules={{ required: 'El género es obligatorio'}}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <RNPickerSelect
-            placeholder={{ label: 'Elige el género:', value: null }}
-            onValueChange={onChange}
-            onBlur={onBlur}
-            items={[
-              { label: 'Hombre', value: 'Hombre' },
-              { label: 'Mujer', value: 'Mujer' }
-            ]}
-            value={value}
-          />
-        )}
-      />
-      {errors.gender && <Text>{alert('El genero es obligatorio')}</Text>}
+            <Text style={[styles.label, { color: 'white' }]}>Segundo Apellido:</Text>
+            <CustomInput
+              name="second_surname"
+              placeholder="Segundo Apellido"
+              control={control}
 
+            />
+            {errors.second_surname && <Text style={{ color: 'red' }}>{errors.second_surname.message}</Text>}
 
-      <Text>img_profile:</Text>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
+            <Text style={[styles.label, { color: 'white' }]}>Genero:*</Text>
+            <Controller
+              control={control}
+              name="gender"
+              defaultValue=""
+              rules={{ required: 'El género es obligatorio' }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RNPickerSelect
+                  placeholder={{ label: 'Elige el género:', value: null }}
+                  onValueChange={onChange}
+                  onBlur={onBlur}
 
-
-      {/* <CustomInput
-        name="img_profile"
-        placeholder="img"
-        control={control}
-        render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
-            <View>
-              <TextInput
-                value={selectedImage}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                placeholder={placeholder}
+                  items={[
+                    { label: 'Hombre', value: 'Hombre' },
+                    { label: 'Mujer', value: 'Mujer' }
+                  ]}
+                  value={value}
+                  style={{
+                    inputIOS: {
+                      color: 'white', // Cambia el color del texto en iOS
+                    },
+                    inputAndroid: {
+                      color: 'white', // Cambia el color del texto en Android
+                    },
+                    placeholder: {
+                      color: 'white', // Cambia el color del texto del marcador de posición
+                    }}}
                 />
-            </View>
-        )}  
-      /> */}
-      <Text>Email:*</Text>
-      <CustomInput
-        name="email"
-        placeholder="Email"
-        control={control}
-        rules={{ required: 'El correo electronico es obligatorio'}}
-      />
-
-      <Text>Contraseña:*</Text>
-      <CustomInput
-        name="password"
-        placeholder="Contraseña"
-        secureTextEntry
-        control={control}
-        rules={{
-          pattern: {
-            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-            message: 'La contraseña debe tener al menos 8 caracteres e incluir al menos una letra minúscula, una letra mayúscula y un número',
-          },
-          required: 'La contraseña es obligatoria'
-        }}
-      />
+              )}
+            />
+            {errors.gender && <Text style={{ color: 'red' }}>{alert('El genero es obligatorio')}</Text>}
 
 
-      <Button title="Registrarse" onPress={handleSubmit(onSubmit)} />
-      <Button title="Ya tengo cuenta" onPress={() => { setLogin(true) }} />
+            <Text style={[styles.label, { color: 'white' }]}>img_profile:</Text>
+            <Button title="Escoje una foto de perfil" onPress={pickImage} />
+            {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
 
-    </View>
+
+            <Text style={[styles.label, { color: 'white' }]}>Email:*</Text>
+            <CustomInput
+              name="email"
+              placeholder="Email"
+              control={control}
+              rules={{ required: 'El correo electronico es obligatorio' }}
+            />
+
+            <Text style={[styles.label, { color: 'white' }]}>Contraseña:*</Text>
+            <CustomInput
+              name="password"
+              placeholder="Contraseña"
+              secureTextEntry
+              control={control}
+              rules={{
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                  message: 'La contraseña debe tener al menos 8 caracteres e incluir al menos una letra minúscula, una letra mayúscula y un número',
+                },
+                required: 'La contraseña es obligatoria'
+              }}
+            />
+
+          </View>
+
+          <Button title="Registrarse" onPress={handleSubmit(onSubmit)} />
+          <Button title="Ya tengo cuenta" onPress={() => { setLogin(true) }} />
+
+        </View>
+      </View>
+    </ImageBackground>
+
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+
+  },
+  content: {
+    // backgroundColor: 'rgba(255, 255, 255, 0.4)', // Transparencia del fondo superpuesto
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Transparencia del fondo superpuesto
+    color: 'white',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  label: {
+    marginBottom: 5,
+  },
+  color: {
+    color: 'white',
+  },
+  login: {
+    padding: 30,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)'
+  },
+});
 
 export default Register;

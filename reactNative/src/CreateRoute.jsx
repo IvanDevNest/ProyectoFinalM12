@@ -20,7 +20,7 @@ const CreateRoute = () => {
     const { isSaving = true, error = "" } = useSelector((state) => state.routes);
     const onSubmit = (data) => {
 
-        dispatch(createRoute(data, authToken, ShowRoute, date, usuari, startCoords, endCoords,setReload, reload));
+        dispatch(createRoute(data, authToken, ShowRoute, date, usuari, startCoords, endCoords, setReload, reload));
     }
 
     let { usuari, authToken, setReload, reload, latitudeUser, longitudeUser } = useContext(UserContext);
@@ -88,8 +88,8 @@ const CreateRoute = () => {
     return (
         <>
             <ScrollView    >
-            <View style={{flex: 1,paddingBottom: 300}}>
-                                    <Text>Información de la ruta</Text>
+                <View style={{ flex: 1, paddingBottom: 300 }}>
+                    <Text>Información de la ruta</Text>
                     <Text>Nombre de la ruta</Text>
                     <CustomInput
                         name="name"
@@ -143,7 +143,7 @@ const CreateRoute = () => {
                                     />
                                 )}
                             />
-                                  {errors.type_vehicle && <Text>{alert('El vehiculo es obligatorio')}</Text>}
+                            {errors.type_vehicle && <Text>{alert('El vehiculo es obligatorio')}</Text>}
 
 
 
@@ -178,20 +178,20 @@ const CreateRoute = () => {
                             />
                         </View>
                         <View>
-    <Text>Duración</Text>
-    <CustomInput
-    name="estimated_duration"
-    control={control}
-    rules={{
-        required: 'Duración es requerida',
-        pattern: {
-            value: /^\d+$/,
-            message: 'La duración debe ser un número "1" = (1h)',
-        },
-    }}
-/>
+                            <Text>Duración</Text>
+                            <CustomInput
+                                name="estimated_duration"
+                                control={control}
+                                rules={{
+                                    required: 'Duración es requerida',
+                                    pattern: {
+                                        value: /^\d+$/,
+                                        message: 'La duración debe ser un número "1" = (1h)',
+                                    },
+                                }}
+                            />
 
-</View>
+                        </View>
                     </View>
                     <Text>
                         Marca el inicio y el final de la ruta en el mapa
@@ -260,20 +260,20 @@ const CreateRoute = () => {
 
                         </View>
                         <View>
-    <Text>Número de paradas</Text>
-    <CustomInput
-        name="num_stops"
-        control={control}
-        rules={{
+                            <Text>Número de paradas</Text>
+                            <CustomInput
+                                name="num_stops"
+                                control={control}
+                                rules={{
 
-            pattern: {
-                value: /^\d+$/,
-                message: 'La duración debe ser un número',
-            },
+                                    pattern: {
+                                        value: /^\d+$/,
+                                        message: 'La duración debe ser un número',
+                                    },
 
-        }}
-    />
-</View>
+                                }}
+                            />
+                        </View>
 
 
                     </View>
@@ -316,7 +316,7 @@ const CreateRoute = () => {
 
                     />
                     {error ? <Text>{error}</Text> : <></>}
-                    {startCoords && endCoords?<Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} />:<Button disabled title="Crear Ruta"/>}
+                    {startCoords && endCoords ? <Button title="Crear Ruta" onPress={handleSubmit(onSubmit)} /> : <Button disabled title="Crear Ruta" />}
                 </View>
             </ScrollView >
         </>
