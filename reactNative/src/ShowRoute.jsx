@@ -100,9 +100,9 @@ const ShowRoute = () => {
     useEffect(() => {
             dispatch(getRoute(objectId, authToken,setStartCoords,setEndCoords,setInitialRegion));
     }, [reload])
-    useEffect(() => {
-        dispatch(obtenerInscripciones(objectId, authToken))
-    }, [reload, ruta]);
+    // useEffect(() => {
+    //     dispatch(obtenerInscripciones(objectId, authToken))
+    // }, [reload, ruta]);
     // }, [reload, ruta, inscripciones]);
       const [initialRegion, setInitialRegion] = useState({});
 
@@ -190,7 +190,7 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload)) }} />
+                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload,RutasList)) }} />
                         :
                         <></>
                     }

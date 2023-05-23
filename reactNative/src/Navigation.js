@@ -159,7 +159,9 @@ function MyTabs() {
       {showJoinedRoute ? (
         <Tab.Screen
           name="Joined"
-          component={ShowJoinedRoute}
+          component={ShowRoute}
+          initialParams={{ objectId: usuari.route_id }} // Añade el parámetro y su valor aquí
+
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="map-marker-alt" size={24} color="black" />

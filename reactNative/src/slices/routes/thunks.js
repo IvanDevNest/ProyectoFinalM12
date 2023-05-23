@@ -20,45 +20,44 @@ export const eliminarRuta = (id, authToken, setReload, reload, RutasList) => {
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
                 RutasList()
-
                 dispatch(setReload(!reload))
             }
-            else setError("La resposta no ha triomfat");
+            else console.log("La resposta no ha triomfat");
         } catch (e) {
             console.log("Catch: " + e.message);
         };
     };
 }
 
-export const obtenerInscripciones = (id, authToken) => {
-    return async (dispatch, getState) => {
+// export const obtenerInscripciones = (id, authToken) => {
+//     return async (dispatch, getState) => {
 
-        try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "GET",
-            });
-            const resposta = await data.json();
-            console.log("Inscripciones: " + JSON.stringify(resposta.data))
-            if (resposta.success === true) {
-                dispatch(setInscripciones(resposta.data))
-                dispatch(setIsLoading(false))
+//         try {
+//             const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
+//                 headers: {
+//                     Accept: "application/json",
+//                     "Content-Type": "application/json",
+//                     'Authorization': 'Bearer ' + authToken,
+//                 },
+//                 method: "GET",
+//             });
+//             const resposta = await data.json();
+//             console.log("Inscripciones: " + JSON.stringify(resposta.data))
+//             if (resposta.success === true) {
+//                 dispatch(setInscripciones(resposta.data))
+//                 dispatch(setIsLoading(false))
 
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log(e.message);
-            // alert("Catchch");
-        };
-    };
-}
+//             }
+//             else setError(resposta.message);
+//         } catch (e) {
+//             console.log(e.message);
+//             // alert("Catchch");
+//         };
+//     };
+// }
 
 
-export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords, endCoords,setReload, reload) => {
+export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords, endCoords, setReload, reload) => {
     return async (dispatch, getState) => {
 
         console.log("date" + JSON.stringify(date))
@@ -95,7 +94,7 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
                 setReload(!reload)
 
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log(e.message);
 
@@ -103,7 +102,7 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
     };
 };
 
-export const salirseRuta = (id, authToken, setReload, reload) => {
+export const salirseRuta = (id, authToken, setReload, reload,RutasList) => {
     return async (dispatch, getState) => {
 
         console.log(id)
@@ -119,11 +118,11 @@ export const salirseRuta = (id, authToken, setReload, reload) => {
             const resposta = await data.json();
             console.log("resposta salirse ruta" + JSON.stringify(resposta))
             if (resposta.success === true) {
-            console.log("resposta true" + JSON.stringify(resposta))
-
+                console.log("resposta true" + JSON.stringify(resposta))
+                RutasList()
                 setReload(!reload)
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
         };
@@ -147,7 +146,7 @@ export const getUser = (authToken, setUsuari) => {
                 console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
                 setUsuari(resposta.user)
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log(e.message);
         };
@@ -170,12 +169,12 @@ export const unirseRuta = (id, authToken, setReload, reload) => {
             console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
             if (resposta.success === true) {
-            console.log("resposta succes?" + JSON.stringify(resposta))
+                console.log("resposta succes?" + JSON.stringify(resposta))
 
                 // setIsLoading(false)
                 setReload(!reload)
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
             // alert("Catchch");
@@ -225,7 +224,7 @@ export const getRoute = (objectId, authToken, setStartCoords, setEndCoords, setI
                 dispatch(setIsLoading(false))
             }
             else {
-                dispatch(setError(resposta.message))
+                console.log(resposta.message)
             }
         } catch (err) {
             console.log("catch" + err.message);
@@ -256,7 +255,8 @@ export const updateRoute = (formState, id, authToken, ShowRoute, setReload, relo
                 setReload(!reload)
 
             }
-            else{dispatch(setError(resposta.message))
+            else {
+                dispatch(setError(resposta.message))
             }
         } catch (e) {
             console.log(e.err);
@@ -321,7 +321,7 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
             console.log("Data: " + JSON.stringify(resposta.data))
             if (resposta.success === true) {
                 console.log("resposta pages" + JSON.stringify(resposta))
-                
+
                 dispatch(setRutas(resposta.data))
                 console.log("SetRutas: " + JSON.stringify(resposta.data))
 
