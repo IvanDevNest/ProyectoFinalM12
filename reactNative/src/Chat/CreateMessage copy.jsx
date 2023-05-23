@@ -1,21 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useSelector } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text, Platform } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { UserContext } from '../userContext';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInput from '../CustomInput';
-import { useSelector } from 'react-redux';
-
 const CreateMessage = () => {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
     const [error, setError] = useState([]);
 
-    let { authToken, setAuthToken, usuari, myAvatarUrl, setReload, reload,userRole } = useContext(UserContext);
+    let { authToken, setAuthToken, usuari, myAvatarUrl, setReload, reload, userRole} = useContext(UserContext);
+
+    const { ruta } = useSelector((state) => state.routes);
 
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
-    const { ruta } = useSelector((state) => state.routes);
 
     const onSubmit = (data) => createMessage(data, image)
 
@@ -94,12 +93,11 @@ const CreateMessage = () => {
 
     return (
         <>
-            {userRole != 'vip' && ruta.author_id != usuari.id ?
-                <Text>No tienes permisos para enviar mensaje tienes que comprar el VIP</Text>
-                :
+            {/* {userRole != 'vip' && ruta.author_id != usuari.id ? */}
+                {/* <Text>No tienes permisos para enviar mensaje tienes que comprar el VIP</Text> */}
+                {/* : */}
                 <View style={{ backgroundColor: 'white' }}>
                     {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-
                     <View style={styles.container}>
                         <Controller
                             control={control}
@@ -116,11 +114,14 @@ const CreateMessage = () => {
                         />
                         <Ionicons name="ios-camera" size={24} color="black" onPress={() => pickImage()} />
                         <Feather name="send" size={24} color="black" style={styles.sendButton} onPress={handleSubmit(onSubmit)} />
+
                     </View>
                     {error.length > 1 && <Text style={{ color: 'red' }} >Error: {error}</Text>}
                 </View>
-            }
+            {/* } */}
+
         </>
+
     );
 };
 

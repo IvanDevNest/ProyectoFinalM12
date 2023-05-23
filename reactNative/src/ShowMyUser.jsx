@@ -18,7 +18,7 @@ import StarRating from "react-native-star-rating";
 import AverageStarsUsers from './AverageStarsUsers';
 const ShowMyUser = () => {
 
-  let { usuari, setUsuari, authToken, setReload, reload, myAvatarUrl, setMyAvatarUrl } = useContext(UserContext);
+  let { usuari, setUsuari, authToken, setReload, reload, myAvatarUrl, setMyAvatarUrl ,userRole} = useContext(UserContext);
   // const [avatarUrl, setAvatarUrl] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [average, setAverage] = useState(null);

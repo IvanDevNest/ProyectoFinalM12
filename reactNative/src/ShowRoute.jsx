@@ -11,7 +11,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'
 
 const ShowRoute = () => {
-    const {  isSaving = true, error = "",isLoading=true, ruta, page, lastpage, } = useSelector((state) => state.routes);
+    const { isSaving = true, error = "", isLoading = true, ruta, page, lastpage, } = useSelector((state) => state.routes);
 
     const dispatch = useDispatch();
 
@@ -19,13 +19,13 @@ const ShowRoute = () => {
     // const [error, setError] = useState([]);
     // const [inscripciones, setInscripciones] = useState([])
     // const [isLoading, setIsLoading] = useState(true);
-    let { usuari, authToken,reload,setReload } = useContext(UserContext);
+    let { usuari, authToken, reload, setReload, inscripciones } = useContext(UserContext);
     const [avatarUrl, setAvatarUrl] = useState(null);
     const [authorRuta, setAuthorRuta] = useState([]);
 
     const route = useRoute();
     const objectId = route.params.objectId;
-    const inscripciones= route.params.inscripciones
+    // const inscripciones= route.params.inscripciones
     const navigation = useNavigation();
 
     function ShowUser(id) {
@@ -98,14 +98,14 @@ const ShowRoute = () => {
         }
     }, [ruta])
     useEffect(() => {
-            dispatch(getRoute(objectId, authToken,setStartCoords,setEndCoords,setInitialRegion));
+        dispatch(getRoute(objectId, authToken, setStartCoords, setEndCoords, setInitialRegion));
     }, [reload])
     // useEffect(() => {
     //     dispatch(obtenerInscripciones(objectId, authToken))
     // }, [reload, ruta]);
     // }, [reload, ruta, inscripciones]);
-      const [initialRegion, setInitialRegion] = useState({});
-      
+    const [initialRegion, setInitialRegion] = useState({});
+
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
     return (
@@ -190,7 +190,7 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload,RutasList)) }} />
+                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload, RutasList)) }} />
                         :
                         <></>
                     }
@@ -201,13 +201,13 @@ const ShowRoute = () => {
                     }
                     {ruta.author_id == usuari.id ?
                         <>
-                        {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000?
-                         <></> :  <Button title="Editar" onPress={() => RouteEdit(objectId)}   
-                          ></Button>
-                        }
-                            
-                            
-                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload,RutasList)) }}></Button>
+                            {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000 ?
+                                <></> : <Button title="Editar" onPress={() => RouteEdit(objectId)}
+                                ></Button>
+                            }
+
+
+                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload, RutasList)) }}></Button>
                         </> : <></>
                     }
 
