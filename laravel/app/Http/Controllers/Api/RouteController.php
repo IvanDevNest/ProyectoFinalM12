@@ -142,12 +142,12 @@ class RouteController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'description' => 'required|max:255',
+            'description' => 'max:255',
             'date' => 'required',
             'distance' => 'required|numeric',
             'estimated_duration' => 'required|numeric',
             // 'url_maps' => 'required|max:255',
-            'num_stops' => 'required|integer',
+            'num_stops' => 'integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
 
@@ -214,12 +214,12 @@ class RouteController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'description' => 'required|max:255',
+            'description' => 'max:255',
             'date' => 'required',
             'distance' => 'required|numeric',
             'estimated_duration' => 'required|numeric',
             // 'url_maps' => 'required|max:255',
-            'num_stops' => 'required|integer',
+            'num_stops' => 'integer',
             'type_vehicle' => 'required|string',
             'max_users' => 'required|integer',
             // 'latitude' => 'required|float',
