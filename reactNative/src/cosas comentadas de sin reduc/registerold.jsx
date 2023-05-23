@@ -7,22 +7,57 @@ import { UserContext } from '../userContext';
 import { Platform } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import * as ImagePicker from 'expo-image-picker';
-import { handleRegister } from '../slices/users/thunks';
-import { useDispatch } from 'react-redux';
 
 const Register = ({ setLogin }) => {
-  const dispatch = useDispatch()
   const [image, setImage] = useState(null);
+  const [error, setError] = useState([]);
   const [gender, setGender] = useState("");
-
 
   let { authToken, setAuthToken } = useContext(UserContext);
 
   const { control, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = data => dispatch(handleRegister(data, image, setAuthToken));
+  const onSubmit = data => handleRegister(data, image);
 
+  const handleRegister = async (dataa, image) => {
+    const formData = new FormData();
+    if (image) {
+      const fileName = image.assets[0].uri.split("/").pop();
 
+      formData.append('imageUri', {
+        uri: image.assets[0].uri,
+        name: fileName,
+        type: Platform.OS === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
+      });
+    }
+
+    formData.append('name', dataa.name);
+    formData.append('email', dataa.email.toLowerCase());
+    formData.append('password', dataa.password);
+    formData.append('gender', dataa.gender);
+
+    try {
+      const response = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
+        headers: {
+          Accept: "application/json",
+          "content-type": "multipart/form-data"
+        },
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success === true) {
+        setAuthToken(data.authToken);
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.log("Error: ", error.message);
+      alert(error.message);
+    }
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

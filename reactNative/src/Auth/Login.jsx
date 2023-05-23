@@ -27,6 +27,8 @@ export default function Login({ setLogin }) {
         control={control}
         rules={{ required: 'Email is required' }}
       />
+            {errors.email && <Text>{errors.email.message}</Text>}
+
 
       <Text>Contraseña:*</Text>
       <CustomInput
@@ -42,6 +44,8 @@ export default function Login({ setLogin }) {
           },
         }}
       />
+                  {errors.password && <Text>{errors.password.message}</Text>}
+
       {error?<Text>{error}</Text>:<></>}
       <Button title="Login"
         onPress={handleSubmit(onSubmit)}
