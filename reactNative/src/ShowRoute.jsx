@@ -202,7 +202,7 @@ const ShowRoute = () => {
                     {ruta.author_id == usuari.id ?
                         <>
                             {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000 ?
-                                <Button title="Editar" onPress={() => alert("no puedes editar una ruta con menos de 12 horas de antelacion")} />
+                                <Button title="Editar" onPress={() => alert("No puedes editar una ruta con menos de 12 horas de antelacion")} />
                                 : <Button title="Editar" onPress={() => RouteEdit(objectId)}/>
                             }
 

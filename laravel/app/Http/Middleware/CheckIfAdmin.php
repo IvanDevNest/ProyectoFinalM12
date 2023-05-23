@@ -31,7 +31,7 @@ class CheckIfAdmin
     
     if( !$user->hasRole('admin')){
     return false;
-     }
+    }
     
     return true;
     }
