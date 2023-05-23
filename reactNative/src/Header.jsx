@@ -65,7 +65,6 @@ const Header = () => {
         // console.log(JSON.stringify(resposta))
         setUsuari(resposta.user)
         setIsLoading(false)
-        111
         setUserRole(resposta.roles)
       }
       else setError(resposta.message);

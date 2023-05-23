@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useSelector } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text, Platform } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,10 +12,11 @@ const CreateMessage = () => {
 
     let { authToken, setAuthToken, usuari, myAvatarUrl, setReload, reload } = useContext(UserContext);
 
+    const { ruta } = useSelector((state) => state.routes);
+
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
     const onSubmit = (data) => createMessage(data, image)
-
 
     const createMessage = async (dataa, image) => {
         const formData = new FormData();
@@ -64,16 +65,16 @@ const CreateMessage = () => {
                     reset();
                     setImage(null)
                     setReload(!reload)
-    
+
                 }
-    
+
                 else console.log(resposta.message);
             } catch (e) {
                 console.log("El Undefined: " + e.message);
-    
+
             }
         }
-       
+
 
     };
     const pickImage = async () => {
@@ -91,34 +92,34 @@ const CreateMessage = () => {
     };
 
     return (
-        <View style={{ backgroundColor: 'white' }}>
-            {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-
-            <View style={styles.container}>
-
-
-                <Controller
-                    control={control}
-
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                            placeholder="Escribe un mensaje..."
-                            style={styles.input}
+        <>
+            {userRole != 'vip' && ruta.author_id != usuari.id ?
+                <Text>No tienes permisos para enviar mensaje tienes que comprar el VIP</Text>
+                : <View style={{ backgroundColor: 'white' }}>
+                    {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
+                    <View style={styles.container}>
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
+                                    placeholder="Escribe un mensaje..."
+                                    style={styles.input}
+                                />
+                            )}
+                            name="text"
                         />
-                    )}
-                    name="text"
-                />
-                <Ionicons name="ios-camera" size={24} color="black" onPress={() => pickImage()} />
-                <Feather name="send" size={24} color="black" style={styles.sendButton} onPress={handleSubmit(onSubmit)} />
+                        <Ionicons name="ios-camera" size={24} color="black" onPress={() => pickImage()} />
+                        <Feather name="send" size={24} color="black" style={styles.sendButton} onPress={handleSubmit(onSubmit)} />
 
+                    </View>
+                    {error.length > 1 && <Text style={{ color: 'red' }} >Error: {error}</Text>}
+                </View>
+            }
 
-            </View>
-            {error.length > 1 && <Text style={{ color: 'red' }} >Error: {error}</Text>}
-
-        </View>
+        </>
 
     );
 };

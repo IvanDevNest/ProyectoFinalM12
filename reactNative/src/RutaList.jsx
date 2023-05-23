@@ -116,8 +116,6 @@ const RutaList = (ruta) => {
                                 <MaterialCommunityIcons style={{ paddingHorizontal: 20, paddingVertical: 10 }} name="map-marker-distance" size={24} color="black" />
                                 <StyledText>{separado} km</StyledText>
                             </View>
-
-
                         </View>
 
                         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>

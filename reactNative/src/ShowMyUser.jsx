@@ -82,7 +82,7 @@ const ShowMyUser = () => {
   return (
     <View>
       <View style={{ alignItems: 'center', paddingVertical: 10 }}>
-        {usuari.id_role == 4 ?
+        {userRole == "vip" ?
           <View style={{ flexDirection: 'row' }}>
             <Image style={styles.avatarVIP} source={{ uri: myAvatarUrl }}></Image>
             <Image source={require("./vip.png")} style={{ width: 30, height: 30, position: 'absolute' }}></Image>

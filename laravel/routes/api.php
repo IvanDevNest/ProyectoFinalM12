@@ -86,4 +86,5 @@ Route::get('/routes', 'App\Http\Controllers\Api\RouteController@index');
 
 
 
-Route::post('/subscribe', 'App\Http\Controllers\Api\SubscriptionController@subscribe');
+Route::post('/subscribe', 'App\Http\Controllers\Api\SubscriptionController@subscribe')
+->middleware('auth:sanctum');
