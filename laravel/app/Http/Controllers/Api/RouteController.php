@@ -228,9 +228,9 @@ class RouteController extends Controller
             // 'latitude' => 'required|float',
             // 'longitude' => 'required|float',
             'startLatitude' => 'required',
-            'startlongitude' => 'required',
+            'startLongitude' => 'required',
             'endLatitude' => 'required',
-            'endlongitude' => 'required',
+            'endLongitude' => 'required',
             'id_route_style' => 'required|exists:route_styles,id',
             'author_id' => 'required|exists:users,id'
         ]);
