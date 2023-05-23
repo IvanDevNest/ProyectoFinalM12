@@ -4,7 +4,7 @@
 git clone https://github.com/Guilirex/ProyectoFinalM12.git
 
 # Navegar al directorio del proyecto clonado
-cd laravel
+cd ProyectoFinalM12/laravel
 
 # Instalar las dependencias de Composer
 composer install
