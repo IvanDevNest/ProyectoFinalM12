@@ -56,10 +56,10 @@ function MyStack() {
         name="ShowUser"
         component={ShowUser}
       />
-      <HomeStackNavigator.Screen
+      {/* <HomeStackNavigator.Screen
         name="ShowMyUser"
         component={ShowMyUser}
-      />
+      /> */}
       <HomeStackNavigator.Screen
         name="UserEdit"
         component={UserEdit}
@@ -77,7 +77,7 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs() {
   const [showJoinedRoute, setShowJoinedRoute] = useState(false);
-  let { usuari, authToken } = useContext(UserContext);
+  let { usuari, authToken,inscripciones } = useContext(UserContext);
 
 
 
@@ -160,7 +160,7 @@ function MyTabs() {
         <Tab.Screen
           name="Joined"
           component={ShowRoute}
-          initialParams={{ objectId: usuari.route_id }} // Añade el parámetro y su valor aquí
+          initialParams={{ objectId: usuari.route_id,inscripciones }} // Añade el parámetro y su valor aquí
 
           options={{
             tabBarIcon: ({ color, size }) => (

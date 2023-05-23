@@ -36,7 +36,7 @@ const ShowUser = () => {
   const [average, setAverage] = useState(null);
 
   const route = useRoute();
-  const objectId = route.params.objectId;
+  // const objectId = route.params.objectId;
   const authorRuta = route.params.authorRuta;
 
   let roundedNum = Math.round(average)
@@ -50,7 +50,7 @@ const ShowUser = () => {
       if (resposta.success === true) {
         console.log("fetchavatar: " + resposta)
         setAvatarUrl(resposta.image_url);
-      } else setError(resposta.message);
+      } else console.log(resposta.message);
     } catch (e) {
       console.log("catch fetch Avatar: " + e.error);
     };
@@ -267,6 +267,7 @@ const ShowUser = () => {
           </View>
           <View style={{ alignItems: 'center' }}>
             <FotosUser />
+
 
           </View>
         </View>

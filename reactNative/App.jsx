@@ -25,12 +25,14 @@ export default function App() {
   let [latitudeUser, setLatitudeUser] = useState(0);
   let [longitudeUser, setLongitudeUser] = useState(0);
   let [coordsCargadas, setcoordsCargadas] = useState(false);
+  const [inscripciones, setInscripciones] = useState([])
 
   return (
     <Provider store={store}>
       <UserContext.Provider value={{
         filterVehicle, setFilterVehicle, filterName, setFilterName, authToken, setAuthToken, usuariId, setUsuariId, usuari,
-        setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl, latitudeUser, setLatitudeUser, longitudeUser, setLongitudeUser, coordsCargadas, setcoordsCargadas
+        setUsuari, reload, setReload, myAvatarUrl, setMyAvatarUrl, latitudeUser, setLatitudeUser, longitudeUser, setLongitudeUser, coordsCargadas, setcoordsCargadas,
+        inscripciones, setInscripciones
       }}>
         <View style={styles.container}>
           {authToken ?

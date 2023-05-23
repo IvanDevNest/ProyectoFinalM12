@@ -1,4 +1,4 @@
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Button, Image, TouchableWithoutFeedback } from 'react-native';
 import Rutas from './Routes'
 import Fotos from './Fotos'
 import FotoUser from './FotoUser'
@@ -100,40 +100,47 @@ const FotosUser = ({ id }) => {
 
   return (
     <>
-      {id == usuari.id ?
+      <View >
+        {id == usuari.id ?
 
-        desplegable ?
-          <>
-            < Button title="Cancelar foto" onPress={() => { setDesplegable(false) }} />
+          desplegable ?
+            <>
+              < Button title="Cancelar foto" onPress={() => { setDesplegable(false) }} />
 
-            <Button title="Elegir Foto" onPress={pickImage} />
-            {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-            <Button title="Enviar foto" onPress={() => { uploadFoto(image), setDesplegable(false) }} />
+              <Button title="Elegir Foto" onPress={pickImage} />
+              {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
+              <Button title="Enviar foto" onPress={() => { uploadFoto(image), setDesplegable(false) }} />
 
-          </>
-          :
-          <>
-            <Button title="Subir foto" onPress={() => { setDesplegable(true) }} />
+            </>
+            :
+            <>
+              <Button title="Subir foto" onPress={() => { setDesplegable(true) }} />
 
-          </>
-        : <></>
+            </>
+          : <></>
 
-      }
+        }
 
-      {
-        images.length > 0 ?
-          <FlatList data={images} numColumns={2}
-            renderItem={({ item: foto }) => (
-              <FotoUser url={foto} />
-            )}>
-          </FlatList>
-          :
-          <FlatList data={Fotos} numColumns={2}
-            renderItem={({ item: foto }) => (
-              <FotoUser {...foto} />
-            )}>
-          </FlatList>
-      }
+
+        {
+          images.length > 0 ?
+            <FlatList data={images} numColumns={2}
+              renderItem={({ item: foto }) => (
+                <FotoUser url={foto} />
+              )}>
+            </FlatList>
+            :
+            <FlatList
+              data={Fotos}
+              numColumns={2}
+
+              renderItem={({ item: foto }) => (
+                <FotoUser {...foto} />
+
+              )}>
+            </FlatList>
+        }
+      </View>
 
     </>
 

@@ -10,17 +10,16 @@ import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'
 
 const RutaList = (ruta) => {
-    const {  isSaving = true, error = "", isLoading, rutas, page, lastpage, } = useSelector((state) => state.routes);
+    const { isSaving = true, error = "", isLoading, rutas, page, lastpage, } = useSelector((state) => state.routes);
 
-    let { usuari, setUsuari, authToken, setReload, reload, latitudeUser, longitudeUser } = useContext(UserContext);
+    let { usuari, setUsuari, authToken, setReload, reload, latitudeUser, inscripciones, setInscripciones } = useContext(UserContext);
     const navigation = useNavigation();
     // const [error, setError] = useState("");
     //  const [isLoading, setIsLoading] = useState(true);
-     const [inscripciones, setInscripciones] = useState([])
     const dispatch = useDispatch();
 
-    function ShowRoute(id,inscripciones) {
-        navigation.navigate('ShowRoute', { objectId: id,inscripciones:inscripciones });
+    function ShowRoute(id) {
+        navigation.navigate('ShowRoute', { objectId: id });
     }
     function RouteEdit(id) {
         navigation.navigate('RouteEdit', { objectId: id });
@@ -39,7 +38,7 @@ const RutaList = (ruta) => {
 
 
     useEffect(() => {
-        dispatch(obtenerInscripciones(ruta.id, authToken,setInscripciones))
+        dispatch(obtenerInscripciones(ruta.id, authToken, setInscripciones))
     }, [reload]);
 
 
@@ -78,7 +77,7 @@ const RutaList = (ruta) => {
 
 
                         </View>
-                            
+
                         <View style={{ flex: 1, paddingLeft: 15, }}>
                             {ruta.type_vehicle == "Moto" ?
                                 <View style={{ flexDirection: "row" }}>
@@ -108,14 +107,14 @@ const RutaList = (ruta) => {
 
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                    <View style={{ flexDirection: "row" }}>
-                                <View style={{ alignItems: "center" }}>
-                                    <AntDesign style={{ paddingHorizontal: 15, paddingVertical: 10 }} name="clockcircle" size={24} color="black" />
-                                    <StyledText>{ruta.estimated_duration}</StyledText>
-                                </View>
-                                <View style={{ alignItems: "center" }}>
-                                    <MaterialCommunityIcons style={{ paddingHorizontal: 20, paddingVertical: 10 }} name="map-marker-distance" size={24} color="black" />
-                                    <StyledText>{separado} km</StyledText>
+                        <View style={{ flexDirection: "row" }}>
+                            <View style={{ alignItems: "center" }}>
+                                <AntDesign style={{ paddingHorizontal: 15, paddingVertical: 10 }} name="clockcircle" size={24} color="black" />
+                                <StyledText>{ruta.estimated_duration}</StyledText>
+                            </View>
+                            <View style={{ alignItems: "center" }}>
+                                <MaterialCommunityIcons style={{ paddingHorizontal: 20, paddingVertical: 10 }} name="map-marker-distance" size={24} color="black" />
+                                <StyledText>{separado} km</StyledText>
                             </View>
 
 
@@ -124,7 +123,7 @@ const RutaList = (ruta) => {
                         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
                             <View style={{ padding: 20, flexDirection: 'row', justifyContent: "space-around" }} >
                                 {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                                    <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(ruta.id, authToken, setReload, reload,false)) }} />
+                                    <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(ruta.id, authToken, setReload, reload, false)) }} />
                                     :
                                     <></>
                                 }
@@ -135,13 +134,16 @@ const RutaList = (ruta) => {
                                 }
                                 {ruta.author_id == usuari.id ?
                                     <>
-                                        <Button title="Editar" onPress={() => RouteEdit(ruta.id)}></Button>
-                                        <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(ruta.id, authToken, setReload, reload,false)) }}></Button>
+                                        {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000 ?
+                                            <Button title="Editar" onPress={() => alert("no puedes editar una ruta con menos de 12 horas de antelacion")}/>
+                                            : <Button title="Editar" onPress={() => RouteEdit(objectId)}/>
+                                        }
+                                        <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(ruta.id, authToken, setReload, reload, false)) }}></Button>
                                     </>
                                     :
                                     <></>
                                 }
-                                <Button title="Ver" onPress={() => ShowRoute(ruta.id,inscripciones)}></Button>
+                                <Button title="Ver" onPress={() => ShowRoute(ruta.id)}></Button>
                             </View>
                         </View>
                     </View>
