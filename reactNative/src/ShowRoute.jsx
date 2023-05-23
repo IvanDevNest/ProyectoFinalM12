@@ -146,7 +146,7 @@ const ShowRoute = () => {
                     {/* <TouchableOpacity onPress={() => Linking.openURL(ruta.url_maps)}>
                         <Text style={{ color: 'blue' }}>{ruta.url_maps}</Text>
                     </TouchableOpacity> */}
-                    {/* <MapView
+                    <MapView
                         provider={PROVIDER_GOOGLE}
                         style={styles.map}
                         initialRegion={initialRegion}
@@ -161,7 +161,7 @@ const ShowRoute = () => {
                             strokeColor="blue"
                         />
 
-                    </MapView> */}
+                    </MapView>
 
                     <Text style={{ fontWeight: 'bold' }}>Descripcion</Text>
                     <Text>{ruta.description}</Text>
