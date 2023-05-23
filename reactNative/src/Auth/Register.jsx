@@ -13,74 +13,53 @@ const Register = ({ setLogin }) => {
   const [error, setError] = useState([]);
   const [gender, setGender] = useState("");
 
-
   let { authToken, setAuthToken } = useContext(UserContext);
 
-  const { control, handleSubmit, formState: { errors }, } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = data => handleRegister(data, image)
+  const onSubmit = data => handleRegister(data, image);
 
   const handleRegister = async (dataa, image) => {
     const formData = new FormData();
     if (image) {
-      console.log("imagen: " + JSON.stringify(image.assets[0]))
-
       const fileName = image.assets[0].uri.split("/").pop();
-      // var imageUri= image.assets[0].uri.replace('file://','')
-      console.log("imagen url: " + image.uri)
-      console.log("nombre: " + fileName)
-      // console.log("tamaño: " +image.assets[0].fileSize)
-
-      // console.log("imagenurl: " +imageUri)
 
       formData.append('imageUri', {
         uri: image.assets[0].uri,
         name: fileName,
-        type: Platform === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
-
+        type: Platform.OS === "ios" ? image.assets[0].uri.split(".").pop() : "image/" + image.assets[0].uri.split(".").pop(),
       });
     }
 
-    // formData.append('fileSize',image.fileSize)
     formData.append('name', dataa.name);
     formData.append('email', dataa.email.toLowerCase());
     formData.append('password', dataa.password);
     formData.append('gender', dataa.gender);
-    console.log("data.gender: " + dataa.gender)
-
-
-    console.log("Data antes de enviar" + JSON.stringify(dataa))
-    console.log("FormData antes de enviar" + JSON.stringify(formData))
 
     try {
-
-      const data = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
+      const response = await fetch("http://equip04.insjoaquimmir.cat/api/register", {
         headers: {
           Accept: "application/json",
           "content-type": "multipart/form-data"
         },
         method: "POST",
-        // Si els noms i les variables coincideix, podem simplificar
-        // body: formData
         body: formData,
-
       });
-      const resposta = await data.json();
-      console.log("Resposta register" + JSON.stringify(resposta))
-      if (resposta.success === true) {
-        setAuthToken(resposta.authToken);
+
+      const data = await response.json();
+
+      if (data.success === true) {
+        setAuthToken(data.authToken);
+      } else {
+        setError(data.message);
       }
-      else {
-        console.log(resposta.message)
-        setError(resposta.message);
-      }
-    } catch (e) {
-      console.log("Error" + e.message);
-      alert(e.message);
-    };
-  }
+    } catch (error) {
+      console.log("Error: ", error.message);
+      alert(error.message);
+    }
+  };
+
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -88,12 +67,11 @@ const Register = ({ setLogin }) => {
       quality: 1,
     });
 
-    console.log("Result: " + JSON.stringify(result));
-
-    if (!result.canceled) {
+    if (!result.cancelled) {
       setImage(result);
     }
   };
+
   return (
     <View>
       <Text>Nombre:*</Text>
@@ -101,8 +79,9 @@ const Register = ({ setLogin }) => {
         name="name"
         placeholder="Name"
         control={control}
-        rules={{ required: 'Name is required' }}
+        rules={{required: 'El nombre es obligatorio'}}
       />
+
       <Text>lastname:</Text>
       <CustomInput
         name="lastname"
@@ -110,6 +89,8 @@ const Register = ({ setLogin }) => {
         control={control}
 
       />
+      {errors.lastname && <Text>{errors.lastname.message}</Text>}
+
       <Text>second_surname:</Text>
       <CustomInput
         name="second_surname"
@@ -117,15 +98,17 @@ const Register = ({ setLogin }) => {
         control={control}
 
       />
-      <Text>Genero:</Text>
+      {errors.second_surname && <Text>{errors.second_surname.message}</Text>}
+
+      <Text>Genero:*</Text>
       <Controller
         control={control}
         name="gender"
         defaultValue=""
-        rules={{ required: true }}
+        rules={{ required: 'El género es obligatorio'}}
         render={({ field: { onChange, onBlur, value } }) => (
           <RNPickerSelect
-            placeholder={{ label: 'Elige el genero:', value: null }}
+            placeholder={{ label: 'Elige el género:', value: null }}
             onValueChange={onChange}
             onBlur={onBlur}
             items={[
@@ -135,10 +118,9 @@ const Register = ({ setLogin }) => {
             value={value}
           />
         )}
-
-
-
       />
+      {errors.gender && <Text>{alert('El genero es obligatorio')}</Text>}
+
 
       <Text>img_profile:</Text>
       <Button title="Pick an image from camera roll" onPress={pickImage} />
@@ -165,22 +147,24 @@ const Register = ({ setLogin }) => {
         name="email"
         placeholder="Email"
         control={control}
-        rules={{ required: 'Email is required' }}
+        rules={{ required: 'El correo electronico es obligatorio'}}
       />
+
       <Text>Contraseña:*</Text>
       <CustomInput
         name="password"
-        placeholder="Password"
+        placeholder="Contraseña"
         secureTextEntry
         control={control}
         rules={{
-          required: 'Password is required',
-          minLength: {
-            value: 3,
-            message: 'Password should be minimum 3 characters long',
+          pattern: {
+            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+            message: 'La contraseña debe tener al menos 8 caracteres e incluir al menos una letra minúscula, una letra mayúscula y un número',
           },
+          required: 'La contraseña es obligatoria'
         }}
       />
+
 
       <Button title="Registrarse" onPress={handleSubmit(onSubmit)} />
       <Button title="Ya tengo cuenta" onPress={() => { setLogin(true) }} />

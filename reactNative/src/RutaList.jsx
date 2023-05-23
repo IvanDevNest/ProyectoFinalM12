@@ -43,6 +43,11 @@ const RutaList = (ruta) => {
     }, [reload]);
 
 
+    // }, [ruta]);
+
+    const numeroInscripciones = inscripciones.length;
+    const distancia = ruta.distance.toString(); // Convertir el valor a una cadena de texto
+    const separado = distancia.substring(0, 2) + '-' + distancia.substring(2); // Obtener los dos primeros caracteres y el resto de la cadena
     console.log(inscripciones.length)
     return (
         <>
@@ -75,6 +80,7 @@ const RutaList = (ruta) => {
 
 
                         </View>
+                            
                         <View style={{ flex: 1, paddingLeft: 15, }}>
                             {ruta.type_vehicle == "Moto" ?
                                 <View style={{ flexDirection: "row" }}>
@@ -104,15 +110,16 @@ const RutaList = (ruta) => {
 
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flexDirection: "row" }}>
-                            <View style={{ alignItems: "center" }}>
-                                <AntDesign style={{ paddingHorizontal: 15, paddingVertical: 10 }} name="clockcircle" size={24} color="black" />
-                                <StyledText>{ruta.estimated_duration}</StyledText>
+                    <View style={{ flexDirection: "row" }}>
+                                <View style={{ alignItems: "center" }}>
+                                    <AntDesign style={{ paddingHorizontal: 15, paddingVertical: 10 }} name="clockcircle" size={24} color="black" />
+                                    <StyledText>{ruta.estimated_duration}</StyledText>
+                                </View>
+                                <View style={{ alignItems: "center" }}>
+                                    <MaterialCommunityIcons style={{ paddingHorizontal: 20, paddingVertical: 10 }} name="map-marker-distance" size={24} color="black" />
+                                    <StyledText>{separado} km</StyledText>
                             </View>
-                            <View style={{ alignItems: "center" }}>
-                                <MaterialCommunityIcons style={{ paddingHorizontal: 20, paddingVertical: 10 }} name="map-marker-distance" size={24} color="black" />
-                                <StyledText>{ruta.distance} km</StyledText>
-                            </View>
+
 
                         </View>
 
