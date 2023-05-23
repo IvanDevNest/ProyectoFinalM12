@@ -12,7 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/*"
     ],
     "ios": {
       "bundleIdentifier": "com.company.projectem12prueba",
@@ -26,14 +26,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package":"com.m12.brum",
+      "versionCode":1
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "e6085b97-cdc3-4b3a-85b3-c5d82a6be341"
+        "projectId": "76467ae0-651f-435d-83e8-79effaf69d30"
       }
     },
     "owner": "joeel03"
