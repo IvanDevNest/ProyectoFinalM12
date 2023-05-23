@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import RutasList from "../../RutasList";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
-export const eliminarRuta = (id, authToken, setReload, reload, RutasList) => {
+export const eliminarRuta = (id, authToken, setReload, reload, shouldCallRutasList,RutasList) => {
     return async (dispatch, getState) => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
@@ -19,7 +19,9 @@ export const eliminarRuta = (id, authToken, setReload, reload, RutasList) => {
             console.log(resposta)
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
-                RutasList()
+                if (shouldCallRutasList) {
+                    RutasList();
+                  }
                 setReload(!reload)
             }
             else console.log("La resposta no ha triomfat");
@@ -102,7 +104,7 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
     };
 };
 
-export const salirseRuta = (id, authToken, setReload, reload,RutasList) => {
+export const salirseRuta = (id, authToken, setReload, reload,shouldCallRutasList,RutasList) => {
     return async (dispatch, getState) => {
 
         console.log(id)
@@ -119,7 +121,10 @@ export const salirseRuta = (id, authToken, setReload, reload,RutasList) => {
             console.log("resposta salirse ruta" + JSON.stringify(resposta))
             if (resposta.success === true) {
                 console.log("resposta true" + JSON.stringify(resposta))
-                RutasList()
+                if (shouldCallRutasList) {
+                    RutasList();
+                  }
+          
                 setReload(!reload)
             }
             else console.log(resposta.message);
@@ -128,6 +133,8 @@ export const salirseRuta = (id, authToken, setReload, reload,RutasList) => {
         };
     };
 }
+
+
 
 export const getUser = (authToken, setUsuari) => {
     return async (dispatch, getState) => {

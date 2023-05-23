@@ -1,27 +1,27 @@
 export default [
     {
         "id": 1,
-        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
+        "url": "https://cdn-icons-png.flaticon.com/512/89/89102.png"
     },
     {
         "id": 2,
-        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
+        "url": "https://i.pinimg.com/736x/69/ca/6c/69ca6cc29f3986bde49df3f7f734b6df.jpg"
     },
     {
         "id": 3,
-        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
+        "url": "https://cdn-icons-png.flaticon.com/512/89/89102.png"
     },
     {
         "id": 4,
-        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaI-mbf-837kI2AXEgysH6FvMS89bI9U9r9qrtnPPrT98KuCMLEA1Y-S5Mp67KVbo1Xr0&usqp=CAU"
     },
     {
         "id": 5,
-        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
+        "url": "https://cdn-icons-png.flaticon.com/512/89/89102.png"
     },
     {
         "id": 6,
-        "foto": "https://eltallerdehector.com/wp-content/uploads/2022/06/63caa-stitch-tierno-png.png"
+        "url": "https://cdn-icons-png.flaticon.com/512/89/89102.png"
     },
 
 ]

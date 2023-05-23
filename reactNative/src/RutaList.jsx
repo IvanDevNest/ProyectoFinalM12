@@ -45,10 +45,8 @@ const RutaList = (ruta) => {
 
     // }, [ruta]);
 
-    const numeroInscripciones = inscripciones.length;
     const distancia = ruta.distance.toString(); // Convertir el valor a una cadena de texto
     const separado = distancia.substring(0, 2) + '-' + distancia.substring(2); // Obtener los dos primeros caracteres y el resto de la cadena
-    console.log(inscripciones.length)
     return (
         <>
             {isLoading ? <></>
@@ -126,7 +124,7 @@ const RutaList = (ruta) => {
                         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
                             <View style={{ padding: 20, flexDirection: 'row', justifyContent: "space-around" }} >
                                 {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                                    <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(ruta.id, authToken, setReload, reload)) }} />
+                                    <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(ruta.id, authToken, setReload, reload,false)) }} />
                                     :
                                     <></>
                                 }
@@ -138,7 +136,7 @@ const RutaList = (ruta) => {
                                 {ruta.author_id == usuari.id ?
                                     <>
                                         <Button title="Editar" onPress={() => RouteEdit(ruta.id)}></Button>
-                                        <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(ruta.id, authToken, setReload, reload)) }}></Button>
+                                        <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(ruta.id, authToken, setReload, reload,false)) }}></Button>
                                     </>
                                     :
                                     <></>

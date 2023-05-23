@@ -13,7 +13,7 @@ const FotosUser = ({ id }) => {
   const [error, setError] = useState([]);
   const [desplegable, setDesplegable] = useState(false);
 
-  let { authToken, setAuthToken, setReload, reload } = useContext(UserContext);
+  let { authToken, setAuthToken, setReload, reload, usuari } = useContext(UserContext);
 
   const getImagesPost = async () => {
     try {
@@ -100,36 +100,39 @@ const FotosUser = ({ id }) => {
 
   return (
     <>
+      {id == usuari.id ?
 
-      {desplegable ?
-        <>
-          <Button title="Cancelar foto" onPress={() => { setDesplegable(false) }} />
+        desplegable ?
+          <>
+            < Button title="Cancelar foto" onPress={() => { setDesplegable(false) }} />
 
-          <Button title="Elegir Foto" onPress={pickImage} />
-          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-          <Button title="Enviar foto" onPress={() => { uploadFoto(image), setDesplegable(false) }} />
+            <Button title="Elegir Foto" onPress={pickImage} />
+            {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
+            <Button title="Enviar foto" onPress={() => { uploadFoto(image), setDesplegable(false) }} />
 
-        </>
-        : <>
-          <Button title="Subir foto" onPress={() => { setDesplegable(true) }} />
+          </>
+          :
+          <>
+            <Button title="Subir foto" onPress={() => { setDesplegable(true) }} />
 
-        </>}
-      {images.length > 0 ?
-        <FlatList data={images} numColumns={2}
-          renderItem={({ item: foto }) => (
+          </>
+        : <></>
 
-            <FotoUser url={foto} />
+      }
 
-          )}>
-        </FlatList>
-        :
-        <FlatList data={Fotos} numColumns={2}
-          renderItem={({ item: foto }) => (
-
-            <FotoUser {...foto} />
-
-          )}>
-        </FlatList>
+      {
+        images.length > 0 ?
+          <FlatList data={images} numColumns={2}
+            renderItem={({ item: foto }) => (
+              <FotoUser url={foto} />
+            )}>
+          </FlatList>
+          :
+          <FlatList data={Fotos} numColumns={2}
+            renderItem={({ item: foto }) => (
+              <FotoUser {...foto} />
+            )}>
+          </FlatList>
       }
 
     </>

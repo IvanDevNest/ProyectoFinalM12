@@ -21,13 +21,16 @@ const ConfirmPayment = () => {
       };
      const handlePayment = async () => {
         console.log(subscriptionType)
+        let subscription=subscriptionType
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/subscribe', {
                 headers: {
                     Accept: 'application/json',
+                    'Content-Type': 'application/json' // Indicar que el cuerpo es un objeto JSON
+
                 },
                 method: 'POST',
-                body: JSON.stringify({ cardData, subscription: subscriptionType }),
+                body: JSON.stringify({ cardData, subscription }),
             });
             const resposta = await data.json();
             console.log("resposta: " + JSON.stringify(resposta))
