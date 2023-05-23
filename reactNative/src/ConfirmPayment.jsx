@@ -16,11 +16,11 @@ const ConfirmPayment = () => {
 
     console.log(cardData)
 
-
     const handleCardComplete = (cardDetails) => {
         setCardData(cardDetails);
       };
      const handlePayment = async () => {
+        console.log(subscriptionType)
         try {
             const data = await fetch('http://equip04.insjoaquimmir.cat/api/subscribe', {
                 headers: {

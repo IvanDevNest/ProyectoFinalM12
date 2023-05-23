@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 use Stripe\Stripe;
@@ -18,9 +19,9 @@ class SubscriptionController extends Controller
     Stripe::setApiKey(env('STRIPE_SECRET'));
     
     $subscription = $request->input('subscription');
+    Log::debug('Subscription value: ' . $subscription);
 
     $amount = ($subscription === 'monthly') ? 1.99 : 11.99;
-    error_log('Subscription value: ' . $subscription);
 
 
     $intent = PaymentIntent::create([
