@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import RutasList from "../../RutasList";
 // import { useContext } from "react";
 // import { UserContext } from "../../userContext";
-export const eliminarRuta = (id, authToken, setReload, reload,RutasList) => {
+export const eliminarRuta = (id, authToken, setReload, reload, RutasList) => {
     return async (dispatch, getState) => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + id, {
@@ -20,45 +20,44 @@ export const eliminarRuta = (id, authToken, setReload, reload,RutasList) => {
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
                 RutasList()
-
                 dispatch(setReload(!reload))
             }
-            else setError("La resposta no ha triomfat");
+            else console.log("La resposta no ha triomfat");
         } catch (e) {
             console.log("Catch: " + e.message);
         };
     };
 }
 
-export const obtenerInscripciones = (id, authToken) => {
-    return async (dispatch, getState) => {
+// export const obtenerInscripciones = (id, authToken) => {
+//     return async (dispatch, getState) => {
 
-        try {
-            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "GET",
-            });
-            const resposta = await data.json();
-            if (resposta.success === true) {
-                // console.log("Inscripciones: " + JSON.stringify(resposta))
-                dispatch(setInscripciones(resposta.data))
-                dispatch(setIsLoading(false))
+//         try {
+//             const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
+//                 headers: {
+//                     Accept: "application/json",
+//                     "Content-Type": "application/json",
+//                     'Authorization': 'Bearer ' + authToken,
+//                 },
+//                 method: "GET",
+//             });
+//             const resposta = await data.json();
+//             console.log("Inscripciones: " + JSON.stringify(resposta.data))
+//             if (resposta.success === true) {
+//                 dispatch(setInscripciones(resposta.data))
+//                 dispatch(setIsLoading(false))
 
-            }
-            else setError(resposta.message);
-        } catch (e) {
-            console.log(e.message);
-            // alert("Catchch");
-        };
-    };
-}
+//             }
+//             else setError(resposta.message);
+//         } catch (e) {
+//             console.log(e.message);
+//             // alert("Catchch");
+//         };
+//     };
+// }
 
 
-export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords, endCoords) => {
+export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords, endCoords, setReload, reload) => {
     return async (dispatch, getState) => {
 
         console.log("date" + JSON.stringify(date))
@@ -92,10 +91,10 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
                 console.log("resposta route id: " + (resposta.data.id))
 
                 ShowRoute(resposta.data.id)
-                dispatch(setReload(!reload))
+                setReload(!reload)
 
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log(e.message);
 
@@ -103,7 +102,7 @@ export const createRoute = (formState, authToken, ShowRoute, date, usuari, start
     };
 };
 
-export const salirseRuta = (id, authToken, setReload, reload) => {
+export const salirseRuta = (id, authToken, setReload, reload,RutasList) => {
     return async (dispatch, getState) => {
 
         console.log(id)
@@ -117,12 +116,13 @@ export const salirseRuta = (id, authToken, setReload, reload) => {
                 method: "DELETE",
             });
             const resposta = await data.json();
-            console.log("resposta unirse ruta" + JSON.stringify(resposta))
-
+            console.log("resposta salirse ruta" + JSON.stringify(resposta))
             if (resposta.success === true) {
+                console.log("resposta true" + JSON.stringify(resposta))
+                RutasList()
                 setReload(!reload)
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
         };
@@ -146,7 +146,7 @@ export const getUser = (authToken, setUsuari) => {
                 console.log("RESPOSTA GETUSER" + JSON.stringify(resposta))
                 setUsuari(resposta.user)
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log(e.message);
         };
@@ -169,10 +169,12 @@ export const unirseRuta = (id, authToken, setReload, reload) => {
             console.log("resposta unirse ruta" + JSON.stringify(resposta))
 
             if (resposta.success === true) {
+                console.log("resposta succes?" + JSON.stringify(resposta))
+
                 // setIsLoading(false)
-                dispatch(setReload(!reload))
+                setReload(!reload)
             }
-            else setError(resposta.message);
+            else console.log(resposta.message);
         } catch (e) {
             console.log("catch: " + e.message);
             // alert("Catchch");
@@ -196,7 +198,7 @@ export const retrocederPagina = (page) => {
     }
 }
 
-export const getRoute = (objectId, authToken, setStartCoords, setEndCoords) => {
+export const getRoute = (objectId, authToken, setStartCoords, setEndCoords, setInitialRegion) => {
     return async (dispatch, getState) => {
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
@@ -204,10 +206,8 @@ export const getRoute = (objectId, authToken, setStartCoords, setEndCoords) => {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     'Authorization': 'Bearer ' + authToken,
-
                 },
                 method: "GET",
-
             })
             const resposta = await data.json();
             if (resposta.success === true) {
@@ -215,10 +215,16 @@ export const getRoute = (objectId, authToken, setStartCoords, setEndCoords) => {
                 dispatch(setRuta(resposta.data))
                 setStartCoords({ latitude: resposta.data.startLatitude, longitude: resposta.data.startLongitude })
                 setEndCoords({ latitude: resposta.data.endLatitude, longitude: resposta.data.endLongitude })
+                setInitialRegion({
+                    latitude: resposta.data.startLatitude,
+                    longitude: resposta.data.startLongitude,
+                    latitudeDelta: 0.5,
+                    longitudeDelta: 0.5,
+                })
                 dispatch(setIsLoading(false))
             }
             else {
-                dispatch(setError(resposta.message))
+                console.log(resposta.message)
             }
         } catch (err) {
             console.log("catch" + err.message);
@@ -249,8 +255,9 @@ export const updateRoute = (formState, id, authToken, ShowRoute, setReload, relo
                 setReload(!reload)
 
             }
-            dispatch(setError(resposta.message))
-
+            else {
+                dispatch(setError(resposta.message))
+            }
         } catch (e) {
             console.log(e.err);
 
@@ -314,26 +321,13 @@ export const getRoutes = (page, filterName, filterVehicle, latitudeUser, longitu
             console.log("Data: " + JSON.stringify(resposta.data))
             if (resposta.success === true) {
                 console.log("resposta pages" + JSON.stringify(resposta))
-                // const rutasOrdenadas = resposta.data.data.map((ruta) => {
-                //     const distancia = calcularDistancia(
-                //         ruta.latitude,
-                //         ruta.longitude,
-                //         latitudeUser,
-                //         longitudeUser
-                //     );
-                //     return { ...ruta, distancia }; // Agregar la distancia a cada ruta
-                // });
-                // rutasOrdenadas.sort((ruta1, ruta2) => ruta1.distancia - ruta2.distancia); // Ordenar las rutas por distancia
-                // console.log("rutasOrdenadas", rutasOrdenadas);
 
-                // dispatch(setRutas(rutasOrdenadas))
                 dispatch(setRutas(resposta.data))
                 console.log("SetRutas: " + JSON.stringify(resposta.data))
 
-                //cambiar sin .data
                 dispatch(setLastPage(resposta.last_page))
                 console.log("last page: " + resposta.last_page)
-                console.log("distance to route: " + resposta.data.distanceToRoute)
+                // console.log("distance to route: " + resposta.data.distanceToRoute)
                 // dispatch(setPage(resposta.data.current_page))
                 dispatch(setIsLoading(false))
 
@@ -374,319 +368,3 @@ export const deleteFilter = (setFilterVehicle, setFilterName, setTypeFilter) => 
     }
 }
 
-
-
-
-export const addPlace = (formData, authToken, navigate) => {
-    return async (dispatch, getState) => {
-
-        dispatch(setIsSaving(true))
-
-        // dispatch(startLoadingReviews());
-        const headers = {
-            headers: {
-                Accept: "application/json",
-                Authorization: "Bearer " + authToken,
-            },
-            method: "POST",
-            body: formData
-        };
-
-        const url = "https://backend.insjoaquimmir.cat/api/places"
-
-        const data = await fetch(url, headers);
-
-        const resposta = await data.json();
-
-        if (resposta.success == true) {
-            console.log("place creado: " + resposta.data)
-            dispatch(setisSaving(false))
-
-            // dispatch(setPlaces(resposta.data));
-            navigate("/places/" + resposta.data.id)
-
-        }
-
-        else {
-            console.log(resposta)
-            dispatch(setError(resposta.message));
-
-        }
-    };
-
-}
-export const getPlace = (authToken, id) => {
-    return async (dispatch, getState) => {
-        dispatch(setisLoading(true));
-        const headers = {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + authToken,
-            },
-            method: "GET",
-        };
-        const url = "https://backend.insjoaquimmir.cat/api/places/" + id
-        const data = await fetch(url, headers);
-        const resposta = await data.json();
-        if (resposta.success == true) {
-            dispatch(setisLoading(false));
-            dispatch(setPlace(resposta.data));
-            console.log(resposta.data)
-        }
-        else {
-            dispatch(setError(resposta.message));
-        }
-    };
-}
-export const delPlace = (authToken, navigate, id) => {
-    return async (dispatch, getState) => {
-        const data = await fetch(
-            "https://backend.insjoaquimmir.cat/api/places/" + id,
-            {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + authToken,
-                },
-                method: "DELETE",
-            }
-        );
-        const resposta = await data.json();
-        if (resposta.success == true) {
-            console.log("place eliminado");
-            navigate("/places/list")
-        } else {
-            dispatch(setError(resposta.message));
-        }
-
-    };
-};
-export const comprovarFavorite = (authToken, id) => {
-    return async (dispatch, getState) => {
-        const data = await fetch(
-            "https://backend.insjoaquimmir.cat/api/places/" + id + "/favorites",
-            {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + authToken,
-                },
-                method: "POST",
-            }
-        );
-        const resposta = await data.json();
-        if (resposta.success == true) {
-            console.log("favorite del principio ")
-            console.log("Resposta:" + resposta)
-            console.log(id)
-            dispatch(eliminarFavorite(authToken, id))
-        } else {
-            dispatch(setFavorite(false))
-            dispatch(setError(resposta.message));
-        }
-
-    };
-};
-export const darFavorite = (authToken, id) => {
-    return async (dispatch, getState) => {
-        const data = await fetch(
-            "https://backend.insjoaquimmir.cat/api/places/" + id + "/favorites",
-            {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + authToken,
-                },
-                method: "POST",
-            }
-        );
-        const resposta = await data.json();
-        if (resposta.success == true) {
-            console.log("favorite añadido")
-            dispatch(setFavorite(false))
-        } else {
-            dispatch(setError(resposta.message));
-        }
-
-    };
-};
-export const eliminarFavorite = (authToken, id) => {
-    return async (dispatch, getState) => {
-        const data = await fetch(
-            "https://backend.insjoaquimmir.cat/api/places/" + id + "/favorites",
-            {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + authToken,
-                },
-                method: "DELETE",
-            }
-        );
-        const resposta = await data.json();
-        if (resposta.success == true) {
-            dispatch(setFavorite(true))
-            console.log("favorite eliminado")
-        } else {
-            dispatch(setError(resposta.message));
-        }
-
-    };
-};
-
-export const handleUpdate = (authToken, id, formulari, navigate) => {
-    return async (dispatch, getState) => {
-        console.log(formulari.name)
-        let { name, description, upload, latitude, longitude, visibility = 1 } = formulari;
-
-        console.log(upload)
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("description", description);
-        if (upload != undefined) formData.append("upload", upload);
-        formData.append("latitude", latitude);
-        formData.append("longitude", longitude);
-        formData.append("visibility", visibility);
-        console.log(formData)
-        const data = await fetch(
-            "https://backend.insjoaquimmir.cat/api/places/" + id,
-            {
-                headers: {
-                    Accept: "application/json",
-                    Authorization: "Bearer " + authToken,
-                },
-                method: "POST",
-                body: formData
-            }
-        );
-        const resposta = await data.json();
-        if (resposta.success == true) {
-            console.log("place actualizado")
-            navigate("/places/" + resposta.data.id)
-        } else {
-            console.log(resposta.message)
-            dispatch(setError(resposta.message));
-        }
-
-    };
-};
-// export const getPlaces = (authToken,page=0) => {
-//     return async (dispatch, getState) => {
-//         dispatch(setisLoading(true));
-//         const url =
-
-//             page > 0
-
-//                 ? "https://backend.insjoaquimmir.cat/api/places?paginate=1&page=" + page
-
-//                 : "https://backend.insjoaquimmir.cat/api/places";
-//         const headers = {
-//             headers: {
-//                 Accept: "application/json",
-//                 Authorization: "Bearer " + authToken,
-//             },
-//             method: "GET",
-//         };
-//         // const url = "https://backend.insjoaquimmir.cat/api/places"
-//         const data = await fetch(url, headers);
-//         const resposta = await data.json();
-//         if (resposta.success == true) {
-//             if (page > 0) {
-//                 dispatch(setPlaces(resposta.data.collection));
-
-//                 dispatch(setPages(resposta.data.links));
-
-//                 console.log(resposta.data.links);
-
-//                 } else {
-
-//                 dispatch(setPlaces(resposta.data));
-
-//                 }
-//             dispatch(setisLoading(false));
-//             // dispatch(setPlaces(resposta.data));
-//             console.log(resposta.data)
-//         }
-//         else {
-//             dispatch(setError(resposta.message));
-//         }
-//     };
-// }
-
-
-export const getPlaces = (authToken, page = 0) => {
-
-    return async (dispatch, getState) => {
-        let url = "";
-        const filter = getState().places.filter;
-        console.log("entra: " + filter.description, filter.author)
-
-        dispatch(setisLoading(true));
-        if (filter.description == "" && filter.author == "") {
-            url =
-                page > 0
-
-                    ? "https://backend.insjoaquimmir.cat/api/places?paginate=1&page=" + page
-
-                    : "https://backend.insjoaquimmir.cat/api/places";
-        } else if (!filter.author == "" && filter.description == "") {
-            url =
-
-                page > 0
-
-                    ? "https://backend.insjoaquimmir.cat/api/places?paginate=1&page=" + page + "&author=" + filter.author
-
-                    : "https://backend.insjoaquimmir.cat/api/places?author=" + filter.author;
-        } else if (!filter.author == "" && !filter.description == "") {
-            console.log("entra al bueno")
-            url =
-
-                page > 0
-
-                    ? "https://backend.insjoaquimmir.cat/api/places?paginate=1&page=" + page + "&description=" + filter.description + "&author=" + filter.author
-
-                    : "https://backend.insjoaquimmir.cat/api/places?description=" + filter.description + "&author=" + filter.author;;
-        }
-        else if (filter.author == "" && !filter.description == "") {
-            url =
-
-                page > 0
-
-                    ? "https://backend.insjoaquimmir.cat/api/places?paginate=1&page=" + page + "&description=" + filter.description
-
-                    : "https://backend.insjoaquimmir.cat/api/places?description=" + filter.description;
-        }
-
-        const headers = {
-            headers: {
-                Accept: "application/json",
-                Authorization: "Bearer " + authToken,
-            },
-            method: "GET",
-        };
-        // const url = "https://backend.insjoaquimmir.cat/api/places"
-        const data = await fetch(url, headers);
-        const resposta = await data.json();
-        if (resposta.success == true) {
-            if (page > 0) {
-                dispatch(setPlaces(resposta.data.collection));
-
-                dispatch(setPages(resposta.data.links));
-
-                console.log(resposta.data.links);
-
-            } else {
-
-                dispatch(setPlaces(resposta.data));
-
-            }
-            dispatch(setisLoading(false));
-            // dispatch(setPlaces(resposta.data));
-            console.log(resposta.data)
-        }
-        else {
-            dispatch(setError(resposta.message));
-        }
-    };
-}

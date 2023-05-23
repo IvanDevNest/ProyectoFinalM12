@@ -10,9 +10,7 @@ import { salirseRuta } from "./slices/routes/thunks";
 import { eliminarRuta } from "./slices/routes/thunks";
 
 import { unirseRuta } from './slices/routes/thunks';
-import { obtenerInscripciones } from "./slices/routes/thunks";
 
-import { set } from 'react-hook-form';
 
 const ShowJoinedRoute = () => {
     let { usuari, authToken } = useContext(UserContext);
