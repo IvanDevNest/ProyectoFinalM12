@@ -12,3 +12,4 @@
     </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('file') }}"><i class="nav-icon la la-question"></i> Files</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('route') }}"><i class="nav-icon la la-question"></i> Routes</a></li>
