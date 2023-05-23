@@ -10,7 +10,7 @@ const CreateMessage = () => {
     const [image, setImage] = useState(null);
     const [error, setError] = useState([]);
 
-    let { authToken, setAuthToken, usuari, myAvatarUrl, setReload, reload } = useContext(UserContext);
+    let { authToken, setAuthToken, usuari, myAvatarUrl, setReload, reload, userRole} = useContext(UserContext);
 
     const { ruta } = useSelector((state) => state.routes);
 
@@ -93,9 +93,10 @@ const CreateMessage = () => {
 
     return (
         <>
-            {userRole != 'vip' && ruta.author_id != usuari.id ?
-                <Text>No tienes permisos para enviar mensaje tienes que comprar el VIP</Text>
-                : <View style={{ backgroundColor: 'white' }}>
+            {/* {userRole != 'vip' && ruta.author_id != usuari.id ? */}
+                {/* <Text>No tienes permisos para enviar mensaje tienes que comprar el VIP</Text> */}
+                {/* : */}
+                <View style={{ backgroundColor: 'white' }}>
                     {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
                     <View style={styles.container}>
                         <Controller
@@ -117,7 +118,7 @@ const CreateMessage = () => {
                     </View>
                     {error.length > 1 && <Text style={{ color: 'red' }} >Error: {error}</Text>}
                 </View>
-            }
+            {/* } */}
 
         </>
 
