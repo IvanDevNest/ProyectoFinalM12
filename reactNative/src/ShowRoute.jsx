@@ -11,7 +11,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'
 
 const ShowRoute = () => {
-    const { inscripciones, isSaving = true, error = "",isLoading=true, ruta, page, lastpage, } = useSelector((state) => state.routes);
+    const {  isSaving = true, error = "",isLoading=true, ruta, page, lastpage, } = useSelector((state) => state.routes);
 
     const dispatch = useDispatch();
 
@@ -25,7 +25,7 @@ const ShowRoute = () => {
 
     const route = useRoute();
     const objectId = route.params.objectId;
-
+    const inscripciones= route.params.inscripciones
     const navigation = useNavigation();
 
     function ShowUser(id) {
@@ -105,7 +105,7 @@ const ShowRoute = () => {
     // }, [reload, ruta]);
     // }, [reload, ruta, inscripciones]);
       const [initialRegion, setInitialRegion] = useState({});
-
+      
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
     return (
@@ -201,7 +201,12 @@ const ShowRoute = () => {
                     }
                     {ruta.author_id == usuari.id ?
                         <>
-                            <Button title="Editar" onPress={() => RouteEdit(objectId)}></Button>
+                        {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000?
+                         <></> :  <Button title="Editar" onPress={() => RouteEdit(objectId)}   
+                          ></Button>
+                        }
+                            
+                            
                             <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload,RutasList)) }}></Button>
                         </> : <></>
                     }

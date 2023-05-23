@@ -10,17 +10,17 @@ import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions'
 
 const RutaList = (ruta) => {
-    const { inscripciones, isSaving = true, error = "", isLoading, rutas, page, lastpage, } = useSelector((state) => state.routes);
+    const {  isSaving = true, error = "", isLoading, rutas, page, lastpage, } = useSelector((state) => state.routes);
 
     let { usuari, setUsuari, authToken, setReload, reload, latitudeUser, longitudeUser } = useContext(UserContext);
     const navigation = useNavigation();
     // const [error, setError] = useState("");
     //  const [isLoading, setIsLoading] = useState(true);
-    // const [inscripciones, setInscripciones] = useState([])
+     const [inscripciones, setInscripciones] = useState([])
     const dispatch = useDispatch();
 
-    function ShowRoute(id) {
-        navigation.navigate('ShowRoute', { objectId: id });
+    function ShowRoute(id,inscripciones) {
+        navigation.navigate('ShowRoute', { objectId: id,inscripciones:inscripciones });
     }
     function RouteEdit(id) {
         navigation.navigate('RouteEdit', { objectId: id });
@@ -38,9 +38,9 @@ const RutaList = (ruta) => {
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
 
 
-    // useEffect(() => {
-    //     dispatch(obtenerInscripciones(ruta.id, authToken))
-    // }, [reload]);
+    useEffect(() => {
+        dispatch(obtenerInscripciones(ruta.id, authToken,setInscripciones))
+    }, [reload]);
 
 
     console.log(inscripciones.length)
@@ -136,7 +136,7 @@ const RutaList = (ruta) => {
                                     :
                                     <></>
                                 }
-                                <Button title="Ver" onPress={() => ShowRoute(ruta.id)}></Button>
+                                <Button title="Ver" onPress={() => ShowRoute(ruta.id,inscripciones)}></Button>
                             </View>
                         </View>
                     </View>

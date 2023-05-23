@@ -20,7 +20,7 @@ export const eliminarRuta = (id, authToken, setReload, reload, RutasList) => {
             if (resposta.success === true) {
                 console.log("Ruta eliminada correctament")
                 RutasList()
-                dispatch(setReload(!reload))
+                setReload(!reload)
             }
             else console.log("La resposta no ha triomfat");
         } catch (e) {
@@ -29,32 +29,32 @@ export const eliminarRuta = (id, authToken, setReload, reload, RutasList) => {
     };
 }
 
-// export const obtenerInscripciones = (id, authToken) => {
-//     return async (dispatch, getState) => {
+export const obtenerInscripciones = (id, authToken,setInscripciones) => {
+    return async (dispatch, getState) => {
 
-//         try {
-//             const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
-//                 headers: {
-//                     Accept: "application/json",
-//                     "Content-Type": "application/json",
-//                     'Authorization': 'Bearer ' + authToken,
-//                 },
-//                 method: "GET",
-//             });
-//             const resposta = await data.json();
-//             console.log("Inscripciones: " + JSON.stringify(resposta.data))
-//             if (resposta.success === true) {
-//                 dispatch(setInscripciones(resposta.data))
-//                 dispatch(setIsLoading(false))
+        try {
+            const data = await fetch(`http://equip04.insjoaquimmir.cat/api/inscriptions?route_id=${id}`, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken,
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            console.log("Inscripciones: " + JSON.stringify(resposta.data))
+            if (resposta.success === true) {
+                setInscripciones(resposta.data)
+                dispatch(setIsLoading(false))
 
-//             }
-//             else setError(resposta.message);
-//         } catch (e) {
-//             console.log(e.message);
-//             // alert("Catchch");
-//         };
-//     };
-// }
+            }
+            else setError(resposta.message);
+        } catch (e) {
+            console.log(e.message);
+            // alert("Catchch");
+        };
+    };
+}
 
 
 export const createRoute = (formState, authToken, ShowRoute, date, usuari, startCoords, endCoords, setReload, reload) => {
