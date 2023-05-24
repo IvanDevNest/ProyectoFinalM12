@@ -207,6 +207,7 @@ export const retrocederPagina = (page) => {
 
 export const getRoute = (objectId, authToken, setStartCoords, setEndCoords, setInitialRegion) => {
     return async (dispatch, getState) => {
+        console.log("object id en get route"+objectId)
         try {
             const data = await fetch("http://equip04.insjoaquimmir.cat/api/routes/" + objectId, {
                 headers: {

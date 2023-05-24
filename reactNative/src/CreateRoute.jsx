@@ -28,6 +28,7 @@ const CreateRoute = () => {
     const { control, handleSubmit, formState: { errors }, } = useForm();
 
     function ShowRoute(id) {
+        console.log(id)
         navigation.navigate('ShowRoute', { objectId: id });
     }
 
@@ -149,7 +150,6 @@ const CreateRoute = () => {
 
                         </View>
                     </View>
-
                     <View>
                         <View>
                             <Text>Distancia aproximada</Text>

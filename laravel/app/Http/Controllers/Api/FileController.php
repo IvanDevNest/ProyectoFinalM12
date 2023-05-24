@@ -30,12 +30,10 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar fitxer
         $validatedData = $request->validate([
             'upload' => 'required|mimes:gif,jpeg,jpg,png|max:2048'
         ]);
 
-        // Desar fitxer al disc i inserir dades a BD
         $upload = $request->file('upload');
         $file = new File();
         $ok = $file->diskSave($upload);
