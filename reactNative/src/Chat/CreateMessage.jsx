@@ -95,7 +95,7 @@ const CreateMessage = () => {
     return (
         <>
             {userRole != 'vip' && ruta.author_id != usuari.id ?
-                <Text>No tienes permisos para enviar mensaje tienes que comprar el VIP</Text>
+                <Text>No tienes permisos para enviar mensaje tienes que adquirir el VIP o ser el creador de la ruta</Text>
                 :
                 <View style={{ backgroundColor: 'white' }}>
                     {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
