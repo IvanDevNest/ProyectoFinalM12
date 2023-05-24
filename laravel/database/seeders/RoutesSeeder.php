@@ -38,7 +38,7 @@ class RoutesSeeder extends Seeder
                 'description' => 'Route de pruebaa',
                 'date' => '2023-05-17 18:20:56',
                 'estimated_duration' => '1:30',
-                'distance' => '50',
+                'distance' => '1020',
 
                 'startLatitude'=> $latitude,
                 'startLongitude'=> $longitude,
