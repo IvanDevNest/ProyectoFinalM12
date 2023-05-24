@@ -4,9 +4,12 @@ import { CardField, useStripe } from '@stripe/stripe-react-native';
 import { useRoute } from '@react-navigation/native';
 import { useEffect } from "react";
 import { UserContext } from "./userContext";
+import { useNavigation } from '@react-navigation/native';
+
 const ConfirmPayment = () => {
 
     const [subscriptionType, setSubscriptionType] = useState('monthly');
+    const navigation = useNavigation();
 
     let { authToken,reload,setReload} = useContext(UserContext);
 
@@ -16,7 +19,9 @@ const ConfirmPayment = () => {
     const [clientSecret, setClientSecret] = useState(null);
 
     console.log(cardData)
-
+    function Paginavip() {
+        navigation.navigate('Paginavip');
+      }
     const handleCardComplete = (cardDetails) => {
         setCardData(cardDetails);
       };
@@ -43,6 +48,7 @@ const ConfirmPayment = () => {
                 console.log("resposta: " + JSON.stringify(resposta))
                 setClientSecret(resposta.data);
                 setReload(!reload)
+                Paginavip()
 
             }
             // else setError(resposta.message);

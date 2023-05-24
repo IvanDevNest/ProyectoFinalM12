@@ -107,17 +107,25 @@ const ShowRoute = () => {
     const [initialRegion, setInitialRegion] = useState({});
     const distancia = ruta.distance.toString(); // Convertir el valor a una cadena de texto
     const separado = distancia.substring(0, 2) + '-' + distancia.substring(2); // Obtener los dos primeros caracteres y el resto de la cadena
-    
 
+    console.log("newDate" + new Date() + " " + ruta.date)
 
+    const currentDate = new Date(); // Obtiene la fecha actual
+    const specificDate = new Date(ruta.date); // Obtiene la fecha específica
+
+    const timeDifference = specificDate.getTime() - currentDate.getTime(); // Calcula la diferencia en milisegundos
+
+    const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+    console.log("newDate" + new Date() + " " + ruta.date)
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
     return (
         <View>
             {isLoading ?
                 <Text>Cargando...</Text>
                 :
-                <View style={{padding:10}}>
-                    <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+                <View style={{ padding: 10 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View style={{ flex: 1 }}>
                             <Text style={{ fontWeight: 'bold' }}>Nombre de la ruta</Text>
                             <Text>{ruta.name}</Text>
@@ -191,7 +199,7 @@ const ShowRoute = () => {
                     </View>
 
                     {usuari.route_id == ruta.id && ruta.author_id != usuari.id ?
-                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload,true, RutasList)) }} />
+                        <Button title="Salir de la ruta" onPress={() => { dispatch(salirseRuta(objectId, authToken, setReload, reload, true, RutasList)) }} />
                         :
                         <></>
                     }
@@ -202,13 +210,13 @@ const ShowRoute = () => {
                     }
                     {ruta.author_id == usuari.id ?
                         <>
-                            {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000 ?
-                                <></> : <Button title="Editar" onPress={() => RouteEdit(objectId)}
+                            {hoursDifference < 12 ?
+                                <Button title="Editar" onPress={() => alert("no puedes editar una ruta con menos de 12 horas de antelacion")} /> : <Button title="Editar" onPress={() => RouteEdit(objectId)}
                                 ></Button>
                             }
 
 
-                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload,true, RutasList)) }}></Button>
+                            <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(objectId, authToken, setReload, reload, true, RutasList)) }}></Button>
                         </> : <></>
                     }
 

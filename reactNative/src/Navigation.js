@@ -68,6 +68,11 @@ function MyStack() {
         name="ConfirmPayment"
         component={ConfirmPayment}
       />
+       <HomeStackNavigator.Screen
+        name="Paginavip"
+        component={Paginavip}
+      />
+      
 
     </HomeStackNavigator.Navigator>
   )

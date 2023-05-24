@@ -43,7 +43,15 @@ const RutaList = (ruta) => {
 
 
     // }, [ruta]);
+    
+    const currentDate = new Date(); // Obtiene la fecha actual
+    const specificDate = new Date(ruta.date); // Obtiene la fecha específica
 
+    const timeDifference = specificDate.getTime() - currentDate.getTime(); // Calcula la diferencia en milisegundos
+
+    const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+    console.log("newDate" + new Date() + " " + ruta.date)
     const distancia = ruta.distance.toString(); // Convertir el valor a una cadena de texto
     const separado = distancia.substring(0, 2) + '-' + distancia.substring(2); // Obtener los dos primeros caracteres y el resto de la cadena
     return (
@@ -132,9 +140,9 @@ const RutaList = (ruta) => {
                                 }
                                 {ruta.author_id == usuari.id ?
                                     <>
-                                        {new Date() - new Date(ruta.date) < 12 * 60 * 60 * 1000 ?
-                                            <Button title="Editar" onPress={() => alert("no puedes editar una ruta con menos de 12 horas de antelacion")}/>
-                                            : <Button title="Editar" onPress={() => RouteEdit(objectId)}/>
+                                        {hoursDifference < 12 ?
+                                            <Button title="Editar" onPress={() => alert("no puedes editar una ruta con menos de 12 horas de antelacion")} />
+                                            : <Button title="Editar" onPress={() => RouteEdit(ruta.id)} />
                                         }
                                         <Button title="Eliminar" onPress={() => { dispatch(eliminarRuta(ruta.id, authToken, setReload, reload, false)) }}></Button>
                                     </>

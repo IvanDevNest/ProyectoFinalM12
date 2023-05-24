@@ -91,7 +91,8 @@ const ShowMyUser = () => {
           <Image style={styles.avatar} source={{ uri: myAvatarUrl }}></Image>}
         <Button title="Editar perfil" onPress={() => UserEdit(usuari.id)} />
 
-        <Text>Nombre: {usuari.name} {usuari.lastname} {usuari.second_surname}</Text>
+        <Text>Nombre: {usuari.name}</Text>
+        {/* <Text>Nombre: {usuari.name} {usuari.lastname} {usuari.second_surname}</Text> */}
         <View style={{ flexDirection: 'row' }}>
           <Text>Puntuacion media:</Text>
           <AverageStarsUsers rating={roundedNum} />
