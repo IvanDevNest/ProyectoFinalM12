@@ -105,6 +105,9 @@ const ShowRoute = () => {
     // }, [reload, ruta]);
     // }, [reload, ruta, inscripciones]);
     const [initialRegion, setInitialRegion] = useState({});
+    const distancia = ruta.distance.toString(); // Convertir el valor a una cadena de texto
+    const separado = distancia.substring(0, 2) + '-' + distancia.substring(2); // Obtener los dos primeros caracteres y el resto de la cadena
+    
 
 
     const GOOGLE_MAPS_APIKEY = 'AIzaSyCcs-5mNo4Ywp9G3w8xH1_kMKvdquIWmiw';
@@ -183,7 +186,7 @@ const ShowRoute = () => {
                         </View>
                         <View>
                             <Text style={{ fontWeight: 'bold' }}>Distancia</Text>
-                            <Text>{ruta.distance} km</Text>
+                            <Text>{separado} km</Text>
                         </View>
                     </View>
 
